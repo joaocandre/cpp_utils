@@ -13,7 +13,7 @@ include(CMakePackageConfigHelpers) # provides functions for the automatic genera
 ###################
 
 cmake_minimum_required(VERSION 3.12)
-project(storage VERSION 1.0)
+project(cpp_utils VERSION 1.0)
 set(${PROJECT_NAME}_VERSION 1.0)
 
 # set the path where CMake package configuration files (*-config.cmake) will be installed
@@ -45,6 +45,10 @@ option(BUILD_DOC "Generate documentation (doxygen)" OFF)
 ## in order to change betwenn build types, add flag explicitely i.e. -DCMAKE_BUILD_TYPE=
 ## or remove CMakeCache from project root
 
+if (${CMAKE_BUILD_TYPE})
+    message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
+endif()
+
 ##################
 ## Dependencies ##
 ##################
@@ -74,7 +78,6 @@ add_library(${PROJECT_NAME} INTERFACE)
 target_include_directories(${PROJECT_NAME} INTERFACE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/${PROJECT_NAME}>
                                                      $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
                                                      $<INSTALL_INTERFACE:include/${PROJECT_NAME}>)
-
 
 ########### API documentation
 
@@ -114,7 +117,7 @@ install(TARGETS ${PROJECT_NAME}
         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}   # GNUInstallDirs helper variables
         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}   # GNUInstallDirs helper variables
         RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})  # GNUInstallDirs helper variables
-        # used to generate  ful to export storageTargets (currently only the lib target)
+        # used to generate  ful to export cpp_utilsTargets (currently only the lib target)
 
 ############
 ## Export ##
@@ -159,6 +162,3 @@ install(FILES
   ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake
   ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake
   DESTINATION ${ConfigPackageLocation})
-
-message(STATUS "IDIRS: ${${PROJECT_NAME}_INCLUDE_DIRS}")
-
