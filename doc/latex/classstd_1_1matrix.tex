@@ -1,0 +1,734 @@
+\hypertarget{classstd_1_1matrix}{}\doxysection{std\+::matrix\texorpdfstring{$<$}{<} T \texorpdfstring{$>$}{>} Class Template Reference}
+\label{classstd_1_1matrix}\index{std::matrix$<$ T $>$@{std::matrix$<$ T $>$}}
+
+
+Class implementaing a STL-\/like 2D container.  
+
+
+
+
+{\ttfamily \#include $<$matrix.\+hpp$>$}
+
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classstd_1_1matrix_a89f7885cc449fcce8306943cef212dba}\label{classstd_1_1matrix_a89f7885cc449fcce8306943cef212dba}} 
+typedef T {\bfseries value\+\_\+type}
+\begin{DoxyCompactList}\small\item\em Element type. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename... Args, typename  = typename enable\+\_\+if$<$ is\+\_\+constructible$<$ T, Args... $>$\+::value $>$\+::type$>$ }\\\mbox{\hyperlink{classstd_1_1matrix_af83b5d2d2f231599a656dc6f2fa3d956}{matrix}} (size\+\_\+t \mbox{\hyperlink{classstd_1_1matrix_a7b2fe3de9892ab5589361e5ed430faa4}{rows}}=0, size\+\_\+t \mbox{\hyperlink{classstd_1_1matrix_ad2cc55486d807add906143d7cbdad232}{cols}}=0, Args \&\&... args)
+\begin{DoxyCompactList}\small\item\em Constructs a new instance. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename iT $>$ }\\\mbox{\hyperlink{classstd_1_1matrix_a81d831e5264e79cc5e764456f5d95ba6}{matrix}} (const vector$<$ vector$<$ iT $>$ $>$ \&in)
+\begin{DoxyCompactList}\small\item\em Constructs a new instance, from a nested vector instance. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classstd_1_1matrix_ae0a692bd5ffab9fe7f1c478fd6f7fee5}\label{classstd_1_1matrix_ae0a692bd5ffab9fe7f1c478fd6f7fee5}} 
+{\footnotesize template$<$typename iT , typename  = typename enable\+\_\+if$<$ is\+\_\+nd\+\_\+container$<$ i\+T $>$()$>$\+::type$>$ }\\{\bfseries matrix} (const \mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{storage\+::st\+\_\+subset\+\_\+base}}$<$ iT $>$ \&in)
+\item 
+\mbox{\Hypertarget{classstd_1_1matrix_a57df66b38bc469ac2da8b167b1508fbc}\label{classstd_1_1matrix_a57df66b38bc469ac2da8b167b1508fbc}} 
+{\footnotesize template$<$typename iT , typename  = typename enable\+\_\+if$<$ !is\+\_\+nd\+\_\+container$<$ i\+T $>$()$>$\+::type, typename  = void$>$ }\\{\bfseries matrix} (const \mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{storage\+::st\+\_\+subset\+\_\+base}}$<$ iT $>$ \&in)
+\item 
+\mbox{\Hypertarget{classstd_1_1matrix_a8272aab11f4a970217ba70f73080b582}\label{classstd_1_1matrix_a8272aab11f4a970217ba70f73080b582}} 
+{\footnotesize template$<$typename iT , typename  = typename enable\+\_\+if$<$ is\+\_\+generic\+\_\+container$<$ i\+T $>$()$>$\+::type$>$ }\\{\bfseries matrix} (size\+\_\+t \mbox{\hyperlink{classstd_1_1matrix_a7b2fe3de9892ab5589361e5ed430faa4}{rows}}, size\+\_\+t \mbox{\hyperlink{classstd_1_1matrix_ad2cc55486d807add906143d7cbdad232}{cols}}, const iT \&in)
+\item 
+\mbox{\Hypertarget{classstd_1_1matrix_a4a6425cd8b8c8b01e6bbce394eb6a995}\label{classstd_1_1matrix_a4a6425cd8b8c8b01e6bbce394eb6a995}} 
+{\bfseries $\sim$matrix} ()=default
+\begin{DoxyCompactList}\small\item\em Destroys the object. \end{DoxyCompactList}\item 
+T \& \mbox{\hyperlink{classstd_1_1matrix_ae4697fd485373a50299d8c12e02180bb}{operator$\ast$}} ()
+\begin{DoxyCompactList}\small\item\em Dereferencing/indirection operator. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename iT $>$ }\\\mbox{\hyperlink{classstd_1_1matrix}{matrix}}$<$ T $>$ \& \mbox{\hyperlink{classstd_1_1matrix_acdd3b068547461e6744a0c03f69a9687}{operator=}} (const iT \&in)
+\begin{DoxyCompactList}\small\item\em Assignment operator. \end{DoxyCompactList}\item 
+T \& \mbox{\hyperlink{classstd_1_1matrix_a235aefc56d1a24af04a79fef35f6cafa}{operator()}} (size\+\_\+t \mbox{\hyperlink{classstd_1_1matrix_a0f7b2c5358009f65a2898b37c8dc2718}{row}}, size\+\_\+t \mbox{\hyperlink{classstd_1_1matrix_a1da6410ce85dd2612f3ee2ddc3540431}{col}})
+\begin{DoxyCompactList}\small\item\em Random access operator, for element @ given ({\itshape row}, {\itshape col}) position. \end{DoxyCompactList}\item 
+const T \& \mbox{\hyperlink{classstd_1_1matrix_afd62756af1c59a1c1b870bfbbbf6a0fb}{operator()}} (size\+\_\+t \mbox{\hyperlink{classstd_1_1matrix_a0f7b2c5358009f65a2898b37c8dc2718}{row}}, size\+\_\+t \mbox{\hyperlink{classstd_1_1matrix_a1da6410ce85dd2612f3ee2ddc3540431}{col}}) const
+\begin{DoxyCompactList}\small\item\em Random access operator, for element @ given ({\itshape row}, {\itshape col}) position ({\itshape const overload}). \end{DoxyCompactList}\item 
+T \& \mbox{\hyperlink{classstd_1_1matrix_af0490edd8d02ea115f7af175febef994}{operator\mbox{[}$\,$\mbox{]}}} (size\+\_\+t idx)
+\begin{DoxyCompactList}\small\item\em Random access operator, for element @ given {\itshape idx} position. \end{DoxyCompactList}\item 
+const T \& \mbox{\hyperlink{classstd_1_1matrix_a103a5843ca08977a9a1843f360d05f7a}{operator\mbox{[}$\,$\mbox{]}}} (size\+\_\+t idx) const
+\begin{DoxyCompactList}\small\item\em Random access operator, for element @ given ({\itshape row}, {\itshape col}) position ({\itshape const overload}). \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{matrix\+\_\+subset}}$<$ T $>$ \mbox{\hyperlink{classstd_1_1matrix_a918fa5e8737a70b5165ce5b92995a5fb}{operator\mbox{[}$\,$\mbox{]}}} (const vector$<$ size\+\_\+t $>$ \&idx)
+\begin{DoxyCompactList}\small\item\em Random access operator, for multiple elements @ given {\itshape idx}. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{matrix\+\_\+subset\+\_\+const}}$<$ T $>$ \mbox{\hyperlink{classstd_1_1matrix_a81137f7e25db46dc1984a3d75c380c23}{operator\mbox{[}$\,$\mbox{]}}} (const vector$<$ size\+\_\+t $>$ \&idx) const
+\begin{DoxyCompactList}\small\item\em Random access operator, for multiple elements @ given {\itshape idx} ({\itshape const overload}). \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{matrix\+\_\+subset}}$<$ T $>$ \mbox{\hyperlink{classstd_1_1matrix_a3c028561e2cbc52e5bd6161c1085b986}{operator\mbox{[}$\,$\mbox{]}}} (const \mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{matrix\+\_\+subset}}$<$ T $>$ \&sbst)
+\begin{DoxyCompactList}\small\item\em Random access operator, for multiple elements described by given matrix subset. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{matrix\+\_\+subset\+\_\+const}}$<$ T $>$ \mbox{\hyperlink{classstd_1_1matrix_a421ef1f5607ce3fab9c3d54948dcf60a}{operator\mbox{[}$\,$\mbox{]}}} (const \mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{matrix\+\_\+subset}}$<$ T $>$ \&sbst) const
+\begin{DoxyCompactList}\small\item\em Random access operator, for multiple elements described by given matrix subset ({\itshape const overload}). \end{DoxyCompactList}\item 
+const vector$<$ T $>$ \& \mbox{\hyperlink{classstd_1_1matrix_ae11aadc23121cc4a14c5e107b2ca9ad1}{container}} () const
+\begin{DoxyCompactList}\small\item\em Access underlying STL container (read-\/only). \end{DoxyCompactList}\item 
+const T $\ast$ \mbox{\hyperlink{classstd_1_1matrix_a067dc8280955f91d200826815d1ace27}{data}} () const
+\begin{DoxyCompactList}\small\item\em Access raw data. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classstd_1_1matrix_a7b2fe3de9892ab5589361e5ed430faa4}\label{classstd_1_1matrix_a7b2fe3de9892ab5589361e5ed430faa4}} 
+size\+\_\+t {\bfseries rows} () const
+\begin{DoxyCompactList}\small\item\em Get number of matrix rows. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classstd_1_1matrix_ad2cc55486d807add906143d7cbdad232}\label{classstd_1_1matrix_ad2cc55486d807add906143d7cbdad232}} 
+size\+\_\+t {\bfseries cols} () const
+\begin{DoxyCompactList}\small\item\em Get number of matrix columns. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classstd_1_1matrix_a1d186463b0cbe50e09763140a8f7de96}\label{classstd_1_1matrix_a1d186463b0cbe50e09763140a8f7de96}} 
+size\+\_\+t {\bfseries size} () const
+\begin{DoxyCompactList}\small\item\em Get total number of elements in the underlying container. \end{DoxyCompactList}\item 
+vector$<$ size\+\_\+t $>$ \mbox{\hyperlink{classstd_1_1matrix_a2c8c4dc178845b28160e4dd58deb960f}{shape}} () const
+\begin{DoxyCompactList}\small\item\em Gets matrix shape. \end{DoxyCompactList}\item 
+vector$<$ size\+\_\+t $>$ \mbox{\hyperlink{classstd_1_1matrix_a7ec2ff06a6ff0dffc31ea125f1ded11d}{pos}} (size\+\_\+t idx) const
+\begin{DoxyCompactList}\small\item\em Gets matrix position i.\+e. ({\itshape row}, {\itshape column}) of element @ position {\itshape idx}. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classstd_1_1matrix_a8e66654825287fc78e0b30686fcbfb74}{is\+Square}} () const
+\begin{DoxyCompactList}\small\item\em Determines if square matrix. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classstd_1_1matrix_ae5021e82d3dce20fdac3a69e9723d28c}{is\+Empty}} () const
+\begin{DoxyCompactList}\small\item\em Determines if empty matrix. \end{DoxyCompactList}\item 
+vector$<$ size\+\_\+t $>$ \mbox{\hyperlink{classstd_1_1matrix_ad9f43ecc5e09e5f805c853f1cca181c6}{all\+ID}} () const
+\begin{DoxyCompactList}\small\item\em Get indexes of all matrix elements. \end{DoxyCompactList}\item 
+vector$<$ size\+\_\+t $>$ \mbox{\hyperlink{classstd_1_1matrix_ab90291f2d6281ce47546aece28720c94}{row\+ID}} (size\+\_\+t \mbox{\hyperlink{classstd_1_1matrix_a0f7b2c5358009f65a2898b37c8dc2718}{row}}) const
+\begin{DoxyCompactList}\small\item\em Get indexes of all matrix elements in given {\itshape row}. \end{DoxyCompactList}\item 
+vector$<$ size\+\_\+t $>$ \mbox{\hyperlink{classstd_1_1matrix_a2e88ac44b8f1b05f0a6a3faa8710c167}{col\+ID}} (size\+\_\+t \mbox{\hyperlink{classstd_1_1matrix_a1da6410ce85dd2612f3ee2ddc3540431}{col}}) const
+\begin{DoxyCompactList}\small\item\em Get indexes of all matrix elements in given {\itshape col}. \end{DoxyCompactList}\item 
+vector$<$ size\+\_\+t $>$ \mbox{\hyperlink{classstd_1_1matrix_aa35d87e7bec5d7a99a7737fbf3c07257}{diag\+ID}} () const
+\begin{DoxyCompactList}\small\item\em Get indexes of all matrix elements in matrix diagonal (upper diagonal if matrix is not square). \end{DoxyCompactList}\item 
+vector$<$ size\+\_\+t $>$ \mbox{\hyperlink{classstd_1_1matrix_a56a20c3e35d86b1c7c1f7fe55d85ea46}{block\+ID}} (size\+\_\+t first\+\_\+row, size\+\_\+t last\+\_\+row, size\+\_\+t first\+\_\+col, size\+\_\+t last\+\_\+col) const
+\begin{DoxyCompactList}\small\item\em Get indexes of all matrix elements in the block of rows from {\itshape first\+\_\+row} to {\itshape last\+\_\+row} and columns from {\itshape first\+\_\+col} to {\itshape last\+\_\+col}. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classstd_1_1matrix_a23e4391abc996d4f0446a4d1c8a32ce6}\label{classstd_1_1matrix_a23e4391abc996d4f0446a4d1c8a32ce6}} 
+\mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{matrix\+\_\+subset}}$<$ T $>$ {\bfseries all} ()
+\begin{DoxyCompactList}\small\item\em Get subset including all matrix elements. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classstd_1_1matrix_a5af67fdab5326a72b00230326acd775e}\label{classstd_1_1matrix_a5af67fdab5326a72b00230326acd775e}} 
+\mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{matrix\+\_\+subset\+\_\+const}}$<$ T $>$ {\bfseries all} () const
+\begin{DoxyCompactList}\small\item\em Get subset including all matrix elements ({\itshape const overload}). \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classstd_1_1matrix_a0f7b2c5358009f65a2898b37c8dc2718}\label{classstd_1_1matrix_a0f7b2c5358009f65a2898b37c8dc2718}} 
+\mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{matrix\+\_\+subset}}$<$ T $>$ {\bfseries row} (size\+\_\+t row)
+\begin{DoxyCompactList}\small\item\em Get subset including all elements in given {\itshape row}. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classstd_1_1matrix_abdc1283d2b2bb7e225c055e1588d6e50}\label{classstd_1_1matrix_abdc1283d2b2bb7e225c055e1588d6e50}} 
+\mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{matrix\+\_\+subset\+\_\+const}}$<$ T $>$ {\bfseries row} (size\+\_\+t row) const
+\begin{DoxyCompactList}\small\item\em Get subset including all elements in given {\itshape row} ({\itshape const overload}). \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classstd_1_1matrix_a1da6410ce85dd2612f3ee2ddc3540431}\label{classstd_1_1matrix_a1da6410ce85dd2612f3ee2ddc3540431}} 
+\mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{matrix\+\_\+subset}}$<$ T $>$ {\bfseries col} (size\+\_\+t col)
+\begin{DoxyCompactList}\small\item\em Get subset including all elements in given {\itshape col}. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classstd_1_1matrix_a951b376b691fc409158cf291c59e2e38}\label{classstd_1_1matrix_a951b376b691fc409158cf291c59e2e38}} 
+\mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{matrix\+\_\+subset\+\_\+const}}$<$ T $>$ {\bfseries col} (size\+\_\+t col) const
+\begin{DoxyCompactList}\small\item\em Get subset including all elements in given {\itshape col} ({\itshape const overload}). \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classstd_1_1matrix_a4eef6a1e0fea83fa2a5e906a974b35ee}\label{classstd_1_1matrix_a4eef6a1e0fea83fa2a5e906a974b35ee}} 
+\mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{matrix\+\_\+subset}}$<$ T $>$ {\bfseries diag} ()
+\begin{DoxyCompactList}\small\item\em Get subset including all elements in matrix diagonal (upper diagonal if matrix is not square). \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classstd_1_1matrix_a07984181ac377f114edd2eafff7b347e}\label{classstd_1_1matrix_a07984181ac377f114edd2eafff7b347e}} 
+\mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{matrix\+\_\+subset\+\_\+const}}$<$ T $>$ {\bfseries diag} () const
+\begin{DoxyCompactList}\small\item\em Get subset including all elements in matrix diagonal (upper diagonal if matrix is not square) ({\itshape const overload}). \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classstd_1_1matrix_a47844c831a2d0b9352914569138c9fb7}\label{classstd_1_1matrix_a47844c831a2d0b9352914569138c9fb7}} 
+\mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{matrix\+\_\+subset}}$<$ T $>$ {\bfseries block} (size\+\_\+t first\+\_\+row, size\+\_\+t last\+\_\+row, size\+\_\+t first\+\_\+col, size\+\_\+t last\+\_\+col)
+\begin{DoxyCompactList}\small\item\em Get subset including all elements in the block of rows from {\itshape first\+\_\+row} to {\itshape last\+\_\+row} and columns from {\itshape first\+\_\+col} to {\itshape last\+\_\+col}. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classstd_1_1matrix_a0ad618d2d8fa38d77b7148f4720b1a01}\label{classstd_1_1matrix_a0ad618d2d8fa38d77b7148f4720b1a01}} 
+\mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{matrix\+\_\+subset\+\_\+const}}$<$ T $>$ {\bfseries block} (size\+\_\+t first\+\_\+row, size\+\_\+t last\+\_\+row, size\+\_\+t first\+\_\+col, size\+\_\+t last\+\_\+col) const
+\begin{DoxyCompactList}\small\item\em Get subset including all elements in the block of rows from {\itshape first\+\_\+row} to {\itshape last\+\_\+row} and columns from {\itshape first\+\_\+col} to {\itshape last\+\_\+col} ({\itshape const overload}). \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename iT $>$ }\\void \mbox{\hyperlink{classstd_1_1matrix_afe45717562e78aaf333ea0a7a30de8a0}{set}} (const iT \&in)
+\begin{DoxyCompactList}\small\item\em Assigns new data to matrix content. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename iT $>$ }\\void \mbox{\hyperlink{classstd_1_1matrix_a5ba87234064de6d17d4dd859379d425d}{push\+Row}} (const iT \&in)
+\begin{DoxyCompactList}\small\item\em Adds a new row to the matrix with values from given {\itshape in}. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename iT $>$ }\\void \mbox{\hyperlink{classstd_1_1matrix_a337a216c98672f23e9ff056c8625f15b}{push\+Col}} (const iT \&in)
+\begin{DoxyCompactList}\small\item\em Adds a new column to the matrix with values from given {\itshape in}. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classstd_1_1matrix_a7cd8df5a31059daa3f86600d7106f9ce}{push\+Row}} ()
+\begin{DoxyCompactList}\small\item\em Adds a new empty row to the matrix. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classstd_1_1matrix_a04cbd04648b9e16481e901b855afdad6}{push\+Col}} ()
+\begin{DoxyCompactList}\small\item\em Adds a new empty column to the matrix. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classstd_1_1matrix_a90753e31841d0d12637becd5cf091e2c}\label{classstd_1_1matrix_a90753e31841d0d12637becd5cf091e2c}} 
+void {\bfseries pop\+Row} ()
+\begin{DoxyCompactList}\small\item\em Deletes last row of matrix. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classstd_1_1matrix_a132898f98bb465189ef489f7abe96128}\label{classstd_1_1matrix_a132898f98bb465189ef489f7abe96128}} 
+void {\bfseries pop\+Col} ()
+\begin{DoxyCompactList}\small\item\em Deletes last column of matrix. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classstd_1_1matrix_a611edd29b43b7bdc2064ecc272184840}\label{classstd_1_1matrix_a611edd29b43b7bdc2064ecc272184840}} 
+void {\bfseries delete\+Row} (size\+\_\+t \mbox{\hyperlink{classstd_1_1matrix_a0f7b2c5358009f65a2898b37c8dc2718}{row}})
+\begin{DoxyCompactList}\small\item\em Deletes given {\itshape row}. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classstd_1_1matrix_a0517a8320c14fa1da8232ae1c3c437d1}\label{classstd_1_1matrix_a0517a8320c14fa1da8232ae1c3c437d1}} 
+void {\bfseries delete\+Col} (size\+\_\+t \mbox{\hyperlink{classstd_1_1matrix_a1da6410ce85dd2612f3ee2ddc3540431}{col}})
+\begin{DoxyCompactList}\small\item\em Deletes given {\itshape col}. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classstd_1_1matrix_a81bcc7e8fce0fdffd5391a7c745b0b78}\label{classstd_1_1matrix_a81bcc7e8fce0fdffd5391a7c745b0b78}} 
+void {\bfseries reshape} (size\+\_\+t new\+\_\+rows, size\+\_\+t new\+\_\+cols)
+\begin{DoxyCompactList}\small\item\em Reshapes the matrix to given shape {\itshape new\+\_\+rows} x {\itshape new\+\_\+cols} . \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classstd_1_1matrix_a823ad926fec6a1cfd5de8d759bab807f}{resize}} (size\+\_\+t new\+\_\+rows, size\+\_\+t new\+\_\+cols)
+\begin{DoxyCompactList}\small\item\em Reshapes the matrix to given shape {\itshape new\+\_\+rows} x {\itshape new\+\_\+cols} . \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classstd_1_1matrix_ab5b6ea0fea5e289217c95fde16a6ef09}{flip}} ()
+\begin{DoxyCompactList}\small\item\em Flips matrix (== transpose()) \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classstd_1_1matrix_aec959191d455266437de6b94ea604d67}\label{classstd_1_1matrix_aec959191d455266437de6b94ea604d67}} 
+void {\bfseries clear} ()
+\begin{DoxyCompactList}\small\item\em Clears the matrix (elements are destroyed) \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classstd_1_1matrix_af5742a68a54f7387d6678cfca5dae362}\label{classstd_1_1matrix_af5742a68a54f7387d6678cfca5dae362}} 
+vector$<$ T $>$\+::iterator {\bfseries begin} ()
+\begin{DoxyCompactList}\small\item\em Get iterator to the beginning of the matrix. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classstd_1_1matrix_ad8a24879b95099fbcf232984def37e7b}\label{classstd_1_1matrix_ad8a24879b95099fbcf232984def37e7b}} 
+vector$<$ T $>$\+::iterator {\bfseries end} ()
+\begin{DoxyCompactList}\small\item\em Get iterator to the end of the matrix. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classstd_1_1matrix_a4c9fcf520a695104009c00865a4ee2e1}\label{classstd_1_1matrix_a4c9fcf520a695104009c00865a4ee2e1}} 
+vector$<$ T $>$\+::const\+\_\+iterator {\bfseries begin} () const
+\begin{DoxyCompactList}\small\item\em Get iterator to the beginning of the matrix ({\itshape const overload}). \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classstd_1_1matrix_a069025e9247e61ff5b151a2afb0c2339}\label{classstd_1_1matrix_a069025e9247e61ff5b151a2afb0c2339}} 
+vector$<$ T $>$\+::const\+\_\+iterator {\bfseries end} () const
+\begin{DoxyCompactList}\small\item\em Get iterator to the end of the matrix ({\itshape const overload}). \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classstd_1_1matrix_a916d1592688202318234a7393da48aa6}\label{classstd_1_1matrix_a916d1592688202318234a7393da48aa6}} 
+{\footnotesize template$<$typename oT $>$ }\\{\bfseries operator vector$<$ o\+T $>$ \&} ()
+\begin{DoxyCompactList}\small\item\em Conversion operator to vector object (by reference) \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classstd_1_1matrix_a7199dd6db6b8d365e164d10c38472e6a}\label{classstd_1_1matrix_a7199dd6db6b8d365e164d10c38472e6a}} 
+{\footnotesize template$<$typename oT $>$ }\\{\bfseries operator const vector$<$ o\+T $>$ \&} () const
+\begin{DoxyCompactList}\small\item\em Conversion operator to vector object (by const reference) \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classstd_1_1matrix_aae17c3e79b1d5e8cc8a65aa0e3b4bed3}\label{classstd_1_1matrix_aae17c3e79b1d5e8cc8a65aa0e3b4bed3}} 
+{\footnotesize template$<$typename oT $>$ }\\{\bfseries operator matrix$<$ o\+T $>$ \&} ()
+\begin{DoxyCompactList}\small\item\em Conversion operator to matrix object of different type (by reference) \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classstd_1_1matrix_a5f6795bdc330a5b4776a21d421441a93}\label{classstd_1_1matrix_a5f6795bdc330a5b4776a21d421441a93}} 
+{\footnotesize template$<$typename oT $>$ }\\{\bfseries operator const matrix$<$ o\+T $>$ \&} () const
+\begin{DoxyCompactList}\small\item\em Conversion operator to matrix object of different type (by const reference) \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classstd_1_1matrix_a6450e842d7157b7fce6df24366fa47b4}\label{classstd_1_1matrix_a6450e842d7157b7fce6df24366fa47b4}} 
+size\+\_\+t {\bfseries \+\_\+rows}
+\begin{DoxyCompactList}\small\item\em Number of matrix rows. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classstd_1_1matrix_abfd21092e1ddd6c8fa40921fd14c6bf6}\label{classstd_1_1matrix_abfd21092e1ddd6c8fa40921fd14c6bf6}} 
+size\+\_\+t {\bfseries \+\_\+cols}
+\begin{DoxyCompactList}\small\item\em Number of matrix columns. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classstd_1_1matrix_a29ddfce620c563ba34ee9d061c286bd4}\label{classstd_1_1matrix_a29ddfce620c563ba34ee9d061c286bd4}} 
+vector$<$ T $>$ {\bfseries \+\_\+data}
+\begin{DoxyCompactList}\small\item\em Underlying \+\_\+data container. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$typename T$>$\newline
+class std\+::matrix$<$ T $>$}
+Class implementaing a STL-\/like 2D container. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & Underlying \+\_\+data type. \\
+\hline
+\end{DoxyTemplParams}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classstd_1_1matrix_af83b5d2d2f231599a656dc6f2fa3d956}\label{classstd_1_1matrix_af83b5d2d2f231599a656dc6f2fa3d956}} 
+\index{std::matrix$<$ T $>$@{std::matrix$<$ T $>$}!matrix@{matrix}}
+\index{matrix@{matrix}!std::matrix$<$ T $>$@{std::matrix$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{matrix()}{matrix()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+template$<$typename... Args, typename  = typename enable\+\_\+if$<$ is\+\_\+constructible$<$ T, Args... $>$\+::value $>$\+::type$>$ \\
+\mbox{\hyperlink{classstd_1_1matrix}{std\+::matrix}}$<$ T $>$\+::matrix (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{rows = {\ttfamily 0},  }\item[{size\+\_\+t}]{cols = {\ttfamily 0},  }\item[{Args \&\&...}]{args }\end{DoxyParamCaption})}
+
+
+
+Constructs a new instance. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em rows} & Number of rows \\
+\hline
+\mbox{\texttt{ in}}  & {\em cols} & Number of cols \\
+\hline
+\mbox{\texttt{ in}}  & {\em args} & Arguments (parameter pack) to be forward to T constructor. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classstd_1_1matrix_a81d831e5264e79cc5e764456f5d95ba6}\label{classstd_1_1matrix_a81d831e5264e79cc5e764456f5d95ba6}} 
+\index{std::matrix$<$ T $>$@{std::matrix$<$ T $>$}!matrix@{matrix}}
+\index{matrix@{matrix}!std::matrix$<$ T $>$@{std::matrix$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{matrix()}{matrix()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+template$<$typename iT $>$ \\
+\mbox{\hyperlink{classstd_1_1matrix}{std\+::matrix}}$<$ T $>$\+::matrix (\begin{DoxyParamCaption}\item[{const vector$<$ vector$<$ iT $>$ $>$ \&}]{in }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+
+
+Constructs a new instance, from a nested vector instance. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em in} & Input vector of vectors\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em iT} & Input \+\_\+data type, which must be convertible to T. \\
+\hline
+\end{DoxyTemplParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classstd_1_1matrix_ad9f43ecc5e09e5f805c853f1cca181c6}\label{classstd_1_1matrix_ad9f43ecc5e09e5f805c853f1cca181c6}} 
+\index{std::matrix$<$ T $>$@{std::matrix$<$ T $>$}!allID@{allID}}
+\index{allID@{allID}!std::matrix$<$ T $>$@{std::matrix$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{allID()}{allID()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+vector$<$ size\+\_\+t $>$ \mbox{\hyperlink{classstd_1_1matrix}{std\+::matrix}}$<$ T $>$\+::all\+ID (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get indexes of all matrix elements. 
+
+\begin{DoxyNote}{Note}
+Required in order to construct matrix\+\_\+subset object referencing all matrix elements. matrix\+\_\+subset$<$$>$ is not constructible from matrix$<$$>$, and can\textquotesingle{}t declare cast operator to vector$<$ size\+\_\+t $>$ as it causes ambiguity when T = size\+\_\+t.
+
+Review \& debug how \mbox{\hyperlink{classstd_1_1matrix_ad9f43ecc5e09e5f805c853f1cca181c6}{all\+ID()}} is implemented.
+\end{DoxyNote}
+\begin{DoxyRefDesc}{Todo}
+\item[\mbox{\hyperlink{todo__todo000002}{Todo}}]Declare protected/private -\/ no need to be part of the public interface. \end{DoxyRefDesc}
+\mbox{\Hypertarget{classstd_1_1matrix_a56a20c3e35d86b1c7c1f7fe55d85ea46}\label{classstd_1_1matrix_a56a20c3e35d86b1c7c1f7fe55d85ea46}} 
+\index{std::matrix$<$ T $>$@{std::matrix$<$ T $>$}!blockID@{blockID}}
+\index{blockID@{blockID}!std::matrix$<$ T $>$@{std::matrix$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{blockID()}{blockID()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+vector$<$ size\+\_\+t $>$ \mbox{\hyperlink{classstd_1_1matrix}{std\+::matrix}}$<$ T $>$\+::block\+ID (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{first\+\_\+row,  }\item[{size\+\_\+t}]{last\+\_\+row,  }\item[{size\+\_\+t}]{first\+\_\+col,  }\item[{size\+\_\+t}]{last\+\_\+col }\end{DoxyParamCaption}) const}
+
+
+
+Get indexes of all matrix elements in the block of rows from {\itshape first\+\_\+row} to {\itshape last\+\_\+row} and columns from {\itshape first\+\_\+col} to {\itshape last\+\_\+col}. 
+
+\begin{DoxyRefDesc}{Todo}
+\item[\mbox{\hyperlink{todo__todo000006}{Todo}}]Declare protected/private -\/ no need to be part of the public interface. \end{DoxyRefDesc}
+\mbox{\Hypertarget{classstd_1_1matrix_a2e88ac44b8f1b05f0a6a3faa8710c167}\label{classstd_1_1matrix_a2e88ac44b8f1b05f0a6a3faa8710c167}} 
+\index{std::matrix$<$ T $>$@{std::matrix$<$ T $>$}!colID@{colID}}
+\index{colID@{colID}!std::matrix$<$ T $>$@{std::matrix$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{colID()}{colID()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+vector$<$ size\+\_\+t $>$ \mbox{\hyperlink{classstd_1_1matrix}{std\+::matrix}}$<$ T $>$\+::col\+ID (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{col }\end{DoxyParamCaption}) const}
+
+
+
+Get indexes of all matrix elements in given {\itshape col}. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em col} & Col index.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyRefDesc}{Todo}
+\item[\mbox{\hyperlink{todo__todo000004}{Todo}}]Declare protected/private -\/ no need to be part of the public interface. \end{DoxyRefDesc}
+\mbox{\Hypertarget{classstd_1_1matrix_ae11aadc23121cc4a14c5e107b2ca9ad1}\label{classstd_1_1matrix_ae11aadc23121cc4a14c5e107b2ca9ad1}} 
+\index{std::matrix$<$ T $>$@{std::matrix$<$ T $>$}!container@{container}}
+\index{container@{container}!std::matrix$<$ T $>$@{std::matrix$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{container()}{container()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+const vector$<$ T $>$ \& \mbox{\hyperlink{classstd_1_1matrix}{std\+::matrix}}$<$ T $>$\+::container (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Access underlying STL container (read-\/only). 
+
+\begin{DoxyReturn}{Returns}
+Const reference to underlying data container. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classstd_1_1matrix_a067dc8280955f91d200826815d1ace27}\label{classstd_1_1matrix_a067dc8280955f91d200826815d1ace27}} 
+\index{std::matrix$<$ T $>$@{std::matrix$<$ T $>$}!data@{data}}
+\index{data@{data}!std::matrix$<$ T $>$@{std::matrix$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{data()}{data()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+const T $\ast$ \mbox{\hyperlink{classstd_1_1matrix}{std\+::matrix}}$<$ T $>$\+::data (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Access raw data. 
+
+\begin{DoxyReturn}{Returns}
+Const pointer to first element. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classstd_1_1matrix_aa35d87e7bec5d7a99a7737fbf3c07257}\label{classstd_1_1matrix_aa35d87e7bec5d7a99a7737fbf3c07257}} 
+\index{std::matrix$<$ T $>$@{std::matrix$<$ T $>$}!diagID@{diagID}}
+\index{diagID@{diagID}!std::matrix$<$ T $>$@{std::matrix$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{diagID()}{diagID()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+vector$<$ size\+\_\+t $>$ \mbox{\hyperlink{classstd_1_1matrix}{std\+::matrix}}$<$ T $>$\+::diag\+ID (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get indexes of all matrix elements in matrix diagonal (upper diagonal if matrix is not square). 
+
+\begin{DoxyRefDesc}{Todo}
+\item[\mbox{\hyperlink{todo__todo000005}{Todo}}]Declare protected/private -\/ no need to be part of the public interface. \end{DoxyRefDesc}
+\mbox{\Hypertarget{classstd_1_1matrix_ab5b6ea0fea5e289217c95fde16a6ef09}\label{classstd_1_1matrix_ab5b6ea0fea5e289217c95fde16a6ef09}} 
+\index{std::matrix$<$ T $>$@{std::matrix$<$ T $>$}!flip@{flip}}
+\index{flip@{flip}!std::matrix$<$ T $>$@{std::matrix$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{flip()}{flip()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \mbox{\hyperlink{classstd_1_1matrix}{std\+::matrix}}$<$ T $>$\+::flip (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Flips matrix (== transpose()) 
+
+\begin{DoxyRefDesc}{Todo}
+\item[\mbox{\hyperlink{todo__todo000009}{Todo}}]Rename to transpose(). \end{DoxyRefDesc}
+\mbox{\Hypertarget{classstd_1_1matrix_ae5021e82d3dce20fdac3a69e9723d28c}\label{classstd_1_1matrix_ae5021e82d3dce20fdac3a69e9723d28c}} 
+\index{std::matrix$<$ T $>$@{std::matrix$<$ T $>$}!isEmpty@{isEmpty}}
+\index{isEmpty@{isEmpty}!std::matrix$<$ T $>$@{std::matrix$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{isEmpty()}{isEmpty()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+bool \mbox{\hyperlink{classstd_1_1matrix}{std\+::matrix}}$<$ T $>$\+::is\+Empty (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Determines if empty matrix. 
+
+\begin{DoxyReturn}{Returns}
+True if both number of rows and number of columns \texorpdfstring{$>$}{>} 0, False otherwise. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classstd_1_1matrix_a8e66654825287fc78e0b30686fcbfb74}\label{classstd_1_1matrix_a8e66654825287fc78e0b30686fcbfb74}} 
+\index{std::matrix$<$ T $>$@{std::matrix$<$ T $>$}!isSquare@{isSquare}}
+\index{isSquare@{isSquare}!std::matrix$<$ T $>$@{std::matrix$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{isSquare()}{isSquare()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+bool \mbox{\hyperlink{classstd_1_1matrix}{std\+::matrix}}$<$ T $>$\+::is\+Square (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Determines if square matrix. 
+
+\begin{DoxyReturn}{Returns}
+True if number of rows == number of columns, False otherwise. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classstd_1_1matrix_a235aefc56d1a24af04a79fef35f6cafa}\label{classstd_1_1matrix_a235aefc56d1a24af04a79fef35f6cafa}} 
+\index{std::matrix$<$ T $>$@{std::matrix$<$ T $>$}!operator()@{operator()}}
+\index{operator()@{operator()}!std::matrix$<$ T $>$@{std::matrix$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{operator()()}{operator()()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+T \& \mbox{\hyperlink{classstd_1_1matrix}{std\+::matrix}}$<$ T $>$\+::operator() (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{row,  }\item[{size\+\_\+t}]{col }\end{DoxyParamCaption})}
+
+
+
+Random access operator, for element @ given ({\itshape row}, {\itshape col}) position. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em row} & Row index. \\
+\hline
+\mbox{\texttt{ in}}  & {\em col} & Column index.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Reference to element @ ({\itshape row}, {\itshape col}) 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classstd_1_1matrix_afd62756af1c59a1c1b870bfbbbf6a0fb}\label{classstd_1_1matrix_afd62756af1c59a1c1b870bfbbbf6a0fb}} 
+\index{std::matrix$<$ T $>$@{std::matrix$<$ T $>$}!operator()@{operator()}}
+\index{operator()@{operator()}!std::matrix$<$ T $>$@{std::matrix$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{operator()()}{operator()()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+const T \& \mbox{\hyperlink{classstd_1_1matrix}{std\+::matrix}}$<$ T $>$\+::operator() (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{row,  }\item[{size\+\_\+t}]{col }\end{DoxyParamCaption}) const}
+
+
+
+Random access operator, for element @ given ({\itshape row}, {\itshape col}) position ({\itshape const overload}). 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em row} & Row index. \\
+\hline
+\mbox{\texttt{ in}}  & {\em col} & Column index.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Const reference to element @ ({\itshape row}, {\itshape col}) 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classstd_1_1matrix_ae4697fd485373a50299d8c12e02180bb}\label{classstd_1_1matrix_ae4697fd485373a50299d8c12e02180bb}} 
+\index{std::matrix$<$ T $>$@{std::matrix$<$ T $>$}!operator$\ast$@{operator$\ast$}}
+\index{operator$\ast$@{operator$\ast$}!std::matrix$<$ T $>$@{std::matrix$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{operator$\ast$()}{operator*()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+T \& \mbox{\hyperlink{classstd_1_1matrix}{std\+::matrix}}$<$ T $>$\+::operator$\ast$ (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Dereferencing/indirection operator. 
+
+\begin{DoxyReturn}{Returns}
+Returns first element in matrix i.\+e. @ (0,0) 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classstd_1_1matrix_acdd3b068547461e6744a0c03f69a9687}\label{classstd_1_1matrix_acdd3b068547461e6744a0c03f69a9687}} 
+\index{std::matrix$<$ T $>$@{std::matrix$<$ T $>$}!operator=@{operator=}}
+\index{operator=@{operator=}!std::matrix$<$ T $>$@{std::matrix$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+template$<$typename iT $>$ \\
+\mbox{\hyperlink{classstd_1_1matrix}{matrix}}$<$ T $>$ \& \mbox{\hyperlink{classstd_1_1matrix}{std\+::matrix}}$<$ T $>$\+::operator= (\begin{DoxyParamCaption}\item[{const iT \&}]{in }\end{DoxyParamCaption})}
+
+
+
+Assignment operator. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em in} & Input value to assign to all elements in matrix.\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em iT} & Type of the input argument. \\
+\hline
+\end{DoxyTemplParams}
+\mbox{\Hypertarget{classstd_1_1matrix_a3c028561e2cbc52e5bd6161c1085b986}\label{classstd_1_1matrix_a3c028561e2cbc52e5bd6161c1085b986}} 
+\index{std::matrix$<$ T $>$@{std::matrix$<$ T $>$}!operator\mbox{[}\mbox{]}@{operator[]}}
+\index{operator\mbox{[}\mbox{]}@{operator[]}!std::matrix$<$ T $>$@{std::matrix$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{operator[]()}{operator[]()}\hspace{0.1cm}{\footnotesize\ttfamily [1/6]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+\mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{matrix\+\_\+subset}}$<$ T $>$ \mbox{\hyperlink{classstd_1_1matrix}{std\+::matrix}}$<$ T $>$\+::operator\mbox{[}$\,$\mbox{]} (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{matrix\+\_\+subset}}$<$ T $>$ \&}]{sbst }\end{DoxyParamCaption})}
+
+
+
+Random access operator, for multiple elements described by given matrix subset. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em idx} & Vector of element indexes of output matrix.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Matrix subset instance (as matrix\+\_\+subset$<$ T $>$) referencing all elements @ {\itshape idx} valid values. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classstd_1_1matrix_a421ef1f5607ce3fab9c3d54948dcf60a}\label{classstd_1_1matrix_a421ef1f5607ce3fab9c3d54948dcf60a}} 
+\index{std::matrix$<$ T $>$@{std::matrix$<$ T $>$}!operator\mbox{[}\mbox{]}@{operator[]}}
+\index{operator\mbox{[}\mbox{]}@{operator[]}!std::matrix$<$ T $>$@{std::matrix$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{operator[]()}{operator[]()}\hspace{0.1cm}{\footnotesize\ttfamily [2/6]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+\mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{matrix\+\_\+subset\+\_\+const}}$<$ T $>$ \mbox{\hyperlink{classstd_1_1matrix}{std\+::matrix}}$<$ T $>$\+::operator\mbox{[}$\,$\mbox{]} (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{matrix\+\_\+subset}}$<$ T $>$ \&}]{sbst }\end{DoxyParamCaption}) const}
+
+
+
+Random access operator, for multiple elements described by given matrix subset ({\itshape const overload}). 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em idx} & Vector of element indexes of output matrix.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Const matrix subset instance (as matrix\+\_\+subset$<$ T $>$) referencing all elements @ {\itshape idx} valid values. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classstd_1_1matrix_a918fa5e8737a70b5165ce5b92995a5fb}\label{classstd_1_1matrix_a918fa5e8737a70b5165ce5b92995a5fb}} 
+\index{std::matrix$<$ T $>$@{std::matrix$<$ T $>$}!operator\mbox{[}\mbox{]}@{operator[]}}
+\index{operator\mbox{[}\mbox{]}@{operator[]}!std::matrix$<$ T $>$@{std::matrix$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{operator[]()}{operator[]()}\hspace{0.1cm}{\footnotesize\ttfamily [3/6]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+\mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{matrix\+\_\+subset}}$<$ T $>$ \mbox{\hyperlink{classstd_1_1matrix}{std\+::matrix}}$<$ T $>$\+::operator\mbox{[}$\,$\mbox{]} (\begin{DoxyParamCaption}\item[{const vector$<$ size\+\_\+t $>$ \&}]{idx }\end{DoxyParamCaption})}
+
+
+
+Random access operator, for multiple elements @ given {\itshape idx}. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em idx} & Vector of element indexes of output matrix.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Matrix subset instance (as matrix\+\_\+subset$<$ T $>$) referencing all elements @ {\itshape idx} valid values. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classstd_1_1matrix_a81137f7e25db46dc1984a3d75c380c23}\label{classstd_1_1matrix_a81137f7e25db46dc1984a3d75c380c23}} 
+\index{std::matrix$<$ T $>$@{std::matrix$<$ T $>$}!operator\mbox{[}\mbox{]}@{operator[]}}
+\index{operator\mbox{[}\mbox{]}@{operator[]}!std::matrix$<$ T $>$@{std::matrix$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{operator[]()}{operator[]()}\hspace{0.1cm}{\footnotesize\ttfamily [4/6]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+\mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{matrix\+\_\+subset\+\_\+const}}$<$ T $>$ \mbox{\hyperlink{classstd_1_1matrix}{std\+::matrix}}$<$ T $>$\+::operator\mbox{[}$\,$\mbox{]} (\begin{DoxyParamCaption}\item[{const vector$<$ size\+\_\+t $>$ \&}]{idx }\end{DoxyParamCaption}) const}
+
+
+
+Random access operator, for multiple elements @ given {\itshape idx} ({\itshape const overload}). 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em idx} & Vector of element indexes of output matrix.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Const matrix subset instance (as matrix\+\_\+subset$<$ T $>$) referencing all elements @ {\itshape idx} valid values. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classstd_1_1matrix_af0490edd8d02ea115f7af175febef994}\label{classstd_1_1matrix_af0490edd8d02ea115f7af175febef994}} 
+\index{std::matrix$<$ T $>$@{std::matrix$<$ T $>$}!operator\mbox{[}\mbox{]}@{operator[]}}
+\index{operator\mbox{[}\mbox{]}@{operator[]}!std::matrix$<$ T $>$@{std::matrix$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{operator[]()}{operator[]()}\hspace{0.1cm}{\footnotesize\ttfamily [5/6]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+T \& \mbox{\hyperlink{classstd_1_1matrix}{std\+::matrix}}$<$ T $>$\+::operator\mbox{[}$\,$\mbox{]} (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{idx }\end{DoxyParamCaption})}
+
+
+
+Random access operator, for element @ given {\itshape idx} position. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em idx} & Element index.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Reference to element @ {\itshape idx} position. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classstd_1_1matrix_a103a5843ca08977a9a1843f360d05f7a}\label{classstd_1_1matrix_a103a5843ca08977a9a1843f360d05f7a}} 
+\index{std::matrix$<$ T $>$@{std::matrix$<$ T $>$}!operator\mbox{[}\mbox{]}@{operator[]}}
+\index{operator\mbox{[}\mbox{]}@{operator[]}!std::matrix$<$ T $>$@{std::matrix$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{operator[]()}{operator[]()}\hspace{0.1cm}{\footnotesize\ttfamily [6/6]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+const T \& \mbox{\hyperlink{classstd_1_1matrix}{std\+::matrix}}$<$ T $>$\+::operator\mbox{[}$\,$\mbox{]} (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{idx }\end{DoxyParamCaption}) const}
+
+
+
+Random access operator, for element @ given ({\itshape row}, {\itshape col}) position ({\itshape const overload}). 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em idx} & Element index.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Const reference to element @ {\itshape idx} position. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classstd_1_1matrix_a7ec2ff06a6ff0dffc31ea125f1ded11d}\label{classstd_1_1matrix_a7ec2ff06a6ff0dffc31ea125f1ded11d}} 
+\index{std::matrix$<$ T $>$@{std::matrix$<$ T $>$}!pos@{pos}}
+\index{pos@{pos}!std::matrix$<$ T $>$@{std::matrix$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{pos()}{pos()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+vector$<$ size\+\_\+t $>$ \mbox{\hyperlink{classstd_1_1matrix}{std\+::matrix}}$<$ T $>$\+::pos (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{idx }\end{DoxyParamCaption}) const}
+
+
+
+Gets matrix position i.\+e. ({\itshape row}, {\itshape column}) of element @ position {\itshape idx}. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em idx} & Element index.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Vector of size 2 matching \{ row, col \}. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classstd_1_1matrix_a04cbd04648b9e16481e901b855afdad6}\label{classstd_1_1matrix_a04cbd04648b9e16481e901b855afdad6}} 
+\index{std::matrix$<$ T $>$@{std::matrix$<$ T $>$}!pushCol@{pushCol}}
+\index{pushCol@{pushCol}!std::matrix$<$ T $>$@{std::matrix$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{pushCol()}{pushCol()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \mbox{\hyperlink{classstd_1_1matrix}{std\+::matrix}}$<$ T $>$\+::push\+Col (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Adds a new empty column to the matrix. 
+
+\begin{DoxyRefDesc}{Todo}
+\item[\mbox{\hyperlink{todo__todo000008}{Todo}}]Remove in favour of default empty container for templated overload. \end{DoxyRefDesc}
+\mbox{\Hypertarget{classstd_1_1matrix_a337a216c98672f23e9ff056c8625f15b}\label{classstd_1_1matrix_a337a216c98672f23e9ff056c8625f15b}} 
+\index{std::matrix$<$ T $>$@{std::matrix$<$ T $>$}!pushCol@{pushCol}}
+\index{pushCol@{pushCol}!std::matrix$<$ T $>$@{std::matrix$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{pushCol()}{pushCol()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+template$<$typename iT $>$ \\
+void \mbox{\hyperlink{classstd_1_1matrix}{std\+::matrix}}$<$ T $>$\+::push\+Col (\begin{DoxyParamCaption}\item[{const iT \&}]{in }\end{DoxyParamCaption})}
+
+
+
+Adds a new column to the matrix with values from given {\itshape in}. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em in} & Input object with values to assign to new column.\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em iT} & Type of input container. \\
+\hline
+\end{DoxyTemplParams}
+\mbox{\Hypertarget{classstd_1_1matrix_a7cd8df5a31059daa3f86600d7106f9ce}\label{classstd_1_1matrix_a7cd8df5a31059daa3f86600d7106f9ce}} 
+\index{std::matrix$<$ T $>$@{std::matrix$<$ T $>$}!pushRow@{pushRow}}
+\index{pushRow@{pushRow}!std::matrix$<$ T $>$@{std::matrix$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{pushRow()}{pushRow()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \mbox{\hyperlink{classstd_1_1matrix}{std\+::matrix}}$<$ T $>$\+::push\+Row (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Adds a new empty row to the matrix. 
+
+\begin{DoxyRefDesc}{Todo}
+\item[\mbox{\hyperlink{todo__todo000007}{Todo}}]Remove in favour of default empty container for templated overload. \end{DoxyRefDesc}
+\mbox{\Hypertarget{classstd_1_1matrix_a5ba87234064de6d17d4dd859379d425d}\label{classstd_1_1matrix_a5ba87234064de6d17d4dd859379d425d}} 
+\index{std::matrix$<$ T $>$@{std::matrix$<$ T $>$}!pushRow@{pushRow}}
+\index{pushRow@{pushRow}!std::matrix$<$ T $>$@{std::matrix$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{pushRow()}{pushRow()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+template$<$typename iT $>$ \\
+void \mbox{\hyperlink{classstd_1_1matrix}{std\+::matrix}}$<$ T $>$\+::push\+Row (\begin{DoxyParamCaption}\item[{const iT \&}]{in }\end{DoxyParamCaption})}
+
+
+
+Adds a new row to the matrix with values from given {\itshape in}. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em in} & Input object with values to assign to new row.\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em iT} & Type of input container. \\
+\hline
+\end{DoxyTemplParams}
+\mbox{\Hypertarget{classstd_1_1matrix_a823ad926fec6a1cfd5de8d759bab807f}\label{classstd_1_1matrix_a823ad926fec6a1cfd5de8d759bab807f}} 
+\index{std::matrix$<$ T $>$@{std::matrix$<$ T $>$}!resize@{resize}}
+\index{resize@{resize}!std::matrix$<$ T $>$@{std::matrix$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{resize()}{resize()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \mbox{\hyperlink{classstd_1_1matrix}{std\+::matrix}}$<$ T $>$\+::resize (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{new\+\_\+rows,  }\item[{size\+\_\+t}]{new\+\_\+cols }\end{DoxyParamCaption})}
+
+
+
+Reshapes the matrix to given shape {\itshape new\+\_\+rows} x {\itshape new\+\_\+cols} . 
+
+\begin{DoxyNote}{Note}
+Alternative to \mbox{\hyperlink{classstd_1_1matrix_a81bcc7e8fce0fdffd5391a7c745b0b78}{reshape()}}, less efficient, provided for consistency. \mbox{\hyperlink{classstd_1_1matrix_a81bcc7e8fce0fdffd5391a7c745b0b78}{reshape()}} should be used instead. 
+\end{DoxyNote}
+\mbox{\Hypertarget{classstd_1_1matrix_ab90291f2d6281ce47546aece28720c94}\label{classstd_1_1matrix_ab90291f2d6281ce47546aece28720c94}} 
+\index{std::matrix$<$ T $>$@{std::matrix$<$ T $>$}!rowID@{rowID}}
+\index{rowID@{rowID}!std::matrix$<$ T $>$@{std::matrix$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{rowID()}{rowID()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+vector$<$ size\+\_\+t $>$ \mbox{\hyperlink{classstd_1_1matrix}{std\+::matrix}}$<$ T $>$\+::row\+ID (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{row }\end{DoxyParamCaption}) const}
+
+
+
+Get indexes of all matrix elements in given {\itshape row}. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em row} & Row index.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyRefDesc}{Todo}
+\item[\mbox{\hyperlink{todo__todo000003}{Todo}}]Declare protected/private -\/ no need to be part of the public interface. \end{DoxyRefDesc}
+\mbox{\Hypertarget{classstd_1_1matrix_afe45717562e78aaf333ea0a7a30de8a0}\label{classstd_1_1matrix_afe45717562e78aaf333ea0a7a30de8a0}} 
+\index{std::matrix$<$ T $>$@{std::matrix$<$ T $>$}!set@{set}}
+\index{set@{set}!std::matrix$<$ T $>$@{std::matrix$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{set()}{set()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+template$<$typename iT $>$ \\
+void \mbox{\hyperlink{classstd_1_1matrix}{std\+::matrix}}$<$ T $>$\+::set (\begin{DoxyParamCaption}\item[{const iT \&}]{in }\end{DoxyParamCaption})}
+
+
+
+Assigns new data to matrix content. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em in} & Input object with values to assign,\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em iT} & Type of input container.\\
+\hline
+\end{DoxyTemplParams}
+\begin{DoxyNote}{Note}
+Matrix is not reshapen, input container must have {\itshape at least} \mbox{\hyperlink{classstd_1_1matrix_a1d186463b0cbe50e09763140a8f7de96}{size()}} values 
+\end{DoxyNote}
+\mbox{\Hypertarget{classstd_1_1matrix_a2c8c4dc178845b28160e4dd58deb960f}\label{classstd_1_1matrix_a2c8c4dc178845b28160e4dd58deb960f}} 
+\index{std::matrix$<$ T $>$@{std::matrix$<$ T $>$}!shape@{shape}}
+\index{shape@{shape}!std::matrix$<$ T $>$@{std::matrix$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{shape()}{shape()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+vector$<$ size\+\_\+t $>$ \mbox{\hyperlink{classstd_1_1matrix}{std\+::matrix}}$<$ T $>$\+::shape (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Gets matrix shape. 
+
+\begin{DoxyReturn}{Returns}
+Vector of size 2 matching \{ rows, cols \}. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/joao/\+Shared/\+PHD/code/ros/src/storage/include/storage/matrix.\+hpp\end{DoxyCompactItemize}

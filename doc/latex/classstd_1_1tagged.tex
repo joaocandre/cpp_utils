@@ -1,0 +1,374 @@
+\hypertarget{classstd_1_1tagged}{}\doxysection{std\+::tagged\texorpdfstring{$<$}{<} T, Key \texorpdfstring{$>$}{>} Class Template Reference}
+\label{classstd_1_1tagged}\index{std::tagged$<$ T, Key $>$@{std::tagged$<$ T, Key $>$}}
+
+
+Associative type template, indented to add a key to type T, wherein a key \textquotesingle{}tag\textquotesingle{} is attached to an object.  
+
+
+
+
+{\ttfamily \#include $<$tagged.\+hpp$>$}
+
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+using \mbox{\hyperlink{classstd_1_1tagged_a6c1c283fd548336c488745d5f923fc5d}{value\+\_\+type}} = T
+\begin{DoxyCompactList}\small\item\em Static assertions on key type template arguments. Required in order to avoid ill-\/formed expressions within class definition. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classstd_1_1tagged_a269926a2e029e8b562b9158338dd8f7a}\label{classstd_1_1tagged_a269926a2e029e8b562b9158338dd8f7a}} 
+using {\bfseries reference} = \mbox{\hyperlink{classstd_1_1tagged_a6c1c283fd548336c488745d5f923fc5d}{value\+\_\+type}} \&
+\begin{DoxyCompactList}\small\item\em Value reference type. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classstd_1_1tagged_aa231b6d4eb6cde817d3543444e318009}\label{classstd_1_1tagged_aa231b6d4eb6cde817d3543444e318009}} 
+using {\bfseries const\+\_\+reference} = const \mbox{\hyperlink{classstd_1_1tagged_a6c1c283fd548336c488745d5f923fc5d}{value\+\_\+type}} \&
+\begin{DoxyCompactList}\small\item\em Value reference type (const). \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classstd_1_1tagged_a16f6ec8beac93ca1bcb3b9e317a410b7}\label{classstd_1_1tagged_a16f6ec8beac93ca1bcb3b9e317a410b7}} 
+using {\bfseries key\+\_\+type} = Key
+\begin{DoxyCompactList}\small\item\em Key type. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename... Args, typename  = typename enable\+\_\+if$<$ is\+\_\+constructible$<$ T, Args... $>$\+::value $>$\+::type$>$ }\\\mbox{\hyperlink{classstd_1_1tagged_a6cbc414b61e9ad6c618bd368bf9769c9}{tagged}} (Args \&\&... args)
+\begin{DoxyCompactList}\small\item\em Constructs a new instance. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classstd_1_1tagged_a47bfa5654267374ff4e7be545c46d655}\label{classstd_1_1tagged_a47bfa5654267374ff4e7be545c46d655}} 
+{\bfseries tagged} (const \mbox{\hyperlink{classstd_1_1tagged}{tagged}}$<$ T, Key $>$ \&other)
+\item 
+\mbox{\Hypertarget{classstd_1_1tagged_a9ca9e008320d6670136c8818f9e16fd7}\label{classstd_1_1tagged_a9ca9e008320d6670136c8818f9e16fd7}} 
+{\bfseries tagged} (\mbox{\hyperlink{classstd_1_1tagged}{tagged}}$<$ T, Key $>$ \&\&other)
+\item 
+\mbox{\Hypertarget{classstd_1_1tagged_a952121d2005ff69ba7093039c1a08f78}\label{classstd_1_1tagged_a952121d2005ff69ba7093039c1a08f78}} 
+{\bfseries tagged} (\mbox{\hyperlink{classstd_1_1tagged}{tagged}}$<$ T, Key $>$ \&other)=default
+\item 
+{\footnotesize template$<$typename... Args, typename  = typename enable\+\_\+if$<$ is\+\_\+constructible$<$ T, Args... $>$\+::value $>$\+::type$>$ }\\\mbox{\hyperlink{classstd_1_1tagged_afa83dc245c48c64a6caf827b5022e7c3}{tagged}} (const \mbox{\hyperlink{classstd_1_1tagged_a16f6ec8beac93ca1bcb3b9e317a410b7}{key\+\_\+type}} \&key\+\_\+, Args \&\&... args)
+\begin{DoxyCompactList}\small\item\em Constructs a new instance. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classstd_1_1tagged_a0fe9b3a7a4392d31e0c8e19dc03a088d}{tagged}} (const T \&value\+\_\+, const \mbox{\hyperlink{classstd_1_1tagged_a16f6ec8beac93ca1bcb3b9e317a410b7}{key\+\_\+type}} \&key\+\_\+)
+\begin{DoxyCompactList}\small\item\em Constructs a new instance, copying/moving from a value-\/key pair. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classstd_1_1tagged}{tagged}} \& \mbox{\hyperlink{classstd_1_1tagged_a406d57db2595448b48d62157ac32440f}{operator=}} (const \mbox{\hyperlink{classstd_1_1tagged}{tagged}}$<$ T, Key $>$ \&other)
+\begin{DoxyCompactList}\small\item\em Assignment operator, {\itshape copying} from another tagged instance. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classstd_1_1tagged}{tagged}} \& \mbox{\hyperlink{classstd_1_1tagged_acf285a76b339493eedc10826dacf9ea3}{operator=}} (\mbox{\hyperlink{classstd_1_1tagged}{tagged}}$<$ T, Key $>$ \&\&other)
+\begin{DoxyCompactList}\small\item\em Assignment operator, {\itshape moving} from another tagged instance. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename iT $>$ }\\\mbox{\hyperlink{classstd_1_1tagged}{tagged}}$<$ T, Key $>$ \& \mbox{\hyperlink{classstd_1_1tagged_a5fe6b914a36796c217ebf4e7d47f0597}{operator=}} (const iT \&other)
+\begin{DoxyCompactList}\small\item\em Assignment operator, assiging argument directly to value member. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classstd_1_1tagged_a269926a2e029e8b562b9158338dd8f7a}{reference}} \mbox{\hyperlink{classstd_1_1tagged_ae2a8388dc6af4fd2b5a060b114a8b4c8}{get}} ()
+\begin{DoxyCompactList}\small\item\em Function call operator. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classstd_1_1tagged_aa231b6d4eb6cde817d3543444e318009}{const\+\_\+reference}} \mbox{\hyperlink{classstd_1_1tagged_a7b811d89488ab85ebc267028eb3f77c8}{get}} () const
+\begin{DoxyCompactList}\small\item\em Function call operator (const overload). \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classstd_1_1tagged_a269926a2e029e8b562b9158338dd8f7a}{reference}} \mbox{\hyperlink{classstd_1_1tagged_a01d9a509e4ab9f1949f5147494c60776}{operator$\ast$}} ()
+\begin{DoxyCompactList}\small\item\em Function call operator. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classstd_1_1tagged_aa231b6d4eb6cde817d3543444e318009}{const\+\_\+reference}} \mbox{\hyperlink{classstd_1_1tagged_a746c96d60102564df74dd95d2ed8b124}{operator$\ast$}} () const
+\begin{DoxyCompactList}\small\item\em Function call operator (const overload). \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classstd_1_1tagged_a983a354e247df22c5940540d60a91b05}{operator reference}} ()
+\begin{DoxyCompactList}\small\item\em Implicit conversion operator overload between element and T. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classstd_1_1tagged_a59869a432e641667fee84a9eed1d8e50}{operator const\+\_\+reference}} () const
+\begin{DoxyCompactList}\small\item\em Implicit conversion operator overload between element and T (const overload). \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classstd_1_1tagged_a8fb8f3515e6a53dc5f4a6a87150c8cf1}\label{classstd_1_1tagged_a8fb8f3515e6a53dc5f4a6a87150c8cf1}} 
+\mbox{\hyperlink{classstd_1_1tagged_a16f6ec8beac93ca1bcb3b9e317a410b7}{key\+\_\+type}} {\bfseries key}
+\begin{DoxyCompactList}\small\item\em Object key e.\+g. text label. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::shared\+\_\+ptr$<$ T $>$ \mbox{\hyperlink{classstd_1_1tagged_a619bf9127f89c166cf8b0f7659e61cbc}{\+\_\+value}}
+\begin{DoxyCompactList}\small\item\em Tagged object value. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$typename T, typename Key = string$>$\newline
+class std\+::tagged$<$ T, Key $>$}
+Associative type template, indented to add a key to type T, wherein a key \textquotesingle{}tag\textquotesingle{} is attached to an object. 
+
+\begin{DoxyNote}{Note}
+Similar to std\+::pair$<$$>$, but prioritizing T over the key\+: from the outside it behaves like T, is implicitly convertible to T (and therefore can be used interchangeably), but provides an additional key member, publicly accessible \& modifiable.
+
+Design to (loosely) match STL guidelines/conventions. 
+\end{DoxyNote}
+
+
+\doxysubsection{Member Typedef Documentation}
+\mbox{\Hypertarget{classstd_1_1tagged_a6c1c283fd548336c488745d5f923fc5d}\label{classstd_1_1tagged_a6c1c283fd548336c488745d5f923fc5d}} 
+\index{std::tagged$<$ T, Key $>$@{std::tagged$<$ T, Key $>$}!value\_type@{value\_type}}
+\index{value\_type@{value\_type}!std::tagged$<$ T, Key $>$@{std::tagged$<$ T, Key $>$}}
+\doxysubsubsection{\texorpdfstring{value\_type}{value\_type}}
+{\footnotesize\ttfamily template$<$typename T , typename Key  = string$>$ \\
+using \mbox{\hyperlink{classstd_1_1tagged}{std\+::tagged}}$<$ T, Key $>$\+::value\+\_\+type =  T}
+
+
+
+Static assertions on key type template arguments. Required in order to avoid ill-\/formed expressions within class definition. 
+
+Value type. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classstd_1_1tagged_a6cbc414b61e9ad6c618bd368bf9769c9}\label{classstd_1_1tagged_a6cbc414b61e9ad6c618bd368bf9769c9}} 
+\index{std::tagged$<$ T, Key $>$@{std::tagged$<$ T, Key $>$}!tagged@{tagged}}
+\index{tagged@{tagged}!std::tagged$<$ T, Key $>$@{std::tagged$<$ T, Key $>$}}
+\doxysubsubsection{\texorpdfstring{tagged()}{tagged()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily template$<$typename T , typename Key $>$ \\
+template$<$typename... Args, typename $>$ \\
+\mbox{\hyperlink{classstd_1_1tagged}{std\+::tagged}}$<$ T, Key $>$\+::tagged (\begin{DoxyParamCaption}\item[{Args \&\&...}]{args }\end{DoxyParamCaption})}
+
+
+
+Constructs a new instance. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em args} & Constructor arguments.\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Args} & Variadic parameter pack (implicitely deduced) describing type list of constructor arguments. \\
+\hline
+{\em $<$unnamed$>$} & SFINAE check that shadows/disables constructor overload if {\itshape T} can\textquotesingle{}t be constructed with {\itshape Args} i.\+e. T(Args..) is not declared/defined\\
+\hline
+\end{DoxyTemplParams}
+\begin{DoxyNote}{Note}
+Redirects all input arguments to T constructor. 
+\end{DoxyNote}
+\mbox{\Hypertarget{classstd_1_1tagged_afa83dc245c48c64a6caf827b5022e7c3}\label{classstd_1_1tagged_afa83dc245c48c64a6caf827b5022e7c3}} 
+\index{std::tagged$<$ T, Key $>$@{std::tagged$<$ T, Key $>$}!tagged@{tagged}}
+\index{tagged@{tagged}!std::tagged$<$ T, Key $>$@{std::tagged$<$ T, Key $>$}}
+\doxysubsubsection{\texorpdfstring{tagged()}{tagged()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily template$<$typename T , typename Key $>$ \\
+template$<$typename... Args, typename $>$ \\
+\mbox{\hyperlink{classstd_1_1tagged}{std\+::tagged}}$<$ T, Key $>$\+::tagged (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classstd_1_1tagged_a16f6ec8beac93ca1bcb3b9e317a410b7}{key\+\_\+type}} \&}]{key\+\_\+,  }\item[{Args \&\&...}]{args }\end{DoxyParamCaption})}
+
+
+
+Constructs a new instance. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em key\+\_\+} & Key to tag value with. \\
+\hline
+\mbox{\texttt{ in}}  & {\em args} & Constructor arguments.\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Args} & Variadic parameter pack (implicitely deduced) describing type list of constructor arguments. \\
+\hline
+{\em $<$unnamed$>$} & SFINAE check that shadows/disables constructor overload if {\itshape T} can\textquotesingle{}t be constructed with {\itshape Args} i.\+e. T(Args..) is not declared/defined\\
+\hline
+\end{DoxyTemplParams}
+\begin{DoxyNote}{Note}
+If first argument is of type {\itshape key\+\_\+type}, assigns key value to it \& redirects all remaining arguments to T constructor.
+
+This overload is shadowed by tagged$<$ Args... $>$(\+Args... args) if defined i.\+e. an instance of T can be constructed with (key\+\_\+, args...). In that case the non-\/member constructor make\+\_\+tagged$<$$>$ should be used. 
+\end{DoxyNote}
+\mbox{\Hypertarget{classstd_1_1tagged_a0fe9b3a7a4392d31e0c8e19dc03a088d}\label{classstd_1_1tagged_a0fe9b3a7a4392d31e0c8e19dc03a088d}} 
+\index{std::tagged$<$ T, Key $>$@{std::tagged$<$ T, Key $>$}!tagged@{tagged}}
+\index{tagged@{tagged}!std::tagged$<$ T, Key $>$@{std::tagged$<$ T, Key $>$}}
+\doxysubsubsection{\texorpdfstring{tagged()}{tagged()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily template$<$typename T , typename Key $>$ \\
+\mbox{\hyperlink{classstd_1_1tagged}{std\+::tagged}}$<$ T, Key $>$\+::tagged (\begin{DoxyParamCaption}\item[{const T \&}]{value\+\_\+,  }\item[{const \mbox{\hyperlink{classstd_1_1tagged_a16f6ec8beac93ca1bcb3b9e317a410b7}{key\+\_\+type}} \&}]{key\+\_\+ }\end{DoxyParamCaption})}
+
+
+
+Constructs a new instance, copying/moving from a value-\/key pair. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em value} & Value to tag \\
+\hline
+\mbox{\texttt{ in}}  & {\em key} & Key\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+If {\itshape T} can be constructed w/ (T\&, key\+\_\+type) arguments, variadic template constructor is used and this overload is shadowed/ignored.
+
+This overload is shadowed by previous constructor templates if {\itshape T} is constructible with (const T\&, const key\+\_\+type\&) arguments. Otherwise it ensures that std\+::tagged$<$ T, key\+\_\+type $>$ can be constructed with tagged(\+T\&, key\&) and tagged(key\&, T\&)
+\end{DoxyNote}
+\begin{DoxyRefDesc}{Todo}
+\item[\mbox{\hyperlink{todo__todo000010}{Todo}}]Remove this constructor overload, there is no need for it. \end{DoxyRefDesc}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classstd_1_1tagged_ae2a8388dc6af4fd2b5a060b114a8b4c8}\label{classstd_1_1tagged_ae2a8388dc6af4fd2b5a060b114a8b4c8}} 
+\index{std::tagged$<$ T, Key $>$@{std::tagged$<$ T, Key $>$}!get@{get}}
+\index{get@{get}!std::tagged$<$ T, Key $>$@{std::tagged$<$ T, Key $>$}}
+\doxysubsubsection{\texorpdfstring{get()}{get()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T , typename Key $>$ \\
+\mbox{\hyperlink{classstd_1_1tagged}{tagged}}$<$ T, Key $>$\mbox{\hyperlink{classstd_1_1tagged_a269926a2e029e8b562b9158338dd8f7a}{\+::reference}} \mbox{\hyperlink{classstd_1_1tagged}{std\+::tagged}}$<$ T, Key $>$\+::get}
+
+
+
+Function call operator. 
+
+\begin{DoxyReturn}{Returns}
+Reference to value member.
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Acts as explicit conversion operator. Provided for convenience. 
+\end{DoxyNote}
+\mbox{\Hypertarget{classstd_1_1tagged_a7b811d89488ab85ebc267028eb3f77c8}\label{classstd_1_1tagged_a7b811d89488ab85ebc267028eb3f77c8}} 
+\index{std::tagged$<$ T, Key $>$@{std::tagged$<$ T, Key $>$}!get@{get}}
+\index{get@{get}!std::tagged$<$ T, Key $>$@{std::tagged$<$ T, Key $>$}}
+\doxysubsubsection{\texorpdfstring{get()}{get()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T , typename Key $>$ \\
+\mbox{\hyperlink{classstd_1_1tagged}{tagged}}$<$ T, Key $>$\mbox{\hyperlink{classstd_1_1tagged_aa231b6d4eb6cde817d3543444e318009}{\+::const\+\_\+reference}} \mbox{\hyperlink{classstd_1_1tagged}{std\+::tagged}}$<$ T, Key $>$\+::get}
+
+
+
+Function call operator (const overload). 
+
+\begin{DoxyReturn}{Returns}
+Const reference to value member.
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Acts as explicit conversion operator. Provided for convenience. 
+\end{DoxyNote}
+\mbox{\Hypertarget{classstd_1_1tagged_a59869a432e641667fee84a9eed1d8e50}\label{classstd_1_1tagged_a59869a432e641667fee84a9eed1d8e50}} 
+\index{std::tagged$<$ T, Key $>$@{std::tagged$<$ T, Key $>$}!operator const\_reference@{operator const\_reference}}
+\index{operator const\_reference@{operator const\_reference}!std::tagged$<$ T, Key $>$@{std::tagged$<$ T, Key $>$}}
+\doxysubsubsection{\texorpdfstring{operator const\_reference()}{operator const\_reference()}}
+{\footnotesize\ttfamily template$<$typename T , typename Key  = string$>$ \\
+\mbox{\hyperlink{classstd_1_1tagged}{std\+::tagged}}$<$ T, Key $>$\+::operator \mbox{\hyperlink{classstd_1_1tagged_aa231b6d4eb6cde817d3543444e318009}{const\+\_\+reference}} (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Implicit conversion operator overload between element and T (const overload). 
+
+\begin{DoxyNote}{Note}
+Allows fetching value directly from an element instance.
+
+Templating conversion in reference to output type creates ambiguity in operator calls. 
+\end{DoxyNote}
+\mbox{\Hypertarget{classstd_1_1tagged_a983a354e247df22c5940540d60a91b05}\label{classstd_1_1tagged_a983a354e247df22c5940540d60a91b05}} 
+\index{std::tagged$<$ T, Key $>$@{std::tagged$<$ T, Key $>$}!operator reference@{operator reference}}
+\index{operator reference@{operator reference}!std::tagged$<$ T, Key $>$@{std::tagged$<$ T, Key $>$}}
+\doxysubsubsection{\texorpdfstring{operator reference()}{operator reference()}}
+{\footnotesize\ttfamily template$<$typename T , typename Key  = string$>$ \\
+\mbox{\hyperlink{classstd_1_1tagged}{std\+::tagged}}$<$ T, Key $>$\+::operator \mbox{\hyperlink{classstd_1_1tagged_a269926a2e029e8b562b9158338dd8f7a}{reference}} (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Implicit conversion operator overload between element and T. 
+
+\begin{DoxyNote}{Note}
+Allows fetching value directly from an element instance.
+
+Templating conversion in reference to output type creates ambiguity in operator calls. 
+\end{DoxyNote}
+\mbox{\Hypertarget{classstd_1_1tagged_a01d9a509e4ab9f1949f5147494c60776}\label{classstd_1_1tagged_a01d9a509e4ab9f1949f5147494c60776}} 
+\index{std::tagged$<$ T, Key $>$@{std::tagged$<$ T, Key $>$}!operator$\ast$@{operator$\ast$}}
+\index{operator$\ast$@{operator$\ast$}!std::tagged$<$ T, Key $>$@{std::tagged$<$ T, Key $>$}}
+\doxysubsubsection{\texorpdfstring{operator$\ast$()}{operator*()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T , typename Key $>$ \\
+\mbox{\hyperlink{classstd_1_1tagged}{tagged}}$<$ T, Key $>$\mbox{\hyperlink{classstd_1_1tagged_a269926a2e029e8b562b9158338dd8f7a}{\+::reference}} \mbox{\hyperlink{classstd_1_1tagged}{std\+::tagged}}$<$ T, Key $>$\+::operator$\ast$}
+
+
+
+Function call operator. 
+
+\begin{DoxyReturn}{Returns}
+Reference to value member.
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Acts as explicit conversion operator. Provided for convenience. 
+\end{DoxyNote}
+\mbox{\Hypertarget{classstd_1_1tagged_a746c96d60102564df74dd95d2ed8b124}\label{classstd_1_1tagged_a746c96d60102564df74dd95d2ed8b124}} 
+\index{std::tagged$<$ T, Key $>$@{std::tagged$<$ T, Key $>$}!operator$\ast$@{operator$\ast$}}
+\index{operator$\ast$@{operator$\ast$}!std::tagged$<$ T, Key $>$@{std::tagged$<$ T, Key $>$}}
+\doxysubsubsection{\texorpdfstring{operator$\ast$()}{operator*()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T , typename Key $>$ \\
+\mbox{\hyperlink{classstd_1_1tagged}{tagged}}$<$ T, Key $>$\mbox{\hyperlink{classstd_1_1tagged_aa231b6d4eb6cde817d3543444e318009}{\+::const\+\_\+reference}} \mbox{\hyperlink{classstd_1_1tagged}{std\+::tagged}}$<$ T, Key $>$\+::operator$\ast$}
+
+
+
+Function call operator (const overload). 
+
+\begin{DoxyReturn}{Returns}
+Const reference to value member.
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Acts as explicit conversion operator. Provided for convenience. 
+\end{DoxyNote}
+\mbox{\Hypertarget{classstd_1_1tagged_a5fe6b914a36796c217ebf4e7d47f0597}\label{classstd_1_1tagged_a5fe6b914a36796c217ebf4e7d47f0597}} 
+\index{std::tagged$<$ T, Key $>$@{std::tagged$<$ T, Key $>$}!operator=@{operator=}}
+\index{operator=@{operator=}!std::tagged$<$ T, Key $>$@{std::tagged$<$ T, Key $>$}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily template$<$typename T , typename Key $>$ \\
+template$<$typename iT $>$ \\
+\mbox{\hyperlink{classstd_1_1tagged}{tagged}}$<$ T, Key $>$ \& \mbox{\hyperlink{classstd_1_1tagged}{std\+::tagged}}$<$ T, Key $>$\+::operator= (\begin{DoxyParamCaption}\item[{const iT \&}]{other }\end{DoxyParamCaption})}
+
+
+
+Assignment operator, assiging argument directly to value member. 
+
+\begin{DoxyNote}{Note}
+Allows modifying value directly from an element instance.
+
+Assignment operator of the value type \mbox{[}T\+::operator=(const i\+T\&)\mbox{]} is called when assigning the value.
+\end{DoxyNote}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em other} & Input value.\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em iT} & Type of input argument. \\
+\hline
+\end{DoxyTemplParams}
+\mbox{\Hypertarget{classstd_1_1tagged_a406d57db2595448b48d62157ac32440f}\label{classstd_1_1tagged_a406d57db2595448b48d62157ac32440f}} 
+\index{std::tagged$<$ T, Key $>$@{std::tagged$<$ T, Key $>$}!operator=@{operator=}}
+\index{operator=@{operator=}!std::tagged$<$ T, Key $>$@{std::tagged$<$ T, Key $>$}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily template$<$typename T , typename Key $>$ \\
+\mbox{\hyperlink{classstd_1_1tagged}{tagged}}$<$ T, Key $>$ \& \mbox{\hyperlink{classstd_1_1tagged}{std\+::tagged}}$<$ T, Key $>$\+::operator= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classstd_1_1tagged}{tagged}}$<$ T, Key $>$ \&}]{other }\end{DoxyParamCaption})}
+
+
+
+Assignment operator, {\itshape copying} from another tagged instance. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em other} & Input instance.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Reference to modified instance. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classstd_1_1tagged_acf285a76b339493eedc10826dacf9ea3}\label{classstd_1_1tagged_acf285a76b339493eedc10826dacf9ea3}} 
+\index{std::tagged$<$ T, Key $>$@{std::tagged$<$ T, Key $>$}!operator=@{operator=}}
+\index{operator=@{operator=}!std::tagged$<$ T, Key $>$@{std::tagged$<$ T, Key $>$}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily template$<$typename T , typename Key $>$ \\
+\mbox{\hyperlink{classstd_1_1tagged}{tagged}}$<$ T, Key $>$ \& \mbox{\hyperlink{classstd_1_1tagged}{std\+::tagged}}$<$ T, Key $>$\+::operator= (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classstd_1_1tagged}{tagged}}$<$ T, Key $>$ \&\&}]{other }\end{DoxyParamCaption})}
+
+
+
+Assignment operator, {\itshape moving} from another tagged instance. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em other} & Input instance, consumed after operation.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Reference to modified instance. 
+\end{DoxyReturn}
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classstd_1_1tagged_a619bf9127f89c166cf8b0f7659e61cbc}\label{classstd_1_1tagged_a619bf9127f89c166cf8b0f7659e61cbc}} 
+\index{std::tagged$<$ T, Key $>$@{std::tagged$<$ T, Key $>$}!\_value@{\_value}}
+\index{\_value@{\_value}!std::tagged$<$ T, Key $>$@{std::tagged$<$ T, Key $>$}}
+\doxysubsubsection{\texorpdfstring{\_value}{\_value}}
+{\footnotesize\ttfamily template$<$typename T , typename Key  = string$>$ \\
+std\+::shared\+\_\+ptr$<$ T $>$ \mbox{\hyperlink{classstd_1_1tagged}{std\+::tagged}}$<$ T, Key $>$\+::\+\_\+value\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Tagged object value. 
+
+\begin{DoxyNote}{Note}
+Using a smart pointer makes \mbox{\hyperlink{classstd_1_1tagged}{std\+::tagged}} more portable. 
+\end{DoxyNote}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/joao/\+Shared/\+PHD/code/ros/src/storage/include/storage/\mbox{\hyperlink{tagged_8hpp}{tagged.\+hpp}}\end{DoxyCompactItemize}

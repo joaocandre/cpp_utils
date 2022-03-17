@@ -1,0 +1,387 @@
+\hypertarget{statistical_8hpp_source}{}\doxysection{statistical.\+hpp}
+\label{statistical_8hpp_source}\index{/home/joao/Shared/PHD/code/ros/src/storage/include/storage/statistical.hpp@{/home/joao/Shared/PHD/code/ros/src/storage/include/storage/statistical.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef NUMERICAL\_HPP}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define NUMERICAL\_HPP}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include <vector>}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include <matrix>}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#include <volume>}}
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#include <numeric>}}
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include <stdio.h>}      \textcolor{comment}{/* printf, scanf, puts, NULL */}}
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#include <stdlib.h>}     \textcolor{comment}{/* srand, rand */}}
+\DoxyCodeLine{10 }
+\DoxyCodeLine{11 \textcolor{keyword}{namespace }std \{}
+\DoxyCodeLine{12 \textcolor{keyword}{namespace }statistical \{}
+\DoxyCodeLine{14 \textcolor{comment}{// general purpose / utils}}
+\DoxyCodeLine{15 \textcolor{keyword}{inline} \textcolor{keywordtype}{double} norm(\textcolor{keywordtype}{double} x,\textcolor{keywordtype}{double} y)\{ \textcolor{keywordflow}{return} sqrt(pow(x,2)+pow(y,2)); \}}
+\DoxyCodeLine{16 \textcolor{keyword}{inline} \textcolor{keywordtype}{double} norm(\textcolor{keywordtype}{double} x,\textcolor{keywordtype}{double} y, \textcolor{keywordtype}{double} z)\{ \textcolor{keywordflow}{return} sqrt(pow(x,2)+pow(y,2)+pow(z,2)); \}}
+\DoxyCodeLine{17 \textcolor{keyword}{inline} \textcolor{keywordtype}{double} deg2rad(\textcolor{keywordtype}{double} deg)\{ \textcolor{keywordflow}{return} deg * M\_PI / 180.0; \}}
+\DoxyCodeLine{18 \textcolor{keyword}{inline} \textcolor{keywordtype}{double} rad2deg(\textcolor{keywordtype}{double} rad)\{ \textcolor{keywordflow}{return} rad * 180.0 / M\_PI; \}}
+\DoxyCodeLine{19 \textcolor{keyword}{inline} \textcolor{keywordtype}{double} sign(\textcolor{keywordtype}{double} value) \{}
+\DoxyCodeLine{20     \textcolor{keywordflow}{if}(value < 0) \textcolor{keywordflow}{return} -\/1.0;}
+\DoxyCodeLine{21     \textcolor{keywordflow}{else} \textcolor{keywordflow}{return} 1.0;}
+\DoxyCodeLine{22 \}}
+\DoxyCodeLine{23 \textcolor{keyword}{inline} \textcolor{keywordtype}{double} clamp(\textcolor{keywordtype}{double} value, \textcolor{keywordtype}{double} min, \textcolor{keywordtype}{double} max) \{}
+\DoxyCodeLine{24   \textcolor{keywordflow}{if} (min > max) \{}
+\DoxyCodeLine{25     assert(0);}
+\DoxyCodeLine{26     \textcolor{keywordflow}{return} value;}
+\DoxyCodeLine{27   \}}
+\DoxyCodeLine{28   \textcolor{keywordflow}{return} value < min ? min : value > max ? max : value;}
+\DoxyCodeLine{29 \}}
+\DoxyCodeLine{30 \textcolor{keyword}{inline} \textcolor{keywordtype}{double} round(\textcolor{keywordtype}{double} val, \textcolor{keywordtype}{int} dig) \{  }
+\DoxyCodeLine{31     \textcolor{keywordtype}{double} vv, mult, rnd;}
+\DoxyCodeLine{32     mult=1.0;}
+\DoxyCodeLine{33     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < dig; ++i) mult=mult*10;}
+\DoxyCodeLine{34     vv=mult*val;}
+\DoxyCodeLine{35     }
+\DoxyCodeLine{36     \textcolor{keywordflow}{if}( vv < 0 ) rnd=ceil(vv -\/ 0.5);}
+\DoxyCodeLine{37     \textcolor{keywordflow}{else} rnd=floor(vv + 0.5);}
+\DoxyCodeLine{38 }
+\DoxyCodeLine{39     \textcolor{keywordflow}{return} (rnd/mult);}
+\DoxyCodeLine{40 \}}
+\DoxyCodeLine{42 \textcolor{keywordtype}{int} findPeaks(std::vector<float>\& \_output, std::vector<float>\& \_input, \textcolor{keywordtype}{int} \_height, \textcolor{keywordtype}{int} \_width)\{}
+\DoxyCodeLine{43     \textcolor{keywordtype}{int} n=\_input.size();}
+\DoxyCodeLine{44     \textcolor{keywordflow}{if} (n<=0 || \_height<1 || \_width<1) \textcolor{keywordflow}{return} 1;}
+\DoxyCodeLine{45 }
+\DoxyCodeLine{46     \textcolor{keywordtype}{bool} peak=\textcolor{keyword}{false};}
+\DoxyCodeLine{47     \textcolor{keywordtype}{int} c=0;}
+\DoxyCodeLine{48     \textcolor{keywordtype}{int} imax=0;}
+\DoxyCodeLine{49     \textcolor{keywordtype}{float} max=\_height;}
+\DoxyCodeLine{50 }
+\DoxyCodeLine{51     \_output.resize(0);}
+\DoxyCodeLine{52     \textcolor{comment}{//VectorXf inds;}}
+\DoxyCodeLine{53     std::vector<float> \_maxs(0,0.0);}
+\DoxyCodeLine{54     \textcolor{comment}{// VectorXf \_maxs=VectorXf::Zero(0);}}
+\DoxyCodeLine{55 }
+\DoxyCodeLine{56     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < n; ++i)\{}
+\DoxyCodeLine{57         \textcolor{keywordflow}{if} (\_input[i]>=\_height) \{}
+\DoxyCodeLine{58             \textcolor{comment}{// POTENTIAL PEAK}}
+\DoxyCodeLine{59             c++;}
+\DoxyCodeLine{60             \textcolor{keywordflow}{if} (\_input[i]>=max)\{}
+\DoxyCodeLine{61                 \textcolor{comment}{// at the start of any peak it!!}}
+\DoxyCodeLine{62                 \textcolor{comment}{//printf("{}new max! i \%d \(\backslash\)n"{},i);}}
+\DoxyCodeLine{63                 max=\_input[i];}
+\DoxyCodeLine{64                 imax=i;}
+\DoxyCodeLine{65                 \textcolor{keywordflow}{if} (peak) \{}
+\DoxyCodeLine{66                     \textcolor{comment}{// place values on container (only if inside a peak and a new maximum is found)}}
+\DoxyCodeLine{67                     \_output[\_output.size()-\/1]=imax+0.0;}
+\DoxyCodeLine{68                     \_maxs[\_output.size()-\/1]=max;}
+\DoxyCodeLine{69                     \textcolor{comment}{//printf("{}peak value updated i \%d\(\backslash\)n"{},i);}}
+\DoxyCodeLine{70                 \}}
+\DoxyCodeLine{71             \}}
+\DoxyCodeLine{72             \textcolor{keywordflow}{if} (c>=\_width)\{}
+\DoxyCodeLine{73                 \textcolor{comment}{// IS A PEAK}}
+\DoxyCodeLine{74                 \textcolor{keywordflow}{if} (!peak) \{}
+\DoxyCodeLine{75                     printf(\textcolor{stringliteral}{"{}new peak! i \%d! last imax \%d\(\backslash\)n"{}},i,imax);}
+\DoxyCodeLine{76                     peak=\textcolor{keyword}{true};}
+\DoxyCodeLine{77                     \textcolor{comment}{// increase container size}}
+\DoxyCodeLine{78                     \textcolor{comment}{//printf("{}enlarging array \%d to \%d\(\backslash\)n"{},\_output.rows(),\_output.rows()+1);}}
+\DoxyCodeLine{79                     \_output.resize(\_output.size()+1);}
+\DoxyCodeLine{80                     \_maxs.resize(\_output.size()+1);}
+\DoxyCodeLine{81                     \textcolor{comment}{//printf("{}placing value \%d at pos \%d\(\backslash\)n"{},imax,\_output.rows()-\/1);}}
+\DoxyCodeLine{82                     \_output[\_output.size()-\/1]=imax;}
+\DoxyCodeLine{83                     \_maxs[\_output.size()-\/1]=max;}
+\DoxyCodeLine{84                 \}               }
+\DoxyCodeLine{85             \} }
+\DoxyCodeLine{86         \} \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{87             \textcolor{comment}{// NOT A PEAK}}
+\DoxyCodeLine{88             \textcolor{comment}{//printf("{}no peak! i\%d\(\backslash\)n"{},i);}}
+\DoxyCodeLine{89             c=0;}
+\DoxyCodeLine{90             peak=\textcolor{keyword}{false};}
+\DoxyCodeLine{91             max=\_height;}
+\DoxyCodeLine{92         \}}
+\DoxyCodeLine{93 }
+\DoxyCodeLine{94     \textcolor{comment}{// at the end of the loop maxs and inds are populated by the maximum vaues in each peak and index}}
+\DoxyCodeLine{95     \}}
+\DoxyCodeLine{96 }
+\DoxyCodeLine{97     \textcolor{comment}{// avg\_cycle=0.0;}}
+\DoxyCodeLine{98     \textcolor{comment}{// for (int i = 1; i < \_output.rows(); ++i) avg\_cycle+=(\_output(i)-\/\_output(i-\/1));}}
+\DoxyCodeLine{99     \textcolor{comment}{// avg\_cycle=avg\_cycle/\_output.rows();}}
+\DoxyCodeLine{100 }
+\DoxyCodeLine{101     \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{102 \}}
+\DoxyCodeLine{104 \textcolor{keywordtype}{float} vectorDistance (std::vector<float> \_ref, std::vector<float> \_sol) \{}
+\DoxyCodeLine{105     \textcolor{comment}{// if (\_ref.size() < \_sol.size()) \_ref.resize(\_sol.size());}}
+\DoxyCodeLine{106     \textcolor{comment}{// else if (\_sol.size() < \_ref.size()) \_sol.resize(\_ref.size());}}
+\DoxyCodeLine{107     \textcolor{keywordflow}{if} (\_ref.size() != \_sol.size()) \textcolor{keywordflow}{return} std::numeric\_limits<float>::max();}
+\DoxyCodeLine{108 }
+\DoxyCodeLine{109     \textcolor{keywordtype}{float} distance=0.0;}
+\DoxyCodeLine{110     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} instant = 0; instant < \_ref.size(); ++instant) \{}
+\DoxyCodeLine{111         distance+=sqrt(pow(\_ref[instant]-\/\_sol[instant],2)); }
+\DoxyCodeLine{112     \}}
+\DoxyCodeLine{113     \textcolor{keywordflow}{return} distance;}
+\DoxyCodeLine{114 \};}
+\DoxyCodeLine{116 \textcolor{keywordtype}{float} vectorAverage(\textcolor{keywordtype}{float}\& \_avg, std::vector<float>\& \_input)\{}
+\DoxyCodeLine{117     \textcolor{keywordtype}{float} sum=0.0;}
+\DoxyCodeLine{118     \textcolor{keywordtype}{float} size=(float)(\_input.size());}
+\DoxyCodeLine{119     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0; i< \_input.size(); i++) sum+=\_input[i];}
+\DoxyCodeLine{120     \textcolor{keywordflow}{return} (sum/size);}
+\DoxyCodeLine{121 \}}
+\DoxyCodeLine{123 \textcolor{keyword}{template} <\textcolor{keyword}{typename} \_type>}
+\DoxyCodeLine{124 \_type average(std::vector<\_type>\& \_input)\{}
+\DoxyCodeLine{125     \_type avg;}
+\DoxyCodeLine{126     \_type ss = (\_type)\_input.size();}
+\DoxyCodeLine{127     \textcolor{keywordflow}{for} (\textcolor{keyword}{auto}\& val : \_input) avg += val;}
+\DoxyCodeLine{128     \textcolor{keywordflow}{return} (avg/ss);}
+\DoxyCodeLine{129 \}}
+\DoxyCodeLine{130 \textcolor{keyword}{template} <\textcolor{keyword}{typename} \_type>}
+\DoxyCodeLine{131 \_type average(\mbox{\hyperlink{classstd_1_1matrix}{std::matrix<\_type>}}\& \_input)\{}
+\DoxyCodeLine{132     \textcolor{keywordflow}{return} average(\_input.vector());}
+\DoxyCodeLine{133 \}}
+\DoxyCodeLine{134 \textcolor{keyword}{template} <\textcolor{keyword}{typename} \_type>}
+\DoxyCodeLine{135 \_type average(\mbox{\hyperlink{classstd_1_1volume}{std::volume<\_type>}}\& \_input)\{}
+\DoxyCodeLine{136     \textcolor{keywordflow}{return} average(\_input.vector());}
+\DoxyCodeLine{137 \}}
+\DoxyCodeLine{139 \textcolor{keywordtype}{float} vectorStdDeviation(\textcolor{keywordtype}{float}\& \_std, std::vector<float>\& \_input)\{}
+\DoxyCodeLine{140     \textcolor{keywordtype}{float} avg = 0.0;}
+\DoxyCodeLine{141     vectorAverage(avg,\_input);}
+\DoxyCodeLine{142     \textcolor{keywordtype}{float} w=(float)(1.0/\_input.size());}
+\DoxyCodeLine{143     \textcolor{keywordflow}{for} (\textcolor{keyword}{auto}\& val : \_input) avg += w*val;}
+\DoxyCodeLine{144     \textcolor{keywordflow}{return} avg;}
+\DoxyCodeLine{145 \}}
+\DoxyCodeLine{147 \textcolor{keywordtype}{int} reSample(std::vector<float>\& \_input, std::vector<float>\& \_output, \textcolor{keywordtype}{int} \_size)\{}
+\DoxyCodeLine{148     \textcolor{comment}{// printf("{}resampling \%d to \%d\(\backslash\)n"{}, \_input.size(), \_size);}}
+\DoxyCodeLine{149     \textcolor{keywordtype}{int} \_prev\_size=\_input.size();}
+\DoxyCodeLine{150     \textcolor{keywordflow}{if} (\_size>1 \&\& \_prev\_size>0 \&\& \_prev\_size!=\_size) \{}
+\DoxyCodeLine{151         }
+\DoxyCodeLine{152         std::vector<float> ids (\_size,0.0);}
+\DoxyCodeLine{153         \textcolor{keywordtype}{float} step=(\_prev\_size-\/1.0)/\_size;}
+\DoxyCodeLine{154         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < ids.size(); ++i) ids[i]=i*step;}
+\DoxyCodeLine{155 }
+\DoxyCodeLine{156         \textcolor{comment}{//\_output.resize(\_size);//,0.0);}}
+\DoxyCodeLine{157         \_output.assign(\_size,0.0);}
+\DoxyCodeLine{158 }
+\DoxyCodeLine{159         \_output[0]=\_input[0];}
+\DoxyCodeLine{160         \_output[\_size-\/1]=\_input[\_prev\_size-\/1];}
+\DoxyCodeLine{161 }
+\DoxyCodeLine{162         \textcolor{keywordtype}{int} li=0;}
+\DoxyCodeLine{163         \textcolor{keywordtype}{int} ui=0;}
+\DoxyCodeLine{164         \textcolor{keywordtype}{float} sl=0.0;}
+\DoxyCodeLine{165 }
+\DoxyCodeLine{166         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < \_size; ++i)\{}
+\DoxyCodeLine{167             li=(int)(ids[i]);}
+\DoxyCodeLine{168             ui=(int)(ids[i]+1.0);}
+\DoxyCodeLine{169 }
+\DoxyCodeLine{170             \textcolor{keywordflow}{if} (ui==\_prev\_size) \{}
+\DoxyCodeLine{171                 ui-\/-\/;}
+\DoxyCodeLine{172                 li-\/-\/;}
+\DoxyCodeLine{173             \}           }
+\DoxyCodeLine{174             sl=(\_input[ui]-\/\_input[li])/(ui-\/li);}
+\DoxyCodeLine{175             \_output[i]=\_input[li]+sl*(ids[i]-\/((int)(ids[i])));}
+\DoxyCodeLine{176             \textcolor{keywordflow}{if} (i==0) printf(\textcolor{stringliteral}{"{}li \%d(\%f) ui \%d(\%f)\(\backslash\)n"{}},li,\_input[li],ui,\_input[ui]);}
+\DoxyCodeLine{177 }
+\DoxyCodeLine{178         \}}
+\DoxyCodeLine{179     \} \textcolor{keywordflow}{else} \textcolor{keywordflow}{return} 1;}
+\DoxyCodeLine{180     \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{181 \}   }
+\DoxyCodeLine{183 \textcolor{keywordtype}{int} reSample(VectorXf\& \_input, VectorXf\& \_output, \textcolor{keywordtype}{int} \_size)\{}
+\DoxyCodeLine{184     \textcolor{comment}{//printf("{}resampling \%d to \%d\(\backslash\)n"{}, \_input.rows(), \_size);}}
+\DoxyCodeLine{185     \textcolor{keywordtype}{int} \_prev\_size=\_input.rows();}
+\DoxyCodeLine{186     \textcolor{keywordflow}{if} (\_size>1 \&\& \_prev\_size>0 \&\& \_prev\_size!=\_size) \{}
+\DoxyCodeLine{187         }
+\DoxyCodeLine{188         VectorXf ids=Eigen::VectorXf::LinSpaced(\_size,0,\_prev\_size-\/1);}
+\DoxyCodeLine{189 }
+\DoxyCodeLine{190         \_output=VectorXf::Zero(\_size);}
+\DoxyCodeLine{191 }
+\DoxyCodeLine{192         \_output(0)=\_input(0);}
+\DoxyCodeLine{193         \_output(\_size-\/1)=\_input(\_prev\_size-\/1);}
+\DoxyCodeLine{194 }
+\DoxyCodeLine{195         \textcolor{keywordtype}{int} li=0;}
+\DoxyCodeLine{196         \textcolor{keywordtype}{int} ui=0;}
+\DoxyCodeLine{197         \textcolor{keywordtype}{float} sl=0.0;}
+\DoxyCodeLine{198 }
+\DoxyCodeLine{199         \textcolor{comment}{//std::cout << ids << std::endl;}}
+\DoxyCodeLine{200         \textcolor{comment}{//printf("{}sadsdadsadsada-\/-\/-\/-\/çsad\(\backslash\)n"{});}}
+\DoxyCodeLine{201         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < \_size; ++i)\{}
+\DoxyCodeLine{202             li=(int)(ids(i));}
+\DoxyCodeLine{203             ui=(int)(ids(i)+1.0);}
+\DoxyCodeLine{204 }
+\DoxyCodeLine{205             \textcolor{keywordflow}{if} (ui==\_prev\_size) \{}
+\DoxyCodeLine{206                 ui-\/-\/;}
+\DoxyCodeLine{207                 li-\/-\/;}
+\DoxyCodeLine{208             \}}
+\DoxyCodeLine{209 }
+\DoxyCodeLine{211 }
+\DoxyCodeLine{212             sl=(\_input(ui)-\/\_input(li))/(ui-\/li);}
+\DoxyCodeLine{213             \_output(i)=\_input(li)+sl*(ids(i)-\/((int)(ids(i))));}
+\DoxyCodeLine{214         \}}
+\DoxyCodeLine{215     \} \textcolor{keywordflow}{else} \textcolor{keywordflow}{return} 1;}
+\DoxyCodeLine{216 }
+\DoxyCodeLine{217     \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{218 \}}
+\DoxyCodeLine{220 \textcolor{keywordtype}{int} reSample2(std::vector<float>\& \_inputRef, std::vector<float>\& \_inputVal, std::vector<float>\& \_outputRef, std::vector<float>\& \_outputVal, \textcolor{keywordtype}{bool} \_periodic)\{}
+\DoxyCodeLine{221     \textcolor{comment}{// printf("{}resampling \%d to \%d\(\backslash\)n"{}, \_input.size(), \_size);}}
+\DoxyCodeLine{222     \textcolor{comment}{// assumes \_inputRef and \_outputRef are sorted!!!!}}
+\DoxyCodeLine{223     \textcolor{comment}{//bool \_periodic=true;}}
+\DoxyCodeLine{224     \textcolor{keywordtype}{int} prev\_size=\_inputVal.size();}
+\DoxyCodeLine{225     \textcolor{keywordtype}{int} new\_size=\_outputRef.size();}
+\DoxyCodeLine{226     \textcolor{keywordflow}{if} (new\_size>1 \&\& prev\_size>0 \&\& \_inputRef.size()==prev\_size) \{}
+\DoxyCodeLine{227         }
+\DoxyCodeLine{228         \textcolor{comment}{// ratios between vector size (1 id in new vector = X in old vector)}}
+\DoxyCodeLine{229         std::vector<float> ids (new\_size,0.0);}
+\DoxyCodeLine{230         \textcolor{keywordtype}{float} step=(prev\_size-\/1.0)/new\_size;}
+\DoxyCodeLine{231         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < ids.size(); ++i) ids[i]=i*step;}
+\DoxyCodeLine{232 }
+\DoxyCodeLine{233         \textcolor{comment}{//\_output.resize(\_size);//,0.0);}}
+\DoxyCodeLine{234         \_outputVal.assign(new\_size,0.0);}
+\DoxyCodeLine{235 }
+\DoxyCodeLine{236         \textcolor{keywordtype}{int} li=0;}
+\DoxyCodeLine{237         \textcolor{keywordtype}{int} ui=0;}
+\DoxyCodeLine{238         \textcolor{keywordtype}{float} sl=0.0;}
+\DoxyCodeLine{239         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < new\_size; ++i)\{}
+\DoxyCodeLine{240             \textcolor{comment}{// find li and ui}}
+\DoxyCodeLine{241             \textcolor{keywordflow}{while} (\_outputRef[i]>\_inputRef[ui] \&\& ui<\_inputRef.size()-\/1) ui++;}
+\DoxyCodeLine{242             li=ui;}
+\DoxyCodeLine{243             \textcolor{keywordflow}{while} (\_outputRef[i]<\_inputRef[li] \&\& li>0) li-\/-\/;}
+\DoxyCodeLine{244             \textcolor{comment}{// range check}}
+\DoxyCodeLine{245             \textcolor{keywordflow}{if} (li==ui \&\& \_outputRef[i] == \_inputRef[li]) \{}
+\DoxyCodeLine{246                 \textcolor{comment}{// 1) \_outputRef[i] == \_inputRef[li]}}
+\DoxyCodeLine{247                 \_outputVal[i]=\_inputVal[ui];}
+\DoxyCodeLine{248                 \textcolor{comment}{// printf("{}\%d, \%f: li \%d(\%f) ui \%d(\%f); \%f -\/-\/> \%f\(\backslash\)n"{},i,\_outputRef[i],li,\_inputRef[li],ui,\_inputRef[ui],\_inputVal[li],\_outputVal[i]);}}
+\DoxyCodeLine{249                 \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{250             \} \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (li==ui \&\& \_periodic) \{}
+\DoxyCodeLine{251                 \textcolor{comment}{// 2) \_outputRef[i] out of \_inputRef bounds}}
+\DoxyCodeLine{252                 \textcolor{keywordflow}{if} (\_outputRef[i] < \_inputRef[li]) li=prev\_size-\/1;}
+\DoxyCodeLine{253                 \textcolor{keywordflow}{if} (\_outputRef[i] > \_inputRef[li]) ui=0;}
+\DoxyCodeLine{254                 sl=(\_inputVal[ui]-\/\_inputVal[li])/(abs(\_inputRef[ui])-\/abs(\_inputRef[li]));}
+\DoxyCodeLine{255                 \_outputVal[i]=\_inputVal[li]+sl*(abs(\_outputRef[i])-\/abs(\_inputRef[li])); }
+\DoxyCodeLine{256                 \textcolor{comment}{//printf("{}*\%d, \%f: li \%d(\%f), ui \%d(\%f), slope \%f; \%f -\/-\/> \%f\(\backslash\)n"{},i,\_outputRef[i],li,\_inputRef[li],ui,\_inputRef[ui],sl,\_inputVal[li],\_outputVal[i]);      }}
+\DoxyCodeLine{257             \} \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{258                 \textcolor{comment}{// compute slope and val}}
+\DoxyCodeLine{259                 sl=(\_inputVal[ui]-\/\_inputVal[li])/(\_inputRef[ui]-\/\_inputRef[li]);}
+\DoxyCodeLine{260                 \_outputVal[i]=\_inputVal[li]+sl*(\_outputRef[i]-\/\_inputRef[li]);       }
+\DoxyCodeLine{261                 \textcolor{comment}{//printf("{}\%d, \%f: li \%d(\%f), ui \%d(\%f), slope \%f; \%f -\/-\/> \%f\(\backslash\)n"{},i,\_outputRef[i],li,\_inputRef[li],ui,\_inputRef[ui],sl,\_inputVal[li],\_outputVal[i]);       }}
+\DoxyCodeLine{262             \}}
+\DoxyCodeLine{263         \}}
+\DoxyCodeLine{264     \} \textcolor{keywordflow}{else} \textcolor{keywordflow}{return} 1;}
+\DoxyCodeLine{265     \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{266 \}   }
+\DoxyCodeLine{268 VectorXf kfolds(\textcolor{keywordtype}{int} \_samples, \textcolor{keywordtype}{int} \_nfolds)\{}
+\DoxyCodeLine{269     VectorXf labels=VectorXf::Zero(\_samples);}
+\DoxyCodeLine{270     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < \_samples; ++i) labels(i)=rand() \% \_nfolds;}
+\DoxyCodeLine{271     \textcolor{keywordflow}{return} labels;}
+\DoxyCodeLine{272 \}   }
+\DoxyCodeLine{274 \textcolor{keywordtype}{int} rocTest(\textcolor{keywordtype}{int} \_metric, VectorXf \_input)\{}
+\DoxyCodeLine{276     \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{277 \}}
+\DoxyCodeLine{279 \textcolor{comment}{//int pca();}}
+\DoxyCodeLine{280 }
+\DoxyCodeLine{282 \textcolor{keywordtype}{float} weighted2DMean(\textcolor{keyword}{const} MatrixXf\& \_input, \textcolor{keyword}{const} VectorXf\& \_weights)\{}
+\DoxyCodeLine{283     \textcolor{keywordtype}{float} mn=0.0;}
+\DoxyCodeLine{284     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < \_input.rows(); ++i)\{}
+\DoxyCodeLine{285         mn+=\_weights(i)*(\_input.row(i).mean());}
+\DoxyCodeLine{286     \}}
+\DoxyCodeLine{287     \textcolor{keywordflow}{return} mn;}
+\DoxyCodeLine{288 \}}
+\DoxyCodeLine{290 \textcolor{keywordtype}{int} meanFilter(\textcolor{keyword}{const} std::vector<float>\& \_ref, \textcolor{keyword}{const} std::vector<float>\& \_input, std::vector<float>\& \_output, \textcolor{keywordtype}{int} \_filter\_type)\{}
+\DoxyCodeLine{291 \textcolor{comment}{//low pass average field}}
+\DoxyCodeLine{292     \textcolor{comment}{//weighted average with neightbours}}
+\DoxyCodeLine{293     \_output.assign (\_input.size(),0.0);}
+\DoxyCodeLine{294     \textcolor{keywordflow}{if} (\_filter\_type==1) \{}
+\DoxyCodeLine{295         \textcolor{comment}{//printf("{}f1\(\backslash\)n"{});}}
+\DoxyCodeLine{296         \textcolor{comment}{//method 1 (small window)}}
+\DoxyCodeLine{297         \textcolor{keywordtype}{float} lw,hw;}
+\DoxyCodeLine{298         \textcolor{comment}{//first \& last vals (wrap around, assumes periodicity)}}
+\DoxyCodeLine{299         lw=1.0-\/((\_ref[0]-\/\_ref[\_ref.size()-\/1])/(\_ref[1]-\/\_ref[\_ref.size()-\/1]));}
+\DoxyCodeLine{300         hw=1.0-\/((\_ref[1]-\/\_ref[0])/(\_ref[1]-\/\_ref[\_ref.size()-\/1]));}
+\DoxyCodeLine{301         \_output[0]=lw*\_input[\_input.size()-\/1]+hw*\_input[1];}
+\DoxyCodeLine{302         \textcolor{comment}{//printf("{}f0 \%f (lw: \%f \_input-\/1: \%f hw: \%f \_input+1: \%f)\(\backslash\)n"{},\_output[0],lw,\_input[\_input.size()-\/1],hw,\_input[1]);}}
+\DoxyCodeLine{303         lw=1.0-\/((\_ref[\_ref.size()-\/1]-\/\_ref[\_ref.size()-\/2])/(\_ref[0]-\/\_ref[\_ref.size()-\/2]));}
+\DoxyCodeLine{304         hw=1.0-\/((\_ref[0]-\/\_ref[\_ref.size()-\/1])/(\_ref[0]-\/\_ref[\_ref.size()-\/2]));}
+\DoxyCodeLine{305         \_output[\_output.size()-\/1]=lw*\_input[\_input.size()-\/2]+hw*\_input[0];}
+\DoxyCodeLine{306         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 1; i < \_ref.size()-\/1; ++i)\{}
+\DoxyCodeLine{307             lw=1.0-\/((\_ref[i]-\/\_ref[i-\/1])/(\_ref[i+1]-\/\_ref[i-\/1]));}
+\DoxyCodeLine{308             hw=1.0-\/((\_ref[i+1]-\/\_ref[i])/(\_ref[i+1]-\/\_ref[i-\/1]));}
+\DoxyCodeLine{309             \_output[i]=lw*\_input[i-\/1]+hw*\_input[i+1];}
+\DoxyCodeLine{310             \textcolor{comment}{//printf("{}\_input: \%f, \_input[-\/1]: \%f, \_input[+1]: \%f, lw: \%f, hw: \%f, \_output: \%f\(\backslash\)n"{},\_ref[i],\_ref[i-\/1],\_ref[i+1],lw,hw,\_output[i]);}}
+\DoxyCodeLine{311         \}}
+\DoxyCodeLine{312         \textcolor{comment}{//printf("{}fE \%f\(\backslash\)n"{},\_output[\_output.size()-\/1]);}}
+\DoxyCodeLine{313 }
+\DoxyCodeLine{314     \} \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (\_filter\_type==2) \{}
+\DoxyCodeLine{315         \textcolor{comment}{//printf("{}f2\(\backslash\)n"{});}}
+\DoxyCodeLine{316         \textcolor{comment}{//method 2 (large variable window)  }}
+\DoxyCodeLine{317         \textcolor{keywordtype}{int} wsize=20;}
+\DoxyCodeLine{318         \textcolor{keywordtype}{float} dtotal=0.0;}
+\DoxyCodeLine{319         \textcolor{comment}{//std::vector<float> f2y (\_ref.size(),0.0);}}
+\DoxyCodeLine{320         std::vector<float> lws (wsize,0.0);}
+\DoxyCodeLine{321         std::vector<float> hws (wsize,0.0);}
+\DoxyCodeLine{322         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < wsize; ++i)\{}
+\DoxyCodeLine{323             \_output[i]=\_input[i];}
+\DoxyCodeLine{324             \_output[\_output.size()-\/1-\/i]=\_input[\_input.size()-\/1-\/i];}
+\DoxyCodeLine{325         \}}
+\DoxyCodeLine{326         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = wsize; i < \_ref.size()-\/wsize; ++i)\{}
+\DoxyCodeLine{327             \textcolor{comment}{// compute distances}}
+\DoxyCodeLine{328             \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} j = 0; j < lws.size(); ++j)\{ }
+\DoxyCodeLine{329                 lws[j]=1.0/abs(\_ref[i-\/wsize+j]-\/\_ref[i]); }
+\DoxyCodeLine{330                 hws[j]=1.0/abs(\_ref[i+wsize-\/j]-\/\_ref[i]);}
+\DoxyCodeLine{331                 dtotal+=(lws[j]+hws[j]);}
+\DoxyCodeLine{332             \}}
+\DoxyCodeLine{333             \textcolor{comment}{// compute value}}
+\DoxyCodeLine{334             \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} j = 0; j < lws.size(); ++j)\{ }
+\DoxyCodeLine{335                 \textcolor{comment}{//printf("{}pass \%d, vals \%f and \%f, weights \%f and \%f -\/> \(\backslash\)n"{},j,\_input[i-\/wsize+j],\_input[i+wsize-\/j],(lws[j]/dtotal),(hws[j]/dtotal) );}}
+\DoxyCodeLine{336                 \_output[i]+=(lws[j]/dtotal)*\_input[i-\/wsize+j]+(hws[j]/dtotal)*\_input[i+wsize-\/j];}
+\DoxyCodeLine{337             \}       }
+\DoxyCodeLine{338             \textcolor{comment}{//printf("{}ref \%f \_input \%f f2y \%f\(\backslash\)n"{},\_ref[i],\_input[i],f2y[i]);}}
+\DoxyCodeLine{339             dtotal=0.0;}
+\DoxyCodeLine{340         \}}
+\DoxyCodeLine{341         \textcolor{comment}{//plt::named\_plot("{}filtered \#2 values"{},\_ref,f2y);}}
+\DoxyCodeLine{342     \}}
+\DoxyCodeLine{343     \textcolor{comment}{//plt::named\_plot("{}filtered values"{}, \_ref,\_output);}}
+\DoxyCodeLine{344     \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{345 \}}
+\DoxyCodeLine{347 \textcolor{comment}{// template functions that sorts a vec tor by indexes}}
+\DoxyCodeLine{348 \textcolor{comment}{// from https://stackoverflow.com/questions/1577475/c-\/sorting-\/and-\/keeping-\/track-\/of-\/indexes}}
+\DoxyCodeLine{349 \textcolor{keyword}{template} <\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{350 std::vector<size\_t> sort\_indexes(std::vector<T> \&v) \{}
+\DoxyCodeLine{351   \textcolor{comment}{// initialize original index locations}}
+\DoxyCodeLine{352   std::vector<size\_t> idx(v.size());}
+\DoxyCodeLine{353   std::iota(idx.begin(), idx.end(), 0);}
+\DoxyCodeLine{354   \textcolor{comment}{// sort indexes based on comparing values in v}}
+\DoxyCodeLine{355   std::sort(idx.begin(), idx.end(),  [\&v](\textcolor{keywordtype}{size\_t} i1, \textcolor{keywordtype}{size\_t} i2) \{return v[i1] < v[i2];\});}
+\DoxyCodeLine{356   \textcolor{keywordflow}{return} idx;}
+\DoxyCodeLine{357 \}}
+\DoxyCodeLine{359 std::vector<float> periodicInterpolation(std::vector<float> \_x, std::vector<float> \_y, std::vector<float> \_ref, \textcolor{keywordtype}{bool} \_filtering)\{}
+\DoxyCodeLine{360     \textcolor{comment}{//ideally, supply vector with desired phase values/indexes, output resampled/interpolated values}}
+\DoxyCodeLine{361     \textcolor{comment}{//input values may be too close, info may overlap, as such a precision value is set, values are rounded and then averaged}}
+\DoxyCodeLine{362     \textcolor{comment}{//this also helps with periodic signals with a bad/noisy period or local outlier data points}}
+\DoxyCodeLine{363     \textcolor{comment}{//a more accurate way would be to just average the slopes of neightbour pairs; function is inneficient and needs rewrite!}}
+\DoxyCodeLine{364     \textcolor{comment}{//results are very dependent on the quality of input data (periodicy)}}
+\DoxyCodeLine{365     \textcolor{comment}{//sx: sorted \_x values}}
+\DoxyCodeLine{366     \textcolor{comment}{//sy: sorted \_y values}}
+\DoxyCodeLine{367     \textcolor{comment}{//fy: filtered and sorted \_y values}}
+\DoxyCodeLine{368     \textcolor{comment}{//ry: resampled, filtered and sorted \_y values}}
+\DoxyCodeLine{369 }
+\DoxyCodeLine{370 }
+\DoxyCodeLine{371     \textcolor{comment}{//sort vectors (by phase)}}
+\DoxyCodeLine{372     std::vector<float> sx (\_x.size(),0.0);}
+\DoxyCodeLine{373     std::vector<float> sy (\_y.size(),0.0);}
+\DoxyCodeLine{374     std::vector<long unsigned int> \_ids = sort\_indexes(\_x);}
+\DoxyCodeLine{375     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < \_ids.size(); ++i)\{}
+\DoxyCodeLine{376         sx[i]=\_x[\_ids[i]];}
+\DoxyCodeLine{377         sy[i]=\_y[\_ids[i]];}
+\DoxyCodeLine{378     \}}
+\DoxyCodeLine{379 }
+\DoxyCodeLine{380     \textcolor{comment}{// smoth output data (optional) to ensure all samples contribute to final solution}}
+\DoxyCodeLine{381     \textcolor{comment}{// method 2 should be used if there is chance of value repetition}}
+\DoxyCodeLine{382     std::vector<float> fy(sy.size(),0.0);}
+\DoxyCodeLine{383     \textcolor{keywordflow}{if} (\_filtering) meanFilter(sx,sy,fy,2);}
+\DoxyCodeLine{384     \textcolor{keywordflow}{else} fy=sy;}
+\DoxyCodeLine{385 }
+\DoxyCodeLine{386     \textcolor{comment}{// resample dataset}}
+\DoxyCodeLine{387     std::vector<float> \_output;}
+\DoxyCodeLine{388     std::vector<float> ry (sx.size());}
+\DoxyCodeLine{389     reSample2(sx,fy,\_ref,\_output,\textcolor{keyword}{true});}
+\DoxyCodeLine{390 }
+\DoxyCodeLine{391     \textcolor{comment}{//plt::named\_plot("{}ggg"{},\_ref,\_output);}}
+\DoxyCodeLine{392     \textcolor{comment}{//plt::legend();}}
+\DoxyCodeLine{393     \textcolor{comment}{//plt::show();}}
+\DoxyCodeLine{394     \textcolor{keywordflow}{return} \_output;}
+\DoxyCodeLine{395 \}}
+\DoxyCodeLine{396 }
+\DoxyCodeLine{398 \} }
+\DoxyCodeLine{399 \}}
+\DoxyCodeLine{400 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//NUMERICAL\_HPP}}
+
+\end{DoxyCode}

@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>storage</name>
+  <version>1.0.0</version>
+  <description>C++ header-only library providing generic extensions to STL containers.</description>
+
+  <maintainer email="joaocandre@gmail.com">João André</maintainer>
+  <license>MIT</license>
+  <author email="joaocandre@gmail.com">João André</author>
+
+  <buildtool_depend>cmake</buildtool_depend>
+  
+  <export>
+    <build_type>cmake</build_type>
+  </export>
+
+</package>

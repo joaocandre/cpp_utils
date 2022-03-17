@@ -1,0 +1,150 @@
+\hypertarget{classmotion_1_1_basis_function}{}\doxysection{motion\+::Basis\+Function Class Reference}
+\label{classmotion_1_1_basis_function}\index{motion::BasisFunction@{motion::BasisFunction}}
+
+
+Class implementing a parametrizable phase-\/indexed basis function.  
+
+
+
+
+{\ttfamily \#include $<$basis\+\_\+function.\+hpp$>$}
+
+
+
+Collaboration diagram for motion\+::Basis\+Function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=188pt]{classmotion_1_1_basis_function__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structmotion_1_1_basis_function_1_1_parameters}{Parameters}}
+\begin{DoxyCompactList}\small\item\em Basis function parameters. Characterized by center (position) and width values. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef std\+::function$<$ float(const float \&, const float \&, const float \&) $>$ \mbox{\hyperlink{classmotion_1_1_basis_function_ab1ed806bf75d66b549bb10c922598d21}{Kernel}}
+\begin{DoxyCompactList}\small\item\em Generic wrapper for a basis kernel function. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classmotion_1_1_basis_function_a54e52797e39dfb34902f692eb81482dc}{Basis\+Function}} (const \mbox{\hyperlink{classmotion_1_1_basis_function_ab1ed806bf75d66b549bb10c922598d21}{Kernel}} \&\mbox{\hyperlink{classmotion_1_1_basis_function_a2ef18f90c1c957d1d2b4f5bc1c22ac9d}{kernel}}, const \mbox{\hyperlink{structmotion_1_1_basis_function_1_1_parameters}{Parameters}} \&\mbox{\hyperlink{classmotion_1_1_basis_function_a994e86cded55ce059a3273081bbcb57c}{parameters}}=\{ 0.\+0, 1.\+0 \})
+\begin{DoxyCompactList}\small\item\em Constructs a new instance. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classmotion_1_1_basis_function_ae35f34fda5c38c195bc41d4e6e921e23}{Basis\+Function}} (const \mbox{\hyperlink{classmotion_1_1_basis_function_ab1ed806bf75d66b549bb10c922598d21}{Kernel}} \&\mbox{\hyperlink{classmotion_1_1_basis_function_a2ef18f90c1c957d1d2b4f5bc1c22ac9d}{kernel}}, float center, float width=1.\+0)
+\begin{DoxyCompactList}\small\item\em Constructs a new instance. \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{classmotion_1_1_basis_function_af70f4f2d1b21df5594f15601f8abe487}{value}} (float phase) const
+\begin{DoxyCompactList}\small\item\em Get basis function value @ given {\itshape phase} \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{classmotion_1_1_basis_function_a00290643f83d15d7000d0e6fa78ec6f7}{operator()}} (float phase) const
+\begin{DoxyCompactList}\small\item\em Get basis function value @ given {\itshape phase} \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classmotion_1_1_basis_function_a994e86cded55ce059a3273081bbcb57c}\label{classmotion_1_1_basis_function_a994e86cded55ce059a3273081bbcb57c}} 
+\mbox{\hyperlink{structmotion_1_1_basis_function_1_1_parameters}{Parameters}} {\bfseries parameters}
+\begin{DoxyCompactList}\small\item\em Basis function parameters. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classmotion_1_1_basis_function_a2ef18f90c1c957d1d2b4f5bc1c22ac9d}\label{classmotion_1_1_basis_function_a2ef18f90c1c957d1d2b4f5bc1c22ac9d}} 
+\mbox{\hyperlink{classmotion_1_1_basis_function_ab1ed806bf75d66b549bb10c922598d21}{Kernel}} {\bfseries kernel}
+\begin{DoxyCompactList}\small\item\em Kernel to be used whithin the basis function. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Class implementing a parametrizable phase-\/indexed basis function. 
+
+\doxysubsection{Member Typedef Documentation}
+\mbox{\Hypertarget{classmotion_1_1_basis_function_ab1ed806bf75d66b549bb10c922598d21}\label{classmotion_1_1_basis_function_ab1ed806bf75d66b549bb10c922598d21}} 
+\index{motion::BasisFunction@{motion::BasisFunction}!Kernel@{Kernel}}
+\index{Kernel@{Kernel}!motion::BasisFunction@{motion::BasisFunction}}
+\doxysubsubsection{\texorpdfstring{Kernel}{Kernel}}
+{\footnotesize\ttfamily typedef std\+::function$<$ float(const float\&, const float\&, const float\&) $>$ \mbox{\hyperlink{classmotion_1_1_basis_function_ab1ed806bf75d66b549bb10c922598d21}{motion\+::\+Basis\+Function\+::\+Kernel}}}
+
+
+
+Generic wrapper for a basis kernel function. 
+
+\begin{DoxyNote}{Note}
+Useful to encode discrete and rhythmic basis functions. Any kernel can be passed to the constructor, as long as it matches the function signature. 
+\end{DoxyNote}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classmotion_1_1_basis_function_a54e52797e39dfb34902f692eb81482dc}\label{classmotion_1_1_basis_function_a54e52797e39dfb34902f692eb81482dc}} 
+\index{motion::BasisFunction@{motion::BasisFunction}!BasisFunction@{BasisFunction}}
+\index{BasisFunction@{BasisFunction}!motion::BasisFunction@{motion::BasisFunction}}
+\doxysubsubsection{\texorpdfstring{BasisFunction()}{BasisFunction()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily motion\+::\+Basis\+Function\+::\+Basis\+Function (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classmotion_1_1_basis_function_ab1ed806bf75d66b549bb10c922598d21}{Kernel}} \&}]{kernel,  }\item[{const \mbox{\hyperlink{structmotion_1_1_basis_function_1_1_parameters}{Parameters}} \&}]{parameters = {\ttfamily \{~0.0,~1.0~\}} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+
+
+Constructs a new instance. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em kernel} & Basis kernel function. Copied into instance. \\
+\hline
+\mbox{\texttt{ in}}  & {\em parameters} & Basis parameters i.\+e. center (position {\itshape in phase space}) and width. Defaults to \{ 0.\+0, 1.\+0 \}. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classmotion_1_1_basis_function_ae35f34fda5c38c195bc41d4e6e921e23}\label{classmotion_1_1_basis_function_ae35f34fda5c38c195bc41d4e6e921e23}} 
+\index{motion::BasisFunction@{motion::BasisFunction}!BasisFunction@{BasisFunction}}
+\index{BasisFunction@{BasisFunction}!motion::BasisFunction@{motion::BasisFunction}}
+\doxysubsubsection{\texorpdfstring{BasisFunction()}{BasisFunction()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily motion\+::\+Basis\+Function\+::\+Basis\+Function (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classmotion_1_1_basis_function_ab1ed806bf75d66b549bb10c922598d21}{Kernel}} \&}]{kernel,  }\item[{float}]{center,  }\item[{float}]{width = {\ttfamily 1.0} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+
+
+Constructs a new instance. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em kernel} & Basis kernel function. Copied into instance. \\
+\hline
+\mbox{\texttt{ in}}  & {\em center} & Basis center (position {\itshape in phase space}) \\
+\hline
+\mbox{\texttt{ in}}  & {\em wdith} & Basis width. Defaults to 1.\+0. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classmotion_1_1_basis_function_a00290643f83d15d7000d0e6fa78ec6f7}\label{classmotion_1_1_basis_function_a00290643f83d15d7000d0e6fa78ec6f7}} 
+\index{motion::BasisFunction@{motion::BasisFunction}!operator()@{operator()}}
+\index{operator()@{operator()}!motion::BasisFunction@{motion::BasisFunction}}
+\doxysubsubsection{\texorpdfstring{operator()()}{operator()()}}
+{\footnotesize\ttfamily float motion\+::\+Basis\+Function\+::operator() (\begin{DoxyParamCaption}\item[{float}]{phase }\end{DoxyParamCaption}) const}
+
+
+
+Get basis function value @ given {\itshape phase} 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em phase} & Phase for which to extract basis amplitude\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+Overload provided for parenthesis operator for convenience/verbosity. 
+\end{DoxyNote}
+\mbox{\Hypertarget{classmotion_1_1_basis_function_af70f4f2d1b21df5594f15601f8abe487}\label{classmotion_1_1_basis_function_af70f4f2d1b21df5594f15601f8abe487}} 
+\index{motion::BasisFunction@{motion::BasisFunction}!value@{value}}
+\index{value@{value}!motion::BasisFunction@{motion::BasisFunction}}
+\doxysubsubsection{\texorpdfstring{value()}{value()}}
+{\footnotesize\ttfamily float motion\+::\+Basis\+Function\+::value (\begin{DoxyParamCaption}\item[{float}]{phase }\end{DoxyParamCaption}) const}
+
+
+
+Get basis function value @ given {\itshape phase} 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em phase} & Phase for which to extract basis amplitude \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/joao/\+Shared/\+PHD/code/mplibrary/include/mplibrary/basis\+\_\+function.\+hpp\item 
+/home/joao/\+Shared/\+PHD/code/mplibrary/src/basis\+\_\+function.\+cpp\end{DoxyCompactItemize}

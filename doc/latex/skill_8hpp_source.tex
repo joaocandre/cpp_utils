@@ -1,0 +1,85 @@
+\hypertarget{skill_8hpp_source}{}\doxysection{skill.\+hpp}
+\label{skill_8hpp_source}\index{/home/joao/Shared/PHD/code/mplibrary/include/mplibrary/skill.hpp@{/home/joao/Shared/PHD/code/mplibrary/include/mplibrary/skill.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef MOTION\_INCLUDE\_MOTION\_SKILL\_HPP\_}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define MOTION\_INCLUDE\_MOTION\_SKILL\_HPP\_}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include <vector>}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include "{}storage/matrix.hpp"{}}   \textcolor{comment}{// std::matrix<>}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#include "{}unique\_type.hpp"{}}}
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#include "{}archive.hpp"{}}}
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include "{}primitive.hpp"{}}}
+\DoxyCodeLine{9 }
+\DoxyCodeLine{10 \textcolor{keyword}{namespace }motion \{}
+\DoxyCodeLine{11 }
+\DoxyCodeLine{12 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{21 \textcolor{comment}{}\textcolor{keyword}{class }\mbox{\hyperlink{classmotion_1_1_skill}{Skill}} : \textcolor{keyword}{public} \mbox{\hyperlink{classmotion_1_1_unique_type}{UniqueType}} \{}
+\DoxyCodeLine{22  \textcolor{keyword}{public}:}
+\DoxyCodeLine{23     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{26 \textcolor{comment}{}    \textcolor{keyword}{using} \mbox{\hyperlink{classstd_1_1matrix}{Parameters}} = \mbox{\hyperlink{classstd_1_1matrix}{std::matrix< float >}};}
+\DoxyCodeLine{27 }
+\DoxyCodeLine{28     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{33 \textcolor{comment}{}    \textcolor{keyword}{using} \mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{ParameterSubset}} = \mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{std::matrix\_subset\_const< float >}};}
+\DoxyCodeLine{34 }
+\DoxyCodeLine{35     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{38 \textcolor{comment}{}    \textcolor{keyword}{using} \mbox{\hyperlink{classmotion_1_1_archive}{Library}} = \mbox{\hyperlink{classmotion_1_1_archive}{Archive< Skill >}};}
+\DoxyCodeLine{39 }
+\DoxyCodeLine{40     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{49 \textcolor{comment}{}    \textcolor{keyword}{explicit} \mbox{\hyperlink{classmotion_1_1_skill_a847ff5a2eef69252b9cd5f6eaa1485ac}{Skill}}(\textcolor{keyword}{const} std::vector< Primitive* >\& \mbox{\hyperlink{classmotion_1_1_skill_aca6cec436afd32b0dde55a45bd6736cf}{primitives}}, \textcolor{keywordtype}{size\_t} dims);}
+\DoxyCodeLine{50 }
+\DoxyCodeLine{51     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{62 \textcolor{comment}{}    \textcolor{keyword}{explicit} \mbox{\hyperlink{classmotion_1_1_skill_a847ff5a2eef69252b9cd5f6eaa1485ac}{Skill}}(\textcolor{keyword}{const} std::vector< Primitive* >\& \mbox{\hyperlink{classmotion_1_1_skill_aca6cec436afd32b0dde55a45bd6736cf}{primitives}}, \textcolor{keyword}{const} \mbox{\hyperlink{classstd_1_1matrix}{Parameters}}\& \mbox{\hyperlink{classmotion_1_1_skill_a397819f904f53e627316655d1dd07af4}{weights}});}
+\DoxyCodeLine{63 }
+\DoxyCodeLine{64     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{67 \textcolor{comment}{}    \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{classmotion_1_1_skill_a7b82610333dbc965e8d638cc896484f0}{nDims}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{68 }
+\DoxyCodeLine{69     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{72 \textcolor{comment}{}    \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{classmotion_1_1_skill_ab8b5c5ded891156fa81833638b9b0f47}{nPrimitives}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{73 }
+\DoxyCodeLine{74     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{77 \textcolor{comment}{}    \textcolor{keyword}{const} \mbox{\hyperlink{classstd_1_1matrix}{Parameters}}\& \mbox{\hyperlink{classmotion_1_1_skill_afa4f228582ea1b6dfead04097c9d17ff}{parameters}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{78 }
+\DoxyCodeLine{79     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{88 \textcolor{comment}{}    \mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{ParameterSubset}} \mbox{\hyperlink{classmotion_1_1_skill_abe626c5a3e0be0e0f0c6fe451e54a415}{gains}}(\textcolor{keywordtype}{size\_t} primitive\_idx) \textcolor{keyword}{const};}
+\DoxyCodeLine{89 }
+\DoxyCodeLine{90     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{99 \textcolor{comment}{}    \mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{ParameterSubset}} \mbox{\hyperlink{classmotion_1_1_skill_a397819f904f53e627316655d1dd07af4}{weights}}(\textcolor{keywordtype}{size\_t} dim\_idx) \textcolor{keyword}{const};}
+\DoxyCodeLine{100 }
+\DoxyCodeLine{101     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{104 \textcolor{comment}{}    \textcolor{keyword}{const} std::vector< Primitive* >\& \mbox{\hyperlink{classmotion_1_1_skill_aca6cec436afd32b0dde55a45bd6736cf}{primitives}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{105 }
+\DoxyCodeLine{106     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{115 \textcolor{comment}{}    \mbox{\hyperlink{classmotion_1_1_primitive}{Primitive}}\& \mbox{\hyperlink{classmotion_1_1_skill_a47c9ba5c0c7bf503e8b51386ad31a54b}{primitive}}(\textcolor{keywordtype}{size\_t} pos);}
+\DoxyCodeLine{116 }
+\DoxyCodeLine{117     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{126 \textcolor{comment}{}    \textcolor{keyword}{const} \mbox{\hyperlink{classmotion_1_1_primitive}{Primitive}}\& \mbox{\hyperlink{classmotion_1_1_skill_a47c9ba5c0c7bf503e8b51386ad31a54b}{primitive}}(\textcolor{keywordtype}{size\_t} pos) \textcolor{keyword}{const};}
+\DoxyCodeLine{127 }
+\DoxyCodeLine{128     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{136 \textcolor{comment}{}    \textcolor{keywordtype}{void} \mbox{\hyperlink{classmotion_1_1_skill_aa92495948081496a6583efd5672e1f43}{add}}(\mbox{\hyperlink{classmotion_1_1_primitive}{Primitive}}* \mbox{\hyperlink{classmotion_1_1_skill_a47c9ba5c0c7bf503e8b51386ad31a54b}{primitive}}, \textcolor{keyword}{const} std::vector< float >\& \mbox{\hyperlink{classmotion_1_1_skill_a397819f904f53e627316655d1dd07af4}{weights}});}
+\DoxyCodeLine{137 }
+\DoxyCodeLine{138     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{145 \textcolor{comment}{}    \textcolor{keywordtype}{void} \mbox{\hyperlink{classmotion_1_1_skill_a3d998528bd758c6246da38cb8f83d385}{setParameters}}(\textcolor{keyword}{const} \mbox{\hyperlink{classstd_1_1matrix}{Parameters}}\& \mbox{\hyperlink{classmotion_1_1_skill_afa4f228582ea1b6dfead04097c9d17ff}{parameters}});}
+\DoxyCodeLine{146 }
+\DoxyCodeLine{147     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{155 \textcolor{comment}{}    \textcolor{keywordtype}{void} \mbox{\hyperlink{classmotion_1_1_skill_a8e416e9360679e348ba17016c3a3c9d5}{setGains}}(\textcolor{keywordtype}{size\_t} primitive\_idx, \textcolor{keyword}{const} std::vector< float >\& \mbox{\hyperlink{classmotion_1_1_skill_abe626c5a3e0be0e0f0c6fe451e54a415}{gains}});}
+\DoxyCodeLine{156 }
+\DoxyCodeLine{157     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{165 \textcolor{comment}{}    \textcolor{keywordtype}{void} \mbox{\hyperlink{classmotion_1_1_skill_a82551dedbedfa5bbb8a8f9afbb5bf902}{setWeights}}(\textcolor{keywordtype}{size\_t} dim\_idx, \textcolor{keyword}{const} std::vector< float >\& \mbox{\hyperlink{classmotion_1_1_skill_a397819f904f53e627316655d1dd07af4}{weights}});}
+\DoxyCodeLine{166 }
+\DoxyCodeLine{167     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{172 \textcolor{comment}{}    std::vector< float > \mbox{\hyperlink{classmotion_1_1_skill_a8bae8a1af7845b230f8e2660f79a9b48}{value}}(\textcolor{keywordtype}{float} phase) \textcolor{keyword}{const};}
+\DoxyCodeLine{173 }
+\DoxyCodeLine{174  \textcolor{keyword}{protected}:}
+\DoxyCodeLine{175     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{178 \textcolor{comment}{}    std::vector< Primitive* > \mbox{\hyperlink{classmotion_1_1_skill_abd2e829bb5980dc2faa8b8a2e232f6d8}{\_primitives}};}
+\DoxyCodeLine{179 }
+\DoxyCodeLine{180     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{183 \textcolor{comment}{}    \mbox{\hyperlink{classstd_1_1matrix}{std::matrix< float >}} \mbox{\hyperlink{classmotion_1_1_skill_a21e0d5e1d7df533c688710881f6117d4}{\_parameters}};}
+\DoxyCodeLine{184 \};}
+\DoxyCodeLine{185 }
+\DoxyCodeLine{186 \}  \textcolor{comment}{// namespace motion}}
+\DoxyCodeLine{187 }
+\DoxyCodeLine{188 \textcolor{preprocessor}{\#endif  }\textcolor{comment}{// MOTION\_INCLUDE\_MOTION\_SKILL\_HPP\_}}
+
+\end{DoxyCode}

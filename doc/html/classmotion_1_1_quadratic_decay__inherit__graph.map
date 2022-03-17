@@ -1,0 +1,5 @@
+<map id="motion::QuadraticDecay" name="motion::QuadraticDecay">
+<area shape="rect" id="node1" title="Class extending ConstrainedDynamicalSystem for quadratic phase variation." alt="" coords="23,161,178,185"/>
+<area shape="rect" id="node2" href="$classmotion_1_1_constrained_dynamical_system.html" title="Class extending DynamicalSystem to impose value lower and upper boundaries." alt="" coords="5,77,196,113"/>
+<area shape="rect" id="node3" href="$classmotion_1_1_dynamical_system.html" title="Class implementing a simple unidimensional first&#45; or second&#45;order dynamical system (Euler&#39;s method)" alt="" coords="18,5,183,29"/>
+</map>

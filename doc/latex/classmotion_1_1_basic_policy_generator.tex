@@ -1,0 +1,376 @@
+\hypertarget{classmotion_1_1_basic_policy_generator}{}\doxysection{motion\+::Basic\+Policy\+Generator\texorpdfstring{$<$}{<} Command\+System \texorpdfstring{$>$}{>} Class Template Reference}
+\label{classmotion_1_1_basic_policy_generator}\index{motion::BasicPolicyGenerator$<$ CommandSystem $>$@{motion::BasicPolicyGenerator$<$ CommandSystem $>$}}
+
+
+Generic base abstract class for open-\/ and closed-\/loop multidimensional motion policy generators.  
+
+
+
+
+{\ttfamily \#include $<$basic\+\_\+policy\+\_\+generator.\+hpp$>$}
+
+
+
+Inheritance diagram for motion\+::Basic\+Policy\+Generator\texorpdfstring{$<$}{<} Command\+System \texorpdfstring{$>$}{>}\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=228pt]{classmotion_1_1_basic_policy_generator__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for motion\+::Basic\+Policy\+Generator\texorpdfstring{$<$}{<} Command\+System \texorpdfstring{$>$}{>}\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=217pt]{classmotion_1_1_basic_policy_generator__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef \mbox{\hyperlink{classmotion_1_1_dynamical_system}{Dynamical\+System}} \mbox{\hyperlink{classmotion_1_1_basic_policy_generator_a18cd33598fce976f6b124d849d154ee5}{Phase\+System}}
+\begin{DoxyCompactList}\small\item\em Static assertion to ensure compatibility w/ command system type. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classmotion_1_1_basic_policy_generator_ad6bdb18086437cafc126122c1988bd9a}\label{classmotion_1_1_basic_policy_generator_ad6bdb18086437cafc126122c1988bd9a}} 
+typedef std\+::shared\+\_\+ptr$<$ Command\+System $>$ {\bfseries Command\+System\+Ptr}
+\begin{DoxyCompactList}\small\item\em Type of command generator system (as smart pointer). \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename... Args$>$ }\\\mbox{\hyperlink{classmotion_1_1_basic_policy_generator_a1bbfd58225db9af6fb8c3154035ea77a}{Basic\+Policy\+Generator}} (size\+\_\+t N, \mbox{\hyperlink{classmotion_1_1_basic_policy_generator_a18cd33598fce976f6b124d849d154ee5}{Phase\+System}} $\ast$\mbox{\hyperlink{classmotion_1_1_basic_policy_generator_ac6b61cf8c3413fa3cf9bd9219ceb9b74}{phase}}, Args \&\&... args)
+\begin{DoxyCompactList}\small\item\em Constructs a new instance. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classmotion_1_1_basic_policy_generator_a78e22b0f4c6c6ec79cf545d476ac8418}{Basic\+Policy\+Generator}} (const std\+::vector$<$ \mbox{\hyperlink{classmotion_1_1_basic_policy_generator_ad6bdb18086437cafc126122c1988bd9a}{Command\+System\+Ptr}} $>$ \&\mbox{\hyperlink{classmotion_1_1_basic_policy_generator_ad04e0b3cbdf3f3c1e16493ef8db350c3}{commands}}, \mbox{\hyperlink{classmotion_1_1_basic_policy_generator_a18cd33598fce976f6b124d849d154ee5}{Phase\+System}} $\ast$\mbox{\hyperlink{classmotion_1_1_basic_policy_generator_ac6b61cf8c3413fa3cf9bd9219ceb9b74}{phase}})
+\begin{DoxyCompactList}\small\item\em Constructs a new instance. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classmotion_1_1_basic_policy_generator_ae98c5b7cf8858b31f77db24528cddeeb}\label{classmotion_1_1_basic_policy_generator_ae98c5b7cf8858b31f77db24528cddeeb}} 
+size\+\_\+t {\bfseries size} () const
+\begin{DoxyCompactList}\small\item\em Policy dimension (number of command generators) \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classmotion_1_1_basic_policy_generator_aaaf24e9c2aa30622271e3eceaca992bd}\label{classmotion_1_1_basic_policy_generator_aaaf24e9c2aa30622271e3eceaca992bd}} 
+\mbox{\hyperlink{classmotion_1_1_basic_policy_generator_a18cd33598fce976f6b124d849d154ee5}{Phase\+System}} \& {\bfseries phase\+System} ()
+\begin{DoxyCompactList}\small\item\em Phase system accessor. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classmotion_1_1_basic_policy_generator_aa68ae139d4d0f5fb8aedd9336f03ff03}\label{classmotion_1_1_basic_policy_generator_aa68ae139d4d0f5fb8aedd9336f03ff03}} 
+const \mbox{\hyperlink{classmotion_1_1_basic_policy_generator_a18cd33598fce976f6b124d849d154ee5}{Phase\+System}} \& {\bfseries phase\+System} () const
+\begin{DoxyCompactList}\small\item\em Phase system accessor (const overload) \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classmotion_1_1_basic_policy_generator_a2a7ddc8077b9fbe6dc50d3acc3b06034}\label{classmotion_1_1_basic_policy_generator_a2a7ddc8077b9fbe6dc50d3acc3b06034}} 
+std\+::vector$<$ \mbox{\hyperlink{classmotion_1_1_basic_policy_generator_ad6bdb18086437cafc126122c1988bd9a}{Command\+System\+Ptr}} $>$ \& {\bfseries command\+Systems} ()
+\begin{DoxyCompactList}\small\item\em Bulk command system accessor. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classmotion_1_1_basic_policy_generator_a829766f49c8f4bb6aa2b066dc77ba325}\label{classmotion_1_1_basic_policy_generator_a829766f49c8f4bb6aa2b066dc77ba325}} 
+const std\+::vector$<$ \mbox{\hyperlink{classmotion_1_1_basic_policy_generator_ad6bdb18086437cafc126122c1988bd9a}{Command\+System\+Ptr}} $>$ \& {\bfseries command\+Systems} () const
+\begin{DoxyCompactList}\small\item\em Bulk command system accessor (const overload). \end{DoxyCompactList}\item 
+Command\+System \& \mbox{\hyperlink{classmotion_1_1_basic_policy_generator_af3ee11ea07567dae3435b0040c0b9a81}{operator\mbox{[}$\,$\mbox{]}}} (size\+\_\+t pos)
+\begin{DoxyCompactList}\small\item\em Array indexer operator, for acessing each command system individually. \end{DoxyCompactList}\item 
+const Command\+System \& \mbox{\hyperlink{classmotion_1_1_basic_policy_generator_afad30118348c8dd58209aa20d0e72d54}{operator\mbox{[}$\,$\mbox{]}}} (size\+\_\+t pos) const
+\begin{DoxyCompactList}\small\item\em Array indexer operator, for acessing each command system individually (const overload). \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classmotion_1_1_basic_policy_generator_ac6b61cf8c3413fa3cf9bd9219ceb9b74}\label{classmotion_1_1_basic_policy_generator_ac6b61cf8c3413fa3cf9bd9219ceb9b74}} 
+float {\bfseries phase} () const
+\begin{DoxyCompactList}\small\item\em Phase value acessor. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classmotion_1_1_basic_policy_generator_ad04e0b3cbdf3f3c1e16493ef8db350c3}\label{classmotion_1_1_basic_policy_generator_ad04e0b3cbdf3f3c1e16493ef8db350c3}} 
+std\+::vector$<$ float $>$ {\bfseries commands} () const
+\begin{DoxyCompactList}\small\item\em Bulk command value acessor. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classmotion_1_1_basic_policy_generator_ade3582395351dc882969a477ccec6a81}{set\+States}} (const std\+::vector$<$ float $>$ \&states, const std\+::vector$<$ float $>$ \&velocities=\{ \}, const std\+::vector$<$ float $>$ \&accelerations=\{ \})
+\begin{DoxyCompactList}\small\item\em Sets state values for each command system (as well as firest and second derivatives) \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classmotion_1_1_basic_policy_generator_a2e8767aa13163d75d806fa29bf110ce5}{set\+Setpoints}} (const std\+::vector$<$ float $>$ \&setpoints)
+\begin{DoxyCompactList}\small\item\em Set dynamical setpoints i.\+e. goal states (discrete phase) or goal offsets (rhythmic phase). \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename CS  = Command\+System, typename  = typename std\+::enable\+\_\+if$<$ std\+::is\+\_\+same$<$ CS, Spring\+Damper $>$\+::value $>$\+::type$>$ }\\void \mbox{\hyperlink{classmotion_1_1_basic_policy_generator_a2a84d1ad13e7bf909b4002bbc487dae9}{set\+Damping}} (const std\+::vector$<$ \mbox{\hyperlink{structmotion_1_1_spring_damper_1_1_damping}{Spring\+Damper\+::\+Damping}} $>$ \&damping)
+\begin{DoxyCompactList}\small\item\em Set command system damping parameters. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename CS  = Command\+System, typename  = typename std\+::enable\+\_\+if$<$ std\+::is\+\_\+same$<$ CS, Spring\+Damper $>$\+::value $>$\+::type$>$ }\\void \mbox{\hyperlink{classmotion_1_1_basic_policy_generator_a0bd8eab144d91df28c81878322b6a437}{set\+Damping}} (const \mbox{\hyperlink{structmotion_1_1_spring_damper_1_1_damping}{Spring\+Damper\+::\+Damping}} \&damping)
+\begin{DoxyCompactList}\small\item\em Set command system damping parameters (bulk parametrization). \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename Parameter\+Type , typename CS  = Command\+System, typename  = typename std\+::enable\+\_\+if$<$ std\+::is\+\_\+same$<$ CS, Spring\+Damper $>$\+::value $>$\+::type$>$ }\\void \mbox{\hyperlink{classmotion_1_1_basic_policy_generator_a262aa34fe93e16f2cc65b9c62a4edc6e}{set\+Parameters}} (const Parameter\+Type \&parameters)
+\begin{DoxyCompactList}\small\item\em Sets command system parameters (generic overload). \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{classmotion_1_1_basic_policy_generator_a9f0278d4f073dd8ba2b118dfa25c3ad1}{update}} (float ts, const std\+::vector$<$ float $>$ \&feedbacks=\{ \})=0
+\begin{DoxyCompactList}\small\item\em Updates commands with given {\itshape ts} timestep, open-\/ and closed-\/loop. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classmotion_1_1_basic_policy_generator_a227f0b16e372a7e013656c125a375f0b}\label{classmotion_1_1_basic_policy_generator_a227f0b16e372a7e013656c125a375f0b}} 
+{\footnotesize template$<$typename Command\+System $>$ }\\{\bfseries Basic\+Policy\+Generator} (const std\+::vector$<$ \mbox{\hyperlink{classmotion_1_1_basic_policy_generator_ad6bdb18086437cafc126122c1988bd9a}{Basic\+Policy\+Generator\+::\+Command\+System\+Ptr}} $>$ \&\mbox{\hyperlink{classmotion_1_1_basic_policy_generator_ad04e0b3cbdf3f3c1e16493ef8db350c3}{commands}}, \mbox{\hyperlink{classmotion_1_1_basic_policy_generator_a18cd33598fce976f6b124d849d154ee5}{Basic\+Policy\+Generator\+::\+Phase\+System}} $\ast$\mbox{\hyperlink{classmotion_1_1_basic_policy_generator_ac6b61cf8c3413fa3cf9bd9219ceb9b74}{phase}})
+\item 
+\mbox{\Hypertarget{classmotion_1_1_basic_policy_generator_a62c4c10744273843dde218638ac434e4}\label{classmotion_1_1_basic_policy_generator_a62c4c10744273843dde218638ac434e4}} 
+void {\bfseries set\+Parameters} (const \mbox{\hyperlink{structmotion_1_1_spring_damper_1_1_damping}{Spring\+Damper\+::\+Damping}} \&parameters)
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classmotion_1_1_basic_policy_generator_a18cd33598fce976f6b124d849d154ee5}{Phase\+System}} $\ast$ \mbox{\hyperlink{classmotion_1_1_basic_policy_generator_a89ad40f80aec0c76efbdca4f307a591c}{\+\_\+phase\+\_\+system}}
+\begin{DoxyCompactList}\small\item\em Phase generator. \end{DoxyCompactList}\item 
+std\+::vector$<$ \mbox{\hyperlink{classmotion_1_1_basic_policy_generator_ad6bdb18086437cafc126122c1988bd9a}{Command\+System\+Ptr}} $>$ \mbox{\hyperlink{classmotion_1_1_basic_policy_generator_a30752baa0794f6101a84d35cd7bc1680}{\+\_\+command\+\_\+systems}}
+\begin{DoxyCompactList}\small\item\em Command/motor generator systems. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$typename Command\+System = Spring\+Damper$>$\newline
+class motion\+::\+Basic\+Policy\+Generator$<$ Command\+System $>$}
+Generic base abstract class for open-\/ and closed-\/loop multidimensional motion policy generators. 
+
+\begin{DoxyNote}{Note}
+Assumes separate (shared) phase and command/motor dynamics as \mbox{\hyperlink{classmotion_1_1_dynamical_system}{Dynamical\+System}} derived implementations. Takes ownership of command/motor dynamics while using external phase supplier.
+
+Also (optionally) allows feedback mechanisms represented w/ Policy\+Feedback class. 
+\end{DoxyNote}
+
+
+\doxysubsection{Member Typedef Documentation}
+\mbox{\Hypertarget{classmotion_1_1_basic_policy_generator_a18cd33598fce976f6b124d849d154ee5}\label{classmotion_1_1_basic_policy_generator_a18cd33598fce976f6b124d849d154ee5}} 
+\index{motion::BasicPolicyGenerator$<$ CommandSystem $>$@{motion::BasicPolicyGenerator$<$ CommandSystem $>$}!PhaseSystem@{PhaseSystem}}
+\index{PhaseSystem@{PhaseSystem}!motion::BasicPolicyGenerator$<$ CommandSystem $>$@{motion::BasicPolicyGenerator$<$ CommandSystem $>$}}
+\doxysubsubsection{\texorpdfstring{PhaseSystem}{PhaseSystem}}
+{\footnotesize\ttfamily template$<$typename Command\+System  = Spring\+Damper$>$ \\
+typedef \mbox{\hyperlink{classmotion_1_1_dynamical_system}{Dynamical\+System}} \mbox{\hyperlink{classmotion_1_1_basic_policy_generator}{motion\+::\+Basic\+Policy\+Generator}}$<$ Command\+System $>$\+::\+Phase\+System}
+
+
+
+Static assertion to ensure compatibility w/ command system type. 
+
+Type of phase generator system. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classmotion_1_1_basic_policy_generator_a1bbfd58225db9af6fb8c3154035ea77a}\label{classmotion_1_1_basic_policy_generator_a1bbfd58225db9af6fb8c3154035ea77a}} 
+\index{motion::BasicPolicyGenerator$<$ CommandSystem $>$@{motion::BasicPolicyGenerator$<$ CommandSystem $>$}!BasicPolicyGenerator@{BasicPolicyGenerator}}
+\index{BasicPolicyGenerator@{BasicPolicyGenerator}!motion::BasicPolicyGenerator$<$ CommandSystem $>$@{motion::BasicPolicyGenerator$<$ CommandSystem $>$}}
+\doxysubsubsection{\texorpdfstring{BasicPolicyGenerator()}{BasicPolicyGenerator()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename Command\+System $>$ \\
+template$<$typename... Args$>$ \\
+\mbox{\hyperlink{classmotion_1_1_basic_policy_generator}{motion\+::\+Basic\+Policy\+Generator}}$<$ Command\+System $>$\+::\+Basic\+Policy\+Generator (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{N,  }\item[{\mbox{\hyperlink{classmotion_1_1_basic_policy_generator}{Basic\+Policy\+Generator}}$<$ Command\+System $>$\mbox{\hyperlink{classmotion_1_1_basic_policy_generator_a18cd33598fce976f6b124d849d154ee5}{\+::\+Phase\+System}} $\ast$}]{phase,  }\item[{Args \&\&...}]{args }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+
+
+Constructs a new instance. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em N} & Number of output dimensions. \\
+\hline
+\mbox{\texttt{ in}}  & {\em phase} & External phase system to use when updating commands. \\
+\hline
+\mbox{\texttt{ in}}  & {\em args} & Arguments forwarded to command system\textquotesingle{}s constructors \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classmotion_1_1_basic_policy_generator_a78e22b0f4c6c6ec79cf545d476ac8418}\label{classmotion_1_1_basic_policy_generator_a78e22b0f4c6c6ec79cf545d476ac8418}} 
+\index{motion::BasicPolicyGenerator$<$ CommandSystem $>$@{motion::BasicPolicyGenerator$<$ CommandSystem $>$}!BasicPolicyGenerator@{BasicPolicyGenerator}}
+\index{BasicPolicyGenerator@{BasicPolicyGenerator}!motion::BasicPolicyGenerator$<$ CommandSystem $>$@{motion::BasicPolicyGenerator$<$ CommandSystem $>$}}
+\doxysubsubsection{\texorpdfstring{BasicPolicyGenerator()}{BasicPolicyGenerator()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename Command\+System  = Spring\+Damper$>$ \\
+\mbox{\hyperlink{classmotion_1_1_basic_policy_generator}{motion\+::\+Basic\+Policy\+Generator}}$<$ Command\+System $>$\+::\+Basic\+Policy\+Generator (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ \mbox{\hyperlink{classmotion_1_1_basic_policy_generator_ad6bdb18086437cafc126122c1988bd9a}{Command\+System\+Ptr}} $>$ \&}]{commands,  }\item[{\mbox{\hyperlink{classmotion_1_1_basic_policy_generator_a18cd33598fce976f6b124d849d154ee5}{Phase\+System}} $\ast$}]{phase }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+
+
+Constructs a new instance. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em commands} & Command systems (copied into members). \\
+\hline
+\mbox{\texttt{ in}}  & {\em phase} & External phase system to use when updating commands. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classmotion_1_1_basic_policy_generator_af3ee11ea07567dae3435b0040c0b9a81}\label{classmotion_1_1_basic_policy_generator_af3ee11ea07567dae3435b0040c0b9a81}} 
+\index{motion::BasicPolicyGenerator$<$ CommandSystem $>$@{motion::BasicPolicyGenerator$<$ CommandSystem $>$}!operator\mbox{[}\mbox{]}@{operator[]}}
+\index{operator\mbox{[}\mbox{]}@{operator[]}!motion::BasicPolicyGenerator$<$ CommandSystem $>$@{motion::BasicPolicyGenerator$<$ CommandSystem $>$}}
+\doxysubsubsection{\texorpdfstring{operator[]()}{operator[]()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename Command\+System $>$ \\
+Command\+System \& \mbox{\hyperlink{classmotion_1_1_basic_policy_generator}{motion\+::\+Basic\+Policy\+Generator}}$<$ Command\+System $>$\+::operator\mbox{[}$\,$\mbox{]} (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{pos }\end{DoxyParamCaption})}
+
+
+
+Array indexer operator, for acessing each command system individually. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em pos} & Position/index of command generator.\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em std\+::invalid\+\_\+argument} & if given {\itshape pos} \texorpdfstring{$>$}{>}= \mbox{\hyperlink{classmotion_1_1_basic_policy_generator_ae98c5b7cf8858b31f77db24528cddeeb}{size()}}. \\
+\hline
+\end{DoxyExceptions}
+\mbox{\Hypertarget{classmotion_1_1_basic_policy_generator_afad30118348c8dd58209aa20d0e72d54}\label{classmotion_1_1_basic_policy_generator_afad30118348c8dd58209aa20d0e72d54}} 
+\index{motion::BasicPolicyGenerator$<$ CommandSystem $>$@{motion::BasicPolicyGenerator$<$ CommandSystem $>$}!operator\mbox{[}\mbox{]}@{operator[]}}
+\index{operator\mbox{[}\mbox{]}@{operator[]}!motion::BasicPolicyGenerator$<$ CommandSystem $>$@{motion::BasicPolicyGenerator$<$ CommandSystem $>$}}
+\doxysubsubsection{\texorpdfstring{operator[]()}{operator[]()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename Command\+System $>$ \\
+const Command\+System \& \mbox{\hyperlink{classmotion_1_1_basic_policy_generator}{motion\+::\+Basic\+Policy\+Generator}}$<$ Command\+System $>$\+::operator\mbox{[}$\,$\mbox{]} (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{pos }\end{DoxyParamCaption}) const}
+
+
+
+Array indexer operator, for acessing each command system individually (const overload). 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em pos} & Position/index of command generator.\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em std\+::invalid\+\_\+argument} & if given {\itshape pos} \texorpdfstring{$>$}{>}= \mbox{\hyperlink{classmotion_1_1_basic_policy_generator_ae98c5b7cf8858b31f77db24528cddeeb}{size()}}. \\
+\hline
+\end{DoxyExceptions}
+\mbox{\Hypertarget{classmotion_1_1_basic_policy_generator_a0bd8eab144d91df28c81878322b6a437}\label{classmotion_1_1_basic_policy_generator_a0bd8eab144d91df28c81878322b6a437}} 
+\index{motion::BasicPolicyGenerator$<$ CommandSystem $>$@{motion::BasicPolicyGenerator$<$ CommandSystem $>$}!setDamping@{setDamping}}
+\index{setDamping@{setDamping}!motion::BasicPolicyGenerator$<$ CommandSystem $>$@{motion::BasicPolicyGenerator$<$ CommandSystem $>$}}
+\doxysubsubsection{\texorpdfstring{setDamping()}{setDamping()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename Command\+System $>$ \\
+template$<$typename , typename $>$ \\
+void \mbox{\hyperlink{classmotion_1_1_basic_policy_generator}{motion\+::\+Basic\+Policy\+Generator}}$<$ Command\+System $>$\+::set\+Damping (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structmotion_1_1_spring_damper_1_1_damping}{Spring\+Damper\+::\+Damping}} \&}]{damping }\end{DoxyParamCaption})}
+
+
+
+Set command system damping parameters (bulk parametrization). 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em offset} & Damping parameters (as \mbox{\hyperlink{structmotion_1_1_spring_damper_1_1_damping}{Spring\+Damper\+::\+Damping}}).\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+Only available if Command\+System is of \mbox{\hyperlink{classmotion_1_1_spring_damper}{Spring\+Damper}} type. 
+\end{DoxyNote}
+\mbox{\Hypertarget{classmotion_1_1_basic_policy_generator_a2a84d1ad13e7bf909b4002bbc487dae9}\label{classmotion_1_1_basic_policy_generator_a2a84d1ad13e7bf909b4002bbc487dae9}} 
+\index{motion::BasicPolicyGenerator$<$ CommandSystem $>$@{motion::BasicPolicyGenerator$<$ CommandSystem $>$}!setDamping@{setDamping}}
+\index{setDamping@{setDamping}!motion::BasicPolicyGenerator$<$ CommandSystem $>$@{motion::BasicPolicyGenerator$<$ CommandSystem $>$}}
+\doxysubsubsection{\texorpdfstring{setDamping()}{setDamping()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename Command\+System $>$ \\
+template$<$typename , typename $>$ \\
+void \mbox{\hyperlink{classmotion_1_1_basic_policy_generator}{motion\+::\+Basic\+Policy\+Generator}}$<$ Command\+System $>$\+::set\+Damping (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ \mbox{\hyperlink{structmotion_1_1_spring_damper_1_1_damping}{Spring\+Damper\+::\+Damping}} $>$ \&}]{damping }\end{DoxyParamCaption})}
+
+
+
+Set command system damping parameters. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em offset} & Vector of damping parameters (as \mbox{\hyperlink{structmotion_1_1_spring_damper_1_1_damping}{Spring\+Damper\+::\+Damping}}).\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em std\+::invalid\+\_\+argument} & if length of given {\itshape damping} != \mbox{\hyperlink{classmotion_1_1_basic_policy_generator_ae98c5b7cf8858b31f77db24528cddeeb}{size()}}.\\
+\hline
+\end{DoxyExceptions}
+\begin{DoxyNote}{Note}
+Only available if Command\+System is of \mbox{\hyperlink{classmotion_1_1_spring_damper}{Spring\+Damper}} type. 
+\end{DoxyNote}
+\mbox{\Hypertarget{classmotion_1_1_basic_policy_generator_a262aa34fe93e16f2cc65b9c62a4edc6e}\label{classmotion_1_1_basic_policy_generator_a262aa34fe93e16f2cc65b9c62a4edc6e}} 
+\index{motion::BasicPolicyGenerator$<$ CommandSystem $>$@{motion::BasicPolicyGenerator$<$ CommandSystem $>$}!setParameters@{setParameters}}
+\index{setParameters@{setParameters}!motion::BasicPolicyGenerator$<$ CommandSystem $>$@{motion::BasicPolicyGenerator$<$ CommandSystem $>$}}
+\doxysubsubsection{\texorpdfstring{setParameters()}{setParameters()}}
+{\footnotesize\ttfamily template$<$typename Command\+System  = Spring\+Damper$>$ \\
+template$<$typename Parameter\+Type , typename CS  = Command\+System, typename  = typename std\+::enable\+\_\+if$<$ std\+::is\+\_\+same$<$ CS, Spring\+Damper $>$\+::value $>$\+::type$>$ \\
+void \mbox{\hyperlink{classmotion_1_1_basic_policy_generator}{motion\+::\+Basic\+Policy\+Generator}}$<$ Command\+System $>$\+::set\+Parameters (\begin{DoxyParamCaption}\item[{const Parameter\+Type \&}]{parameters }\end{DoxyParamCaption})}
+
+
+
+Sets command system parameters (generic overload). 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em parametes} & The parameters\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+Generic implementation, only available if Command\+System is {\itshape not} of \mbox{\hyperlink{classmotion_1_1_spring_damper}{Spring\+Damper}} type. Assigns {\itshape parameters} to {\itshape Command\+Syste\+::parameters} class member. 
+\end{DoxyNote}
+\mbox{\Hypertarget{classmotion_1_1_basic_policy_generator_a2e8767aa13163d75d806fa29bf110ce5}\label{classmotion_1_1_basic_policy_generator_a2e8767aa13163d75d806fa29bf110ce5}} 
+\index{motion::BasicPolicyGenerator$<$ CommandSystem $>$@{motion::BasicPolicyGenerator$<$ CommandSystem $>$}!setSetpoints@{setSetpoints}}
+\index{setSetpoints@{setSetpoints}!motion::BasicPolicyGenerator$<$ CommandSystem $>$@{motion::BasicPolicyGenerator$<$ CommandSystem $>$}}
+\doxysubsubsection{\texorpdfstring{setSetpoints()}{setSetpoints()}}
+{\footnotesize\ttfamily template$<$typename Command\+System $>$ \\
+void \mbox{\hyperlink{classmotion_1_1_basic_policy_generator}{motion\+::\+Basic\+Policy\+Generator}}$<$ Command\+System $>$\+::set\+Setpoints (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ float $>$ \&}]{setpoints }\end{DoxyParamCaption})}
+
+
+
+Set dynamical setpoints i.\+e. goal states (discrete phase) or goal offsets (rhythmic phase). 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em setpoints} & Vector of setpoints i.\+e goal states for individual dynamical systems.\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em std\+::invalid\+\_\+argument} & if length of given {\itshape setpoints} != \mbox{\hyperlink{classmotion_1_1_basic_policy_generator_ae98c5b7cf8858b31f77db24528cddeeb}{size()}}. \\
+\hline
+\end{DoxyExceptions}
+\mbox{\Hypertarget{classmotion_1_1_basic_policy_generator_ade3582395351dc882969a477ccec6a81}\label{classmotion_1_1_basic_policy_generator_ade3582395351dc882969a477ccec6a81}} 
+\index{motion::BasicPolicyGenerator$<$ CommandSystem $>$@{motion::BasicPolicyGenerator$<$ CommandSystem $>$}!setStates@{setStates}}
+\index{setStates@{setStates}!motion::BasicPolicyGenerator$<$ CommandSystem $>$@{motion::BasicPolicyGenerator$<$ CommandSystem $>$}}
+\doxysubsubsection{\texorpdfstring{setStates()}{setStates()}}
+{\footnotesize\ttfamily template$<$typename Command\+System $>$ \\
+void \mbox{\hyperlink{classmotion_1_1_basic_policy_generator}{motion\+::\+Basic\+Policy\+Generator}}$<$ Command\+System $>$\+::set\+States (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ float $>$ \&}]{states,  }\item[{const std\+::vector$<$ float $>$ \&}]{velocities = {\ttfamily \{~~\}},  }\item[{const std\+::vector$<$ float $>$ \&}]{accelerations = {\ttfamily \{~~\}} }\end{DoxyParamCaption})}
+
+
+
+Sets state values for each command system (as well as firest and second derivatives) 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em states} & System state values. \\
+\hline
+\mbox{\texttt{ in}}  & {\em velocities} & System first derivative values i.\+e. output velocity. \\
+\hline
+\mbox{\texttt{ in}}  & {\em accelerations} & System second derivative values i.\+e. output acceleration. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classmotion_1_1_basic_policy_generator_a9f0278d4f073dd8ba2b118dfa25c3ad1}\label{classmotion_1_1_basic_policy_generator_a9f0278d4f073dd8ba2b118dfa25c3ad1}} 
+\index{motion::BasicPolicyGenerator$<$ CommandSystem $>$@{motion::BasicPolicyGenerator$<$ CommandSystem $>$}!update@{update}}
+\index{update@{update}!motion::BasicPolicyGenerator$<$ CommandSystem $>$@{motion::BasicPolicyGenerator$<$ CommandSystem $>$}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily template$<$typename Command\+System  = Spring\+Damper$>$ \\
+virtual void \mbox{\hyperlink{classmotion_1_1_basic_policy_generator}{motion\+::\+Basic\+Policy\+Generator}}$<$ Command\+System $>$\+::update (\begin{DoxyParamCaption}\item[{float}]{ts,  }\item[{const std\+::vector$<$ float $>$ \&}]{feedbacks = {\ttfamily \{~\}} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Updates commands with given {\itshape ts} timestep, open-\/ and closed-\/loop. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em ts} & Integration timestep, passed to underlying dynamical systems. \\
+\hline
+\mbox{\texttt{ in}}  & {\em feedbacks} & Feedback values to use when updating commands. Defaults to empty vector i.\+e. open-\/loop update.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+Pure virtual, derived policy generators must provide their own implementation, including how feedback values are used. 
+\end{DoxyNote}
+
+
+Implemented in \mbox{\hyperlink{classmotion_1_1_d_m_p_motion_generator_af12d0e1c4d8128eacd5cd3fa7c8a4aaa}{motion\+::\+DMPMotion\+Generator}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classmotion_1_1_basic_policy_generator_a30752baa0794f6101a84d35cd7bc1680}\label{classmotion_1_1_basic_policy_generator_a30752baa0794f6101a84d35cd7bc1680}} 
+\index{motion::BasicPolicyGenerator$<$ CommandSystem $>$@{motion::BasicPolicyGenerator$<$ CommandSystem $>$}!\_command\_systems@{\_command\_systems}}
+\index{\_command\_systems@{\_command\_systems}!motion::BasicPolicyGenerator$<$ CommandSystem $>$@{motion::BasicPolicyGenerator$<$ CommandSystem $>$}}
+\doxysubsubsection{\texorpdfstring{\_command\_systems}{\_command\_systems}}
+{\footnotesize\ttfamily template$<$typename Command\+System  = Spring\+Damper$>$ \\
+std\+::vector$<$ \mbox{\hyperlink{classmotion_1_1_basic_policy_generator_ad6bdb18086437cafc126122c1988bd9a}{Command\+System\+Ptr}} $>$ \mbox{\hyperlink{classmotion_1_1_basic_policy_generator}{motion\+::\+Basic\+Policy\+Generator}}$<$ Command\+System $>$\+::\+\_\+command\+\_\+systems\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Command/motor generator systems. 
+
+\begin{DoxyNote}{Note}
+Smart pointers are used to force ownership of the objects. 
+\end{DoxyNote}
+\mbox{\Hypertarget{classmotion_1_1_basic_policy_generator_a89ad40f80aec0c76efbdca4f307a591c}\label{classmotion_1_1_basic_policy_generator_a89ad40f80aec0c76efbdca4f307a591c}} 
+\index{motion::BasicPolicyGenerator$<$ CommandSystem $>$@{motion::BasicPolicyGenerator$<$ CommandSystem $>$}!\_phase\_system@{\_phase\_system}}
+\index{\_phase\_system@{\_phase\_system}!motion::BasicPolicyGenerator$<$ CommandSystem $>$@{motion::BasicPolicyGenerator$<$ CommandSystem $>$}}
+\doxysubsubsection{\texorpdfstring{\_phase\_system}{\_phase\_system}}
+{\footnotesize\ttfamily template$<$typename Command\+System  = Spring\+Damper$>$ \\
+\mbox{\hyperlink{classmotion_1_1_basic_policy_generator_a18cd33598fce976f6b124d849d154ee5}{Phase\+System}}$\ast$ \mbox{\hyperlink{classmotion_1_1_basic_policy_generator}{motion\+::\+Basic\+Policy\+Generator}}$<$ Command\+System $>$\+::\+\_\+phase\+\_\+system\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Phase generator. 
+
+\begin{DoxyNote}{Note}
+A pointer to an external object allows sharing a single phase system accross different policy generators. 
+\end{DoxyNote}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/joao/\+Shared/\+PHD/code/mplibrary/include/mplibrary/basic\+\_\+policy\+\_\+generator.\+hpp\end{DoxyCompactItemize}

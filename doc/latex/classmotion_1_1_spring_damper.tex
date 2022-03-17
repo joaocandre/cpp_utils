@@ -1,0 +1,108 @@
+\hypertarget{classmotion_1_1_spring_damper}{}\doxysection{motion\+::Spring\+Damper Class Reference}
+\label{classmotion_1_1_spring_damper}\index{motion::SpringDamper@{motion::SpringDamper}}
+
+
+Class extending \mbox{\hyperlink{classmotion_1_1_dynamical_system}{Dynamical\+System}} to a unidimensional 2nd order spring-\/damper (point attractor) system.  
+
+
+
+
+{\ttfamily \#include $<$dynamical\+\_\+system.\+hpp$>$}
+
+
+
+Inheritance diagram for motion\+::Spring\+Damper\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=204pt]{classmotion_1_1_spring_damper__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for motion\+::Spring\+Damper\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=332pt]{classmotion_1_1_spring_damper__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structmotion_1_1_spring_damper_1_1_damping}{Damping}}
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{structmotion_1_1_spring_damper_1_1_damping}{Damping}} parameters (for simplicty/verbosity). \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classmotion_1_1_spring_damper_af390865516e461c7f6a08c4ee7e64707}{Spring\+Damper}} (float goal\+\_\+, const \mbox{\hyperlink{structmotion_1_1_spring_damper_1_1_damping}{Damping}} \&parameters\+\_\+=\{ 1.\+0, 0.\+25 \})
+\begin{DoxyCompactList}\small\item\em Constructs a new instance. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classmotion_1_1_spring_damper_a9152b7c21aed4b7adfba348934f84ac1}\label{classmotion_1_1_spring_damper_a9152b7c21aed4b7adfba348934f84ac1}} 
+virtual {\bfseries $\sim$\+Spring\+Damper} ()=default
+\begin{DoxyCompactList}\small\item\em Destroys the object. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classmotion_1_1_spring_damper_a6a7cc4bc32d350db06674146af73f604}{update}} (float ts, float d1, float d2) override
+\begin{DoxyCompactList}\small\item\em Updates the given ts. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classmotion_1_1_spring_damper_a99d6da5df775f78326dbd7f9524f9d07}\label{classmotion_1_1_spring_damper_a99d6da5df775f78326dbd7f9524f9d07}} 
+float {\bfseries goal}
+\begin{DoxyCompactList}\small\item\em Goal state. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classmotion_1_1_spring_damper_a2b9f93ffd05653ccd3e4236161142bdd}\label{classmotion_1_1_spring_damper_a2b9f93ffd05653ccd3e4236161142bdd}} 
+\mbox{\hyperlink{structmotion_1_1_spring_damper_1_1_damping}{Damping}} {\bfseries parameters}
+\begin{DoxyCompactList}\small\item\em System damping parameters. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Class extending \mbox{\hyperlink{classmotion_1_1_dynamical_system}{Dynamical\+System}} to a unidimensional 2nd order spring-\/damper (point attractor) system. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classmotion_1_1_spring_damper_af390865516e461c7f6a08c4ee7e64707}\label{classmotion_1_1_spring_damper_af390865516e461c7f6a08c4ee7e64707}} 
+\index{motion::SpringDamper@{motion::SpringDamper}!SpringDamper@{SpringDamper}}
+\index{SpringDamper@{SpringDamper}!motion::SpringDamper@{motion::SpringDamper}}
+\doxysubsubsection{\texorpdfstring{SpringDamper()}{SpringDamper()}}
+{\footnotesize\ttfamily motion\+::\+Spring\+Damper\+::\+Spring\+Damper (\begin{DoxyParamCaption}\item[{float}]{goal\+\_\+,  }\item[{const \mbox{\hyperlink{structmotion_1_1_spring_damper_1_1_damping}{Damping}} \&}]{parameters\+\_\+ = {\ttfamily \{~1.0,~0.25~\}} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+
+
+Constructs a new instance. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em goal} & Goal state (point attractor). \\
+\hline
+\mbox{\texttt{ in}}  & {\em parameters} & \mbox{\hyperlink{structmotion_1_1_spring_damper_1_1_damping}{Damping}} parameters. Default to a critically damped system. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classmotion_1_1_spring_damper_a6a7cc4bc32d350db06674146af73f604}\label{classmotion_1_1_spring_damper_a6a7cc4bc32d350db06674146af73f604}} 
+\index{motion::SpringDamper@{motion::SpringDamper}!update@{update}}
+\index{update@{update}!motion::SpringDamper@{motion::SpringDamper}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily void motion\+::\+Spring\+Damper\+::update (\begin{DoxyParamCaption}\item[{float}]{ts,  }\item[{float}]{d1,  }\item[{float}]{d2 }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Updates the given ts. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em ts} & Integration time step (Euler\textquotesingle{}s method) \\
+\hline
+\mbox{\texttt{ in}}  & {\em d1} & First order derivative modifier (added to 1st order integration). Defaults to 0.\+0. \\
+\hline
+\mbox{\texttt{ in}}  & {\em d2} & Second order derivative modifier (added to 2nd order intergration). Defaults to 0.\+0. \\
+\hline
+\end{DoxyParams}
+
+
+Reimplemented from \mbox{\hyperlink{classmotion_1_1_dynamical_system_a68156f0a4b1bdea41bf11fdb7dd3c4dd}{motion\+::\+Dynamical\+System}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/joao/\+Shared/\+PHD/code/mplibrary/include/mplibrary/dynamical\+\_\+system.\+hpp\item 
+/home/joao/\+Shared/\+PHD/code/mplibrary/src/dynamical\+\_\+system.\+cpp\end{DoxyCompactItemize}

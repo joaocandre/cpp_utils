@@ -1,0 +1,224 @@
+\hypertarget{tagged_8hpp_source}{}\doxysection{tagged.\+hpp}
+\label{tagged_8hpp_source}\index{/home/joao/Shared/PHD/code/ros/src/storage/include/storage/tagged.hpp@{/home/joao/Shared/PHD/code/ros/src/storage/include/storage/tagged.hpp}}
+\mbox{\hyperlink{tagged_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{11 \textcolor{comment}{}\textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{12 }
+\DoxyCodeLine{13 \textcolor{preprocessor}{\#ifndef TRIGNOCLIENT\_INCLUDE\_TRIGNOCLIENT\_TAGGED\_HPP\_}}
+\DoxyCodeLine{14 \textcolor{preprocessor}{\#define TRIGNOCLIENT\_INCLUDE\_TRIGNOCLIENT\_TAGGED\_HPP\_}}
+\DoxyCodeLine{15 }
+\DoxyCodeLine{16 \textcolor{preprocessor}{\#include <string>}}
+\DoxyCodeLine{17 \textcolor{preprocessor}{\#include <memory>}}
+\DoxyCodeLine{18 \textcolor{preprocessor}{\#include <iostream>}}
+\DoxyCodeLine{19 \textcolor{preprocessor}{\#include <utility>}}
+\DoxyCodeLine{20 \textcolor{preprocessor}{\#include <type\_traits>}}
+\DoxyCodeLine{21 }
+\DoxyCodeLine{22 \textcolor{keyword}{namespace }std \{}
+\DoxyCodeLine{23 }
+\DoxyCodeLine{24 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{32 \textcolor{comment}{}\textcolor{keyword}{template} < \textcolor{keyword}{typename} T, \textcolor{keyword}{typename} Key = \textcolor{keywordtype}{string} >}
+\DoxyCodeLine{33 \textcolor{keyword}{class }\mbox{\hyperlink{classstd_1_1tagged}{tagged}} \{}
+\DoxyCodeLine{34  \textcolor{keyword}{public}:}
+\DoxyCodeLine{35     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{38 \textcolor{comment}{}    \textcolor{keyword}{static\_assert}(std::is\_default\_constructible< Key >(),}
+\DoxyCodeLine{39                   \textcolor{stringliteral}{"{}KEY TYPE [Key] MUST BE DEFAULT CONSTRUCTIBLE!"{}});}
+\DoxyCodeLine{40 }
+\DoxyCodeLine{41     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{44 \textcolor{comment}{}    \textcolor{keyword}{using} \mbox{\hyperlink{classstd_1_1tagged_a6c1c283fd548336c488745d5f923fc5d}{value\_type}} = T;}
+\DoxyCodeLine{45 }
+\DoxyCodeLine{46     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{49 \textcolor{comment}{}    \textcolor{keyword}{using} \mbox{\hyperlink{classstd_1_1tagged_a269926a2e029e8b562b9158338dd8f7a}{reference}} = \mbox{\hyperlink{classstd_1_1tagged_a6c1c283fd548336c488745d5f923fc5d}{value\_type}}\&;}
+\DoxyCodeLine{50 }
+\DoxyCodeLine{51     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{54 \textcolor{comment}{}    \textcolor{keyword}{using} \mbox{\hyperlink{classstd_1_1tagged_aa231b6d4eb6cde817d3543444e318009}{const\_reference}} = \textcolor{keyword}{const} \mbox{\hyperlink{classstd_1_1tagged_a6c1c283fd548336c488745d5f923fc5d}{value\_type}}\&;}
+\DoxyCodeLine{55 }
+\DoxyCodeLine{56     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{59 \textcolor{comment}{}    \textcolor{keyword}{using} \mbox{\hyperlink{classstd_1_1tagged_a16f6ec8beac93ca1bcb3b9e317a410b7}{key\_type}} = Key;}
+\DoxyCodeLine{60 }
+\DoxyCodeLine{61     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{72 \textcolor{comment}{}    \textcolor{keyword}{template} < \textcolor{keyword}{typename}... Args, \textcolor{keyword}{typename} = \textcolor{keyword}{typename} enable\_if< is\_constructible< T, Args... >::value >::type >}
+\DoxyCodeLine{73     \mbox{\hyperlink{classstd_1_1tagged_a6cbc414b61e9ad6c618bd368bf9769c9}{tagged}}(Args\&\&... args);}
+\DoxyCodeLine{74 }
+\DoxyCodeLine{75     \textcolor{comment}{// tagged(tagged< T, Key >\& other);  }}
+\DoxyCodeLine{76     \mbox{\hyperlink{classstd_1_1tagged_a6cbc414b61e9ad6c618bd368bf9769c9}{tagged}}(\textcolor{keyword}{const} \mbox{\hyperlink{classstd_1_1tagged}{tagged< T, Key >}}\& other);  }
+\DoxyCodeLine{77     \mbox{\hyperlink{classstd_1_1tagged_a6cbc414b61e9ad6c618bd368bf9769c9}{tagged}}(\mbox{\hyperlink{classstd_1_1tagged}{tagged< T, Key >}}\&\& other);   }
+\DoxyCodeLine{78     \mbox{\hyperlink{classstd_1_1tagged_a6cbc414b61e9ad6c618bd368bf9769c9}{tagged}}(\mbox{\hyperlink{classstd_1_1tagged}{tagged< T, Key >}}\& other) = \textcolor{keywordflow}{default};   }
+\DoxyCodeLine{79 }
+\DoxyCodeLine{80     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{95 \textcolor{comment}{}    \textcolor{keyword}{template} < \textcolor{keyword}{typename}... Args, \textcolor{keyword}{typename} = \textcolor{keyword}{typename} enable\_if< is\_constructible< T, Args... >::value >::type >}
+\DoxyCodeLine{96     \mbox{\hyperlink{classstd_1_1tagged_a6cbc414b61e9ad6c618bd368bf9769c9}{tagged}}(\textcolor{keyword}{const} \mbox{\hyperlink{classstd_1_1tagged_a16f6ec8beac93ca1bcb3b9e317a410b7}{key\_type}}\& key\_, Args\&\&... args);}
+\DoxyCodeLine{97 }
+\DoxyCodeLine{98     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{112 \textcolor{comment}{}    \mbox{\hyperlink{classstd_1_1tagged_a6cbc414b61e9ad6c618bd368bf9769c9}{tagged}}(\textcolor{keyword}{const} T\& value\_, \textcolor{keyword}{const} \mbox{\hyperlink{classstd_1_1tagged_a16f6ec8beac93ca1bcb3b9e317a410b7}{key\_type}}\& key\_);}
+\DoxyCodeLine{113 }
+\DoxyCodeLine{114     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{121 \textcolor{comment}{}    \mbox{\hyperlink{classstd_1_1tagged}{tagged}}\& \mbox{\hyperlink{classstd_1_1tagged_a406d57db2595448b48d62157ac32440f}{operator=}}(\textcolor{keyword}{const} \mbox{\hyperlink{classstd_1_1tagged}{tagged< T, Key >}}\& other);}
+\DoxyCodeLine{122     }
+\DoxyCodeLine{123     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{130 \textcolor{comment}{}    \mbox{\hyperlink{classstd_1_1tagged}{tagged}}\& \mbox{\hyperlink{classstd_1_1tagged_a406d57db2595448b48d62157ac32440f}{operator=}}(\mbox{\hyperlink{classstd_1_1tagged}{tagged< T, Key >}}\&\& other);}
+\DoxyCodeLine{131 }
+\DoxyCodeLine{132     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{143 \textcolor{comment}{}    \textcolor{keyword}{template} < \textcolor{keyword}{typename} iT >}
+\DoxyCodeLine{144     \mbox{\hyperlink{classstd_1_1tagged}{tagged< T, Key >}}\& \mbox{\hyperlink{classstd_1_1tagged_a406d57db2595448b48d62157ac32440f}{operator=}}(\textcolor{keyword}{const} iT\& other);}
+\DoxyCodeLine{145 }
+\DoxyCodeLine{146     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{153 \textcolor{comment}{}    \mbox{\hyperlink{classstd_1_1tagged_a269926a2e029e8b562b9158338dd8f7a}{reference}} \mbox{\hyperlink{classstd_1_1tagged_ae2a8388dc6af4fd2b5a060b114a8b4c8}{get}}();}
+\DoxyCodeLine{154 }
+\DoxyCodeLine{155     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{162 \textcolor{comment}{}    \mbox{\hyperlink{classstd_1_1tagged_aa231b6d4eb6cde817d3543444e318009}{const\_reference}} \mbox{\hyperlink{classstd_1_1tagged_ae2a8388dc6af4fd2b5a060b114a8b4c8}{get}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{163 }
+\DoxyCodeLine{164     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{171 \textcolor{comment}{}    \mbox{\hyperlink{classstd_1_1tagged_a269926a2e029e8b562b9158338dd8f7a}{reference}} \mbox{\hyperlink{classstd_1_1tagged_a01d9a509e4ab9f1949f5147494c60776}{operator*}}();}
+\DoxyCodeLine{172 }
+\DoxyCodeLine{173     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{180 \textcolor{comment}{}    \mbox{\hyperlink{classstd_1_1tagged_aa231b6d4eb6cde817d3543444e318009}{const\_reference}} \mbox{\hyperlink{classstd_1_1tagged_a01d9a509e4ab9f1949f5147494c60776}{operator*}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{181 }
+\DoxyCodeLine{182     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{189 \textcolor{comment}{}    \textcolor{keyword}{operator} \mbox{\hyperlink{classstd_1_1tagged_a269926a2e029e8b562b9158338dd8f7a}{reference}}();}
+\DoxyCodeLine{190 }
+\DoxyCodeLine{191     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{198 \textcolor{comment}{}    \textcolor{keyword}{operator} \mbox{\hyperlink{classstd_1_1tagged_aa231b6d4eb6cde817d3543444e318009}{const\_reference}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{199 }
+\DoxyCodeLine{200     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{203 \textcolor{comment}{}    \mbox{\hyperlink{classstd_1_1tagged_a16f6ec8beac93ca1bcb3b9e317a410b7}{key\_type}} \mbox{\hyperlink{classstd_1_1tagged_a8fb8f3515e6a53dc5f4a6a87150c8cf1}{key}};}
+\DoxyCodeLine{204 }
+\DoxyCodeLine{205  \textcolor{keyword}{protected}:}
+\DoxyCodeLine{206     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{211 \textcolor{comment}{}    std::shared\_ptr< T > \mbox{\hyperlink{classstd_1_1tagged_a619bf9127f89c166cf8b0f7659e61cbc}{\_value}};}
+\DoxyCodeLine{212 \};}
+\DoxyCodeLine{213 }
+\DoxyCodeLine{214 }
+\DoxyCodeLine{215 }
+\DoxyCodeLine{216 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T, \textcolor{keyword}{typename} Key >}
+\DoxyCodeLine{217 \textcolor{keyword}{template} < \textcolor{keyword}{typename}... Args, \textcolor{keyword}{typename} >}
+\DoxyCodeLine{218 \mbox{\hyperlink{classstd_1_1tagged_a6cbc414b61e9ad6c618bd368bf9769c9}{tagged< T, Key >::tagged}}(Args\&\&... args) :}
+\DoxyCodeLine{219     \_value(new T(std::forward<Args>(args)...)) \textcolor{comment}{/* @note std::forward preseves lvalue/rvalue references! */} \{}
+\DoxyCodeLine{220         \textcolor{comment}{/* ... */}}
+\DoxyCodeLine{221         \textcolor{comment}{// printf("{}Variadic forward construtor @ \%p\(\backslash\)n"{}, \_value);}}
+\DoxyCodeLine{222 \}}
+\DoxyCodeLine{223 }
+\DoxyCodeLine{224 }
+\DoxyCodeLine{225 }
+\DoxyCodeLine{226 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T, \textcolor{keyword}{typename} Key >}
+\DoxyCodeLine{227 \textcolor{keyword}{template} < \textcolor{keyword}{typename}... Args, \textcolor{keyword}{typename} >}
+\DoxyCodeLine{228 \mbox{\hyperlink{classstd_1_1tagged_a6cbc414b61e9ad6c618bd368bf9769c9}{tagged< T, Key >::tagged}}(\textcolor{keyword}{const} Key\& key\_, Args\&\&... args) :}
+\DoxyCodeLine{229     key(key\_),}
+\DoxyCodeLine{230     \_value(new T(std::forward<Args>(args)...)) \textcolor{comment}{/* @note std::forward preseves lvalue/rvalue references! */} \{}
+\DoxyCodeLine{231         \textcolor{comment}{/* ... */}}
+\DoxyCodeLine{232         \textcolor{comment}{// printf("{}Variadic forward construtor w/ key @ \%p\(\backslash\)n"{}, \_value);}}
+\DoxyCodeLine{233 \}}
+\DoxyCodeLine{234 }
+\DoxyCodeLine{235 }
+\DoxyCodeLine{236 }
+\DoxyCodeLine{237 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T, \textcolor{keyword}{typename} Key >}
+\DoxyCodeLine{238 \mbox{\hyperlink{classstd_1_1tagged_a6cbc414b61e9ad6c618bd368bf9769c9}{tagged< T, Key >::tagged}}(\textcolor{keyword}{const} \mbox{\hyperlink{classstd_1_1tagged}{tagged< T, Key >}}\& other) :}
+\DoxyCodeLine{239     key(other.key),}
+\DoxyCodeLine{240     \_value(new T(other.get())) \{}
+\DoxyCodeLine{241         \textcolor{comment}{/* ... */}}
+\DoxyCodeLine{242         \textcolor{comment}{// printf("{}Custom copy construtor @ \%p\(\backslash\)n"{}, \_value);}}
+\DoxyCodeLine{243 \}}
+\DoxyCodeLine{244 }
+\DoxyCodeLine{245 }
+\DoxyCodeLine{246 }
+\DoxyCodeLine{247 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T, \textcolor{keyword}{typename} Key >}
+\DoxyCodeLine{248 \mbox{\hyperlink{classstd_1_1tagged_a6cbc414b61e9ad6c618bd368bf9769c9}{tagged< T, Key >::tagged}}(tagged< T, Key >\&\& other) :}
+\DoxyCodeLine{249     key(other.key),}
+\DoxyCodeLine{250     \_value(new T(std::move(other.get()))) \{}
+\DoxyCodeLine{251         \textcolor{comment}{/* ... */}}
+\DoxyCodeLine{252         \textcolor{comment}{// printf("{}Custom move construtor @ \%p\(\backslash\)n"{}, \_value);}}
+\DoxyCodeLine{253 \}}
+\DoxyCodeLine{254 }
+\DoxyCodeLine{255 }
+\DoxyCodeLine{256 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T, \textcolor{keyword}{typename} Key >}
+\DoxyCodeLine{257 \mbox{\hyperlink{classstd_1_1tagged_a6cbc414b61e9ad6c618bd368bf9769c9}{tagged< T, Key >::tagged}}(\textcolor{keyword}{const} T\& value\_, \textcolor{keyword}{const} Key\& key\_) : \_value(new T(value\_)), key(key\_) \{}
+\DoxyCodeLine{258     \textcolor{comment}{/* ... */}}
+\DoxyCodeLine{259 \}}
+\DoxyCodeLine{260 }
+\DoxyCodeLine{261 }
+\DoxyCodeLine{262 }
+\DoxyCodeLine{263 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T, \textcolor{keyword}{typename} Key >}
+\DoxyCodeLine{264 \mbox{\hyperlink{classstd_1_1tagged}{tagged< T, Key >}}\& \mbox{\hyperlink{classstd_1_1tagged_a406d57db2595448b48d62157ac32440f}{tagged< T, Key >::operator=}}(\textcolor{keyword}{const} \mbox{\hyperlink{classstd_1_1tagged}{tagged< T, Key >}}\& other) \{}
+\DoxyCodeLine{265     key = other.\mbox{\hyperlink{classstd_1_1tagged_a8fb8f3515e6a53dc5f4a6a87150c8cf1}{key}};}
+\DoxyCodeLine{266     \_value = std::shared\_ptr< T >(\textcolor{keyword}{new} T(other.\mbox{\hyperlink{classstd_1_1tagged_ae2a8388dc6af4fd2b5a060b114a8b4c8}{get}}()));}
+\DoxyCodeLine{267     \textcolor{keywordflow}{return} *\textcolor{keyword}{this};}
+\DoxyCodeLine{268 \}}
+\DoxyCodeLine{269 }
+\DoxyCodeLine{270 }
+\DoxyCodeLine{271 }
+\DoxyCodeLine{272 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T, \textcolor{keyword}{typename} Key >}
+\DoxyCodeLine{273 \mbox{\hyperlink{classstd_1_1tagged}{tagged< T, Key >}}\& \mbox{\hyperlink{classstd_1_1tagged_a406d57db2595448b48d62157ac32440f}{tagged< T, Key >::operator=}}(\mbox{\hyperlink{classstd_1_1tagged}{tagged< T, Key >}}\&\& other) \{}
+\DoxyCodeLine{274     key = other.\mbox{\hyperlink{classstd_1_1tagged_a8fb8f3515e6a53dc5f4a6a87150c8cf1}{key}};}
+\DoxyCodeLine{275     \_value = std::shared\_ptr< T >(\textcolor{keyword}{new} T(std::move(other.get())));}
+\DoxyCodeLine{276     \textcolor{keywordflow}{return} *\textcolor{keyword}{this};}
+\DoxyCodeLine{277 \}}
+\DoxyCodeLine{278 }
+\DoxyCodeLine{279 }
+\DoxyCodeLine{280 }
+\DoxyCodeLine{281 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T, \textcolor{keyword}{typename} Key >}
+\DoxyCodeLine{282 \textcolor{keyword}{template} < \textcolor{keyword}{typename} iT >}
+\DoxyCodeLine{283 \mbox{\hyperlink{classstd_1_1tagged}{tagged< T, Key >}}\& \mbox{\hyperlink{classstd_1_1tagged_a406d57db2595448b48d62157ac32440f}{tagged< T, Key >::operator=}}(\textcolor{keyword}{const} iT\& other) \{}
+\DoxyCodeLine{284     *\_value = other;  \textcolor{comment}{// calls T::operator(const iT\&)}}
+\DoxyCodeLine{285     \textcolor{keywordflow}{return} *\textcolor{keyword}{this};}
+\DoxyCodeLine{286 \}}
+\DoxyCodeLine{287 }
+\DoxyCodeLine{288 }
+\DoxyCodeLine{289 }
+\DoxyCodeLine{290 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T, \textcolor{keyword}{typename} Key >}
+\DoxyCodeLine{291 \textcolor{keyword}{typename} \mbox{\hyperlink{classstd_1_1tagged_a269926a2e029e8b562b9158338dd8f7a}{tagged< T, Key >::reference}} \mbox{\hyperlink{classstd_1_1tagged_ae2a8388dc6af4fd2b5a060b114a8b4c8}{tagged< T, Key >::get}}() \{}
+\DoxyCodeLine{292     \textcolor{keywordflow}{return} *\_value;}
+\DoxyCodeLine{293 \}}
+\DoxyCodeLine{294 }
+\DoxyCodeLine{295 }
+\DoxyCodeLine{296 }
+\DoxyCodeLine{297 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T, \textcolor{keyword}{typename} Key >}
+\DoxyCodeLine{298 \textcolor{keyword}{typename} \mbox{\hyperlink{classstd_1_1tagged_aa231b6d4eb6cde817d3543444e318009}{tagged< T, Key >::const\_reference}} \mbox{\hyperlink{classstd_1_1tagged_ae2a8388dc6af4fd2b5a060b114a8b4c8}{tagged< T, Key >::get}}()\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{299     \textcolor{keywordflow}{return} *\_value;}
+\DoxyCodeLine{300 \}}
+\DoxyCodeLine{301 }
+\DoxyCodeLine{302 }
+\DoxyCodeLine{303 }
+\DoxyCodeLine{304 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T, \textcolor{keyword}{typename} Key >}
+\DoxyCodeLine{305 \textcolor{keyword}{typename} \mbox{\hyperlink{classstd_1_1tagged_a269926a2e029e8b562b9158338dd8f7a}{tagged< T, Key >::reference}} \mbox{\hyperlink{classstd_1_1tagged_a01d9a509e4ab9f1949f5147494c60776}{tagged< T, Key >::operator*}}() \{}
+\DoxyCodeLine{306     \textcolor{keywordflow}{return} *\_value;}
+\DoxyCodeLine{307 \}}
+\DoxyCodeLine{308 }
+\DoxyCodeLine{309 }
+\DoxyCodeLine{310 }
+\DoxyCodeLine{311 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T, \textcolor{keyword}{typename} Key >}
+\DoxyCodeLine{312 \textcolor{keyword}{typename} \mbox{\hyperlink{classstd_1_1tagged_aa231b6d4eb6cde817d3543444e318009}{tagged< T, Key >::const\_reference}} \mbox{\hyperlink{classstd_1_1tagged_a01d9a509e4ab9f1949f5147494c60776}{tagged< T, Key >::operator*}}()\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{313     \textcolor{keywordflow}{return} *\_value;}
+\DoxyCodeLine{314 \}}
+\DoxyCodeLine{315 }
+\DoxyCodeLine{316 }
+\DoxyCodeLine{317 }
+\DoxyCodeLine{318 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T, \textcolor{keyword}{typename} Key >}
+\DoxyCodeLine{319 \mbox{\hyperlink{classstd_1_1tagged}{tagged< T, Key >::operator}} \mbox{\hyperlink{classstd_1_1tagged_a269926a2e029e8b562b9158338dd8f7a}{tagged< T, Key >::reference}}() \{}
+\DoxyCodeLine{320     \textcolor{keywordflow}{return} *\_value;}
+\DoxyCodeLine{321 \}}
+\DoxyCodeLine{322 }
+\DoxyCodeLine{323 }
+\DoxyCodeLine{324 }
+\DoxyCodeLine{325 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T, \textcolor{keyword}{typename} Key >}
+\DoxyCodeLine{326 tagged< T, Key >::operator \mbox{\hyperlink{classstd_1_1tagged_aa231b6d4eb6cde817d3543444e318009}{tagged< T, Key >::const\_reference}}()\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{327     \textcolor{keywordflow}{return} *\_value;}
+\DoxyCodeLine{328 \}}
+\DoxyCodeLine{329 }
+\DoxyCodeLine{330 }
+\DoxyCodeLine{331 }
+\DoxyCodeLine{332 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{345 \textcolor{comment}{}\textcolor{keyword}{template} < \textcolor{keyword}{typename} T, \textcolor{keyword}{typename} Key = string, \textcolor{keyword}{typename}... Args >}
+\DoxyCodeLine{346 \mbox{\hyperlink{classstd_1_1tagged}{tagged< T, Key >}} \mbox{\hyperlink{tagged_8hpp_a8486def30396cdf6bac7cd007572a748}{make\_tagged}}(\textcolor{keyword}{const} \textcolor{keyword}{typename} \mbox{\hyperlink{classstd_1_1tagged_a16f6ec8beac93ca1bcb3b9e317a410b7}{tagged< T, Key >::key\_type}}\& key, Args... args) \{}
+\DoxyCodeLine{347     \textcolor{keyword}{static\_assert}(std::is\_constructible< T, Args... >(),}
+\DoxyCodeLine{348                   \textcolor{stringliteral}{"{}VALUE TYPE IS NOT CONSTRUCTIBLE WITH GIVEN ARGUMENTS"{}});}
+\DoxyCodeLine{349     \mbox{\hyperlink{classstd_1_1tagged}{tagged< T, Key >}} obj(args...);}
+\DoxyCodeLine{350     obj.\mbox{\hyperlink{classstd_1_1tagged_a8fb8f3515e6a53dc5f4a6a87150c8cf1}{key}} = key;}
+\DoxyCodeLine{351     \textcolor{keywordflow}{return} obj;  \textcolor{comment}{// no need to use std::move, RVO takes care of it}}
+\DoxyCodeLine{352 \}}
+\DoxyCodeLine{353 }
+\DoxyCodeLine{354 }
+\DoxyCodeLine{355 \}  \textcolor{comment}{// namespace std}}
+\DoxyCodeLine{356 }
+\DoxyCodeLine{357 \textcolor{preprocessor}{\#endif  }\textcolor{comment}{// TRIGNOCLIENT\_INCLUDE\_TRIGNOCLIENT\_TAGGED\_HPP\_}}
+
+\end{DoxyCode}

@@ -1,0 +1,223 @@
+\hypertarget{basis__function_8hpp_source}{}\doxysection{basis\+\_\+function.\+hpp}
+\label{basis__function_8hpp_source}\index{/home/joao/Shared/PHD/code/mplibrary/include/mplibrary/basis\_function.hpp@{/home/joao/Shared/PHD/code/mplibrary/include/mplibrary/basis\_function.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef MOTION\_INCLUDE\_MOTION\_BASISFUNCTION\_HPP\_}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define MOTION\_INCLUDE\_MOTION\_BASISFUNCTION\_HPP\_}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include <cmath>}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include <functional>}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#include <vector>}}
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#include <utility>}}
+\DoxyCodeLine{8 }
+\DoxyCodeLine{9 \textcolor{keyword}{namespace }motion \{}
+\DoxyCodeLine{10 }
+\DoxyCodeLine{11 \textcolor{keyword}{namespace }basis\_kernels \{}
+\DoxyCodeLine{12 }
+\DoxyCodeLine{13 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{22 \textcolor{comment}{}\textcolor{keyword}{inline} \textcolor{keywordtype}{float} vonMises(\textcolor{keyword}{const} \textcolor{keywordtype}{float}\& phase, \textcolor{keyword}{const} \textcolor{keywordtype}{float}\& center, \textcolor{keyword}{const} \textcolor{keywordtype}{float}\& width) \{}
+\DoxyCodeLine{23     \textcolor{keywordflow}{return} exp(width*(cos(phase -\/ center) -\/ 1.0)) -\/ 0.14;  \textcolor{comment}{// hand tuned width value for von-\/mises kernels (to avoid null-\/frequency offset)}}
+\DoxyCodeLine{24 \}}
+\DoxyCodeLine{25 }
+\DoxyCodeLine{26 }
+\DoxyCodeLine{27 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{36 \textcolor{comment}{}\textcolor{keyword}{inline} \textcolor{keywordtype}{float} gaussian(\textcolor{keyword}{const} \textcolor{keywordtype}{float}\& \_phase, \textcolor{keyword}{const} \textcolor{keywordtype}{float}\& \_center, \textcolor{keyword}{const} \textcolor{keywordtype}{float}\& \_width) \{}
+\DoxyCodeLine{37     \textcolor{keywordflow}{return} exp(-\/1 * \_width * pow(\_phase -\/ \_center, 2));}
+\DoxyCodeLine{38 \}}
+\DoxyCodeLine{39 }
+\DoxyCodeLine{40 \}  \textcolor{comment}{// namespace basis\_kernels}}
+\DoxyCodeLine{41 }
+\DoxyCodeLine{42 }
+\DoxyCodeLine{43 }
+\DoxyCodeLine{44 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{47 \textcolor{comment}{}\textcolor{keyword}{class }\mbox{\hyperlink{classmotion_1_1_basis_function}{BasisFunction}} \{}
+\DoxyCodeLine{48  \textcolor{keyword}{public}:}
+\DoxyCodeLine{49     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{55 \textcolor{comment}{}    \textcolor{keyword}{typedef} std::function< float(\textcolor{keyword}{const} \textcolor{keywordtype}{float}\&, \textcolor{keyword}{const} \textcolor{keywordtype}{float}\&, \textcolor{keyword}{const} \textcolor{keywordtype}{float}\&) > \mbox{\hyperlink{classmotion_1_1_basis_function_ab1ed806bf75d66b549bb10c922598d21}{Kernel}};}
+\DoxyCodeLine{56 }
+\DoxyCodeLine{57     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{60 \textcolor{comment}{}    \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\{ \textcolor{keywordtype}{float} center; \textcolor{keywordtype}{float} width; \} \mbox{\hyperlink{structmotion_1_1_basis_function_1_1_parameters}{Parameters}};}
+\DoxyCodeLine{61 }
+\DoxyCodeLine{62     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{68 \textcolor{comment}{}    \textcolor{keyword}{explicit} \mbox{\hyperlink{classmotion_1_1_basis_function_a54e52797e39dfb34902f692eb81482dc}{BasisFunction}}(\textcolor{keyword}{const} \mbox{\hyperlink{classmotion_1_1_basis_function_ab1ed806bf75d66b549bb10c922598d21}{Kernel}}\& \mbox{\hyperlink{classmotion_1_1_basis_function_a2ef18f90c1c957d1d2b4f5bc1c22ac9d}{kernel}}, \textcolor{keyword}{const} \mbox{\hyperlink{structmotion_1_1_basis_function_1_1_parameters}{Parameters}}\& \mbox{\hyperlink{classmotion_1_1_basis_function_a994e86cded55ce059a3273081bbcb57c}{parameters}} = \{ 0.0, 1.0 \});}
+\DoxyCodeLine{69 }
+\DoxyCodeLine{70     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{77 \textcolor{comment}{}    \textcolor{keyword}{explicit} \mbox{\hyperlink{classmotion_1_1_basis_function_a54e52797e39dfb34902f692eb81482dc}{BasisFunction}}(\textcolor{keyword}{const} \mbox{\hyperlink{classmotion_1_1_basis_function_ab1ed806bf75d66b549bb10c922598d21}{Kernel}}\& \mbox{\hyperlink{classmotion_1_1_basis_function_a2ef18f90c1c957d1d2b4f5bc1c22ac9d}{kernel}}, \textcolor{keywordtype}{float} center, \textcolor{keywordtype}{float} width= 1.0);}
+\DoxyCodeLine{78 }
+\DoxyCodeLine{79     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{84 \textcolor{comment}{}    \textcolor{keywordtype}{float} \mbox{\hyperlink{classmotion_1_1_basis_function_af70f4f2d1b21df5594f15601f8abe487}{value}}(\textcolor{keywordtype}{float} phase) \textcolor{keyword}{const};}
+\DoxyCodeLine{85 }
+\DoxyCodeLine{86     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{93 \textcolor{comment}{}    \textcolor{keywordtype}{float} \mbox{\hyperlink{classmotion_1_1_basis_function_a00290643f83d15d7000d0e6fa78ec6f7}{operator()}}(\textcolor{keywordtype}{float} phase) \textcolor{keyword}{const};}
+\DoxyCodeLine{94 }
+\DoxyCodeLine{95     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{98 \textcolor{comment}{}    \mbox{\hyperlink{structmotion_1_1_basis_function_1_1_parameters}{Parameters}} \mbox{\hyperlink{classmotion_1_1_basis_function_a994e86cded55ce059a3273081bbcb57c}{parameters}};}
+\DoxyCodeLine{99 }
+\DoxyCodeLine{100     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{103 \textcolor{comment}{}    \mbox{\hyperlink{classmotion_1_1_basis_function_ab1ed806bf75d66b549bb10c922598d21}{Kernel}} \mbox{\hyperlink{classmotion_1_1_basis_function_a2ef18f90c1c957d1d2b4f5bc1c22ac9d}{kernel}};}
+\DoxyCodeLine{104 \};}
+\DoxyCodeLine{105 }
+\DoxyCodeLine{106 }
+\DoxyCodeLine{107 \textcolor{comment}{// //-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{108 \textcolor{comment}{// /// @brief      Class implementing a linear combination of non-\/linear basis functions.}}
+\DoxyCodeLine{109 \textcolor{comment}{// ///}}
+\DoxyCodeLine{110 \textcolor{comment}{// class BasisCombination \{}}
+\DoxyCodeLine{111 \textcolor{comment}{//  public:}}
+\DoxyCodeLine{112 \textcolor{comment}{//     //-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{113 \textcolor{comment}{//     /// @brief      Constructs a new instance.}}
+\DoxyCodeLine{114 \textcolor{comment}{//     ///}}
+\DoxyCodeLine{115 \textcolor{comment}{//     /// @param[in]  basis  Basis to initialize combination.}}
+\DoxyCodeLine{116 \textcolor{comment}{//     ///}}
+\DoxyCodeLine{117 \textcolor{comment}{//     explicit BasisCombination(const std::vector< BasisFunction >\& basis = \{ /* ... */ \});}}
+\DoxyCodeLine{118 }
+\DoxyCodeLine{119 \textcolor{comment}{//     //-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{120 \textcolor{comment}{//     /// @brief      Constructs a new combination of same-\/type basis functions, from kernel \& basis parameters.}}
+\DoxyCodeLine{121 \textcolor{comment}{//     ///}}
+\DoxyCodeLine{122 \textcolor{comment}{//     /// @param[in]  n\_basis      Number of basis functions.}}
+\DoxyCodeLine{123 \textcolor{comment}{//     /// @param[in]  kernel       Kernel to use when initializing basis functions.}}
+\DoxyCodeLine{124 \textcolor{comment}{//     /// @param[in]  parameters   Vector of basis functions parameters}}
+\DoxyCodeLine{125 \textcolor{comment}{//     ///}}
+\DoxyCodeLine{126 \textcolor{comment}{//     BasisCombination(size\_t n\_basis, const BasisFunction::Kernel\& kernel, const std::vector< BasisFunction::Parameters >\& parameters);}}
+\DoxyCodeLine{127 }
+\DoxyCodeLine{128 \textcolor{comment}{//     //-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{129 \textcolor{comment}{//     /// @brief      Constructs a new combination of same-\/type equally parametrized basis functions, from BasisFunction constructor arguments.}}
+\DoxyCodeLine{130 \textcolor{comment}{//     ///}}
+\DoxyCodeLine{131 \textcolor{comment}{//     /// @param[in]  n\_basis  Number of basis functions.}}
+\DoxyCodeLine{132 \textcolor{comment}{//     /// @param[in]  arg      Variadic parameter pack with arguments used to instantiate basis functions.}}
+\DoxyCodeLine{133 \textcolor{comment}{//     ///}}
+\DoxyCodeLine{134 \textcolor{comment}{//     /// @note       Forwards *args* to BasisFunction constructor, therefore capturing copy constructor as well.}}
+\DoxyCodeLine{135 \textcolor{comment}{//     ///}}
+\DoxyCodeLine{136 \textcolor{comment}{//     template < typename... Args >}}
+\DoxyCodeLine{137 \textcolor{comment}{//     BasisCombination(size\_t n\_basis, Args\&\&... args);}}
+\DoxyCodeLine{138 }
+\DoxyCodeLine{139 \textcolor{comment}{//     //-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{140 \textcolor{comment}{//     /// @brief      Get number of basis functions in combination.}}
+\DoxyCodeLine{141 \textcolor{comment}{//     ///}}
+\DoxyCodeLine{142 \textcolor{comment}{//     size\_t size() const;}}
+\DoxyCodeLine{143 }
+\DoxyCodeLine{144 \textcolor{comment}{//     //-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{145 \textcolor{comment}{//     /// @brief      Access underlying basis functions in combination.}}
+\DoxyCodeLine{146 \textcolor{comment}{//     ///}}
+\DoxyCodeLine{147 \textcolor{comment}{//     const std::vector< BasisFunction >\& basis() const;}}
+\DoxyCodeLine{148 }
+\DoxyCodeLine{149 \textcolor{comment}{//     //-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{150 \textcolor{comment}{//     /// @brief      Access underlying basis function weights.}}
+\DoxyCodeLine{151 \textcolor{comment}{//     ///}}
+\DoxyCodeLine{152 \textcolor{comment}{//     const std::vector<float>\& weights() const;}}
+\DoxyCodeLine{153 }
+\DoxyCodeLine{154 \textcolor{comment}{//     //-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{155 \textcolor{comment}{//     /// @brief      Sets basis function parameters i.e. centers *and* widths.}}
+\DoxyCodeLine{156 \textcolor{comment}{//     ///}}
+\DoxyCodeLine{157 \textcolor{comment}{//     /// @param[in]  parameters Vector of BasisFunction::Parameters instances to assign to underlying basis.}}
+\DoxyCodeLine{158 \textcolor{comment}{//     ///}}
+\DoxyCodeLine{159 \textcolor{comment}{//     /// @throw      std::invalid\_argument if length of input vector does not match size().}}
+\DoxyCodeLine{160 \textcolor{comment}{//     ///}}
+\DoxyCodeLine{161 \textcolor{comment}{//     void setParameters(const std::vector< BasisFunction::Parameters >\& parameters);}}
+\DoxyCodeLine{162 }
+\DoxyCodeLine{163 \textcolor{comment}{//     //-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{164 \textcolor{comment}{//     /// @brief      Sets basis function centers (positions).}}
+\DoxyCodeLine{165 \textcolor{comment}{//     ///}}
+\DoxyCodeLine{166 \textcolor{comment}{//     /// @param[in]  centers  Vector of center values for each basis function.}}
+\DoxyCodeLine{167 \textcolor{comment}{//     ///}}
+\DoxyCodeLine{168 \textcolor{comment}{//     /// @throw      std::invalid\_argument if length of input vector does not match size().}}
+\DoxyCodeLine{169 \textcolor{comment}{//     ///}}
+\DoxyCodeLine{170 \textcolor{comment}{//     void setCenters(const std::vector<float>\& centers);}}
+\DoxyCodeLine{171 }
+\DoxyCodeLine{172 \textcolor{comment}{//     //-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{173 \textcolor{comment}{//     /// @brief      Sets basis function widths.}}
+\DoxyCodeLine{174 \textcolor{comment}{//     ///}}
+\DoxyCodeLine{175 \textcolor{comment}{//     /// @param[in]  centers  Vector of width values for each basis function.}}
+\DoxyCodeLine{176 \textcolor{comment}{//     ///}}
+\DoxyCodeLine{177 \textcolor{comment}{//     /// @throw      std::invalid\_argument if length of input vector does not match size().}}
+\DoxyCodeLine{178 \textcolor{comment}{//     ///}}
+\DoxyCodeLine{179 \textcolor{comment}{//     void setWidths(const std::vector<float>\& widths);}}
+\DoxyCodeLine{180 }
+\DoxyCodeLine{181 \textcolor{comment}{//     //-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{182 \textcolor{comment}{//     /// @brief      Sets basis function weights for combination.}}
+\DoxyCodeLine{183 \textcolor{comment}{//     ///}}
+\DoxyCodeLine{184 \textcolor{comment}{//     /// @param[in]  centers  Vector of weigth values for each basis function.}}
+\DoxyCodeLine{185 \textcolor{comment}{//     ///}}
+\DoxyCodeLine{186 \textcolor{comment}{//     /// @throw      std::invalid\_argument if length of input vector does not match size().}}
+\DoxyCodeLine{187 \textcolor{comment}{//     ///}}
+\DoxyCodeLine{188 \textcolor{comment}{//     void setWeights(const std::vector<float>\& weights);}}
+\DoxyCodeLine{189 }
+\DoxyCodeLine{190 \textcolor{comment}{//     //-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{191 \textcolor{comment}{//     /// @brief      Array indexer operator, accessing basis function @ given *pos*.}}
+\DoxyCodeLine{192 \textcolor{comment}{//     ///}}
+\DoxyCodeLine{193 \textcolor{comment}{//     /// @param[in]  pos   Basis function position}}
+\DoxyCodeLine{194 \textcolor{comment}{//     ///}}
+\DoxyCodeLine{195 \textcolor{comment}{//     /// @return     Reference to underlying basis @ given position.}}
+\DoxyCodeLine{196 \textcolor{comment}{//     ///}}
+\DoxyCodeLine{197 \textcolor{comment}{//     /// @throw      std::invalid\_argument if *pos* >= size().}}
+\DoxyCodeLine{198 \textcolor{comment}{//     ///}}
+\DoxyCodeLine{199 \textcolor{comment}{//     BasisFunction\& operator[](size\_t pos);}}
+\DoxyCodeLine{200 }
+\DoxyCodeLine{201 \textcolor{comment}{//     //-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{202 \textcolor{comment}{//     /// @brief      Array indexer operator, accessing basis function @ given *pos* (const overload).}}
+\DoxyCodeLine{203 \textcolor{comment}{//     ///}}
+\DoxyCodeLine{204 \textcolor{comment}{//     /// @param[in]  pos   Basis function position}}
+\DoxyCodeLine{205 \textcolor{comment}{//     ///}}
+\DoxyCodeLine{206 \textcolor{comment}{//     /// @return     Const reference to underlying basis @ given position.}}
+\DoxyCodeLine{207 \textcolor{comment}{//     ///}}
+\DoxyCodeLine{208 \textcolor{comment}{//     /// @throw      std::invalid\_argument if *pos* >= size().}}
+\DoxyCodeLine{209 \textcolor{comment}{//     ///}}
+\DoxyCodeLine{210 \textcolor{comment}{//     const BasisFunction\& operator[](size\_t pos) const;}}
+\DoxyCodeLine{211 }
+\DoxyCodeLine{212 \textcolor{comment}{//     //-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{213 \textcolor{comment}{//     /// @brief      Adds a basis function to the combination.}}
+\DoxyCodeLine{214 \textcolor{comment}{//     ///}}
+\DoxyCodeLine{215 \textcolor{comment}{//     /// @param[in]  weight  Basis weight (in linear combination)}}
+\DoxyCodeLine{216 \textcolor{comment}{//     /// @param[in]  args    Variadic parameter pack with arguments used to instantiate basis functions.}}
+\DoxyCodeLine{217 \textcolor{comment}{//     ///}}
+\DoxyCodeLine{218 \textcolor{comment}{//     template < typename... Args >}}
+\DoxyCodeLine{219 \textcolor{comment}{//     void addBasis(float weight, Args\&\&... args);}}
+\DoxyCodeLine{220 }
+\DoxyCodeLine{221 \textcolor{comment}{//     //-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{222 \textcolor{comment}{//     /// @brief      Removes basis.}}
+\DoxyCodeLine{223 \textcolor{comment}{//     ///}}
+\DoxyCodeLine{224 \textcolor{comment}{//     /// @param[in]  pos   Position of basis function to remove.}}
+\DoxyCodeLine{225 \textcolor{comment}{//     ///}}
+\DoxyCodeLine{226 \textcolor{comment}{//     void removeBasis(size\_t pos);}}
+\DoxyCodeLine{227 }
+\DoxyCodeLine{228 \textcolor{comment}{//     //-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{229 \textcolor{comment}{//     /// @brief      Compute output of each basis function @ given *phase*.}}
+\DoxyCodeLine{230 \textcolor{comment}{//     ///}}
+\DoxyCodeLine{231 \textcolor{comment}{//     /// @param[in]  phase  Phase value (input)}}
+\DoxyCodeLine{232 \textcolor{comment}{//     ///}}
+\DoxyCodeLine{233 \textcolor{comment}{//     /// @return     Vector of output values matching number of basis function in combination.}}
+\DoxyCodeLine{234 \textcolor{comment}{//     ///}}
+\DoxyCodeLine{235 \textcolor{comment}{//     std::vector<float> values(float phase) const;}}
+\DoxyCodeLine{236 }
+\DoxyCodeLine{237 \textcolor{comment}{//     //-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{238 \textcolor{comment}{//     /// @brief      Computes global combination value (weigthed across all basis functions in combination)}}
+\DoxyCodeLine{239 \textcolor{comment}{//     ///}}
+\DoxyCodeLine{240 \textcolor{comment}{//     /// @param[in]  phase  Phase value (input)}}
+\DoxyCodeLine{241 \textcolor{comment}{//     ///}}
+\DoxyCodeLine{242 \textcolor{comment}{//     float value(float phase) const;}}
+\DoxyCodeLine{243 }
+\DoxyCodeLine{244 \textcolor{comment}{//  protected:}}
+\DoxyCodeLine{245 \textcolor{comment}{//     std::vector< BasisFunction > basis\_functions;}}
+\DoxyCodeLine{246 \textcolor{comment}{//     std::vector< float >         basis\_weights;}}
+\DoxyCodeLine{247 \textcolor{comment}{// \};}}
+\DoxyCodeLine{248 }
+\DoxyCodeLine{249 }
+\DoxyCodeLine{250 \textcolor{comment}{// /// @cond}}
+\DoxyCodeLine{251 \textcolor{comment}{// template < typename... Args >}}
+\DoxyCodeLine{252 \textcolor{comment}{// BasisCombination::BasisCombination(size\_t n\_basis, Args\&\&... args) \{}}
+\DoxyCodeLine{253 \textcolor{comment}{//     for (int i = 0; i < n\_basis; i++) \{}}
+\DoxyCodeLine{254 \textcolor{comment}{//         basis\_functions.emplace\_back(std::forward< Args >(args)...);}}
+\DoxyCodeLine{255 \textcolor{comment}{//     \}}}
+\DoxyCodeLine{256 \textcolor{comment}{// \}}}
+\DoxyCodeLine{257 }
+\DoxyCodeLine{258 }
+\DoxyCodeLine{259 \textcolor{comment}{// template < typename... Args >}}
+\DoxyCodeLine{260 \textcolor{comment}{// void BasisCombination::addBasis(float weight, Args\&\&... args) \{}}
+\DoxyCodeLine{261 \textcolor{comment}{//     basis\_functions.emplace\_back(std::forward< Args >(args)...);}}
+\DoxyCodeLine{262 \textcolor{comment}{// \}}}
+\DoxyCodeLine{263 \textcolor{comment}{// /// @endcond}}
+\DoxyCodeLine{264 }
+\DoxyCodeLine{265 \} \textcolor{comment}{// namespace motion}}
+\DoxyCodeLine{266 }
+\DoxyCodeLine{267 \textcolor{preprocessor}{\#endif  }\textcolor{comment}{// MOTION\_INCLUDE\_MOTION\_BASISFUNCTION\_HPP\_}}
+
+\end{DoxyCode}

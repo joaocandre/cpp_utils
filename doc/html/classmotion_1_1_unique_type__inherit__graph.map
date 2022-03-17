@@ -1,0 +1,5 @@
+<map id="motion::UniqueType" name="motion::UniqueType">
+<area shape="rect" id="node1" title="Base class for unique objects, holding a generic unique identifier (UUID)." alt="" coords="59,5,191,29"/>
+<area shape="rect" id="node2" href="$classmotion_1_1_primitive.html" title="Class implementing a versatile motion primitive as a linear combination of non&#45;linear basis functions..." alt="" coords="5,77,120,101"/>
+<area shape="rect" id="node3" href="$classmotion_1_1_skill.html" title="Class describing a motion skill as a weigthed combination of multiple primitives, for variable output..." alt="" coords="144,77,235,101"/>
+</map>

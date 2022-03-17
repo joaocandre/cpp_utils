@@ -1,0 +1,964 @@
+\hypertarget{matrix_8hpp_source}{}\doxysection{matrix.\+hpp}
+\label{matrix_8hpp_source}\index{/home/joao/Shared/PHD/code/ros/src/storage/include/storage/matrix.hpp@{/home/joao/Shared/PHD/code/ros/src/storage/include/storage/matrix.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef \_MATRIX\_HPP\_}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define \_MATRIX\_HPP\_}}
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include <vector>}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include <utility>}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#include <ctime>}}
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#include <cassert>}}
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include <iostream>}}
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#include <algorithm>}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#include "{}storage/subset.hpp"{}}}
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#include "{}storage/type\_check.hpp"{}}}
+\DoxyCodeLine{13 \textcolor{keyword}{namespace }std \{}
+\DoxyCodeLine{15 \textcolor{comment}{// TODO(joao): replace assert with "{}if () throw"{}}}
+\DoxyCodeLine{17 \textcolor{comment}{}\textcolor{comment}{// Helper classes}}
+\DoxyCodeLine{18 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T > \textcolor{keyword}{class }matrix;  \textcolor{comment}{// forward declaration required for 'using'}}
+\DoxyCodeLine{19 \textcolor{keyword}{template} < \textcolor{keyword}{typename} dT >}
+\DoxyCodeLine{20 \textcolor{keyword}{using} matrix\_subset = storage::st\_subset\_base< matrix< dT > >;}
+\DoxyCodeLine{21 \textcolor{keyword}{template} < \textcolor{keyword}{typename} dT >}
+\DoxyCodeLine{22 \textcolor{keyword}{using} matrix\_subset\_const = storage::st\_subset\_base< const matrix< dT > >;}
+\DoxyCodeLine{23 }
+\DoxyCodeLine{24 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{29 \textcolor{comment}{}\textcolor{keyword}{template} < \textcolor{keyword}{typename} T >}
+\DoxyCodeLine{30 \textcolor{keyword}{class }\mbox{\hyperlink{classstd_1_1matrix}{matrix}} \{}
+\DoxyCodeLine{32     \textcolor{comment}{// Regarding std::matrix< T > member structure:}}
+\DoxyCodeLine{33     \textcolor{comment}{// A) Constructors and Assignment Operators:}}
+\DoxyCodeLine{34     \textcolor{comment}{//   C++ "{}rule of three"{}: classes should define 1) destructor; 2) copy constructor; and 3) copy assigment operator "{}="{} overload;}}
+\DoxyCodeLine{35     \textcolor{comment}{//   C++ "{}rule of five"{}: classes should define 1) destructor; 2) copy constructor; 3) move constructor; 4) copy assigment operator "{}="{} overload; 5) move assignment operator "{}="{} overload;}}
+\DoxyCodeLine{36     \textcolor{comment}{//   In this particular class, since no dynamic memory is being directly managed, there is no need for any of these five methods}}
+\DoxyCodeLine{37     \textcolor{comment}{// B) Const methods:}}
+\DoxyCodeLine{38     \textcolor{comment}{//   For const correctness, methods that do not modify the contents are "{}const"{} keyword, making them available when passing by const reference;}}
+\DoxyCodeLine{39     \textcolor{comment}{// C) Move semantics and lvalue/rvalue arguments}}
+\DoxyCodeLine{40     \textcolor{comment}{//   It used to be generally recommended best practice to use pass by const ref for all types, except for}}
+\DoxyCodeLine{41     \textcolor{comment}{//   1) builtin types (char, int, double, etc.), 2) iterators and 3) function objects (lambdas, classes deriving from std::*\_function); [cf. https://stackoverflow.com/a/270435/2340002]}}
+\DoxyCodeLine{42     \textcolor{comment}{// D) Subcript indices return type}}
+\DoxyCodeLine{43     \textcolor{comment}{//   A specific storage::subset class was defined that holds an index vector on std::matrix< T > \_data vector}}
+\DoxyCodeLine{44     \textcolor{comment}{//   This allows both read and write acess to multiple elements on the matrix \_data (e.g. row(), column(), etc)}}
+\DoxyCodeLine{45     \textcolor{comment}{//   Access (i.e. std::vector row = mat[mat.row(47)]) returns a copy of the original \_data, because vectors always own their content (can't have multiple vectors mapping the same memory)}}
+\DoxyCodeLine{46     \textcolor{comment}{//   [cf https://stackoverflow.com/a/52939707/2340002]}}
+\DoxyCodeLine{47     \textcolor{comment}{// E) Error handling:}}
+\DoxyCodeLine{48     \textcolor{comment}{//   assert() is used to ensure code behaves as expected, in alternative to exception handling, which should be used for run-\/time or i/o error}}
+\DoxyCodeLine{49     \textcolor{comment}{//   [cf https://stackoverflow.com/a/12887257/2340002]}}
+\DoxyCodeLine{50     \textcolor{comment}{// F) Type conversion}}
+\DoxyCodeLine{51     \textcolor{comment}{//   Templated members allow different argument and return types when interacting with std::vector and specialized containers, assuming types are casteable;}}
+\DoxyCodeLine{52     \textcolor{comment}{//   A cast operator is also provided to allow casting between matrix types;}}
+\DoxyCodeLine{54 \textcolor{comment}{}}
+\DoxyCodeLine{55  \textcolor{keyword}{protected}:}
+\DoxyCodeLine{56     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{59 \textcolor{comment}{}    \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{classstd_1_1matrix_a6450e842d7157b7fce6df24366fa47b4}{\_rows}};}
+\DoxyCodeLine{60 }
+\DoxyCodeLine{61     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{64 \textcolor{comment}{}    \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{classstd_1_1matrix_abfd21092e1ddd6c8fa40921fd14c6bf6}{\_cols}};}
+\DoxyCodeLine{65 }
+\DoxyCodeLine{66     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{69 \textcolor{comment}{}    vector< T > \mbox{\hyperlink{classstd_1_1matrix_a29ddfce620c563ba34ee9d061c286bd4}{\_data}};}
+\DoxyCodeLine{70 }
+\DoxyCodeLine{71  \textcolor{keyword}{public}:}
+\DoxyCodeLine{72     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{75 \textcolor{comment}{}    \textcolor{keyword}{typedef} T \mbox{\hyperlink{classstd_1_1matrix_a89f7885cc449fcce8306943cef212dba}{value\_type}};}
+\DoxyCodeLine{76 }
+\DoxyCodeLine{77     \textcolor{comment}{// //-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{78     \textcolor{comment}{// /// @brief      Constructs a new instance.}}
+\DoxyCodeLine{79     \textcolor{comment}{// ///}}
+\DoxyCodeLine{80     \textcolor{comment}{// matrix();}}
+\DoxyCodeLine{81 }
+\DoxyCodeLine{82     \textcolor{comment}{// //-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{83     \textcolor{comment}{// /// @brief      Constructs a new instance.}}
+\DoxyCodeLine{84     \textcolor{comment}{// ///}}
+\DoxyCodeLine{85     \textcolor{comment}{// /// @param[in]  rows  Number of rows}}
+\DoxyCodeLine{86     \textcolor{comment}{// /// @param[in]  cols  Number of cols}}
+\DoxyCodeLine{87     \textcolor{comment}{// ///}}
+\DoxyCodeLine{88     \textcolor{comment}{// matrix(size\_t rows, size\_t cols);}}
+\DoxyCodeLine{89 }
+\DoxyCodeLine{90     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{97 \textcolor{comment}{}    \textcolor{keyword}{template} < \textcolor{keyword}{typename}... Args, \textcolor{keyword}{typename} = \textcolor{keyword}{typename} enable\_if< is\_constructible< T, Args... >::value >::type >}
+\DoxyCodeLine{98     \mbox{\hyperlink{classstd_1_1matrix_af83b5d2d2f231599a656dc6f2fa3d956}{matrix}}(\textcolor{keywordtype}{size\_t} \mbox{\hyperlink{classstd_1_1matrix_a7b2fe3de9892ab5589361e5ed430faa4}{rows}} = 0, \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{classstd_1_1matrix_ad2cc55486d807add906143d7cbdad232}{cols}} = 0, Args\&\&... args);}
+\DoxyCodeLine{99     \textcolor{comment}{// matrix(size\_t \_rows, size\_t \_cols, const T\& \_val);}}
+\DoxyCodeLine{100 }
+\DoxyCodeLine{101     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{108 \textcolor{comment}{}    \textcolor{keyword}{template} < \textcolor{keyword}{typename} iT >}
+\DoxyCodeLine{109     \textcolor{keyword}{explicit} \mbox{\hyperlink{classstd_1_1matrix_a81d831e5264e79cc5e764456f5d95ba6}{matrix}}(\textcolor{keyword}{const} vector< vector< iT > >\& in);}
+\DoxyCodeLine{110 }
+\DoxyCodeLine{111     template < typename iT, typename = typename enable\_if< is\_nd\_container< iT >()>::type >}
+\DoxyCodeLine{112     \textcolor{keyword}{explicit} \mbox{\hyperlink{classstd_1_1matrix_af83b5d2d2f231599a656dc6f2fa3d956}{matrix}}(\textcolor{keyword}{const} \mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{storage::st\_subset\_base< iT >}}\& in);    \textcolor{comment}{// from multi-\/dimensional container (e.g. volume, volume subset, vector, etc) with shape info (.shape() and .pos())}}
+\DoxyCodeLine{113 }
+\DoxyCodeLine{114     template < typename iT, typename = typename enable\_if< !is\_nd\_container< iT >()>::type, \textcolor{keyword}{typename} = \textcolor{keywordtype}{void} >}
+\DoxyCodeLine{115     \textcolor{keyword}{explicit} \mbox{\hyperlink{classstd_1_1matrix_af83b5d2d2f231599a656dc6f2fa3d956}{matrix}}(\textcolor{keyword}{const} \mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{storage::st\_subset\_base< iT >}}\& in);    \textcolor{comment}{// from non-\/nd containers, constructs unidimensional matrix;}}
+\DoxyCodeLine{116 }
+\DoxyCodeLine{117     template < typename iT, typename = typename enable\_if< is\_generic\_container< iT >()>::type >}
+\DoxyCodeLine{118     \mbox{\hyperlink{classstd_1_1matrix_af83b5d2d2f231599a656dc6f2fa3d956}{matrix}}(\textcolor{keywordtype}{size\_t} \mbox{\hyperlink{classstd_1_1matrix_a7b2fe3de9892ab5589361e5ed430faa4}{rows}}, \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{classstd_1_1matrix_ad2cc55486d807add906143d7cbdad232}{cols}}, \textcolor{keyword}{const} iT\& in);          \textcolor{comment}{// from generic container (e.g. volume, volume subset, vector, etc), reshapes!}}
+\DoxyCodeLine{119 }
+\DoxyCodeLine{120     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{123 \textcolor{comment}{}    \mbox{\hyperlink{classstd_1_1matrix_a4a6425cd8b8c8b01e6bbce394eb6a995}{\string~matrix}}() = \textcolor{keywordflow}{default};}
+\DoxyCodeLine{124 }
+\DoxyCodeLine{125     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{130 \textcolor{comment}{}    T\& \mbox{\hyperlink{classstd_1_1matrix_ae4697fd485373a50299d8c12e02180bb}{operator*}}();}
+\DoxyCodeLine{131 }
+\DoxyCodeLine{132     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{139 \textcolor{comment}{}    \textcolor{keyword}{template} < \textcolor{keyword}{typename} iT >}
+\DoxyCodeLine{140     \mbox{\hyperlink{classstd_1_1matrix}{matrix< T >}}\& \mbox{\hyperlink{classstd_1_1matrix_acdd3b068547461e6744a0c03f69a9687}{operator=}}(\textcolor{keyword}{const} iT\& in);}
+\DoxyCodeLine{141 }
+\DoxyCodeLine{142     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{150 \textcolor{comment}{}    T\& \mbox{\hyperlink{classstd_1_1matrix_a235aefc56d1a24af04a79fef35f6cafa}{operator()}}(\textcolor{keywordtype}{size\_t} \mbox{\hyperlink{classstd_1_1matrix_a0f7b2c5358009f65a2898b37c8dc2718}{row}}, \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{classstd_1_1matrix_a1da6410ce85dd2612f3ee2ddc3540431}{col}});}
+\DoxyCodeLine{151 }
+\DoxyCodeLine{152     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{160 \textcolor{comment}{}    \textcolor{keyword}{const} T\& \mbox{\hyperlink{classstd_1_1matrix_afd62756af1c59a1c1b870bfbbbf6a0fb}{operator()}}(\textcolor{keywordtype}{size\_t} \mbox{\hyperlink{classstd_1_1matrix_a0f7b2c5358009f65a2898b37c8dc2718}{row}}, \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{classstd_1_1matrix_a1da6410ce85dd2612f3ee2ddc3540431}{col}}) \textcolor{keyword}{const};}
+\DoxyCodeLine{161 }
+\DoxyCodeLine{162     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{169 \textcolor{comment}{}    T\& \mbox{\hyperlink{classstd_1_1matrix_af0490edd8d02ea115f7af175febef994}{operator[]}}(\textcolor{keywordtype}{size\_t} idx);}
+\DoxyCodeLine{170 }
+\DoxyCodeLine{171     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{178 \textcolor{comment}{}    \textcolor{keyword}{const} T\& \mbox{\hyperlink{classstd_1_1matrix_a103a5843ca08977a9a1843f360d05f7a}{operator[]}}(\textcolor{keywordtype}{size\_t} idx) \textcolor{keyword}{const};}
+\DoxyCodeLine{179 }
+\DoxyCodeLine{180     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{187 \textcolor{comment}{}    \mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{matrix\_subset< T >}} \mbox{\hyperlink{classstd_1_1matrix_a918fa5e8737a70b5165ce5b92995a5fb}{operator[]}}(\textcolor{keyword}{const} vector< size\_t >\& idx);}
+\DoxyCodeLine{188 }
+\DoxyCodeLine{189     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{196 \textcolor{comment}{}    \mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{matrix\_subset\_const< T >}} \mbox{\hyperlink{classstd_1_1matrix_a81137f7e25db46dc1984a3d75c380c23}{operator[]}}(\textcolor{keyword}{const} vector< size\_t >\& idx) \textcolor{keyword}{const};}
+\DoxyCodeLine{197 }
+\DoxyCodeLine{198     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{205 \textcolor{comment}{}    \mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{matrix\_subset< T >}} \mbox{\hyperlink{classstd_1_1matrix_a3c028561e2cbc52e5bd6161c1085b986}{operator[]}}(\textcolor{keyword}{const} \mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{matrix\_subset< T >}}\& sbst);}
+\DoxyCodeLine{206 }
+\DoxyCodeLine{207     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{214 \textcolor{comment}{}    \mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{matrix\_subset\_const< T >}} \mbox{\hyperlink{classstd_1_1matrix_a421ef1f5607ce3fab9c3d54948dcf60a}{operator[]}}(\textcolor{keyword}{const} \mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{matrix\_subset< T >}}\& sbst) \textcolor{keyword}{const};}
+\DoxyCodeLine{215 }
+\DoxyCodeLine{216     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{221 \textcolor{comment}{}    \textcolor{keyword}{const} vector< T >\& \mbox{\hyperlink{classstd_1_1matrix_ae11aadc23121cc4a14c5e107b2ca9ad1}{container}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{222 }
+\DoxyCodeLine{223     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{228 \textcolor{comment}{}    \textcolor{keyword}{const} T* \mbox{\hyperlink{classstd_1_1matrix_a067dc8280955f91d200826815d1ace27}{data}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{229 }
+\DoxyCodeLine{230     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{233 \textcolor{comment}{}    \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{classstd_1_1matrix_a7b2fe3de9892ab5589361e5ed430faa4}{rows}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{234 }
+\DoxyCodeLine{235     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{238 \textcolor{comment}{}    \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{classstd_1_1matrix_ad2cc55486d807add906143d7cbdad232}{cols}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{239 }
+\DoxyCodeLine{240     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{243 \textcolor{comment}{}    \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{classstd_1_1matrix_a1d186463b0cbe50e09763140a8f7de96}{size}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{244 }
+\DoxyCodeLine{245     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{250 \textcolor{comment}{}    vector< size\_t > \mbox{\hyperlink{classstd_1_1matrix_a2c8c4dc178845b28160e4dd58deb960f}{shape}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{251 }
+\DoxyCodeLine{252     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{259 \textcolor{comment}{}    vector< size\_t > \mbox{\hyperlink{classstd_1_1matrix_a7ec2ff06a6ff0dffc31ea125f1ded11d}{pos}}(\textcolor{keywordtype}{size\_t} idx) \textcolor{keyword}{const};}
+\DoxyCodeLine{260 }
+\DoxyCodeLine{261     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{266 \textcolor{comment}{}    \textcolor{keywordtype}{bool} \mbox{\hyperlink{classstd_1_1matrix_a8e66654825287fc78e0b30686fcbfb74}{isSquare}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{267 }
+\DoxyCodeLine{268     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{273 \textcolor{comment}{}    \textcolor{keywordtype}{bool} \mbox{\hyperlink{classstd_1_1matrix_ae5021e82d3dce20fdac3a69e9723d28c}{isEmpty}}()  \textcolor{keyword}{const};}
+\DoxyCodeLine{274 }
+\DoxyCodeLine{275     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{286 \textcolor{comment}{}    vector< size\_t > \mbox{\hyperlink{classstd_1_1matrix_ad9f43ecc5e09e5f805c853f1cca181c6}{allID}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{287 }
+\DoxyCodeLine{288     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{295 \textcolor{comment}{}    vector< size\_t > \mbox{\hyperlink{classstd_1_1matrix_ab90291f2d6281ce47546aece28720c94}{rowID}}(\textcolor{keywordtype}{size\_t} \mbox{\hyperlink{classstd_1_1matrix_a0f7b2c5358009f65a2898b37c8dc2718}{row}}) \textcolor{keyword}{const};}
+\DoxyCodeLine{296 }
+\DoxyCodeLine{297     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{304 \textcolor{comment}{}    vector< size\_t > \mbox{\hyperlink{classstd_1_1matrix_a2e88ac44b8f1b05f0a6a3faa8710c167}{colID}}(\textcolor{keywordtype}{size\_t} \mbox{\hyperlink{classstd_1_1matrix_a1da6410ce85dd2612f3ee2ddc3540431}{col}}) \textcolor{keyword}{const};}
+\DoxyCodeLine{305 }
+\DoxyCodeLine{306     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{311 \textcolor{comment}{}    vector< size\_t > \mbox{\hyperlink{classstd_1_1matrix_aa35d87e7bec5d7a99a7737fbf3c07257}{diagID}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{312 }
+\DoxyCodeLine{313     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{319 \textcolor{comment}{}    vector< size\_t > \mbox{\hyperlink{classstd_1_1matrix_a56a20c3e35d86b1c7c1f7fe55d85ea46}{blockID}}(\textcolor{keywordtype}{size\_t} first\_row, \textcolor{keywordtype}{size\_t} last\_row, \textcolor{keywordtype}{size\_t} first\_col, \textcolor{keywordtype}{size\_t} last\_col) \textcolor{keyword}{const};}
+\DoxyCodeLine{320 }
+\DoxyCodeLine{321     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{324 \textcolor{comment}{}    \mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{matrix\_subset< T >}} \mbox{\hyperlink{classstd_1_1matrix_a23e4391abc996d4f0446a4d1c8a32ce6}{all}}();}
+\DoxyCodeLine{325 }
+\DoxyCodeLine{326     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{329 \textcolor{comment}{}    \mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{matrix\_subset\_const< T >}} \mbox{\hyperlink{classstd_1_1matrix_a5af67fdab5326a72b00230326acd775e}{all}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{330 }
+\DoxyCodeLine{331     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{334 \textcolor{comment}{}    \mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{matrix\_subset< T >}} \mbox{\hyperlink{classstd_1_1matrix_a0f7b2c5358009f65a2898b37c8dc2718}{row}}(\textcolor{keywordtype}{size\_t} \mbox{\hyperlink{classstd_1_1matrix_a0f7b2c5358009f65a2898b37c8dc2718}{row}});}
+\DoxyCodeLine{335 }
+\DoxyCodeLine{336     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{339 \textcolor{comment}{}    \mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{matrix\_subset\_const< T >}} \mbox{\hyperlink{classstd_1_1matrix_abdc1283d2b2bb7e225c055e1588d6e50}{row}}(\textcolor{keywordtype}{size\_t} \mbox{\hyperlink{classstd_1_1matrix_a0f7b2c5358009f65a2898b37c8dc2718}{row}}) \textcolor{keyword}{const};}
+\DoxyCodeLine{340 }
+\DoxyCodeLine{341     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{344 \textcolor{comment}{}    \mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{matrix\_subset< T >}} \mbox{\hyperlink{classstd_1_1matrix_a1da6410ce85dd2612f3ee2ddc3540431}{col}}(\textcolor{keywordtype}{size\_t} \mbox{\hyperlink{classstd_1_1matrix_a1da6410ce85dd2612f3ee2ddc3540431}{col}});}
+\DoxyCodeLine{345 }
+\DoxyCodeLine{346     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{349 \textcolor{comment}{}    \mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{matrix\_subset\_const< T >}} \mbox{\hyperlink{classstd_1_1matrix_a951b376b691fc409158cf291c59e2e38}{col}}(\textcolor{keywordtype}{size\_t} \mbox{\hyperlink{classstd_1_1matrix_a1da6410ce85dd2612f3ee2ddc3540431}{col}}) \textcolor{keyword}{const};}
+\DoxyCodeLine{350 }
+\DoxyCodeLine{351     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{354 \textcolor{comment}{}    \mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{matrix\_subset< T >}} \mbox{\hyperlink{classstd_1_1matrix_a4eef6a1e0fea83fa2a5e906a974b35ee}{diag}}();}
+\DoxyCodeLine{355 }
+\DoxyCodeLine{356     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{359 \textcolor{comment}{}    \mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{matrix\_subset\_const< T >}} \mbox{\hyperlink{classstd_1_1matrix_a07984181ac377f114edd2eafff7b347e}{diag}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{360 }
+\DoxyCodeLine{361     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{365 \textcolor{comment}{}    \mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{matrix\_subset< T >}} \mbox{\hyperlink{classstd_1_1matrix_a47844c831a2d0b9352914569138c9fb7}{block}}(\textcolor{keywordtype}{size\_t} first\_row, \textcolor{keywordtype}{size\_t} last\_row, \textcolor{keywordtype}{size\_t} first\_col, \textcolor{keywordtype}{size\_t} last\_col);}
+\DoxyCodeLine{366 }
+\DoxyCodeLine{367     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{371 \textcolor{comment}{}    \mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{matrix\_subset\_const< T >}} \mbox{\hyperlink{classstd_1_1matrix_a0ad618d2d8fa38d77b7148f4720b1a01}{block}}(\textcolor{keywordtype}{size\_t} first\_row, \textcolor{keywordtype}{size\_t} last\_row, \textcolor{keywordtype}{size\_t} first\_col, \textcolor{keywordtype}{size\_t} last\_col) \textcolor{keyword}{const};}
+\DoxyCodeLine{372 }
+\DoxyCodeLine{373     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{382 \textcolor{comment}{}    \textcolor{keyword}{template} < \textcolor{keyword}{typename} iT >}
+\DoxyCodeLine{383     \textcolor{keywordtype}{void} \mbox{\hyperlink{classstd_1_1matrix_afe45717562e78aaf333ea0a7a30de8a0}{set}}(\textcolor{keyword}{const} iT\& in);}
+\DoxyCodeLine{384 }
+\DoxyCodeLine{385     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{392 \textcolor{comment}{}    \textcolor{keyword}{template} < \textcolor{keyword}{typename} iT >}
+\DoxyCodeLine{393     \textcolor{keywordtype}{void} \mbox{\hyperlink{classstd_1_1matrix_a5ba87234064de6d17d4dd859379d425d}{pushRow}}(\textcolor{keyword}{const} iT\& in);}
+\DoxyCodeLine{394 }
+\DoxyCodeLine{395     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{402 \textcolor{comment}{}    \textcolor{keyword}{template} < \textcolor{keyword}{typename} iT >}
+\DoxyCodeLine{403     \textcolor{keywordtype}{void} \mbox{\hyperlink{classstd_1_1matrix_a337a216c98672f23e9ff056c8625f15b}{pushCol}}(\textcolor{keyword}{const} iT\& in);}
+\DoxyCodeLine{404 }
+\DoxyCodeLine{405     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{410 \textcolor{comment}{}    \textcolor{keywordtype}{void} \mbox{\hyperlink{classstd_1_1matrix_a7cd8df5a31059daa3f86600d7106f9ce}{pushRow}}();}
+\DoxyCodeLine{411 }
+\DoxyCodeLine{412     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{417 \textcolor{comment}{}    \textcolor{keywordtype}{void} \mbox{\hyperlink{classstd_1_1matrix_a04cbd04648b9e16481e901b855afdad6}{pushCol}}();}
+\DoxyCodeLine{418 }
+\DoxyCodeLine{419     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{422 \textcolor{comment}{}    \textcolor{keywordtype}{void} \mbox{\hyperlink{classstd_1_1matrix_a90753e31841d0d12637becd5cf091e2c}{popRow}}();}
+\DoxyCodeLine{423 }
+\DoxyCodeLine{424     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{427 \textcolor{comment}{}    \textcolor{keywordtype}{void} \mbox{\hyperlink{classstd_1_1matrix_a132898f98bb465189ef489f7abe96128}{popCol}}();}
+\DoxyCodeLine{428 }
+\DoxyCodeLine{429     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{432 \textcolor{comment}{}    \textcolor{keywordtype}{void} \mbox{\hyperlink{classstd_1_1matrix_a611edd29b43b7bdc2064ecc272184840}{deleteRow}}(\textcolor{keywordtype}{size\_t} \mbox{\hyperlink{classstd_1_1matrix_a0f7b2c5358009f65a2898b37c8dc2718}{row}});}
+\DoxyCodeLine{433 }
+\DoxyCodeLine{434     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{437 \textcolor{comment}{}    \textcolor{keywordtype}{void} \mbox{\hyperlink{classstd_1_1matrix_a0517a8320c14fa1da8232ae1c3c437d1}{deleteCol}}(\textcolor{keywordtype}{size\_t} \mbox{\hyperlink{classstd_1_1matrix_a1da6410ce85dd2612f3ee2ddc3540431}{col}});}
+\DoxyCodeLine{438 }
+\DoxyCodeLine{439     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{442 \textcolor{comment}{}    \textcolor{keywordtype}{void} \mbox{\hyperlink{classstd_1_1matrix_a81bcc7e8fce0fdffd5391a7c745b0b78}{reshape}}(\textcolor{keywordtype}{size\_t} new\_rows, \textcolor{keywordtype}{size\_t} new\_cols);}
+\DoxyCodeLine{443 }
+\DoxyCodeLine{444     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{450 \textcolor{comment}{}    \textcolor{keywordtype}{void} \mbox{\hyperlink{classstd_1_1matrix_a823ad926fec6a1cfd5de8d759bab807f}{resize}}(\textcolor{keywordtype}{size\_t} new\_rows, \textcolor{keywordtype}{size\_t} new\_cols);}
+\DoxyCodeLine{451 }
+\DoxyCodeLine{452     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{457 \textcolor{comment}{}    \textcolor{keywordtype}{void} \mbox{\hyperlink{classstd_1_1matrix_ab5b6ea0fea5e289217c95fde16a6ef09}{flip}}();}
+\DoxyCodeLine{458 }
+\DoxyCodeLine{459     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{462 \textcolor{comment}{}    \textcolor{keywordtype}{void} \mbox{\hyperlink{classstd_1_1matrix_aec959191d455266437de6b94ea604d67}{clear}}();}
+\DoxyCodeLine{463 }
+\DoxyCodeLine{464     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{467 \textcolor{comment}{}    \textcolor{keyword}{typename} vector< T >::iterator \mbox{\hyperlink{classstd_1_1matrix_af5742a68a54f7387d6678cfca5dae362}{begin}}();}
+\DoxyCodeLine{468 }
+\DoxyCodeLine{469     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{472 \textcolor{comment}{}    \textcolor{keyword}{typename} vector< T >::iterator \mbox{\hyperlink{classstd_1_1matrix_ad8a24879b95099fbcf232984def37e7b}{end}}();}
+\DoxyCodeLine{473 }
+\DoxyCodeLine{474     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{477 \textcolor{comment}{}    \textcolor{keyword}{typename} vector< T >::const\_iterator \mbox{\hyperlink{classstd_1_1matrix_a4c9fcf520a695104009c00865a4ee2e1}{begin}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{478 }
+\DoxyCodeLine{479     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{482 \textcolor{comment}{}    \textcolor{keyword}{typename} vector< T >::const\_iterator \mbox{\hyperlink{classstd_1_1matrix_a069025e9247e61ff5b151a2afb0c2339}{end}}()   \textcolor{keyword}{const};}
+\DoxyCodeLine{483 }
+\DoxyCodeLine{484 }
+\DoxyCodeLine{485     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{488 \textcolor{comment}{}    \textcolor{keyword}{template} < \textcolor{keyword}{typename} oT >}
+\DoxyCodeLine{489     \textcolor{keyword}{operator} vector< oT >\&();}
+\DoxyCodeLine{490 }
+\DoxyCodeLine{491     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{494 \textcolor{comment}{}    \textcolor{keyword}{template} < \textcolor{keyword}{typename} oT >}
+\DoxyCodeLine{495     \textcolor{keyword}{operator} \textcolor{keyword}{const} vector< oT >\&() \textcolor{keyword}{const};}
+\DoxyCodeLine{496 }
+\DoxyCodeLine{497     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{500 \textcolor{comment}{}    \textcolor{keyword}{template} < \textcolor{keyword}{typename} oT >}
+\DoxyCodeLine{501     \textcolor{keyword}{operator} \mbox{\hyperlink{classstd_1_1matrix}{matrix< oT >}}\&();}
+\DoxyCodeLine{502 }
+\DoxyCodeLine{503     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{506 \textcolor{comment}{}    \textcolor{keyword}{template} < \textcolor{keyword}{typename} oT >}
+\DoxyCodeLine{507     \textcolor{keyword}{operator} \textcolor{keyword}{const} \mbox{\hyperlink{classstd_1_1matrix}{matrix< oT >}}\&() \textcolor{keyword}{const};}
+\DoxyCodeLine{508 \};}
+\DoxyCodeLine{509 }
+\DoxyCodeLine{510 }
+\DoxyCodeLine{512 }
+\DoxyCodeLine{513 \textcolor{comment}{// template < typename T >}}
+\DoxyCodeLine{514 \textcolor{comment}{// matrix< T >::matrix() \{}}
+\DoxyCodeLine{515 \textcolor{comment}{//     \_data  = vector< T > (0);}}
+\DoxyCodeLine{516 \textcolor{comment}{//     \_rows = 0;}}
+\DoxyCodeLine{517 \textcolor{comment}{//     \_cols = 0;}}
+\DoxyCodeLine{518 \textcolor{comment}{//     \_data.reserve(10*10);}}
+\DoxyCodeLine{519 \textcolor{comment}{// \}}}
+\DoxyCodeLine{520 }
+\DoxyCodeLine{521 }
+\DoxyCodeLine{522 \textcolor{comment}{// template < typename T >}}
+\DoxyCodeLine{523 \textcolor{comment}{// matrix< T >::matrix(size\_t \_rows, size\_t \_cols) \{}}
+\DoxyCodeLine{524 \textcolor{comment}{//     assert(\_rows > 0 \&\& \_cols > 0);}}
+\DoxyCodeLine{525 \textcolor{comment}{//     \_data  = vector< T > ( \_rows * \_cols, T());}}
+\DoxyCodeLine{526 \textcolor{comment}{//     \_rows = \_rows;}}
+\DoxyCodeLine{527 \textcolor{comment}{//     \_cols = \_cols;}}
+\DoxyCodeLine{528 \textcolor{comment}{//     \_data.reserve(2* \_rows * \_cols);}}
+\DoxyCodeLine{529 \textcolor{comment}{// \}}}
+\DoxyCodeLine{530 }
+\DoxyCodeLine{531 }
+\DoxyCodeLine{532 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T >}
+\DoxyCodeLine{533 \textcolor{keyword}{template} < \textcolor{keyword}{typename}... Args, \textcolor{keyword}{typename}  >}
+\DoxyCodeLine{534 \mbox{\hyperlink{classstd_1_1matrix_af83b5d2d2f231599a656dc6f2fa3d956}{matrix< T >::matrix}}(\textcolor{keywordtype}{size\_t} rows, \textcolor{keywordtype}{size\_t} cols, Args\&\&... args) \{}
+\DoxyCodeLine{535     \textcolor{comment}{// assert(rows > 0 \&\& cols > 0);}}
+\DoxyCodeLine{536     \textcolor{comment}{// \_data  = vector< T > (rows * cols, \_val);}}
+\DoxyCodeLine{537     \_rows = rows;}
+\DoxyCodeLine{538     \_cols = cols;}
+\DoxyCodeLine{539     \_data.reserve(\_rows * \_cols);}
+\DoxyCodeLine{540     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < (rows * cols); i++) \{}
+\DoxyCodeLine{541         \_data.emplace\_back(std::forward< Args >(args)...);}
+\DoxyCodeLine{542     \}}
+\DoxyCodeLine{543 \}}
+\DoxyCodeLine{544 }
+\DoxyCodeLine{545 }
+\DoxyCodeLine{546 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T >}
+\DoxyCodeLine{547 \textcolor{keyword}{template} < \textcolor{keyword}{typename} iT >}
+\DoxyCodeLine{548 \mbox{\hyperlink{classstd_1_1matrix_af83b5d2d2f231599a656dc6f2fa3d956}{matrix< T >::matrix}}(\textcolor{keyword}{const} vector< vector< iT > >\& in) \{}
+\DoxyCodeLine{549     \_rows = in.size();}
+\DoxyCodeLine{550     \_cols = 0;}
+\DoxyCodeLine{551     \_data.reserve(\_rows * \_cols);}
+\DoxyCodeLine{552     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} r = 0; r < \_rows; r++) \{}
+\DoxyCodeLine{553         \textcolor{keywordflow}{if} (in[r].size() > \_cols) \{}
+\DoxyCodeLine{554             \_cols = in[r].size();}
+\DoxyCodeLine{555         \}}
+\DoxyCodeLine{556     \}}
+\DoxyCodeLine{557     \_data = vector< T >(\_rows * \_cols);}
+\DoxyCodeLine{558     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} r = 0; r < \_rows; r++) \{}
+\DoxyCodeLine{559         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} c = 0; c < \_cols; ++c) \{}
+\DoxyCodeLine{560             \textcolor{keywordflow}{if} (c < in[r].size()) \{}
+\DoxyCodeLine{561                 (*this)(r, c) = \textcolor{keyword}{static\_cast<} T \textcolor{keyword}{>}(in[r][c]);}
+\DoxyCodeLine{562             \}}
+\DoxyCodeLine{563         \}}
+\DoxyCodeLine{564     \}}
+\DoxyCodeLine{565 \}}
+\DoxyCodeLine{566 }
+\DoxyCodeLine{567 }
+\DoxyCodeLine{568 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T >}
+\DoxyCodeLine{569 \textcolor{keyword}{template} < \textcolor{keyword}{typename} iT, \textcolor{keyword}{typename} >}
+\DoxyCodeLine{570 \mbox{\hyperlink{classstd_1_1matrix_af83b5d2d2f231599a656dc6f2fa3d956}{matrix< T >::matrix}}(\textcolor{keyword}{const} storage::st\_subset\_base< iT >\& in) \{}
+\DoxyCodeLine{571     \textcolor{keyword}{static\_assert}(is\_nd\_container< iT >(), \textcolor{stringliteral}{"{}INVALID INPUT CONTAINER!"{}});}
+\DoxyCodeLine{572     vector< size\_t > inDims = in.source()-\/>shape();}
+\DoxyCodeLine{573     assert(inDims.size() > 0);}
+\DoxyCodeLine{574     \textcolor{keywordtype}{size\_t} iR = 0;}
+\DoxyCodeLine{575     \textcolor{keywordtype}{size\_t} iC = 0;}
+\DoxyCodeLine{576     vector< size\_t > rs(in.size(), 0);}
+\DoxyCodeLine{577     vector< size\_t > cs(in.size(), 0);}
+\DoxyCodeLine{578     \textcolor{keywordflow}{if} (inDims.size() > 0) \{}
+\DoxyCodeLine{579         iC = inDims.size()-\/1;}
+\DoxyCodeLine{580     \}}
+\DoxyCodeLine{581     \textcolor{keywordflow}{if} (inDims.size() > 1) \{}
+\DoxyCodeLine{582         iR = inDims.size()-\/2;}
+\DoxyCodeLine{583     \} \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{584         iR = 1;}
+\DoxyCodeLine{585     \}}
+\DoxyCodeLine{586     \textcolor{keywordtype}{size\_t} minR = in.source\_size();}
+\DoxyCodeLine{587     \textcolor{keywordtype}{size\_t} minC = in.source\_size();}
+\DoxyCodeLine{588     \textcolor{keywordtype}{size\_t} maxR = 0;}
+\DoxyCodeLine{589     \textcolor{keywordtype}{size\_t} maxC = 0;}
+\DoxyCodeLine{590     \textcolor{comment}{// assuming dims and pos return values major-\/>minor; only the last 2 values are used}}
+\DoxyCodeLine{591     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} i = 0; i < in.size(); i++) \{}
+\DoxyCodeLine{592         vector< size\_t > pos = in.source()-\/>pos(in.index()[i]);}
+\DoxyCodeLine{593         \textcolor{keywordflow}{if} (inDims.size() > 1)  \{}
+\DoxyCodeLine{594             rs[i] = pos[iR];}
+\DoxyCodeLine{595         \}}
+\DoxyCodeLine{596         \textcolor{keywordflow}{if} (inDims.size() > 0) \{}
+\DoxyCodeLine{597             cs[i] = pos[iC];}
+\DoxyCodeLine{598         \}}
+\DoxyCodeLine{599         minR = min(minR, rs[i]);}
+\DoxyCodeLine{600         minC = min(minC, cs[i]);}
+\DoxyCodeLine{601         maxR = max(maxR, rs[i]);}
+\DoxyCodeLine{602         maxC = max(maxC, cs[i]);}
+\DoxyCodeLine{603     \}}
+\DoxyCodeLine{604     \_rows = (maxR -\/ minR + 1);}
+\DoxyCodeLine{605     \_cols = (maxC -\/ minC + 1);}
+\DoxyCodeLine{606     \_data = vector< T >(\_rows * \_cols, T());}
+\DoxyCodeLine{607     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} i = 0; i < in.size(); i++) \{}
+\DoxyCodeLine{608         \_data[(rs[i] -\/ minR) * \_cols + (cs[i] -\/ minC)] = \textcolor{keyword}{static\_cast<} T \textcolor{keyword}{>}(in[i]);}
+\DoxyCodeLine{609     \}}
+\DoxyCodeLine{610 \}}
+\DoxyCodeLine{611 }
+\DoxyCodeLine{612 }
+\DoxyCodeLine{613 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T >}
+\DoxyCodeLine{614 \textcolor{keyword}{template} < \textcolor{keyword}{typename} iT, \textcolor{keyword}{typename}, \textcolor{keyword}{typename} >  \textcolor{comment}{// input type == generic container, requires size() and operator[](size\_t)}}
+\DoxyCodeLine{615 \mbox{\hyperlink{classstd_1_1matrix_af83b5d2d2f231599a656dc6f2fa3d956}{matrix< T >::matrix}}(\textcolor{keyword}{const} storage::st\_subset\_base< iT >\& in) \{}
+\DoxyCodeLine{616     \textcolor{keyword}{static\_assert}(is\_generic\_container< iT >(),  \textcolor{stringliteral}{"{}INVALID INPUT CONTAINER!"{}});  \textcolor{comment}{// should be generic container}}
+\DoxyCodeLine{617     \_rows = 1;}
+\DoxyCodeLine{618     \_cols = in.size();}
+\DoxyCodeLine{619     \_data = vector< T >(0);}
+\DoxyCodeLine{620     \_data.reserve(in.size());}
+\DoxyCodeLine{621     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} i = 0; i < (\_rows * \_cols); i++) \{}
+\DoxyCodeLine{622         \_data.push\_back(in[i]);}
+\DoxyCodeLine{623     \}}
+\DoxyCodeLine{624 \}}
+\DoxyCodeLine{625 }
+\DoxyCodeLine{626 }
+\DoxyCodeLine{627 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T >}
+\DoxyCodeLine{628 \textcolor{keyword}{template} < \textcolor{keyword}{typename} iT, \textcolor{keyword}{typename} >  \textcolor{comment}{// input type == generic container, requires size() and operator[](size\_t)}}
+\DoxyCodeLine{629 \mbox{\hyperlink{classstd_1_1matrix_af83b5d2d2f231599a656dc6f2fa3d956}{matrix< T >::matrix}}(\textcolor{keywordtype}{size\_t} rows, \textcolor{keywordtype}{size\_t} cols, \textcolor{keyword}{const} iT\& in) \{}
+\DoxyCodeLine{630     \textcolor{keyword}{static\_assert}(is\_generic\_container< iT >(),  \textcolor{stringliteral}{"{}INVALID INPUT CONTAINER!"{}});}
+\DoxyCodeLine{631     assert(rows > 0 \&\& cols > 0);}
+\DoxyCodeLine{632     assert(in.size() >=  rows * cols);}
+\DoxyCodeLine{633     \_data.reserve(rows * cols);}
+\DoxyCodeLine{634     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} i = 0; i < rows * cols; ++i) \{}
+\DoxyCodeLine{635         \_data.push\_back(\textcolor{keyword}{static\_cast<} T \textcolor{keyword}{>}(in[i]));}
+\DoxyCodeLine{636     \}}
+\DoxyCodeLine{637     \_rows = \_rows;}
+\DoxyCodeLine{638     \_cols = \_cols;}
+\DoxyCodeLine{639 \}}
+\DoxyCodeLine{640 }
+\DoxyCodeLine{641 }
+\DoxyCodeLine{642 }
+\DoxyCodeLine{643 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T >}
+\DoxyCodeLine{644 T\& \mbox{\hyperlink{classstd_1_1matrix_ae4697fd485373a50299d8c12e02180bb}{matrix< T >::operator*}}() \{}
+\DoxyCodeLine{645     assert(\_data.size() > 0);}
+\DoxyCodeLine{646     \textcolor{keywordflow}{return} \_data[0];}
+\DoxyCodeLine{647 \}}
+\DoxyCodeLine{648 }
+\DoxyCodeLine{649 }
+\DoxyCodeLine{650 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T >}
+\DoxyCodeLine{651 \textcolor{keyword}{template} < \textcolor{keyword}{typename} iT >}
+\DoxyCodeLine{652 matrix< T >\& \mbox{\hyperlink{classstd_1_1matrix_acdd3b068547461e6744a0c03f69a9687}{matrix< T >::operator=}}(\textcolor{keyword}{const} iT\& in) \{  \textcolor{comment}{// input type == generic container, requires size() and operator[](int)}}
+\DoxyCodeLine{653     \textcolor{keyword}{static\_assert}(is\_generic\_container< iT >(), \textcolor{stringliteral}{"{}"{}});}
+\DoxyCodeLine{654     assert(in.size() >= \_data.size());}
+\DoxyCodeLine{655     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} i = 0; i < \_data.size(); i++) \{}
+\DoxyCodeLine{656         \_data[i] = \textcolor{keyword}{static\_cast<} T \textcolor{keyword}{>}(in[i]);}
+\DoxyCodeLine{657     \}}
+\DoxyCodeLine{658     \textcolor{keywordflow}{return} *\textcolor{keyword}{this};}
+\DoxyCodeLine{659 \}}
+\DoxyCodeLine{660 }
+\DoxyCodeLine{661 }
+\DoxyCodeLine{662 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T >}
+\DoxyCodeLine{663 T\& \mbox{\hyperlink{classstd_1_1matrix_a235aefc56d1a24af04a79fef35f6cafa}{matrix< T >::operator()}}(\textcolor{keywordtype}{size\_t} row, \textcolor{keywordtype}{size\_t} col) \{}
+\DoxyCodeLine{664     assert(row >= 0 \&\& row < \_rows \&\& col >= 0 \&\& col < \_cols);}
+\DoxyCodeLine{665     \textcolor{keywordflow}{return} \_data[row * \_cols + col];}
+\DoxyCodeLine{666 \}}
+\DoxyCodeLine{667 }
+\DoxyCodeLine{668 }
+\DoxyCodeLine{669 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T >}
+\DoxyCodeLine{670 \textcolor{keyword}{const} T\& \mbox{\hyperlink{classstd_1_1matrix_a235aefc56d1a24af04a79fef35f6cafa}{matrix< T >::operator()}}(\textcolor{keywordtype}{size\_t} row, \textcolor{keywordtype}{size\_t} col)\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{671     assert(row >= 0 \&\& row < \_rows \&\& col >= 0 \&\& col < \_cols);}
+\DoxyCodeLine{672     \textcolor{keywordflow}{return} \_data[row * \_cols + col];}
+\DoxyCodeLine{673 \}}
+\DoxyCodeLine{674 }
+\DoxyCodeLine{675 }
+\DoxyCodeLine{676 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T >}
+\DoxyCodeLine{677 T\& \mbox{\hyperlink{classstd_1_1matrix_af0490edd8d02ea115f7af175febef994}{matrix< T >::operator[]}}(\textcolor{keywordtype}{size\_t} idx) \{}
+\DoxyCodeLine{678     assert(idx < \_data.size());}
+\DoxyCodeLine{679     \textcolor{keywordflow}{return} \_data[idx];}
+\DoxyCodeLine{680 \}}
+\DoxyCodeLine{681 }
+\DoxyCodeLine{682 }
+\DoxyCodeLine{683 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T >}
+\DoxyCodeLine{684 \textcolor{keyword}{const} T\& \mbox{\hyperlink{classstd_1_1matrix_af0490edd8d02ea115f7af175febef994}{matrix< T >::operator[]}}(\textcolor{keywordtype}{size\_t} idx)\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{685     assert(idx < \_data.size());}
+\DoxyCodeLine{686     \textcolor{keywordflow}{return} \_data[idx];}
+\DoxyCodeLine{687 \}}
+\DoxyCodeLine{688 }
+\DoxyCodeLine{689 }
+\DoxyCodeLine{690 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T >}
+\DoxyCodeLine{691 matrix\_subset< T > \mbox{\hyperlink{classstd_1_1matrix_af0490edd8d02ea115f7af175febef994}{matrix< T >::operator[]}}(\textcolor{keyword}{const} vector< size\_t >\& idx) \{}
+\DoxyCodeLine{692     \textcolor{keywordflow}{return} matrix\_subset< T >(\textcolor{keyword}{this}, idx);  \textcolor{comment}{// storage::st\_subset\_base constructor asserts index validity}}
+\DoxyCodeLine{693 \}}
+\DoxyCodeLine{694 }
+\DoxyCodeLine{695 }
+\DoxyCodeLine{696 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T >}
+\DoxyCodeLine{697 matrix\_subset\_const< T > \mbox{\hyperlink{classstd_1_1matrix_af0490edd8d02ea115f7af175febef994}{matrix< T >::operator[]}}(\textcolor{keyword}{const} vector< size\_t >\& idx)\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{698     \textcolor{keywordflow}{return} matrix\_subset\_const< T >(\textcolor{keyword}{this}, idx);  \textcolor{comment}{// storage::st\_subset\_base constructor asserts index validity}}
+\DoxyCodeLine{699 \}}
+\DoxyCodeLine{700 }
+\DoxyCodeLine{701 }
+\DoxyCodeLine{702 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T >}
+\DoxyCodeLine{703 matrix\_subset< T > \mbox{\hyperlink{classstd_1_1matrix_af0490edd8d02ea115f7af175febef994}{matrix< T >::operator[]}}(\textcolor{keyword}{const} matrix\_subset< T >\& sbst) \{}
+\DoxyCodeLine{704     \textcolor{keywordflow}{if} (sbst.source() != \textcolor{keyword}{this} \&\& sbst.source\_size() > size()) assert(sbst.index().back() < size());}
+\DoxyCodeLine{705     \textcolor{keywordflow}{return} matrix\_subset< T >(sbst);  \textcolor{comment}{// copy constructor of subset}}
+\DoxyCodeLine{706 \}}
+\DoxyCodeLine{707 }
+\DoxyCodeLine{708 }
+\DoxyCodeLine{709 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T >}
+\DoxyCodeLine{710 matrix\_subset\_const< T > \mbox{\hyperlink{classstd_1_1matrix_af0490edd8d02ea115f7af175febef994}{matrix< T >::operator[]}}(\textcolor{keyword}{const} matrix\_subset< T >\& sbst)\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{711     \textcolor{keywordflow}{if} (sbst.source() != \textcolor{keyword}{this} \&\& sbst.source\_size() > size()) assert(sbst.index().back() < size());}
+\DoxyCodeLine{712     \textcolor{keywordflow}{return} matrix\_subset\_const< T >(sbst);  \textcolor{comment}{// copy constructor of const\_subset}}
+\DoxyCodeLine{713 \}}
+\DoxyCodeLine{714 }
+\DoxyCodeLine{715 }
+\DoxyCodeLine{716 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T >}
+\DoxyCodeLine{717 \textcolor{keyword}{const} vector< T >\& \mbox{\hyperlink{classstd_1_1matrix_ae11aadc23121cc4a14c5e107b2ca9ad1}{matrix< T >::container}}()\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{718     \textcolor{keywordflow}{return} \_data;}
+\DoxyCodeLine{719 \}}
+\DoxyCodeLine{720 }
+\DoxyCodeLine{721 }
+\DoxyCodeLine{722 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T >}
+\DoxyCodeLine{723 \textcolor{keyword}{const} T* \mbox{\hyperlink{classstd_1_1matrix_a067dc8280955f91d200826815d1ace27}{matrix< T >::data}}()\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{724     \textcolor{keywordflow}{return} \_data.data();}
+\DoxyCodeLine{725 \}}
+\DoxyCodeLine{726 }
+\DoxyCodeLine{727 }
+\DoxyCodeLine{728 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T >}
+\DoxyCodeLine{729 \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{classstd_1_1matrix_a7b2fe3de9892ab5589361e5ed430faa4}{matrix< T >::rows}}()\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{730     \textcolor{keywordflow}{return} \_rows;}
+\DoxyCodeLine{731 \}}
+\DoxyCodeLine{732 }
+\DoxyCodeLine{733 }
+\DoxyCodeLine{734 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T >}
+\DoxyCodeLine{735 \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{classstd_1_1matrix_ad2cc55486d807add906143d7cbdad232}{matrix< T >::cols}}()\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{736     \textcolor{keywordflow}{return} \_cols;}
+\DoxyCodeLine{737 \}}
+\DoxyCodeLine{738 }
+\DoxyCodeLine{739 }
+\DoxyCodeLine{740 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T >}
+\DoxyCodeLine{741 \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{classstd_1_1matrix_a1d186463b0cbe50e09763140a8f7de96}{matrix< T >::size}}()\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{742     \textcolor{keywordflow}{return} \_data.size();}
+\DoxyCodeLine{743 \}}
+\DoxyCodeLine{744 }
+\DoxyCodeLine{745 }
+\DoxyCodeLine{746 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T >}
+\DoxyCodeLine{747 vector< size\_t > \mbox{\hyperlink{classstd_1_1matrix_a2c8c4dc178845b28160e4dd58deb960f}{matrix< T >::shape}}()\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{748     \textcolor{keywordflow}{return} vector< size\_t >(\{\_rows, \_cols\});}
+\DoxyCodeLine{749 \}}
+\DoxyCodeLine{750 }
+\DoxyCodeLine{751 }
+\DoxyCodeLine{752 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T >}
+\DoxyCodeLine{753 vector< size\_t > \mbox{\hyperlink{classstd_1_1matrix_a7ec2ff06a6ff0dffc31ea125f1ded11d}{matrix< T >::pos}}(\textcolor{keywordtype}{size\_t} idx)\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{754     vector< size\_t > dims = shape();}
+\DoxyCodeLine{755     vector< size\_t > ind(2);}
+\DoxyCodeLine{756     \textcolor{keywordtype}{size\_t} comp = idx;}
+\DoxyCodeLine{757     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} i = 0; i <= 2; i++) \{}
+\DoxyCodeLine{758         \textcolor{keywordtype}{size\_t} dim\_sz = 1;}
+\DoxyCodeLine{759         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} j = i+1; j < 2; j++) \{}
+\DoxyCodeLine{760             dim\_sz *= dims[j];}
+\DoxyCodeLine{761         \}}
+\DoxyCodeLine{762         \textcolor{keywordflow}{while} (comp-\/dim\_sz >= 0) \{}
+\DoxyCodeLine{763             ind[i]++;}
+\DoxyCodeLine{764             comp -\/= dim\_sz;}
+\DoxyCodeLine{765         \}}
+\DoxyCodeLine{766     \}}
+\DoxyCodeLine{767     \textcolor{keywordflow}{return} ind;}
+\DoxyCodeLine{768 \}}
+\DoxyCodeLine{769 }
+\DoxyCodeLine{770 }
+\DoxyCodeLine{771 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T >}
+\DoxyCodeLine{772 \textcolor{keywordtype}{bool} \mbox{\hyperlink{classstd_1_1matrix_a8e66654825287fc78e0b30686fcbfb74}{matrix< T >::isSquare}}()\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{773     \textcolor{keywordflow}{return} (\_rows == \_cols);}
+\DoxyCodeLine{774 \}}
+\DoxyCodeLine{775 }
+\DoxyCodeLine{776 }
+\DoxyCodeLine{777 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T >}
+\DoxyCodeLine{778 \textcolor{keywordtype}{bool} \mbox{\hyperlink{classstd_1_1matrix_ae5021e82d3dce20fdac3a69e9723d28c}{matrix< T >::isEmpty}}()\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{779     \textcolor{keywordflow}{return} (!\_rows \&\& !\_cols);}
+\DoxyCodeLine{780 \}}
+\DoxyCodeLine{781 }
+\DoxyCodeLine{782 }
+\DoxyCodeLine{783 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T >}
+\DoxyCodeLine{784 vector< size\_t > \mbox{\hyperlink{classstd_1_1matrix_ad9f43ecc5e09e5f805c853f1cca181c6}{matrix< T >::allID}}()\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{785     \textcolor{keywordtype}{size\_t} i = 0;}
+\DoxyCodeLine{786     vector< size\_t > ids(0);}
+\DoxyCodeLine{787     ids.reserve(size());}
+\DoxyCodeLine{788     \textcolor{keywordflow}{for} (\textcolor{keyword}{auto}\& val : \_data) \{}
+\DoxyCodeLine{789         ids.push\_back(i++);}
+\DoxyCodeLine{790     \}}
+\DoxyCodeLine{791     \textcolor{keywordflow}{return} ids;}
+\DoxyCodeLine{792 \}}
+\DoxyCodeLine{793 }
+\DoxyCodeLine{794 }
+\DoxyCodeLine{795 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T >}
+\DoxyCodeLine{796 vector< size\_t > \mbox{\hyperlink{classstd_1_1matrix_ab90291f2d6281ce47546aece28720c94}{matrix< T >::rowID}}(\textcolor{keywordtype}{size\_t} row\_)\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{797     assert(row\_ < \_rows);}
+\DoxyCodeLine{798     vector< size\_t > ids(0);}
+\DoxyCodeLine{799     ids.reserve(\_cols);}
+\DoxyCodeLine{800     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} c = 0; c < \_cols; c++) \{}
+\DoxyCodeLine{801         ids.push\_back(row\_ * \_cols + c);}
+\DoxyCodeLine{802     \}}
+\DoxyCodeLine{803     \textcolor{keywordflow}{return} ids;}
+\DoxyCodeLine{804 \}}
+\DoxyCodeLine{805 }
+\DoxyCodeLine{806 }
+\DoxyCodeLine{807 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T >}
+\DoxyCodeLine{808 vector< size\_t > \mbox{\hyperlink{classstd_1_1matrix_a2e88ac44b8f1b05f0a6a3faa8710c167}{matrix< T >::colID}}(\textcolor{keywordtype}{size\_t} col\_)\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{809     assert(col\_ < \_cols);}
+\DoxyCodeLine{810     vector< size\_t > ids(0);}
+\DoxyCodeLine{811     ids.reserve(\_rows);}
+\DoxyCodeLine{812     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} r = 0; r < \_rows; r++) \{}
+\DoxyCodeLine{813         ids.push\_back(r * \_cols + col\_);}
+\DoxyCodeLine{814     \}}
+\DoxyCodeLine{815     \textcolor{keywordflow}{return} ids;}
+\DoxyCodeLine{816 \}}
+\DoxyCodeLine{817 }
+\DoxyCodeLine{818 }
+\DoxyCodeLine{819 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T >}
+\DoxyCodeLine{820 vector< size\_t > \mbox{\hyperlink{classstd_1_1matrix_aa35d87e7bec5d7a99a7737fbf3c07257}{matrix< T >::diagID}}()\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{821     vector< size\_t > ids(0);}
+\DoxyCodeLine{822     ids.reserve(\_rows > \_cols ? \_rows : \_cols);}
+\DoxyCodeLine{823     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} i = 0; i < min(\_rows, \_cols); i++) \{}
+\DoxyCodeLine{824         ids.push\_back(i * (\_cols + 1));}
+\DoxyCodeLine{825     \}}
+\DoxyCodeLine{826     \textcolor{keywordflow}{return} ids;}
+\DoxyCodeLine{827 \}}
+\DoxyCodeLine{828 }
+\DoxyCodeLine{829 }
+\DoxyCodeLine{830 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T >}
+\DoxyCodeLine{831 vector< size\_t > \mbox{\hyperlink{classstd_1_1matrix_a56a20c3e35d86b1c7c1f7fe55d85ea46}{matrix< T >::blockID}}(\textcolor{keywordtype}{size\_t} first\_row, \textcolor{keywordtype}{size\_t} last\_row, \textcolor{keywordtype}{size\_t} first\_col, \textcolor{keywordtype}{size\_t} last\_col)\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{832     \textcolor{comment}{// NOTE: does not work with 1 col/1 line matrix}}
+\DoxyCodeLine{833     assert(first\_row < last\_row \&\& last\_row < rows);}
+\DoxyCodeLine{834     assert(first\_col < last\_col \&\& last\_col < cols);}
+\DoxyCodeLine{835     vector< size\_t > ids(0);}
+\DoxyCodeLine{836     ids.reserve(size());}
+\DoxyCodeLine{837     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} r = first\_row; r < last\_row; ++r) \{}
+\DoxyCodeLine{838         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} c = first\_col; c < last\_col; ++c) \{}
+\DoxyCodeLine{839             ids.push\_back(r * \_cols + c);}
+\DoxyCodeLine{840         \}}
+\DoxyCodeLine{841     \}}
+\DoxyCodeLine{842     \textcolor{keywordflow}{return} ids;}
+\DoxyCodeLine{843 \}}
+\DoxyCodeLine{844 }
+\DoxyCodeLine{845 }
+\DoxyCodeLine{846 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T >}
+\DoxyCodeLine{847 matrix\_subset< T > \mbox{\hyperlink{classstd_1_1matrix_a23e4391abc996d4f0446a4d1c8a32ce6}{matrix< T >::all}}() \{}
+\DoxyCodeLine{848     \textcolor{keywordflow}{return} matrix\_subset< T >(\textcolor{keyword}{this}, allID());}
+\DoxyCodeLine{849 \}}
+\DoxyCodeLine{850 }
+\DoxyCodeLine{851 }
+\DoxyCodeLine{852 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T >}
+\DoxyCodeLine{853 matrix\_subset\_const< T > \mbox{\hyperlink{classstd_1_1matrix_a23e4391abc996d4f0446a4d1c8a32ce6}{matrix< T >::all}}()\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{854     \textcolor{keywordflow}{return} matrix\_subset\_const< T >(\textcolor{keyword}{this}, allID());}
+\DoxyCodeLine{855 \}}
+\DoxyCodeLine{856 }
+\DoxyCodeLine{857 }
+\DoxyCodeLine{858 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T >}
+\DoxyCodeLine{859 matrix\_subset< T > \mbox{\hyperlink{classstd_1_1matrix_a0f7b2c5358009f65a2898b37c8dc2718}{matrix< T >::row}}(\textcolor{keywordtype}{size\_t} row) \{}
+\DoxyCodeLine{860     \textcolor{keywordflow}{return} matrix\_subset< T >(\textcolor{keyword}{this}, rowID(row));}
+\DoxyCodeLine{861 \}}
+\DoxyCodeLine{862 }
+\DoxyCodeLine{863 }
+\DoxyCodeLine{864 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T >}
+\DoxyCodeLine{865 matrix\_subset\_const< T > \mbox{\hyperlink{classstd_1_1matrix_a0f7b2c5358009f65a2898b37c8dc2718}{matrix< T >::row}}(\textcolor{keywordtype}{size\_t} row)\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{866     \textcolor{keywordflow}{return} matrix\_subset\_const< T >(\textcolor{keyword}{this}, rowID(row));}
+\DoxyCodeLine{867 \}}
+\DoxyCodeLine{868 }
+\DoxyCodeLine{869 }
+\DoxyCodeLine{870 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T >}
+\DoxyCodeLine{871 matrix\_subset< T > \mbox{\hyperlink{classstd_1_1matrix_a1da6410ce85dd2612f3ee2ddc3540431}{matrix< T >::col}}(\textcolor{keywordtype}{size\_t} col) \{}
+\DoxyCodeLine{872     \textcolor{keywordflow}{return} matrix\_subset< T >(\textcolor{keyword}{this}, colID(col));}
+\DoxyCodeLine{873 \}}
+\DoxyCodeLine{874 }
+\DoxyCodeLine{875 }
+\DoxyCodeLine{876 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T >}
+\DoxyCodeLine{877 matrix\_subset\_const< T > \mbox{\hyperlink{classstd_1_1matrix_a1da6410ce85dd2612f3ee2ddc3540431}{matrix< T >::col}}(\textcolor{keywordtype}{size\_t} col)\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{878     \textcolor{keywordflow}{return} matrix\_subset\_const< T >(\textcolor{keyword}{this}, colID(col));}
+\DoxyCodeLine{879 \}}
+\DoxyCodeLine{880 }
+\DoxyCodeLine{881 }
+\DoxyCodeLine{882 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T >}
+\DoxyCodeLine{883 matrix\_subset< T > \mbox{\hyperlink{classstd_1_1matrix_a4eef6a1e0fea83fa2a5e906a974b35ee}{matrix< T >::diag}}() \{}
+\DoxyCodeLine{884     \textcolor{keywordflow}{return} matrix\_subset< T >(\textcolor{keyword}{this}, diagID());}
+\DoxyCodeLine{885 \}}
+\DoxyCodeLine{886 }
+\DoxyCodeLine{887 }
+\DoxyCodeLine{888 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T >}
+\DoxyCodeLine{889 matrix\_subset\_const< T > \mbox{\hyperlink{classstd_1_1matrix_a4eef6a1e0fea83fa2a5e906a974b35ee}{matrix< T >::diag}}()\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{890     \textcolor{keywordflow}{return} matrix\_subset\_const< T >(\textcolor{keyword}{this}, diagID());}
+\DoxyCodeLine{891 \}}
+\DoxyCodeLine{892 }
+\DoxyCodeLine{893 }
+\DoxyCodeLine{894 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T >}
+\DoxyCodeLine{895 matrix\_subset< T > \mbox{\hyperlink{classstd_1_1matrix_a47844c831a2d0b9352914569138c9fb7}{matrix< T >::block}}(\textcolor{keywordtype}{size\_t} first\_row, \textcolor{keywordtype}{size\_t} last\_row, \textcolor{keywordtype}{size\_t} first\_col, \textcolor{keywordtype}{size\_t} last\_col) \{}
+\DoxyCodeLine{896     \textcolor{keywordflow}{return} matrix\_subset< T >(\textcolor{keyword}{this}, blockID(first\_row, last\_row, first\_col, last\_col));}
+\DoxyCodeLine{897 \}}
+\DoxyCodeLine{898 }
+\DoxyCodeLine{899 }
+\DoxyCodeLine{900 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T >}
+\DoxyCodeLine{901 matrix\_subset\_const< T > \mbox{\hyperlink{classstd_1_1matrix_a47844c831a2d0b9352914569138c9fb7}{matrix< T >::block}}(\textcolor{keywordtype}{size\_t} first\_row, \textcolor{keywordtype}{size\_t} last\_row, \textcolor{keywordtype}{size\_t} first\_col, \textcolor{keywordtype}{size\_t} last\_col)\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{902     \textcolor{keywordflow}{return} matrix\_subset\_const< T >(\textcolor{keyword}{this}, blockID(first\_row, last\_row, first\_col, last\_col));}
+\DoxyCodeLine{903 \}}
+\DoxyCodeLine{904 }
+\DoxyCodeLine{905 }
+\DoxyCodeLine{906 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T >}
+\DoxyCodeLine{907 \textcolor{keyword}{template} < \textcolor{keyword}{typename} iT >}
+\DoxyCodeLine{908 \textcolor{keywordtype}{void} \mbox{\hyperlink{classstd_1_1matrix_afe45717562e78aaf333ea0a7a30de8a0}{matrix< T >::set}}(\textcolor{keyword}{const} iT\& in) \{}
+\DoxyCodeLine{909     \textcolor{keyword}{static\_assert}(is\_generic\_container< iT >(), \textcolor{stringliteral}{"{}INVALID INPUT CONTAINER!"{}});}
+\DoxyCodeLine{910     assert(in.size() >= \_data.size());}
+\DoxyCodeLine{911     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} i = 0; i < \_data.size(); i++) \{}
+\DoxyCodeLine{912         \_data[i] = in[i];}
+\DoxyCodeLine{913     \}}
+\DoxyCodeLine{914 \}}
+\DoxyCodeLine{915 }
+\DoxyCodeLine{916 }
+\DoxyCodeLine{917 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T >}
+\DoxyCodeLine{918 \textcolor{keyword}{template} < \textcolor{keyword}{typename} iT >}
+\DoxyCodeLine{919 \textcolor{keywordtype}{void} \mbox{\hyperlink{classstd_1_1matrix_a7cd8df5a31059daa3f86600d7106f9ce}{matrix< T >::pushRow}}(\textcolor{keyword}{const} iT\& in) \{}
+\DoxyCodeLine{920     \textcolor{keyword}{static\_assert}(is\_generic\_container< iT >(), \textcolor{stringliteral}{"{}INVALID INPUT CONTAINER!"{}});}
+\DoxyCodeLine{921     assert(in.size() > 0);}
+\DoxyCodeLine{922     \textcolor{keywordflow}{if} (\_cols) \{}
+\DoxyCodeLine{923         assert(in.size() == \_cols);}
+\DoxyCodeLine{924     \}}
+\DoxyCodeLine{925     \textcolor{keywordflow}{for} (\textcolor{keyword}{auto}\& v : in) \{}
+\DoxyCodeLine{926         \_data.push\_back(v);}
+\DoxyCodeLine{927     \}}
+\DoxyCodeLine{928     \textcolor{keywordflow}{if} (!\_cols) \{}
+\DoxyCodeLine{929         \_cols = in.size();}
+\DoxyCodeLine{930     \}}
+\DoxyCodeLine{931     \_rows++;}
+\DoxyCodeLine{932 \}}
+\DoxyCodeLine{933 }
+\DoxyCodeLine{934 }
+\DoxyCodeLine{935 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T >}
+\DoxyCodeLine{936 \textcolor{keyword}{template} < \textcolor{keyword}{typename} iT >}
+\DoxyCodeLine{937 \textcolor{keywordtype}{void} \mbox{\hyperlink{classstd_1_1matrix_a04cbd04648b9e16481e901b855afdad6}{matrix< T >::pushCol}}(\textcolor{keyword}{const} iT\& in) \{}
+\DoxyCodeLine{938     \textcolor{keyword}{static\_assert}(is\_generic\_container< iT >(), \textcolor{stringliteral}{"{}INVALID INPUT CONTAINER!"{}});}
+\DoxyCodeLine{939     assert(in.size() > 0);}
+\DoxyCodeLine{940     \textcolor{keywordflow}{if} (\_rows) \{}
+\DoxyCodeLine{941         assert(in.size() == \_rows);}
+\DoxyCodeLine{942     \}}
+\DoxyCodeLine{943     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} r = in.size()-\/1; r >= 0; r-\/-\/) \{}
+\DoxyCodeLine{944         \_data.insert(\_data.begin() + (r * \_cols + \_cols), in[r]);}
+\DoxyCodeLine{945     \}}
+\DoxyCodeLine{946     \textcolor{keywordflow}{if} (!\_rows) \{}
+\DoxyCodeLine{947         \_rows = in.size();}
+\DoxyCodeLine{948     \}}
+\DoxyCodeLine{949     \_cols++;}
+\DoxyCodeLine{950 \}}
+\DoxyCodeLine{951 }
+\DoxyCodeLine{952 }
+\DoxyCodeLine{953 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T >}
+\DoxyCodeLine{954 \textcolor{keywordtype}{void} \mbox{\hyperlink{classstd_1_1matrix_a7cd8df5a31059daa3f86600d7106f9ce}{matrix< T >::pushRow}}() \{}
+\DoxyCodeLine{955     assert(\_rows > 0 \&\& \_cols > 0);           \textcolor{comment}{// can only add empty row in non-\/empty matrices (last value is used as placeholder)}}
+\DoxyCodeLine{956     pushRow(vector< T > (\_rows, \_data.back()));  \textcolor{comment}{// should maybe use fill insert?}}
+\DoxyCodeLine{957 \}}
+\DoxyCodeLine{958 }
+\DoxyCodeLine{959 }
+\DoxyCodeLine{960 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T >}
+\DoxyCodeLine{961 \textcolor{keywordtype}{void} \mbox{\hyperlink{classstd_1_1matrix_a04cbd04648b9e16481e901b855afdad6}{matrix< T >::pushCol}}() \{}
+\DoxyCodeLine{962     assert(\_rows > 0 \&\& \_cols > 0);           \textcolor{comment}{// can only add empty col in non-\/empty matrices (last value is used as placeholder)}}
+\DoxyCodeLine{963     pushCol(vector< T > (\_rows, \_data.back()));}
+\DoxyCodeLine{964 \}}
+\DoxyCodeLine{965 }
+\DoxyCodeLine{966 }
+\DoxyCodeLine{967 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T >}
+\DoxyCodeLine{968 \textcolor{keywordtype}{void} \mbox{\hyperlink{classstd_1_1matrix_a90753e31841d0d12637becd5cf091e2c}{matrix< T >::popRow}}() \{}
+\DoxyCodeLine{969     assert(\_rows > 0);}
+\DoxyCodeLine{970     \textcolor{keywordflow}{if} (\_rows == 1) \{}
+\DoxyCodeLine{971         clear();}
+\DoxyCodeLine{972     \} \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{973         \_data.resize((\_rows-\/1)*\_cols);}
+\DoxyCodeLine{974         \_rows-\/-\/;}
+\DoxyCodeLine{975     \}}
+\DoxyCodeLine{976 \}}
+\DoxyCodeLine{977 }
+\DoxyCodeLine{978 }
+\DoxyCodeLine{979 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T >}
+\DoxyCodeLine{980 \textcolor{keywordtype}{void} \mbox{\hyperlink{classstd_1_1matrix_a132898f98bb465189ef489f7abe96128}{matrix< T >::popCol}}() \{}
+\DoxyCodeLine{981     assert(\_cols > 0);}
+\DoxyCodeLine{982     \textcolor{keywordflow}{if} (\_cols == 1) \{}
+\DoxyCodeLine{983         clear();}
+\DoxyCodeLine{984     \} \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{985         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} r = \_rows-\/1; r >= 0; r-\/-\/) \{}
+\DoxyCodeLine{986             \_data.erase(\_data.begin() + (r * \_cols + (\_cols -\/ 1)));}
+\DoxyCodeLine{987         \}}
+\DoxyCodeLine{988         \_cols-\/-\/;}
+\DoxyCodeLine{989     \}}
+\DoxyCodeLine{990 \}}
+\DoxyCodeLine{991 }
+\DoxyCodeLine{992 }
+\DoxyCodeLine{993 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T >}
+\DoxyCodeLine{994 \textcolor{keywordtype}{void} \mbox{\hyperlink{classstd_1_1matrix_a611edd29b43b7bdc2064ecc272184840}{matrix< T >::deleteRow}}(\textcolor{keywordtype}{size\_t} \_r) \{}
+\DoxyCodeLine{995     assert(\_r < \_rows);}
+\DoxyCodeLine{996     \textcolor{keywordflow}{if} (\_rows == 1) \{}
+\DoxyCodeLine{997         clear();}
+\DoxyCodeLine{998     \} \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{999         \_data.erase(\_data.begin() + (\_r * \_cols), \_data.begin() + (\_r + 1 * \_cols));  \textcolor{comment}{// range erase only works for contiguous \_data (rows)}}
+\DoxyCodeLine{1000         \_rows-\/-\/;}
+\DoxyCodeLine{1001     \}}
+\DoxyCodeLine{1002 \}}
+\DoxyCodeLine{1003 }
+\DoxyCodeLine{1004 }
+\DoxyCodeLine{1005 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T >}
+\DoxyCodeLine{1006 \textcolor{keywordtype}{void} \mbox{\hyperlink{classstd_1_1matrix_a0517a8320c14fa1da8232ae1c3c437d1}{matrix< T >::deleteCol}}(\textcolor{keywordtype}{size\_t} \_c) \{}
+\DoxyCodeLine{1007     assert(\_c < \_cols);}
+\DoxyCodeLine{1008     \textcolor{keywordflow}{if} (\_cols == 1) \{}
+\DoxyCodeLine{1009         clear();}
+\DoxyCodeLine{1010     \} \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{1011         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} r = \_rows-\/1; r >= 0; r-\/-\/) \{}
+\DoxyCodeLine{1012             \_data.erase(\_data.begin() + (r * \_cols + \_c));}
+\DoxyCodeLine{1013         \}}
+\DoxyCodeLine{1014         \_cols-\/-\/;}
+\DoxyCodeLine{1015     \}}
+\DoxyCodeLine{1016 \}}
+\DoxyCodeLine{1017 }
+\DoxyCodeLine{1018 }
+\DoxyCodeLine{1019 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T >}
+\DoxyCodeLine{1020 \textcolor{keywordtype}{void} \mbox{\hyperlink{classstd_1_1matrix_a81bcc7e8fce0fdffd5391a7c745b0b78}{matrix< T >::reshape}}(\textcolor{keywordtype}{size\_t} new\_rows, \textcolor{keywordtype}{size\_t} new\_cols) \{}
+\DoxyCodeLine{1021     \textcolor{keywordflow}{if} (!new\_rows || !new\_cols) \{}
+\DoxyCodeLine{1022         clear();}
+\DoxyCodeLine{1023     \}}
+\DoxyCodeLine{1024     \textcolor{keywordflow}{if} (!\_rows) \{}
+\DoxyCodeLine{1025         \_rows = new\_rows;}
+\DoxyCodeLine{1026     \}}
+\DoxyCodeLine{1027     \textcolor{comment}{// match cols}}
+\DoxyCodeLine{1028     \textcolor{keywordflow}{while} (\_cols > new\_cols) \{}
+\DoxyCodeLine{1029         popCol();}
+\DoxyCodeLine{1030     \}}
+\DoxyCodeLine{1031     \textcolor{keywordflow}{while} (\_cols < new\_cols) \{}
+\DoxyCodeLine{1032         pushCol(vector< T > (\_rows, T()));}
+\DoxyCodeLine{1033     \}}
+\DoxyCodeLine{1034     \textcolor{comment}{// match rows}}
+\DoxyCodeLine{1035     \textcolor{keywordflow}{while} (\_rows > new\_rows) \{}
+\DoxyCodeLine{1036         popRow();}
+\DoxyCodeLine{1037     \}}
+\DoxyCodeLine{1038     \textcolor{keywordflow}{while} (\_rows < new\_rows) \{}
+\DoxyCodeLine{1039         pushRow(vector< T > (\_cols, T()));}
+\DoxyCodeLine{1040     \}}
+\DoxyCodeLine{1041 \}}
+\DoxyCodeLine{1042 }
+\DoxyCodeLine{1043 }
+\DoxyCodeLine{1044 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T >}
+\DoxyCodeLine{1045 \textcolor{keywordtype}{void} \mbox{\hyperlink{classstd_1_1matrix_a823ad926fec6a1cfd5de8d759bab807f}{matrix< T >::resize}}(\textcolor{keywordtype}{size\_t} new\_rows, \textcolor{keywordtype}{size\_t} new\_cols) \{  \textcolor{comment}{// resize() is much less efficient than reshape()}}
+\DoxyCodeLine{1046     \textcolor{keywordflow}{if} (!new\_rows || !new\_cols) \{}
+\DoxyCodeLine{1047         clear();}
+\DoxyCodeLine{1048     \}}
+\DoxyCodeLine{1049     \textcolor{keywordflow}{if} (new\_cols == \_cols) \{}
+\DoxyCodeLine{1050         \textcolor{comment}{// faster \&\& straightforward due to row-\/major storage}}
+\DoxyCodeLine{1051         \_data.resize(new\_rows * \_cols);}
+\DoxyCodeLine{1052     \} \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{1053         \textcolor{comment}{// \_data needs to be reshaped for the second row onwards}}
+\DoxyCodeLine{1054         vector< T > tmp\_data = \_data;}
+\DoxyCodeLine{1055         \_data.resize(new\_rows * new\_cols);}
+\DoxyCodeLine{1056         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} r = 1; r < new\_rows; r++) \{}
+\DoxyCodeLine{1057             \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} c = 0; c < new\_cols; c++) \{}
+\DoxyCodeLine{1058                 \_data[r * new\_cols + c] = tmp\_data[r * \_cols + c];}
+\DoxyCodeLine{1059             \}}
+\DoxyCodeLine{1060         \}}
+\DoxyCodeLine{1061         tmp\_data.clear();}
+\DoxyCodeLine{1062     \}}
+\DoxyCodeLine{1063     \_rows = new\_rows;}
+\DoxyCodeLine{1064     \_cols = new\_cols;}
+\DoxyCodeLine{1065 \}}
+\DoxyCodeLine{1066 }
+\DoxyCodeLine{1067 }
+\DoxyCodeLine{1068 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T >}
+\DoxyCodeLine{1069 \textcolor{keywordtype}{void} \mbox{\hyperlink{classstd_1_1matrix_ab5b6ea0fea5e289217c95fde16a6ef09}{matrix< T >::flip}}() \{}
+\DoxyCodeLine{1070     matrix< T > tmp = *\textcolor{keyword}{this};}
+\DoxyCodeLine{1071     \_rows = tmp.cols();}
+\DoxyCodeLine{1072     \_cols = tmp.rows();}
+\DoxyCodeLine{1073     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} r = 0; r < \_rows; ++r) \{}
+\DoxyCodeLine{1074         row(r) = tmp.col(r);}
+\DoxyCodeLine{1075     \}}
+\DoxyCodeLine{1076 \}}
+\DoxyCodeLine{1077 }
+\DoxyCodeLine{1078 }
+\DoxyCodeLine{1079 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T >}
+\DoxyCodeLine{1080 \textcolor{keywordtype}{void} \mbox{\hyperlink{classstd_1_1matrix_aec959191d455266437de6b94ea604d67}{matrix< T >::clear}}() \{}
+\DoxyCodeLine{1081     \_data.resize(0);}
+\DoxyCodeLine{1082     \_rows = 0;}
+\DoxyCodeLine{1083     \_cols = 0;}
+\DoxyCodeLine{1084 \}}
+\DoxyCodeLine{1085 }
+\DoxyCodeLine{1086 }
+\DoxyCodeLine{1087 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T >}
+\DoxyCodeLine{1088 \textcolor{keyword}{typename} vector< T >::iterator \mbox{\hyperlink{classstd_1_1matrix_af5742a68a54f7387d6678cfca5dae362}{matrix< T >::begin}}() \{}
+\DoxyCodeLine{1089     \textcolor{keywordflow}{return} \_data.begin();}
+\DoxyCodeLine{1090 \}}
+\DoxyCodeLine{1091 }
+\DoxyCodeLine{1092 }
+\DoxyCodeLine{1093 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T >}
+\DoxyCodeLine{1094 \textcolor{keyword}{typename} vector< T >::iterator \mbox{\hyperlink{classstd_1_1matrix_ad8a24879b95099fbcf232984def37e7b}{matrix< T >::end}}() \{}
+\DoxyCodeLine{1095     \textcolor{keywordflow}{return} \_data.end();}
+\DoxyCodeLine{1096 \}}
+\DoxyCodeLine{1097 }
+\DoxyCodeLine{1098 }
+\DoxyCodeLine{1099 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T >}
+\DoxyCodeLine{1100 \textcolor{keyword}{typename} vector< T >::const\_iterator \mbox{\hyperlink{classstd_1_1matrix_af5742a68a54f7387d6678cfca5dae362}{matrix< T >::begin}}()\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{1101     \textcolor{keywordflow}{return} \_data.cbegin();}
+\DoxyCodeLine{1102 \}}
+\DoxyCodeLine{1103 }
+\DoxyCodeLine{1104 }
+\DoxyCodeLine{1105 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T >}
+\DoxyCodeLine{1106 \textcolor{keyword}{typename} vector< T >::const\_iterator \mbox{\hyperlink{classstd_1_1matrix_ad8a24879b95099fbcf232984def37e7b}{matrix< T >::end}}()\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{1107     \textcolor{keywordflow}{return} \_data.cend();}
+\DoxyCodeLine{1108 \}}
+\DoxyCodeLine{1109 }
+\DoxyCodeLine{1110 }
+\DoxyCodeLine{1111 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T >}
+\DoxyCodeLine{1112 \textcolor{keyword}{template} < \textcolor{keyword}{typename} oT >}
+\DoxyCodeLine{1113 matrix< T >::operator vector< oT >\&() \{}
+\DoxyCodeLine{1114     \textcolor{keywordflow}{return} vector< oT > (\_data.begin(), \_data.end());}
+\DoxyCodeLine{1115 \}}
+\DoxyCodeLine{1116 }
+\DoxyCodeLine{1117 }
+\DoxyCodeLine{1118 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T >}
+\DoxyCodeLine{1119 \textcolor{keyword}{template} < \textcolor{keyword}{typename} oT >}
+\DoxyCodeLine{1120 matrix< T >::operator \textcolor{keyword}{const} vector< oT >\&() \textcolor{keyword}{const} \{}
+\DoxyCodeLine{1121     \textcolor{keywordflow}{return} vector< oT > (\_data.begin(), \_data.end());}
+\DoxyCodeLine{1122 \}}
+\DoxyCodeLine{1123 }
+\DoxyCodeLine{1124 }
+\DoxyCodeLine{1125 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T >}
+\DoxyCodeLine{1126 \textcolor{keyword}{template} < \textcolor{keyword}{typename} oT >}
+\DoxyCodeLine{1127 matrix< T >::operator matrix< oT >\&() \{}
+\DoxyCodeLine{1128     \textcolor{keywordflow}{return} matrix< oT > (\_rows, \_cols, vector< oT >(\_data.begin(), \_data.end()));}
+\DoxyCodeLine{1129 \}}
+\DoxyCodeLine{1130 }
+\DoxyCodeLine{1131 }
+\DoxyCodeLine{1132 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T >}
+\DoxyCodeLine{1133 \textcolor{keyword}{template} < \textcolor{keyword}{typename} oT >}
+\DoxyCodeLine{1134 matrix< T >::operator \textcolor{keyword}{const} matrix< oT >\&() \textcolor{keyword}{const} \{}
+\DoxyCodeLine{1135     \textcolor{keywordflow}{return} matrix< oT > (\_rows, \_cols, vector< oT >(\_data.begin(), \_data.end()));}
+\DoxyCodeLine{1136 \}}
+\DoxyCodeLine{1137 }
+\DoxyCodeLine{1139 }
+\DoxyCodeLine{1141 \textcolor{comment}{// COMPARISON OPERATORS (NON-\/MEMBERS)}}
+\DoxyCodeLine{1142 \textcolor{comment}{// negation(!) operator is defined by default}}
+\DoxyCodeLine{1143 \textcolor{comment}{// with the exception of the == operator, only matrix size is compared}}
+\DoxyCodeLine{1144 \textcolor{comment}{// use subset boolean operators (e.g. mat.all()==vol.level(int) or mat.col(int)==mat.row(int)) for element-\/wise comparison}}
+\DoxyCodeLine{1145 \textcolor{keyword}{template} <\textcolor{keyword}{typename} \_ltype, \textcolor{keyword}{typename} \_rtype>}
+\DoxyCodeLine{1146 \textcolor{keyword}{inline} \textcolor{keywordtype}{bool} operator==(\textcolor{keyword}{const} \mbox{\hyperlink{classstd_1_1matrix}{std::matrix<\_ltype>}}\& \_lmat, \textcolor{keyword}{const} \mbox{\hyperlink{classstd_1_1matrix}{std::matrix<\_rtype>}}\& \_rmat) \{}
+\DoxyCodeLine{1147     \textcolor{keywordflow}{if} (\_lmat.\mbox{\hyperlink{classstd_1_1matrix_a1d186463b0cbe50e09763140a8f7de96}{size}}() != \_rmat.\mbox{\hyperlink{classstd_1_1matrix_a1d186463b0cbe50e09763140a8f7de96}{size}}()) \{}
+\DoxyCodeLine{1148         \textcolor{keywordflow}{return} \textcolor{keyword}{false};}
+\DoxyCodeLine{1149     \} \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{1150         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} i=0; i < \_lmat.\mbox{\hyperlink{classstd_1_1matrix_a1d186463b0cbe50e09763140a8f7de96}{size}}(); i++) \{}
+\DoxyCodeLine{1151             \textcolor{keywordflow}{if} (\_lmat[i] != \_rmat[i]) \textcolor{keywordflow}{return} \textcolor{keyword}{false};}
+\DoxyCodeLine{1152         \}}
+\DoxyCodeLine{1153     \}}
+\DoxyCodeLine{1154     \textcolor{keywordflow}{return} \textcolor{keyword}{true};}
+\DoxyCodeLine{1155 \}}
+\DoxyCodeLine{1156 \textcolor{keyword}{template} <\textcolor{keyword}{typename} \_ltype, \textcolor{keyword}{typename} \_rtype>}
+\DoxyCodeLine{1157 \textcolor{keyword}{inline} \textcolor{keywordtype}{bool} operator!=(\textcolor{keyword}{const} \mbox{\hyperlink{classstd_1_1matrix}{std::matrix<\_ltype>}}\& \_lmat, \textcolor{keyword}{const} \mbox{\hyperlink{classstd_1_1matrix}{std::matrix<\_rtype>}}\& \_rmat) \{}
+\DoxyCodeLine{1158     \textcolor{keywordflow}{return} !operator==(\_lmat, \_rmat);}
+\DoxyCodeLine{1159 \}}
+\DoxyCodeLine{1160 \textcolor{keyword}{template} <\textcolor{keyword}{typename} \_ltype, \textcolor{keyword}{typename} \_rtype>}
+\DoxyCodeLine{1161 \textcolor{keyword}{inline} \textcolor{keywordtype}{bool} operator< (\textcolor{keyword}{const} \mbox{\hyperlink{classstd_1_1matrix}{std::matrix<\_ltype>}}\& \_lmat, \textcolor{keyword}{const} \mbox{\hyperlink{classstd_1_1matrix}{std::matrix<\_rtype>}}\& \_rmat) \{}
+\DoxyCodeLine{1162     \textcolor{keywordflow}{return} (\_lmat.\mbox{\hyperlink{classstd_1_1matrix_a1d186463b0cbe50e09763140a8f7de96}{size}}() < \_rmat.\mbox{\hyperlink{classstd_1_1matrix_a1d186463b0cbe50e09763140a8f7de96}{size}}());}
+\DoxyCodeLine{1163 \}}
+\DoxyCodeLine{1164 \textcolor{keyword}{template} <\textcolor{keyword}{typename} \_ltype, \textcolor{keyword}{typename} \_rtype>}
+\DoxyCodeLine{1165 \textcolor{keyword}{inline} \textcolor{keywordtype}{bool} operator> (\textcolor{keyword}{const} \mbox{\hyperlink{classstd_1_1matrix}{std::matrix<\_ltype>}}\& \_lmat, \textcolor{keyword}{const} \mbox{\hyperlink{classstd_1_1matrix}{std::matrix<\_rtype>}}\& \_rmat) \{}
+\DoxyCodeLine{1166     \textcolor{keywordflow}{return}  operator< (\_rmat, \_lmat);}
+\DoxyCodeLine{1167 \}}
+\DoxyCodeLine{1168 \textcolor{keyword}{template} <\textcolor{keyword}{typename} \_ltype, \textcolor{keyword}{typename} \_rtype>}
+\DoxyCodeLine{1169 \textcolor{keyword}{inline} \textcolor{keywordtype}{bool} operator<=(\textcolor{keyword}{const} \mbox{\hyperlink{classstd_1_1matrix}{std::matrix<\_ltype>}}\& \_lmat, \textcolor{keyword}{const} \mbox{\hyperlink{classstd_1_1matrix}{std::matrix<\_rtype>}}\& \_rmat) \{}
+\DoxyCodeLine{1170     \textcolor{keywordflow}{return} !operator> (\_lmat, \_rmat);}
+\DoxyCodeLine{1171 \}}
+\DoxyCodeLine{1172 \textcolor{keyword}{template} <\textcolor{keyword}{typename} \_ltype, \textcolor{keyword}{typename} \_rtype>}
+\DoxyCodeLine{1173 \textcolor{keyword}{inline} \textcolor{keywordtype}{bool} operator>=(\textcolor{keyword}{const} \mbox{\hyperlink{classstd_1_1matrix}{std::matrix<\_ltype>}}\& \_lmat, \textcolor{keyword}{const} \mbox{\hyperlink{classstd_1_1matrix}{std::matrix<\_rtype>}}\& \_rmat) \{}
+\DoxyCodeLine{1174     \textcolor{keywordflow}{return} !operator< (\_lmat, \_rmat);}
+\DoxyCodeLine{1175 \}}
+\DoxyCodeLine{1177 \textcolor{comment}{// template <typename \_ltype, typename \_rtype>}}
+\DoxyCodeLine{1178 \textcolor{comment}{// inline bool operator==(const std::matrix<\_ltype>\& \_lmat, const std::storage::st\_subset\_base<\_rtype>\& \_rcont)\{}}
+\DoxyCodeLine{1179 \textcolor{comment}{//  if (\_lmat.size() != \_rcont.size()) return false;}}
+\DoxyCodeLine{1180 \textcolor{comment}{//  else for (int i=0; i<\_lmat.size(); i++) if (\_lmat[i]!=\_rcont[i]) return false;}}
+\DoxyCodeLine{1181 \textcolor{comment}{//  return true;}}
+\DoxyCodeLine{1182 \textcolor{comment}{// \};}}
+\DoxyCodeLine{1183 \textcolor{comment}{// template <typename \_ltype, typename \_rtype>}}
+\DoxyCodeLine{1184 \textcolor{comment}{// inline bool operator!=(const std::matrix<\_ltype>\& \_lmat, const std::storage::st\_subset\_base<\_rtype>\& \_rcont)\{}}
+\DoxyCodeLine{1185 \textcolor{comment}{//  return !operator==(\_lmat,\_rcont);}}
+\DoxyCodeLine{1186 \textcolor{comment}{// \};}}
+\DoxyCodeLine{1187 \textcolor{comment}{// template <typename \_ltype, typename \_rtype>}}
+\DoxyCodeLine{1188 \textcolor{comment}{// inline bool operator< (const std::matrix<\_ltype>\& \_lmat, const std::storage::st\_subset\_base<\_rtype>\& \_rcont)\{}}
+\DoxyCodeLine{1189 \textcolor{comment}{//  return (\_lmat.size() < \_rcont.size());}}
+\DoxyCodeLine{1190 \textcolor{comment}{// \};}}
+\DoxyCodeLine{1191 \textcolor{comment}{// template <typename \_ltype, typename \_rtype>}}
+\DoxyCodeLine{1192 \textcolor{comment}{// inline bool operator> (const std::matrix<\_ltype>\& \_lmat, const std::storage::st\_subset\_base<\_rtype>\& \_rcont)\{}}
+\DoxyCodeLine{1193 \textcolor{comment}{//  return  operator< (\_rcont,\_lmat);}}
+\DoxyCodeLine{1194 \textcolor{comment}{// \};}}
+\DoxyCodeLine{1195 \textcolor{comment}{// template <typename \_ltype, typename \_rtype>}}
+\DoxyCodeLine{1196 \textcolor{comment}{// inline bool operator<=(const std::matrix<\_ltype>\& \_lmat, const std::storage::st\_subset\_base<\_rtype>\& \_rcont)\{}}
+\DoxyCodeLine{1197 \textcolor{comment}{//  return !operator> (\_lmat,\_rcont);}}
+\DoxyCodeLine{1198 \textcolor{comment}{// \};}}
+\DoxyCodeLine{1199 \textcolor{comment}{// template <typename \_ltype, typename \_rtype>}}
+\DoxyCodeLine{1200 \textcolor{comment}{// inline bool operator>=(const std::matrix<\_ltype>\& \_lmat, const std::storage::st\_subset\_base<\_rtype>\& \_rcont)\{}}
+\DoxyCodeLine{1201 \textcolor{comment}{//  return !operator< (\_lmat,\_rcont);}}
+\DoxyCodeLine{1202 \textcolor{comment}{// \};}}
+\DoxyCodeLine{1204 \textcolor{comment}{}\}  \textcolor{comment}{// namespace std}}
+\DoxyCodeLine{1206 \textcolor{comment}{}\textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

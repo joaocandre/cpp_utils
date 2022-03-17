@@ -1,0 +1,155 @@
+\hypertarget{subset_8hpp_source}{}\doxysection{subset.\+hpp}
+\label{subset_8hpp_source}\index{/home/joao/Shared/PHD/code/ros/src/storage/include/storage/subset.hpp@{/home/joao/Shared/PHD/code/ros/src/storage/include/storage/subset.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef SUBSET\_HPP}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define SUBSET\_HPP}}
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include <vector>}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include <functional>}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#include <cassert>}}
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#include "{}storage/iterator.hpp"{}}}
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include "{}storage/type\_check.hpp"{}}}
+\DoxyCodeLine{10 \textcolor{keyword}{namespace }std \{}
+\DoxyCodeLine{11 \textcolor{keyword}{namespace }storage \{}
+\DoxyCodeLine{14 \textcolor{comment}{// container subset class, templated, iteratable}}
+\DoxyCodeLine{15 \textcolor{comment}{// can be used generic containers, as long as 1) size\_t [container]::size() is defined and 2) \_DT\& [container]::operator[](size\_t) is overloaded}}
+\DoxyCodeLine{16 \textcolor{comment}{// by design, subset holds no shape info from  original object (e.g. std::matrix<> or std::volume<>)}}
+\DoxyCodeLine{17 \textcolor{comment}{// TODO: use smart pointers?}}
+\DoxyCodeLine{18 \textcolor{keyword}{template} <\textcolor{keyword}{typename} \_CT>}
+\DoxyCodeLine{19 \textcolor{keyword}{class }\mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{st\_subset\_base}} \{}
+\DoxyCodeLine{20     \_CT* container;}
+\DoxyCodeLine{21     vector<size\_t> idx;}
+\DoxyCodeLine{22 }
+\DoxyCodeLine{23  \textcolor{keyword}{public}:}
+\DoxyCodeLine{24     \textcolor{comment}{// type member redirection}}
+\DoxyCodeLine{25     \textcolor{keyword}{typedef} \textcolor{keyword}{typename} \_CT::value\_type value\_type;}
+\DoxyCodeLine{26 }
+\DoxyCodeLine{27     \textcolor{comment}{// default constructor}}
+\DoxyCodeLine{28     \mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{st\_subset\_base}}(\_CT* \_c, \textcolor{keyword}{const} vector<size\_t>\& \_i);}
+\DoxyCodeLine{29     }
+\DoxyCodeLine{30     \textcolor{comment}{// input assignment operator overload (only data is copied -\/> for data/member reassignment, call default or copy constructor explicitely)}}
+\DoxyCodeLine{31     \mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{st\_subset\_base}}\& operator=(\textcolor{keyword}{const} value\_type\& \_in);           \textcolor{comment}{// single variable (bulk assignment), implicit cast}}
+\DoxyCodeLine{32     }
+\DoxyCodeLine{33     \mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{st\_subset\_base}}\& operator=(\textcolor{keyword}{const} \mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{st\_subset\_base<\_CT>}}\& \_sbst);    \textcolor{comment}{// copy/move assignment overload is required otherwise a default copy assignment overload is called and members are copied/data is no reassigned}}
+\DoxyCodeLine{34     }
+\DoxyCodeLine{35     template <typename \_iT, typename = typename enable\_if<is\_generic\_container<\_iT>()>::type>}
+\DoxyCodeLine{36     \mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{st\_subset\_base}}\& operator=(\textcolor{keyword}{const} \_iT\& \_in);  \textcolor{comment}{// general container (different container subsets/vectors, etc)}}
+\DoxyCodeLine{37     }
+\DoxyCodeLine{38     \textcolor{comment}{// output cast operator}}
+\DoxyCodeLine{39     \textcolor{comment}{// operator vector<typename \_CT::value\_type>()    const; //check if it helps}}
+\DoxyCodeLine{40     \textcolor{keyword}{template} <\textcolor{keyword}{typename} \_oT> \textcolor{keyword}{operator} vector<\_oT>() \textcolor{keyword}{const};}
+\DoxyCodeLine{41     \textcolor{comment}{// template <typename \_oT> operator matrix<\_oT>() const; // TODO}}
+\DoxyCodeLine{42     \textcolor{comment}{// direct access to data}}
+\DoxyCodeLine{43     \textcolor{keyword}{auto}        operator[](\textcolor{keywordtype}{size\_t} \_id)       -\/>  \textcolor{keyword}{decltype}(std::declval<\_CT>()[0]);}
+\DoxyCodeLine{44     \textcolor{keyword}{const} \textcolor{keyword}{auto}  operator[](\textcolor{keywordtype}{size\_t} \_id) \textcolor{keyword}{const} -\/>  \textcolor{keyword}{decltype}(std::declval<\_CT>()[0]);}
+\DoxyCodeLine{45     \textcolor{comment}{// container pointer return}}
+\DoxyCodeLine{46     \_CT*        source()            \textcolor{keyword}{const};}
+\DoxyCodeLine{47     \textcolor{comment}{// index hard limits (const)}}
+\DoxyCodeLine{48     \textcolor{keywordtype}{size\_t}      size()              \textcolor{keyword}{const};}
+\DoxyCodeLine{49     \textcolor{keywordtype}{size\_t}      source\_size()       \textcolor{keyword}{const};}
+\DoxyCodeLine{50     vector<size\_t> shape()          \textcolor{keyword}{const};}
+\DoxyCodeLine{51     \textcolor{comment}{// index accessor}}
+\DoxyCodeLine{52     \textcolor{keyword}{const} vector<size\_t>\& \mbox{\hyperlink{classstd_1_1indexer}{index}}()       \textcolor{keyword}{const};}
+\DoxyCodeLine{53     vector<value\_type> data()       \textcolor{keyword}{const};  \textcolor{comment}{// -\/> vector<std::remove\_reference<decltype(std::declval<\_CT>()[0])>::type>;}}
+\DoxyCodeLine{54     \textcolor{comment}{// segment subset}}
+\DoxyCodeLine{55     \mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{st\_subset\_base<\_CT>}} segment(\textcolor{keywordtype}{size\_t} \_f, \textcolor{keywordtype}{size\_t} \_l) \textcolor{keyword}{const};}
+\DoxyCodeLine{56     \textcolor{comment}{// pseudo-\/iterators (non-\/const/const)}}
+\DoxyCodeLine{57     \mbox{\hyperlink{classstd_1_1storage_1_1st__pseudo__iterator}{st\_pseudo\_iterator<st\_subset\_base>}} begin();}
+\DoxyCodeLine{58     \mbox{\hyperlink{classstd_1_1storage_1_1st__pseudo__iterator}{st\_pseudo\_iterator<st\_subset\_base>}} end();}
+\DoxyCodeLine{59     \mbox{\hyperlink{classstd_1_1storage_1_1st__pseudo__iterator}{st\_pseudo\_iterator< const st\_subset\_base >}} begin() \textcolor{keyword}{const};}
+\DoxyCodeLine{60     \mbox{\hyperlink{classstd_1_1storage_1_1st__pseudo__iterator}{st\_pseudo\_iterator< const st\_subset\_base >}} end()   \textcolor{keyword}{const};}
+\DoxyCodeLine{61 \};}
+\DoxyCodeLine{63 \textcolor{comment}{// CONSTRUCTOR}}
+\DoxyCodeLine{64 \textcolor{keyword}{template} <\textcolor{keyword}{typename} \_CT>}
+\DoxyCodeLine{65 \mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{st\_subset\_base<\_CT>::st\_subset\_base}}(\_CT* \_c, \textcolor{keyword}{const} std::vector<size\_t>\& \_i):  container(\_c), idx(\_i) \{}
+\DoxyCodeLine{66     \textcolor{keyword}{static\_assert}(is\_generic\_container<\_CT>(), \textcolor{stringliteral}{"{}"{}});}
+\DoxyCodeLine{67     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} i : idx) assert(i <= source\_size());}
+\DoxyCodeLine{68 \}}
+\DoxyCodeLine{70 \textcolor{comment}{// ASSIGNMENT (CONTAINER MODIFIERS)}}
+\DoxyCodeLine{71 \textcolor{keyword}{template} <\textcolor{keyword}{typename} \_CT>}
+\DoxyCodeLine{72 st\_subset\_base<\_CT>\& st\_subset\_base<\_CT>::operator=(\textcolor{keyword}{const} value\_type\& \_in) \{  \textcolor{comment}{// single object input (bulk assignment)}}
+\DoxyCodeLine{73     \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} \mbox{\hyperlink{classstd_1_1indexer}{index}} : idx) \{ (*container)[\mbox{\hyperlink{classstd_1_1indexer}{index}}] = (\_in); \}}
+\DoxyCodeLine{74     \textcolor{keywordflow}{return} *\textcolor{keyword}{this};}
+\DoxyCodeLine{75 \}}
+\DoxyCodeLine{76 \textcolor{keyword}{template} <\textcolor{keyword}{typename} \_CT>}
+\DoxyCodeLine{77 st\_subset\_base<\_CT>\& st\_subset\_base<\_CT>::operator=(\textcolor{keyword}{const} st\_subset\_base<\_CT>\& \_sbst) \{}
+\DoxyCodeLine{78     \textcolor{keywordflow}{return} \textcolor{keyword}{operator}=<st\_subset\_base<\_CT>>(\_sbst);}
+\DoxyCodeLine{79 \}}
+\DoxyCodeLine{80 \textcolor{keyword}{template} <\textcolor{keyword}{typename} \_CT>}
+\DoxyCodeLine{81 \textcolor{keyword}{template} <\textcolor{keyword}{typename} \_iT, \textcolor{keyword}{typename}>}
+\DoxyCodeLine{82 st\_subset\_base<\_CT>\& st\_subset\_base<\_CT>::operator=(\textcolor{keyword}{const} \_iT\& \_in) \{  \textcolor{comment}{// container input (elementwise assignment)}}
+\DoxyCodeLine{83     \textcolor{keyword}{static\_assert}(is\_generic\_container<\_iT>(), \textcolor{stringliteral}{"{}"{}});}
+\DoxyCodeLine{84     assert(\_in.size() >= idx.size());}
+\DoxyCodeLine{85     \textcolor{keywordtype}{size\_t} ind = 0;}
+\DoxyCodeLine{86     \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} index : idx) \{ (*container)[\mbox{\hyperlink{indexer_8hpp_a560b478532185401adead77a6d5d8350}{index}}] = (\_in[ind++]); \}}
+\DoxyCodeLine{87     \textcolor{keywordflow}{return} *\textcolor{keyword}{this};}
+\DoxyCodeLine{88 \}}
+\DoxyCodeLine{90 \textcolor{comment}{// CAST (BULK COPY)}}
+\DoxyCodeLine{91 \textcolor{keyword}{template} <\textcolor{keyword}{typename} \_CT>}
+\DoxyCodeLine{92 \textcolor{keyword}{template} <\textcolor{keyword}{typename} \_oT>}
+\DoxyCodeLine{93 st\_subset\_base<\_CT>::operator std::vector<\_oT>()\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{94     std::vector<\_oT> ss(0);}
+\DoxyCodeLine{95     \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} \textcolor{keywordtype}{id} : idx) ss.push\_back((*container)[\textcolor{keywordtype}{id}]);}
+\DoxyCodeLine{96     \textcolor{keywordflow}{return} ss;}
+\DoxyCodeLine{97 \}}
+\DoxyCodeLine{99 \textcolor{comment}{// DATA ACCESS}}
+\DoxyCodeLine{100 \textcolor{keyword}{template} <\textcolor{keyword}{typename} \_CT>}
+\DoxyCodeLine{101 \textcolor{keyword}{auto}       st\_subset\_base<\_CT>::operator[](\textcolor{keywordtype}{size\_t} \_id) -\/>  \textcolor{keyword}{decltype}(std::declval<\_CT>()[0]) \{}
+\DoxyCodeLine{102     \textcolor{keywordflow}{return} (*container)[idx[\_id]];}
+\DoxyCodeLine{103 \};}
+\DoxyCodeLine{104 \textcolor{keyword}{template} <\textcolor{keyword}{typename} \_CT>}
+\DoxyCodeLine{105 \textcolor{keyword}{const} \textcolor{keyword}{auto} st\_subset\_base<\_CT>::operator[](\textcolor{keywordtype}{size\_t} \_id)  \textcolor{keyword}{const} -\/>  \textcolor{keyword}{decltype}(std::declval<\_CT>()[0]) \{}
+\DoxyCodeLine{106     \textcolor{keywordflow}{return} (*container)[idx[\_id]];}
+\DoxyCodeLine{107 \};}
+\DoxyCodeLine{109 \textcolor{keyword}{template} <\textcolor{keyword}{typename} \_CT>}
+\DoxyCodeLine{110 \_CT* st\_subset\_base<\_CT>::source()\textcolor{keyword}{  const }\{}
+\DoxyCodeLine{111     \textcolor{keywordflow}{return} container;}
+\DoxyCodeLine{112 \}}
+\DoxyCodeLine{113 \textcolor{keyword}{template} <\textcolor{keyword}{typename} \_CT>}
+\DoxyCodeLine{114 \textcolor{keywordtype}{size\_t}  st\_subset\_base<\_CT>::size()\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{115     \textcolor{keywordflow}{return} idx.size();}
+\DoxyCodeLine{116 \}}
+\DoxyCodeLine{117 \textcolor{keyword}{template} <\textcolor{keyword}{typename} \_CT>}
+\DoxyCodeLine{118 \textcolor{keywordtype}{size\_t}  st\_subset\_base<\_CT>::source\_size()\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{119     \textcolor{keywordflow}{return} (*container).size();}
+\DoxyCodeLine{120 \}}
+\DoxyCodeLine{122 \textcolor{comment}{// INDEX POSITIONS}}
+\DoxyCodeLine{123 \textcolor{keyword}{template} <\textcolor{keyword}{typename} \_CT>}
+\DoxyCodeLine{124 \textcolor{keyword}{const} std::vector<size\_t>\& st\_subset\_base<\_CT>::index()\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{125     \textcolor{keywordflow}{return} idx;}
+\DoxyCodeLine{126 \}}
+\DoxyCodeLine{128 \textcolor{comment}{// CONTAINER DATA}}
+\DoxyCodeLine{129 \textcolor{keyword}{template} <\textcolor{keyword}{typename} \_CT>}
+\DoxyCodeLine{130 vector<typename st\_subset\_base<\_CT>::value\_type> st\_subset\_base<\_CT>::data()\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{131     vector<value\_type> data(0);}
+\DoxyCodeLine{132     \textcolor{keywordflow}{for} (\textcolor{keyword}{auto}\& val : (*\textcolor{keyword}{this})) data.push\_back(val);}
+\DoxyCodeLine{133     \textcolor{keywordflow}{return} data;}
+\DoxyCodeLine{134 \}}
+\DoxyCodeLine{136 \textcolor{comment}{// SEGMENT}}
+\DoxyCodeLine{137 \textcolor{keyword}{template} <\textcolor{keyword}{typename} \_CT>}
+\DoxyCodeLine{138 st\_subset\_base<\_CT> st\_subset\_base<\_CT>::segment(\textcolor{keywordtype}{size\_t} \_f, \textcolor{keywordtype}{size\_t} \_l)\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{139     assert(\_f< \_l \&\& \_l < size());}
+\DoxyCodeLine{140     \textcolor{keywordflow}{return} st\_subset\_base(container, std::vector<size\_t> (idx.begin()+\_f, idx.begin()+\_l));}
+\DoxyCodeLine{141 \}}
+\DoxyCodeLine{143 \textcolor{comment}{// ITERATORS}}
+\DoxyCodeLine{144 \textcolor{keyword}{template} <\textcolor{keyword}{typename} \_CT>}
+\DoxyCodeLine{145 st\_pseudo\_iterator<st\_subset\_base<\_CT>> st\_subset\_base<\_CT>::begin() \{}
+\DoxyCodeLine{146     \textcolor{keywordflow}{return} st\_pseudo\_iterator<st\_subset\_base>(\textcolor{keyword}{this}, 0);}
+\DoxyCodeLine{147 \}}
+\DoxyCodeLine{148 \textcolor{keyword}{template} <\textcolor{keyword}{typename} \_CT>}
+\DoxyCodeLine{149 st\_pseudo\_iterator<st\_subset\_base<\_CT>> st\_subset\_base<\_CT>::end() \{}
+\DoxyCodeLine{150     \textcolor{keywordflow}{return} st\_pseudo\_iterator<st\_subset\_base>(\textcolor{keyword}{this}, size());}
+\DoxyCodeLine{151 \}}
+\DoxyCodeLine{152 \textcolor{keyword}{template} <\textcolor{keyword}{typename} \_CT>}
+\DoxyCodeLine{153 st\_pseudo\_iterator<const st\_subset\_base<\_CT>> st\_subset\_base<\_CT>::begin()\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{154     \textcolor{keywordflow}{return} st\_pseudo\_iterator<const st\_subset\_base>(\textcolor{keyword}{this}, 0);}
+\DoxyCodeLine{155 \}}
+\DoxyCodeLine{156 \textcolor{keyword}{template} <\textcolor{keyword}{typename} \_CT>}
+\DoxyCodeLine{157 st\_pseudo\_iterator<const st\_subset\_base<\_CT>> st\_subset\_base<\_CT>::end()\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{158     \textcolor{keywordflow}{return} st\_pseudo\_iterator<const st\_subset\_base>(\textcolor{keyword}{this}, size());}
+\DoxyCodeLine{159 \}}
+\DoxyCodeLine{163 \}  \textcolor{comment}{// namespace storage}}
+\DoxyCodeLine{164 \}  \textcolor{comment}{// namespace std}}
+\DoxyCodeLine{166 \textcolor{comment}{}\textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

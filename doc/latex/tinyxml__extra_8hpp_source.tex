@@ -1,0 +1,1163 @@
+\hypertarget{tinyxml__extra_8hpp_source}{}\doxysection{tinyxml\+\_\+extra.\+hpp}
+\label{tinyxml__extra_8hpp_source}\index{/home/joao/Shared/PHD/code/mplibrary/include/std/tinyxml\_extra.hpp@{/home/joao/Shared/PHD/code/mplibrary/include/std/tinyxml\_extra.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef \_INCLUDE\_UTILS\_TINYXML2UTILS\_HPP\_}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define \_INCLUDE\_UTILS\_TINYXML2UTILS\_HPP\_}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include <vector>}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include <string>}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#include <initializer\_list>}}
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#include <map>}}
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include <utility>}}
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#include <type\_traits>}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#include <iostream>}}
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#include <exception>}}
+\DoxyCodeLine{12 \textcolor{preprocessor}{\#include <tinyxml2.h>}}
+\DoxyCodeLine{13 }
+\DoxyCodeLine{14 }
+\DoxyCodeLine{15 \textcolor{keyword}{namespace }std \{}
+\DoxyCodeLine{16 }
+\DoxyCodeLine{17 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{25 \textcolor{comment}{}vector< string > tokenize(\textcolor{keyword}{const} \textcolor{keywordtype}{string}\& data, \textcolor{keywordtype}{char} separator = \textcolor{charliteral}{','}, \textcolor{keywordtype}{bool} single\_split = \textcolor{keyword}{false}) \{}
+\DoxyCodeLine{26     vector< string > words;}
+\DoxyCodeLine{27     \textcolor{keywordtype}{size\_t} start;}
+\DoxyCodeLine{28     \textcolor{keywordtype}{size\_t} end = 0;}
+\DoxyCodeLine{29 }
+\DoxyCodeLine{30     \textcolor{keywordflow}{while} ((start = data.find\_first\_not\_of(separator, end)) != std::string::npos) \{}
+\DoxyCodeLine{31         end = data.find(separator, start);}
+\DoxyCodeLine{32         words.push\_back(data.substr(start, end -\/ start));}
+\DoxyCodeLine{33         \textcolor{keywordflow}{if} (single\_split \&\& end != string::npos) \{}
+\DoxyCodeLine{34             words.push\_back(data.substr(end + 1));}
+\DoxyCodeLine{35             \textcolor{keywordflow}{break};}
+\DoxyCodeLine{36         \}}
+\DoxyCodeLine{37     \}}
+\DoxyCodeLine{38 }
+\DoxyCodeLine{39     \textcolor{keywordflow}{return} words;}
+\DoxyCodeLine{40 \}}
+\DoxyCodeLine{41 }
+\DoxyCodeLine{42 }
+\DoxyCodeLine{43 }
+\DoxyCodeLine{44 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{53 \textcolor{comment}{}\textcolor{keywordtype}{size\_t} replace(\textcolor{keywordtype}{string}* source, \textcolor{keyword}{const} \textcolor{keywordtype}{string}\& old\_text, \textcolor{keyword}{const} \textcolor{keywordtype}{string}\& new\_text) \{}
+\DoxyCodeLine{54     \textcolor{keywordtype}{size\_t} count = 0;}
+\DoxyCodeLine{55     \textcolor{keyword}{auto} pos = source-\/>find(old\_text);}
+\DoxyCodeLine{56 }
+\DoxyCodeLine{57     \textcolor{keywordflow}{while} (pos != std::string::npos) \{}
+\DoxyCodeLine{58         source-\/>replace(pos, old\_text.size(), new\_text);}
+\DoxyCodeLine{59         count++;}
+\DoxyCodeLine{60         pos = source-\/>find(old\_text);}
+\DoxyCodeLine{61     \}}
+\DoxyCodeLine{62 }
+\DoxyCodeLine{63     \textcolor{keywordflow}{return} count;  \textcolor{comment}{// += replace(source.substr(pos), old\_text, new\_text);}}
+\DoxyCodeLine{64 \}}
+\DoxyCodeLine{65 }
+\DoxyCodeLine{66 }
+\DoxyCodeLine{67 }
+\DoxyCodeLine{68 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{81 \textcolor{comment}{}\textcolor{keyword}{template} < \textcolor{keyword}{typename} T >}
+\DoxyCodeLine{82 \textcolor{keywordtype}{void} move\_into(vector< T >\& container, vector< T >\& data) \{}
+\DoxyCodeLine{83     \textcolor{keywordflow}{if} (container.empty()) \{}
+\DoxyCodeLine{84         container = move(data);}
+\DoxyCodeLine{85     \} \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{86         container.reserve(container.size() + data.size());}
+\DoxyCodeLine{87         move(data.begin(), data.end(), back\_inserter(container));}
+\DoxyCodeLine{88         data.clear();}
+\DoxyCodeLine{89     \}}
+\DoxyCodeLine{90 \}}
+\DoxyCodeLine{91 }
+\DoxyCodeLine{92 }
+\DoxyCodeLine{93 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{103 \textcolor{comment}{}\textcolor{keyword}{template} < \textcolor{keyword}{typename} T >}
+\DoxyCodeLine{104 \textcolor{keywordtype}{void} move\_into(vector< T >\& container, vector< T >\&\& data) \{}
+\DoxyCodeLine{105     move\_into(container, data);}
+\DoxyCodeLine{106 \}}
+\DoxyCodeLine{107 }
+\DoxyCodeLine{108 }
+\DoxyCodeLine{109 }
+\DoxyCodeLine{110 \}  \textcolor{comment}{// namespace std}}
+\DoxyCodeLine{111 }
+\DoxyCodeLine{112 }
+\DoxyCodeLine{113 }
+\DoxyCodeLine{114 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{115 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{116 }
+\DoxyCodeLine{117 \textcolor{keyword}{namespace }tinyxml2 \{}
+\DoxyCodeLine{118 }
+\DoxyCodeLine{119 \textcolor{keyword}{namespace }extra \{}
+\DoxyCodeLine{120 }
+\DoxyCodeLine{121 }
+\DoxyCodeLine{122 \textcolor{comment}{// //-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{123 \textcolor{comment}{// /// @brief      Loads a XML file into a XMLDocument instance.}}
+\DoxyCodeLine{124 \textcolor{comment}{// ///}}
+\DoxyCodeLine{125 \textcolor{comment}{// /// @param[in]  path  Relative/absolute path to XML file.}}
+\DoxyCodeLine{126 \textcolor{comment}{// ///}}
+\DoxyCodeLine{127 \textcolor{comment}{// inline XMLDocument loadDocument(const std::string\& path) \{}}
+\DoxyCodeLine{128 \textcolor{comment}{//     XMLDocument document;}}
+\DoxyCodeLine{129 \textcolor{comment}{//     auto load\_error = document.LoadFile(path.data());}}
+\DoxyCodeLine{130 \textcolor{comment}{//     if (load\_error) \{}}
+\DoxyCodeLine{131 \textcolor{comment}{//         throw std::invalid\_argument("{}["{} + std::string(\_\_func\_\_) + "{}] Unable to load data file: "{} + path);}}
+\DoxyCodeLine{132 \textcolor{comment}{//     \}}}
+\DoxyCodeLine{133 \textcolor{comment}{//     return document;}}
+\DoxyCodeLine{134 \textcolor{comment}{// \}}}
+\DoxyCodeLine{135 }
+\DoxyCodeLine{136 }
+\DoxyCodeLine{137 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{145 \textcolor{comment}{}\textcolor{keyword}{inline} std::string descriptorOf(\textcolor{keyword}{const} XMLAttribute* attribute, \textcolor{keywordtype}{char} separator = \textcolor{charliteral}{':'}) \{}
+\DoxyCodeLine{146     \textcolor{keywordflow}{return} std::string(attribute-\/>Name()) + separator + std::string(attribute-\/>Value());}
+\DoxyCodeLine{147 \}}
+\DoxyCodeLine{148 }
+\DoxyCodeLine{149 }
+\DoxyCodeLine{150 }
+\DoxyCodeLine{151 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{161 \textcolor{comment}{}\textcolor{keyword}{inline} std::string treeOf(\textcolor{keyword}{const} XMLElement* element, \textcolor{keywordtype}{bool} include\_self = \textcolor{keyword}{true}, \textcolor{keyword}{const} std::string\& id\_attribute = \textcolor{stringliteral}{"{}name"{}}) \{}
+\DoxyCodeLine{162     \textcolor{comment}{// check if input element is valid}}
+\DoxyCodeLine{163     \textcolor{keywordflow}{if} (!element) \{}
+\DoxyCodeLine{164         \textcolor{keywordflow}{return} \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{165     \}}
+\DoxyCodeLine{166 }
+\DoxyCodeLine{167     \textcolor{comment}{// move element node upwards one level}}
+\DoxyCodeLine{168     \textcolor{keyword}{const} XMLElement* parent = element-\/>Parent()-\/>ToElement();}
+\DoxyCodeLine{169 }
+\DoxyCodeLine{170     \textcolor{comment}{// check if element should be included, otherwise skip to parent node}}
+\DoxyCodeLine{171     \textcolor{keywordflow}{if} (!include\_self) \{}
+\DoxyCodeLine{172         \textcolor{keywordflow}{return} treeOf(parent, \textcolor{keyword}{true}, id\_attribute);}
+\DoxyCodeLine{173     \}}
+\DoxyCodeLine{174 }
+\DoxyCodeLine{175     \textcolor{comment}{// parse element name}}
+\DoxyCodeLine{176     std::string name = element-\/>Name();}
+\DoxyCodeLine{177 }
+\DoxyCodeLine{178     \textcolor{comment}{// parse id attribute (if present)}}
+\DoxyCodeLine{179     \textcolor{keywordflow}{if} (!id\_attribute.empty()) \{}
+\DoxyCodeLine{180         \textcolor{keyword}{auto} id\_attribute\_value = element-\/>Attribute(id\_attribute.data());}
+\DoxyCodeLine{181         \textcolor{keywordflow}{if} (id\_attribute\_value) \{}
+\DoxyCodeLine{182             name += \textcolor{stringliteral}{"{}:"{}} + std::string(id\_attribute\_value);}
+\DoxyCodeLine{183         \}}
+\DoxyCodeLine{184     \}}
+\DoxyCodeLine{185 }
+\DoxyCodeLine{186     \textcolor{comment}{// construct string recursively until root node is reached}}
+\DoxyCodeLine{187     std::string tree = treeOf(parent, \textcolor{keyword}{true}, id\_attribute) + \textcolor{stringliteral}{"{}/"{}} + name;}
+\DoxyCodeLine{188 }
+\DoxyCodeLine{189     \textcolor{keywordflow}{return} tree;}
+\DoxyCodeLine{190 \}}
+\DoxyCodeLine{191 }
+\DoxyCodeLine{192 }
+\DoxyCodeLine{193 }
+\DoxyCodeLine{194 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{202 \textcolor{comment}{}\textcolor{keyword}{inline} \textcolor{keywordtype}{bool} hasAttributes(\textcolor{keyword}{const} XMLElement* element, \textcolor{keyword}{const} std::vector< std::string >\& attributes) \{}
+\DoxyCodeLine{203     \textcolor{comment}{// check if input element is valid}}
+\DoxyCodeLine{204     \textcolor{keywordflow}{if} (!element) \{}
+\DoxyCodeLine{205         \textcolor{keywordflow}{return} \textcolor{keyword}{false};}
+\DoxyCodeLine{206     \}}
+\DoxyCodeLine{207 }
+\DoxyCodeLine{208     \textcolor{comment}{// parse attribute list}}
+\DoxyCodeLine{209     \textcolor{keywordflow}{for} (\textcolor{keyword}{const} \textcolor{keyword}{auto}\& attribute : attributes) \{}
+\DoxyCodeLine{210         \textcolor{keyword}{auto} atts = tokenize(attribute, \textcolor{charliteral}{':'});}
+\DoxyCodeLine{211         \textcolor{keywordflow}{if} (atts.size() < 2) \{}
+\DoxyCodeLine{212             \textcolor{keywordflow}{return} \textcolor{keyword}{false};}
+\DoxyCodeLine{213         \}}
+\DoxyCodeLine{214         \textcolor{keywordflow}{if} (!element-\/>Attribute(atts[0].data(), atts[1].data())) \{}
+\DoxyCodeLine{215             \textcolor{keywordflow}{return} \textcolor{keyword}{false};}
+\DoxyCodeLine{216         \}}
+\DoxyCodeLine{217     \}}
+\DoxyCodeLine{218 }
+\DoxyCodeLine{219     \textcolor{comment}{// true by default (e.g. empty attribute list)}}
+\DoxyCodeLine{220     \textcolor{keywordflow}{return} \textcolor{keyword}{true};}
+\DoxyCodeLine{221 \}}
+\DoxyCodeLine{222 }
+\DoxyCodeLine{223 }
+\DoxyCodeLine{224 }
+\DoxyCodeLine{225 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{228 \textcolor{comment}{}\textcolor{keyword}{inline} \textcolor{keywordtype}{bool} hasAttributes(\textcolor{keyword}{const} XMLElement* element, \textcolor{keyword}{const} std::initializer\_list< std::string >\& attributes) \{}
+\DoxyCodeLine{229     \textcolor{keywordflow}{return} hasAttributes(element, std::vector< std::string >(attributes));}
+\DoxyCodeLine{230 \}}
+\DoxyCodeLine{231 }
+\DoxyCodeLine{232 }
+\DoxyCodeLine{233 }
+\DoxyCodeLine{234 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{242 \textcolor{comment}{}\textcolor{keyword}{inline} \textcolor{keywordtype}{int} setAttributes(XMLElement* element, \textcolor{keyword}{const} std::vector< std::string >\& attributes) \{}
+\DoxyCodeLine{243     \textcolor{comment}{// check if input element is valid}}
+\DoxyCodeLine{244     \textcolor{keywordflow}{if} (!element) \{}
+\DoxyCodeLine{245         \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{246     \}}
+\DoxyCodeLine{247 }
+\DoxyCodeLine{248     \textcolor{comment}{// parse attribute list}}
+\DoxyCodeLine{249     \textcolor{keywordtype}{int} count = 0;}
+\DoxyCodeLine{250     \textcolor{keywordflow}{for} (\textcolor{keyword}{const} \textcolor{keyword}{auto}\& attribute : attributes) \{}
+\DoxyCodeLine{251         \textcolor{keyword}{auto} atts = tokenize(attribute, \textcolor{charliteral}{':'});}
+\DoxyCodeLine{252         \textcolor{keywordflow}{if} (atts.size() < 2) \{}
+\DoxyCodeLine{253             \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{254         \}}
+\DoxyCodeLine{255         element-\/>SetAttribute(atts[0].data(), atts[1].data());}
+\DoxyCodeLine{256         count++;}
+\DoxyCodeLine{257     \}}
+\DoxyCodeLine{258 }
+\DoxyCodeLine{259     \textcolor{keywordflow}{return} count;}
+\DoxyCodeLine{260 \}}
+\DoxyCodeLine{261 }
+\DoxyCodeLine{262 }
+\DoxyCodeLine{263 }
+\DoxyCodeLine{264 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{267 \textcolor{comment}{}\textcolor{keyword}{inline} \textcolor{keywordtype}{int} setAttributes(XMLElement* element, \textcolor{keyword}{const} std::initializer\_list< std::string >\& attributes) \{}
+\DoxyCodeLine{268     \textcolor{keywordflow}{return} setAttributes(element, std::vector< std::string >(attributes));}
+\DoxyCodeLine{269 \}}
+\DoxyCodeLine{270 }
+\DoxyCodeLine{271 }
+\DoxyCodeLine{272 }
+\DoxyCodeLine{273 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{281 \textcolor{comment}{}\textcolor{keyword}{inline} \textcolor{keywordtype}{int} setAttributes(XMLElement* element, \textcolor{keyword}{const} std::map< std::string, std::string >\& attributes) \{}
+\DoxyCodeLine{282     \textcolor{comment}{// check if input element is valid}}
+\DoxyCodeLine{283     \textcolor{keywordflow}{if} (!element) \{}
+\DoxyCodeLine{284         \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{285     \}}
+\DoxyCodeLine{286 }
+\DoxyCodeLine{287     \textcolor{comment}{// parse attribute list}}
+\DoxyCodeLine{288     \textcolor{keywordtype}{int} count = 0;}
+\DoxyCodeLine{289     \textcolor{keywordflow}{for} (\textcolor{keyword}{const} \textcolor{keyword}{auto}\& attribute : attributes) \{}
+\DoxyCodeLine{290         element-\/>SetAttribute(attribute.first.data(), attribute.second.data());}
+\DoxyCodeLine{291         count++;}
+\DoxyCodeLine{292     \}}
+\DoxyCodeLine{293 }
+\DoxyCodeLine{294     \textcolor{keywordflow}{return} count;}
+\DoxyCodeLine{295 \}}
+\DoxyCodeLine{296 }
+\DoxyCodeLine{297 }
+\DoxyCodeLine{298 }
+\DoxyCodeLine{299 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{313 \textcolor{comment}{}\textcolor{keyword}{inline} XMLElement* elementAt(XMLNode* root, \textcolor{keyword}{const} std::string\& descriptor, \textcolor{keyword}{const} std::string\& id\_attribute = \textcolor{stringliteral}{"{}name"{}}) \{}
+\DoxyCodeLine{314     \textcolor{comment}{// argument check to avoid segmentation fault when accessing child node}}
+\DoxyCodeLine{315     \textcolor{keywordflow}{if} (!root) \{}
+\DoxyCodeLine{316         \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{317     \}}
+\DoxyCodeLine{318 }
+\DoxyCodeLine{319     \textcolor{comment}{// if empty descriptor, return root node as element (will fail if root is not an element e.g. XMLDocument)}}
+\DoxyCodeLine{320     \textcolor{keywordflow}{if} (descriptor.empty()) \{}
+\DoxyCodeLine{321         \textcolor{keywordflow}{return} root-\/>ToElement();}
+\DoxyCodeLine{322     \}}
+\DoxyCodeLine{323 }
+\DoxyCodeLine{324     \textcolor{comment}{// get first child element (level) from descriptor}}
+\DoxyCodeLine{325     \textcolor{keyword}{auto} levels = tokenize(descriptor, \textcolor{charliteral}{'/'}, \textcolor{keyword}{true});}
+\DoxyCodeLine{326 }
+\DoxyCodeLine{327     \textcolor{comment}{// parse element name and attribute, if given}}
+\DoxyCodeLine{328     \textcolor{keyword}{auto} ws = tokenize(levels[0], \textcolor{charliteral}{':'});}
+\DoxyCodeLine{329 }
+\DoxyCodeLine{330     \textcolor{comment}{// move to first element of matching name}}
+\DoxyCodeLine{331     XMLElement* child = root-\/>FirstChildElement(ws[0].data());}
+\DoxyCodeLine{332 }
+\DoxyCodeLine{333     \textcolor{comment}{// move to sibling with matching id attribute, if given}}
+\DoxyCodeLine{334     \textcolor{keywordflow}{if} (ws.size() >= 2) \{}
+\DoxyCodeLine{335         \textcolor{keywordflow}{while} (child) \{}
+\DoxyCodeLine{336             \textcolor{comment}{// if (hasAttributes(child, \{ id\_attribute, ws[1]\})) \{}}
+\DoxyCodeLine{337             \textcolor{comment}{//     break;}}
+\DoxyCodeLine{338             \textcolor{comment}{// \}}}
+\DoxyCodeLine{339             \textcolor{keywordflow}{if} (child-\/>Attribute(id\_attribute.data(), ws[1].data())) \{}
+\DoxyCodeLine{340                 \textcolor{keywordflow}{break};}
+\DoxyCodeLine{341             \}}
+\DoxyCodeLine{342             child = child-\/>NextSiblingElement(ws[0].data());}
+\DoxyCodeLine{343         \}}
+\DoxyCodeLine{344     \}}
+\DoxyCodeLine{345 }
+\DoxyCodeLine{346     \textcolor{comment}{// if at last level, return child}}
+\DoxyCodeLine{347     \textcolor{keywordflow}{if} (levels.size() == 1) \{}
+\DoxyCodeLine{348         \textcolor{keywordflow}{return} child;}
+\DoxyCodeLine{349     \}}
+\DoxyCodeLine{350 }
+\DoxyCodeLine{351     \textcolor{comment}{// recursive call to child element with split descriptor if not at last level}}
+\DoxyCodeLine{352     \textcolor{keywordflow}{return} elementAt(child, levels.back(), id\_attribute);}
+\DoxyCodeLine{353 \}}
+\DoxyCodeLine{354 }
+\DoxyCodeLine{355 }
+\DoxyCodeLine{356 }
+\DoxyCodeLine{357 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{373 \textcolor{comment}{}\textcolor{keyword}{inline} \textcolor{keyword}{const} XMLElement* elementAt(\textcolor{keyword}{const} XMLNode* root, \textcolor{keyword}{const} std::string\& descriptor, \textcolor{keyword}{const} std::string\& id\_attribute = \textcolor{stringliteral}{"{}name"{}}) \{}
+\DoxyCodeLine{374     \textcolor{comment}{// @note maybe not the most appropriate way to implement this, but better than repeating whole implmenetation with a slight change}}
+\DoxyCodeLine{375     \textcolor{comment}{// @note returned pointer is imoplicelty cast to const by return type of this overload}}
+\DoxyCodeLine{376     \textcolor{keywordflow}{return} elementAt(\textcolor{keyword}{const\_cast<} XMLNode* \textcolor{keyword}{>}(root), descriptor, id\_attribute);}
+\DoxyCodeLine{377 }
+\DoxyCodeLine{378     \textcolor{comment}{// // argument check to avoid segmentation fault when accessing child node}}
+\DoxyCodeLine{379     \textcolor{comment}{// if (!root) \{}}
+\DoxyCodeLine{380     \textcolor{comment}{//     return 0;}}
+\DoxyCodeLine{381     \textcolor{comment}{// \}}}
+\DoxyCodeLine{382 }
+\DoxyCodeLine{383     \textcolor{comment}{// // if empty descriptor, return root node as element (will fail if root is not an element e.g. XMLDocument)}}
+\DoxyCodeLine{384     \textcolor{comment}{// if (descriptor.empty()) \{}}
+\DoxyCodeLine{385     \textcolor{comment}{//     return root-\/>ToElement();}}
+\DoxyCodeLine{386     \textcolor{comment}{// \}}}
+\DoxyCodeLine{387 }
+\DoxyCodeLine{388     \textcolor{comment}{// // get first child element (level) from descriptor}}
+\DoxyCodeLine{389     \textcolor{comment}{// auto levels = tokenize(descriptor, '/', true);}}
+\DoxyCodeLine{390 }
+\DoxyCodeLine{391     \textcolor{comment}{// // parse element name and attribute, if given}}
+\DoxyCodeLine{392     \textcolor{comment}{// auto ws = tokenize(levels[0], ':');}}
+\DoxyCodeLine{393 }
+\DoxyCodeLine{394     \textcolor{comment}{// // move to first element of matching name}}
+\DoxyCodeLine{395     \textcolor{comment}{// const XMLElement* child = root-\/>FirstChildElement(ws[0].data());}}
+\DoxyCodeLine{396 }
+\DoxyCodeLine{397     \textcolor{comment}{// // move to sibling with matching id attribute, if given}}
+\DoxyCodeLine{398     \textcolor{comment}{// if (ws.size() >= 2) \{}}
+\DoxyCodeLine{399     \textcolor{comment}{//     while (child) \{}}
+\DoxyCodeLine{400     \textcolor{comment}{//         // if (hasAttributes(child, \{ id\_attribute, ws[1]\})) \{}}
+\DoxyCodeLine{401     \textcolor{comment}{//         //     break;}}
+\DoxyCodeLine{402     \textcolor{comment}{//         // \}}}
+\DoxyCodeLine{403     \textcolor{comment}{//         if (child-\/>Attribute(id\_attribute.data(), ws[1].data())) \{}}
+\DoxyCodeLine{404     \textcolor{comment}{//             break;}}
+\DoxyCodeLine{405     \textcolor{comment}{//         \}}}
+\DoxyCodeLine{406     \textcolor{comment}{//         child = child-\/>NextSiblingElement(ws[0].data());}}
+\DoxyCodeLine{407     \textcolor{comment}{//     \}}}
+\DoxyCodeLine{408     \textcolor{comment}{// \}}}
+\DoxyCodeLine{409 }
+\DoxyCodeLine{410     \textcolor{comment}{// // if at last level, return child}}
+\DoxyCodeLine{411     \textcolor{comment}{// if (levels.size() == 1) \{}}
+\DoxyCodeLine{412     \textcolor{comment}{//     return child;}}
+\DoxyCodeLine{413     \textcolor{comment}{// \}}}
+\DoxyCodeLine{414 }
+\DoxyCodeLine{415     \textcolor{comment}{// // recursive call to child element with split descriptor if not at last level}}
+\DoxyCodeLine{416     \textcolor{comment}{// return elementAt(child, levels.back(), id\_attribute);}}
+\DoxyCodeLine{417 \}}
+\DoxyCodeLine{418 }
+\DoxyCodeLine{419 }
+\DoxyCodeLine{420 }
+\DoxyCodeLine{421 }
+\DoxyCodeLine{422 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{437 \textcolor{comment}{}\textcolor{keyword}{inline} std::vector< XMLElement* > elementsUnder(XMLNode* root, \textcolor{keywordtype}{bool} deep, \textcolor{keyword}{const} std::vector< std::string >\& attributes, \textcolor{keyword}{const} std::string\& element\_name = \textcolor{stringliteral}{"{}"{}}, \textcolor{keywordtype}{bool} single = \textcolor{keyword}{false}) \{}
+\DoxyCodeLine{438     \textcolor{comment}{// initiaze output vector}}
+\DoxyCodeLine{439     std::vector< XMLElement* > valid\_elements;}
+\DoxyCodeLine{440     \textcolor{comment}{// std::vector< decltype(root-\/>ToElement) > valid\_elements;}}
+\DoxyCodeLine{441 }
+\DoxyCodeLine{442     \textcolor{comment}{// argument check to avoid segmentation fault when accessing child node}}
+\DoxyCodeLine{443     \textcolor{comment}{// returns empty container}}
+\DoxyCodeLine{444     \textcolor{keywordflow}{if} (!root) \{}
+\DoxyCodeLine{445         \textcolor{keywordflow}{return} valid\_elements;}
+\DoxyCodeLine{446     \}}
+\DoxyCodeLine{447 }
+\DoxyCodeLine{448     \textcolor{comment}{// loop over child elements and append matching ones}}
+\DoxyCodeLine{449     XMLElement* child;}
+\DoxyCodeLine{450     \textcolor{keywordflow}{if} (element\_name.empty()) \{}
+\DoxyCodeLine{451         child = root-\/>FirstChildElement();}
+\DoxyCodeLine{452     \} \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{453         child = root-\/>FirstChildElement(element\_name.data());}
+\DoxyCodeLine{454     \}}
+\DoxyCodeLine{455 }
+\DoxyCodeLine{456     \textcolor{keywordflow}{while} (child) \{}
+\DoxyCodeLine{457         \textcolor{comment}{// append copy to output vector}}
+\DoxyCodeLine{458         \textcolor{keywordflow}{if} (hasAttributes(child, attributes)) \{}
+\DoxyCodeLine{459             valid\_elements.push\_back(child);}
+\DoxyCodeLine{460             \textcolor{comment}{// if single element search, return on first find}}
+\DoxyCodeLine{461             \textcolor{keywordflow}{if} (single) \{}
+\DoxyCodeLine{462                 \textcolor{keywordflow}{return} valid\_elements;}
+\DoxyCodeLine{463             \}}
+\DoxyCodeLine{464         \}}
+\DoxyCodeLine{465 }
+\DoxyCodeLine{466         \textcolor{comment}{// if single element search, return on first find}}
+\DoxyCodeLine{467         \textcolor{keywordflow}{if} (single \&\& valid\_elements.size() > 0) \{}
+\DoxyCodeLine{468             \textcolor{keywordflow}{return} valid\_elements;}
+\DoxyCodeLine{469         \}}
+\DoxyCodeLine{470 }
+\DoxyCodeLine{471         \textcolor{comment}{// add children elements (recursive)}}
+\DoxyCodeLine{472         \textcolor{keywordflow}{if} (deep) \{}
+\DoxyCodeLine{473             \textcolor{comment}{// *move* descendent matching elements into vector}}
+\DoxyCodeLine{474             std::move\_into(valid\_elements, elementsUnder(child, \textcolor{keyword}{true}, attributes, element\_name));}
+\DoxyCodeLine{475         \}}
+\DoxyCodeLine{476 }
+\DoxyCodeLine{477         \textcolor{comment}{// move to next sibling}}
+\DoxyCodeLine{478         \textcolor{keywordflow}{if} (element\_name.empty()) \{}
+\DoxyCodeLine{479             child = child-\/>NextSiblingElement();}
+\DoxyCodeLine{480         \} \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{481             child = child-\/>NextSiblingElement(element\_name.data());}
+\DoxyCodeLine{482         \}}
+\DoxyCodeLine{483     \}}
+\DoxyCodeLine{484 }
+\DoxyCodeLine{485     \textcolor{keywordflow}{return} valid\_elements;}
+\DoxyCodeLine{486 \}}
+\DoxyCodeLine{487 }
+\DoxyCodeLine{488 }
+\DoxyCodeLine{489 }
+\DoxyCodeLine{490 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{493 \textcolor{comment}{}\textcolor{keyword}{inline} std::vector< XMLElement* > elementsUnder(XMLNode* root, \textcolor{keywordtype}{bool} deep = \textcolor{keyword}{false}, \textcolor{keyword}{const} std::initializer\_list< std::string >\& attributes = \{ \textcolor{comment}{/* ... */} \}, \textcolor{keyword}{const} std::string\& element\_name = \textcolor{stringliteral}{"{}"{}}, \textcolor{keywordtype}{bool} single = \textcolor{keyword}{false}) \{}
+\DoxyCodeLine{494     \textcolor{keywordflow}{return} elementsUnder(root, deep, std::vector< std::string >(attributes), element\_name, single);}
+\DoxyCodeLine{495 \}}
+\DoxyCodeLine{496 }
+\DoxyCodeLine{497 }
+\DoxyCodeLine{498 }
+\DoxyCodeLine{499 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{514 \textcolor{comment}{}\textcolor{keyword}{inline} std::vector< const XMLElement* > elementsUnder(\textcolor{keyword}{const} XMLNode* root, \textcolor{keywordtype}{bool} deep, \textcolor{keyword}{const} std::vector< std::string >\& attributes, \textcolor{keyword}{const} std::string\& element\_name = \textcolor{stringliteral}{"{}"{}}, \textcolor{keywordtype}{bool} single = \textcolor{keyword}{false}) \{}
+\DoxyCodeLine{515     \textcolor{comment}{// initiaze output vector}}
+\DoxyCodeLine{516     std::vector< const XMLElement* > valid\_elements;}
+\DoxyCodeLine{517 }
+\DoxyCodeLine{518     \textcolor{comment}{// auto children = elementsUnder(const\_cast< XMLNode* >(root), deep, attributes, element\_name, single);}}
+\DoxyCodeLine{519 }
+\DoxyCodeLine{520     \textcolor{comment}{// std::vector< const XMLElement* > c\_children;}}
+\DoxyCodeLine{521     \textcolor{comment}{// for (const auto\& child : children) \{}}
+\DoxyCodeLine{522     \textcolor{comment}{//     c\_children.emplace\_back(child);}}
+\DoxyCodeLine{523     \textcolor{comment}{// \}}}
+\DoxyCodeLine{524     \textcolor{comment}{//}}
+\DoxyCodeLine{525     \textcolor{comment}{// return c\_children;}}
+\DoxyCodeLine{526 }
+\DoxyCodeLine{527 }
+\DoxyCodeLine{528     \textcolor{comment}{// argument check to avoid segmentation fault when accessing child node}}
+\DoxyCodeLine{529     \textcolor{comment}{// returns empty container}}
+\DoxyCodeLine{530     \textcolor{keywordflow}{if} (!root) \{}
+\DoxyCodeLine{531         \textcolor{keywordflow}{return} valid\_elements;}
+\DoxyCodeLine{532     \}}
+\DoxyCodeLine{533 }
+\DoxyCodeLine{534     \textcolor{comment}{// loop over child elements and append matching ones}}
+\DoxyCodeLine{535     \textcolor{keyword}{const} XMLElement* child;}
+\DoxyCodeLine{536     \textcolor{keywordflow}{if} (element\_name.empty()) \{}
+\DoxyCodeLine{537         child = root-\/>FirstChildElement();}
+\DoxyCodeLine{538     \} \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{539         child = root-\/>FirstChildElement(element\_name.data());}
+\DoxyCodeLine{540     \}}
+\DoxyCodeLine{541 }
+\DoxyCodeLine{542     \textcolor{keywordflow}{while} (child) \{}
+\DoxyCodeLine{543         \textcolor{comment}{// append copy to output vector}}
+\DoxyCodeLine{544         \textcolor{keywordflow}{if} (hasAttributes(child, attributes)) \{}
+\DoxyCodeLine{545             valid\_elements.push\_back(child);}
+\DoxyCodeLine{546             \textcolor{comment}{// if single element search, return on first find}}
+\DoxyCodeLine{547             \textcolor{keywordflow}{if} (single) \{}
+\DoxyCodeLine{548                 \textcolor{keywordflow}{return} valid\_elements;}
+\DoxyCodeLine{549             \}}
+\DoxyCodeLine{550         \}}
+\DoxyCodeLine{551 }
+\DoxyCodeLine{552         \textcolor{comment}{// if single element search, return on first find}}
+\DoxyCodeLine{553         \textcolor{keywordflow}{if} (single \&\& valid\_elements.size() > 0) \{}
+\DoxyCodeLine{554             \textcolor{keywordflow}{return} valid\_elements;}
+\DoxyCodeLine{555         \}}
+\DoxyCodeLine{556 }
+\DoxyCodeLine{557         \textcolor{comment}{// add children elements (recursive)}}
+\DoxyCodeLine{558         \textcolor{keywordflow}{if} (deep) \{}
+\DoxyCodeLine{559             \textcolor{comment}{// *move* descendent matching elements into vector}}
+\DoxyCodeLine{560             std::move\_into(valid\_elements, elementsUnder(child, \textcolor{keyword}{true}, attributes, element\_name));}
+\DoxyCodeLine{561         \}}
+\DoxyCodeLine{562 }
+\DoxyCodeLine{563         \textcolor{comment}{// move to next sibling}}
+\DoxyCodeLine{564         \textcolor{keywordflow}{if} (element\_name.empty()) \{}
+\DoxyCodeLine{565             child = child-\/>NextSiblingElement();}
+\DoxyCodeLine{566         \} \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{567             child = child-\/>NextSiblingElement(element\_name.data());}
+\DoxyCodeLine{568         \}}
+\DoxyCodeLine{569     \}}
+\DoxyCodeLine{570 }
+\DoxyCodeLine{571     \textcolor{keywordflow}{return} valid\_elements;}
+\DoxyCodeLine{572 \}}
+\DoxyCodeLine{573 }
+\DoxyCodeLine{574 }
+\DoxyCodeLine{575 }
+\DoxyCodeLine{576 }
+\DoxyCodeLine{577 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{580 \textcolor{comment}{}\textcolor{keyword}{inline} std::vector< const XMLElement* > elementsUnder(\textcolor{keyword}{const} XMLNode* root, \textcolor{keywordtype}{bool} deep = \textcolor{keyword}{false}, \textcolor{keyword}{const} std::initializer\_list< std::string >\& attributes = \{ \textcolor{comment}{/* ... */} \}, \textcolor{keyword}{const} std::string\& element\_name = \textcolor{stringliteral}{"{}"{}}, \textcolor{keywordtype}{bool} single = \textcolor{keyword}{false}) \{}
+\DoxyCodeLine{581     \textcolor{keywordflow}{return} elementsUnder(root, deep, std::vector< std::string >(attributes), element\_name, single);}
+\DoxyCodeLine{582 \}}
+\DoxyCodeLine{583 }
+\DoxyCodeLine{584 }
+\DoxyCodeLine{585 }
+\DoxyCodeLine{586 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{596 \textcolor{comment}{}\textcolor{keyword}{inline} XMLElement* elementUnder(XMLNode* root, \textcolor{keyword}{const} std::string\& element\_name, \textcolor{keyword}{const} std::vector< std::string >\& attributes = \{ \textcolor{comment}{/* ... */} \}) \{}
+\DoxyCodeLine{597     \textcolor{keyword}{auto} elements = elementsUnder(root, \textcolor{keyword}{true}, attributes, element\_name, \textcolor{keyword}{true});}
+\DoxyCodeLine{598     \textcolor{keywordflow}{if} (elements.size() > 0) \{}
+\DoxyCodeLine{599         \textcolor{keywordflow}{return} elements[0];}
+\DoxyCodeLine{600     \}}
+\DoxyCodeLine{601     \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{602 \}}
+\DoxyCodeLine{603 }
+\DoxyCodeLine{604 }
+\DoxyCodeLine{605 }
+\DoxyCodeLine{606 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{609 \textcolor{comment}{}\textcolor{keyword}{inline} XMLElement* elementUnder(XMLElement* element, \textcolor{keyword}{const} std::string\& element\_name, \textcolor{keyword}{const} std::initializer\_list< std::string >\& attributes = \{ \textcolor{comment}{/* ... */} \}) \{}
+\DoxyCodeLine{610     \textcolor{keywordflow}{return} elementUnder(element, element\_name, std::vector< std::string >(attributes));}
+\DoxyCodeLine{611 \}}
+\DoxyCodeLine{612 }
+\DoxyCodeLine{613 }
+\DoxyCodeLine{614 }
+\DoxyCodeLine{615 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{631 \textcolor{comment}{}\textcolor{keyword}{inline} std::vector< const XMLAttribute* > attributesOf(\textcolor{keyword}{const} XMLElement* element, \textcolor{keyword}{const} std::string\& attribute\_name = \textcolor{stringliteral}{"{}"{}}, \textcolor{keywordtype}{bool} deep = \textcolor{keyword}{false}, \textcolor{keyword}{const} std::string\& element\_name = \textcolor{stringliteral}{"{}"{}}) \{}
+\DoxyCodeLine{632     \textcolor{comment}{// initialize empty output container}}
+\DoxyCodeLine{633     std::vector< const XMLAttribute* > attributes;}
+\DoxyCodeLine{634 }
+\DoxyCodeLine{635     \textcolor{comment}{// check if input element is valid}}
+\DoxyCodeLine{636     \textcolor{keywordflow}{if} (!element) \{}
+\DoxyCodeLine{637         \textcolor{keywordflow}{return} attributes;}
+\DoxyCodeLine{638     \}}
+\DoxyCodeLine{639 }
+\DoxyCodeLine{640     \textcolor{comment}{// recursive call to get children attributes}}
+\DoxyCodeLine{641     \textcolor{keywordflow}{if} (deep) \{}
+\DoxyCodeLine{642         \textcolor{comment}{// @note elementsUnder(...) filters on relevant attributes \& element name}}
+\DoxyCodeLine{643         \textcolor{keywordflow}{for} (\textcolor{keyword}{const} \textcolor{keyword}{auto}\& child : elementsUnder(element, \textcolor{keyword}{false}, \{ attribute\_name \}, element\_name)) \{}
+\DoxyCodeLine{644             std::move\_into(attributes, attributesOf(child, attribute\_name, \textcolor{keyword}{true}, element\_name));}
+\DoxyCodeLine{645         \}}
+\DoxyCodeLine{646     \}}
+\DoxyCodeLine{647 }
+\DoxyCodeLine{648     \textcolor{comment}{// loop over attributes \& append to container}}
+\DoxyCodeLine{649     \textcolor{keyword}{const} XMLAttribute* attribute = element-\/>FirstAttribute();}
+\DoxyCodeLine{650     \textcolor{keywordflow}{while} (attribute) \{}
+\DoxyCodeLine{651         \textcolor{comment}{// if attribute name was specified and name doesn't match, skip}}
+\DoxyCodeLine{652         \textcolor{keywordflow}{if} (!attribute\_name.empty() \&\& attribute\_name.compare(attribute-\/>Name()) != 0) \{}
+\DoxyCodeLine{653             attribute = attribute-\/>Next();}
+\DoxyCodeLine{654             \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{655         \}}
+\DoxyCodeLine{656         attributes.emplace\_back(attribute);}
+\DoxyCodeLine{657         attribute = attribute-\/>Next();}
+\DoxyCodeLine{658     \}}
+\DoxyCodeLine{659 }
+\DoxyCodeLine{660     \textcolor{keywordflow}{return} attributes;}
+\DoxyCodeLine{661 \}}
+\DoxyCodeLine{662 }
+\DoxyCodeLine{663 }
+\DoxyCodeLine{664 }
+\DoxyCodeLine{665 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{678 \textcolor{comment}{}\textcolor{keyword}{inline} std::vector< const XMLAttribute* > attributesOf(\textcolor{keyword}{const} std::vector< XMLElement* >\& elements, \textcolor{keyword}{const} std::string\& attribute\_name = \textcolor{stringliteral}{"{}"{}}, \textcolor{keyword}{const} std::string\& element\_name = \textcolor{stringliteral}{"{}"{}}) \{}
+\DoxyCodeLine{679     \textcolor{comment}{// initialize empty output container}}
+\DoxyCodeLine{680     std::vector< const XMLAttribute* > attributes;}
+\DoxyCodeLine{681 }
+\DoxyCodeLine{682     \textcolor{comment}{// loop over input element list}}
+\DoxyCodeLine{683     \textcolor{keywordflow}{for} (\textcolor{keyword}{const} \textcolor{keyword}{auto}\& element : elements) \{}
+\DoxyCodeLine{684         \textcolor{comment}{// if invalid, skip}}
+\DoxyCodeLine{685         \textcolor{keywordflow}{if} (!element) \{}
+\DoxyCodeLine{686             \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{687         \}}
+\DoxyCodeLine{688         \textcolor{comment}{// if element\_name was given and doesn't match, skip}}
+\DoxyCodeLine{689         \textcolor{keywordflow}{if} (!element\_name.empty() \&\& element\_name.compare(element-\/>Name()) != 0) \{}
+\DoxyCodeLine{690             \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{691         \}}
+\DoxyCodeLine{692         \textcolor{comment}{// call single element overload and append/move into vector}}
+\DoxyCodeLine{693         std::move\_into(attributes, attributesOf(element, attribute\_name, \textcolor{keyword}{false}, element\_name));}
+\DoxyCodeLine{694     \}}
+\DoxyCodeLine{695 }
+\DoxyCodeLine{696     \textcolor{keywordflow}{return} attributes;}
+\DoxyCodeLine{697 \}}
+\DoxyCodeLine{698 }
+\DoxyCodeLine{699 }
+\DoxyCodeLine{700 }
+\DoxyCodeLine{701 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{713 \textcolor{comment}{}\textcolor{keyword}{inline} std::vector< std::string > valuesOf(\textcolor{keyword}{const} std::vector< XMLElement* >\& elements, \textcolor{keyword}{const} std::string\& id\_attribute = \textcolor{stringliteral}{"{}name"{}}) \{}
+\DoxyCodeLine{714     \textcolor{comment}{// initialize output container}}
+\DoxyCodeLine{715     std::vector< std::string > element\_ids;}
+\DoxyCodeLine{716 }
+\DoxyCodeLine{717     \textcolor{comment}{// loop over input element list}}
+\DoxyCodeLine{718     \textcolor{keywordflow}{for} (\textcolor{keyword}{const} \textcolor{keyword}{auto}\& element : elements) \{}
+\DoxyCodeLine{719         \textcolor{comment}{// if element isn't valid, skip!}}
+\DoxyCodeLine{720         \textcolor{keywordflow}{if} (!element) \{}
+\DoxyCodeLine{721             \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{722         \}}
+\DoxyCodeLine{723         \textcolor{comment}{// get attribute value, if valid append to list}}
+\DoxyCodeLine{724         \textcolor{keyword}{auto} \textcolor{keywordtype}{id} = element-\/>Attribute(id\_attribute.data());}
+\DoxyCodeLine{725         \textcolor{keywordflow}{if} (\textcolor{keywordtype}{id}) \{}
+\DoxyCodeLine{726             element\_ids.emplace\_back(\textcolor{keywordtype}{id});}
+\DoxyCodeLine{727         \}}
+\DoxyCodeLine{728     \}}
+\DoxyCodeLine{729 }
+\DoxyCodeLine{730     \textcolor{keywordflow}{return} element\_ids;}
+\DoxyCodeLine{731 \}}
+\DoxyCodeLine{732 }
+\DoxyCodeLine{733 }
+\DoxyCodeLine{734 }
+\DoxyCodeLine{735 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{753 \textcolor{comment}{}\textcolor{keyword}{inline} std::vector< std::string > valuesOf(\textcolor{keyword}{const} std::vector< const XMLAttribute* >\& attributes, \textcolor{keyword}{const} std::string\& attribute\_name = \textcolor{stringliteral}{"{}"{}}) \{}
+\DoxyCodeLine{754     \textcolor{comment}{// initialize output container}}
+\DoxyCodeLine{755     std::vector< std::string > attribute\_values;}
+\DoxyCodeLine{756 }
+\DoxyCodeLine{757     \textcolor{comment}{// loop over input attribute list}}
+\DoxyCodeLine{758     \textcolor{keywordflow}{for} (\textcolor{keyword}{const} \textcolor{keyword}{auto}\& attribute : attributes) \{}
+\DoxyCodeLine{759         \textcolor{comment}{// if attrbute isn't valid, skip!}}
+\DoxyCodeLine{760         \textcolor{keywordflow}{if} (!attribute) \{}
+\DoxyCodeLine{761             \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{762         \}}
+\DoxyCodeLine{763         \textcolor{comment}{// if attribute name was specified and name doesn't match, skip}}
+\DoxyCodeLine{764         \textcolor{keywordflow}{if} (!attribute\_name.empty() \&\& attribute\_name.compare(attribute-\/>Name()) != 0) \{}
+\DoxyCodeLine{765             \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{766         \}}
+\DoxyCodeLine{767         attribute\_values.emplace\_back(attribute-\/>Value());}
+\DoxyCodeLine{768     \}}
+\DoxyCodeLine{769 }
+\DoxyCodeLine{770     \textcolor{keywordflow}{return} attribute\_values;}
+\DoxyCodeLine{771 \}}
+\DoxyCodeLine{772 }
+\DoxyCodeLine{773 }
+\DoxyCodeLine{774 }
+\DoxyCodeLine{775 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{792 \textcolor{comment}{}\textcolor{keyword}{inline} std::vector< std::string > attributeValuesOf(\textcolor{keyword}{const} std::vector< const XMLElement* >\& elements, \textcolor{keyword}{const} std::string\& attribute\_name = \textcolor{stringliteral}{"{}"{}}, \textcolor{keyword}{const} std::string\& element\_name = \textcolor{stringliteral}{"{}"{}}) \{}
+\DoxyCodeLine{793     \textcolor{comment}{// initialize output container}}
+\DoxyCodeLine{794     std::vector< std::string > attribute\_values;}
+\DoxyCodeLine{795 }
+\DoxyCodeLine{796     \textcolor{comment}{// loop over input element list}}
+\DoxyCodeLine{797     \textcolor{keywordflow}{for} (\textcolor{keyword}{const} \textcolor{keyword}{auto}\& element : elements) \{}
+\DoxyCodeLine{798         \textcolor{comment}{// if invalid, skip}}
+\DoxyCodeLine{799         \textcolor{keywordflow}{if} (!element) \{}
+\DoxyCodeLine{800             \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{801         \}}
+\DoxyCodeLine{802         \textcolor{comment}{// if element\_name was given and doesn't match, skip}}
+\DoxyCodeLine{803         \textcolor{keywordflow}{if} (!element\_name.empty() \&\& element\_name.compare(element-\/>Name()) != 0) \{}
+\DoxyCodeLine{804             \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{805         \}}
+\DoxyCodeLine{806         \textcolor{comment}{// @note attributesOf filters according to attribute name}}
+\DoxyCodeLine{807         \textcolor{keyword}{auto} element\_attributes = attributesOf(element, attribute\_name);}
+\DoxyCodeLine{808         \textcolor{keywordflow}{for} (\textcolor{keyword}{const} \textcolor{keyword}{auto}\& attribute : element\_attributes) \{}
+\DoxyCodeLine{809             attribute\_values.emplace\_back(attribute-\/>Value());}
+\DoxyCodeLine{810         \}}
+\DoxyCodeLine{811 }
+\DoxyCodeLine{812     \}}
+\DoxyCodeLine{813 }
+\DoxyCodeLine{814     \textcolor{keywordflow}{return} attribute\_values;}
+\DoxyCodeLine{815 \}}
+\DoxyCodeLine{816 }
+\DoxyCodeLine{817 \textcolor{comment}{// inline std::vector< std::string > attributeValuesOf(const std::vector< const XMLElement* >\& elements, const std::string\& attribute\_name = "{}"{}, const std::string\& element\_name = "{}"{}) \{}}
+\DoxyCodeLine{818 \textcolor{comment}{//     // initialize output container}}
+\DoxyCodeLine{819 \textcolor{comment}{//     std::vector< std::string > attribute\_values;}}
+\DoxyCodeLine{820 }
+\DoxyCodeLine{821 \textcolor{comment}{//     // loop over input element list}}
+\DoxyCodeLine{822 \textcolor{comment}{//     for (const auto\& element : elements) \{}}
+\DoxyCodeLine{823 \textcolor{comment}{//         // if invalid, skip}}
+\DoxyCodeLine{824 \textcolor{comment}{//         if (!element) \{}}
+\DoxyCodeLine{825 \textcolor{comment}{//             continue;}}
+\DoxyCodeLine{826 \textcolor{comment}{//         \}}}
+\DoxyCodeLine{827 \textcolor{comment}{//         // if element\_name was given and doesn't match, skip}}
+\DoxyCodeLine{828 \textcolor{comment}{//         if (!element\_name.empty() \&\& element\_name.compare(element-\/>Name()) != 0) \{}}
+\DoxyCodeLine{829 \textcolor{comment}{//             continue;}}
+\DoxyCodeLine{830 \textcolor{comment}{//         \}}}
+\DoxyCodeLine{831 \textcolor{comment}{//         // @note attributesOf filters according to attribute name}}
+\DoxyCodeLine{832 \textcolor{comment}{//         auto element\_attributes = attributesOf(element, attribute\_name);}}
+\DoxyCodeLine{833 \textcolor{comment}{//         for (const auto\& attribute : element\_attributes) \{}}
+\DoxyCodeLine{834 \textcolor{comment}{//             attribute\_values.emplace\_back(attribute-\/>Value());}}
+\DoxyCodeLine{835 \textcolor{comment}{//         \}}}
+\DoxyCodeLine{836 }
+\DoxyCodeLine{837 \textcolor{comment}{//     \}}}
+\DoxyCodeLine{838 }
+\DoxyCodeLine{839 \textcolor{comment}{//     return attribute\_values;}}
+\DoxyCodeLine{840 \textcolor{comment}{// \}}}
+\DoxyCodeLine{841 }
+\DoxyCodeLine{842 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{852 \textcolor{comment}{}\textcolor{keyword}{inline} std::vector< std::string > attributeDescriptorOf(\textcolor{keyword}{const} XMLElement* element, \textcolor{keywordtype}{char} separator = \textcolor{charliteral}{':'}) \{}
+\DoxyCodeLine{853     \textcolor{comment}{// initialize output container}}
+\DoxyCodeLine{854     std::vector< std::string > list;}
+\DoxyCodeLine{855 }
+\DoxyCodeLine{856     \textcolor{comment}{// loop over attributes and add to map}}
+\DoxyCodeLine{857     \textcolor{keywordflow}{if} (element) \{}
+\DoxyCodeLine{858         \textcolor{keyword}{const} XMLAttribute* attribute = element-\/>FirstAttribute();}
+\DoxyCodeLine{859         \textcolor{keywordflow}{while} (attribute) \{}
+\DoxyCodeLine{860             list.emplace\_back(descriptorOf(attribute, separator));}
+\DoxyCodeLine{861             attribute = attribute-\/>Next();}
+\DoxyCodeLine{862         \}}
+\DoxyCodeLine{863     \}}
+\DoxyCodeLine{864 }
+\DoxyCodeLine{865     \textcolor{keywordflow}{return} list;}
+\DoxyCodeLine{866 \}}
+\DoxyCodeLine{867 }
+\DoxyCodeLine{868 }
+\DoxyCodeLine{869 }
+\DoxyCodeLine{870 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{880 \textcolor{comment}{}\textcolor{keyword}{inline} std::map< std::string, std::string > attributeMapOf(\textcolor{keyword}{const} XMLElement* element) \{}
+\DoxyCodeLine{881     \textcolor{comment}{// initialize output container}}
+\DoxyCodeLine{882     std::map< std::string, std::string > list;}
+\DoxyCodeLine{883 }
+\DoxyCodeLine{884     \textcolor{comment}{// loop over attributes and add to map}}
+\DoxyCodeLine{885     \textcolor{keywordflow}{if} (element) \{}
+\DoxyCodeLine{886         \textcolor{keyword}{const} XMLAttribute* attribute = element-\/>FirstAttribute();}
+\DoxyCodeLine{887         \textcolor{keywordflow}{while} (attribute) \{}
+\DoxyCodeLine{888             list.insert(std::make\_pair(attribute-\/>Name(), attribute-\/>Value()));}
+\DoxyCodeLine{889             attribute = attribute-\/>Next();}
+\DoxyCodeLine{890         \}}
+\DoxyCodeLine{891     \}}
+\DoxyCodeLine{892 }
+\DoxyCodeLine{893     \textcolor{keywordflow}{return} list;}
+\DoxyCodeLine{894 \}}
+\DoxyCodeLine{895 }
+\DoxyCodeLine{896 }
+\DoxyCodeLine{897 }
+\DoxyCodeLine{898 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{906 \textcolor{comment}{}\textcolor{keyword}{inline} XMLElement* addElementUnder(XMLNode* root, \textcolor{keyword}{const} std::string\& name) \{}
+\DoxyCodeLine{907     \textcolor{comment}{// instantiate empty/null pointer}}
+\DoxyCodeLine{908     XMLElement* element;}
+\DoxyCodeLine{909 }
+\DoxyCodeLine{910     \textcolor{comment}{// create new child node}}
+\DoxyCodeLine{911     \textcolor{keywordflow}{if} (root-\/>ToElement()) \{}
+\DoxyCodeLine{912         element =  root-\/>ToElement()-\/>InsertNewChildElement(name.data());}
+\DoxyCodeLine{913     \} \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (root-\/>ToDocument()) \{}
+\DoxyCodeLine{914         element =  root-\/>ToDocument()-\/>NewElement(name.data());}
+\DoxyCodeLine{915     \} \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{916         \textcolor{keywordflow}{return} 0;  \textcolor{comment}{// can't add element for some reason!}}
+\DoxyCodeLine{917     \}}
+\DoxyCodeLine{918 }
+\DoxyCodeLine{919     \textcolor{comment}{// insert into root node (required!)}}
+\DoxyCodeLine{920     \textcolor{keywordflow}{return} root-\/>InsertEndChild(element)-\/>ToElement();}
+\DoxyCodeLine{921 \}}
+\DoxyCodeLine{922 }
+\DoxyCodeLine{923 }
+\DoxyCodeLine{924 }
+\DoxyCodeLine{925 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{934 \textcolor{comment}{}\textcolor{keyword}{inline} XMLElement* addElementTo(XMLNode* root, \textcolor{keyword}{const} std::string\& descriptor, \textcolor{keyword}{const} std::vector< std::string >\& attributes, \textcolor{keyword}{const} std::string\& id\_attribute = \textcolor{stringliteral}{"{}name"{}}) \{}
+\DoxyCodeLine{935     \textcolor{comment}{// argument check to avoid segmentation fault when accessing child nodes}}
+\DoxyCodeLine{936     \textcolor{keywordflow}{if} (!root || descriptor.empty()) \{}
+\DoxyCodeLine{937         \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{938     \}}
+\DoxyCodeLine{939 }
+\DoxyCodeLine{940     \textcolor{comment}{// parse element name}}
+\DoxyCodeLine{941     \textcolor{keyword}{auto} levels = tokenize(descriptor, \textcolor{charliteral}{'/'}, \textcolor{keyword}{true} \textcolor{comment}{/* single split */});}
+\DoxyCodeLine{942 }
+\DoxyCodeLine{943     \textcolor{comment}{// check if upper level/child exists}}
+\DoxyCodeLine{944     XMLElement* child = elementAt(root, levels[0], id\_attribute);}
+\DoxyCodeLine{945 }
+\DoxyCodeLine{946     \textcolor{comment}{// if not, create/add element}}
+\DoxyCodeLine{947     \textcolor{keywordflow}{if} (!child) \{}
+\DoxyCodeLine{948         \textcolor{comment}{// parse name}}
+\DoxyCodeLine{949         \textcolor{keyword}{auto} ws = tokenize(levels[0], \textcolor{charliteral}{':'}, \textcolor{keyword}{true} \textcolor{comment}{/* single split */});}
+\DoxyCodeLine{950         \textcolor{comment}{// insert node}}
+\DoxyCodeLine{951         child = addElementUnder(root, ws[0]);}
+\DoxyCodeLine{952         \textcolor{comment}{// set id attribute}}
+\DoxyCodeLine{953         \textcolor{keywordflow}{if} (child \&\& ws.size() > 1) \{}
+\DoxyCodeLine{954             child-\/>SetAttribute(id\_attribute.data(), ws[1].data());}
+\DoxyCodeLine{955         \}}
+\DoxyCodeLine{956     \}}
+\DoxyCodeLine{957 }
+\DoxyCodeLine{958     \textcolor{comment}{// if at last level, return child}}
+\DoxyCodeLine{959     \textcolor{keywordflow}{if} (levels.size() == 1) \{}
+\DoxyCodeLine{960         \textcolor{keywordflow}{if} (!hasAttributes(child, attributes)) \{  \textcolor{comment}{// @note may not be necesary to verify -\/ result should be the same}}
+\DoxyCodeLine{961             \textcolor{comment}{// set attributes}}
+\DoxyCodeLine{962             setAttributes(child, attributes);}
+\DoxyCodeLine{963         \}}
+\DoxyCodeLine{964         \textcolor{keywordflow}{return} child;}
+\DoxyCodeLine{965     \}}
+\DoxyCodeLine{966 }
+\DoxyCodeLine{967     \textcolor{comment}{// recursive call}}
+\DoxyCodeLine{968     \textcolor{keywordflow}{return} addElementTo(child, levels.back(), attributes, id\_attribute);}
+\DoxyCodeLine{969 \}}
+\DoxyCodeLine{970 }
+\DoxyCodeLine{971 }
+\DoxyCodeLine{972 }
+\DoxyCodeLine{973 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{976 \textcolor{comment}{}\textcolor{keyword}{inline} XMLElement* addElementTo(XMLNode* root, \textcolor{keyword}{const} std::string\& descriptor, \textcolor{keyword}{const} std::initializer\_list< std::string >\& attributes = \{ \textcolor{comment}{/* ... */} \}, \textcolor{keyword}{const} std::string\& id\_attribute = \textcolor{stringliteral}{"{}name"{}}) \{}
+\DoxyCodeLine{977     \textcolor{keywordflow}{return} addElementTo(root, descriptor, std::vector< std::string >(attributes), id\_attribute);}
+\DoxyCodeLine{978 \}}
+\DoxyCodeLine{979 }
+\DoxyCodeLine{980 }
+\DoxyCodeLine{981 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{995 \textcolor{comment}{}\textcolor{keyword}{inline} XMLElement* addElementLike(XMLElement* element, XMLNode* root, \textcolor{keyword}{const} std::vector< std::string >\& attributes = \{ \textcolor{comment}{/* ... */} \}, \textcolor{keyword}{const} std::string\& id\_attribute = \textcolor{stringliteral}{"{}name"{}}) \{}
+\DoxyCodeLine{996     \textcolor{keywordflow}{return} addElementTo(root, treeOf(element, \textcolor{keyword}{true}, id\_attribute), attributes);}
+\DoxyCodeLine{997 \}}
+\DoxyCodeLine{998 }
+\DoxyCodeLine{999 }
+\DoxyCodeLine{1000 }
+\DoxyCodeLine{1001 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{1004 \textcolor{comment}{}\textcolor{keyword}{inline} XMLElement* addElementLike(XMLElement* element, XMLNode* root, \textcolor{keyword}{const} std::initializer\_list< std::string >\& attributes = \{ \textcolor{comment}{/* ... */} \}, \textcolor{keyword}{const} std::string\& id\_attribute = \textcolor{stringliteral}{"{}name"{}}) \{}
+\DoxyCodeLine{1005     \textcolor{keywordflow}{return} addElementLike(element, root, std::vector< std::string >(attributes), id\_attribute);}
+\DoxyCodeLine{1006 \}}
+\DoxyCodeLine{1007 }
+\DoxyCodeLine{1008 }
+\DoxyCodeLine{1009 }
+\DoxyCodeLine{1010 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{1019 \textcolor{comment}{}\textcolor{keyword}{inline} XMLElement* cloneInto(XMLNode* target, \textcolor{keyword}{const} XMLElement* element, \textcolor{keywordtype}{bool} whole\_tree = \textcolor{keyword}{false}, \textcolor{keyword}{const} std::string\& descriptor = \textcolor{stringliteral}{"{}"{}}, \textcolor{keyword}{const} std::string\& id\_attribute = \textcolor{stringliteral}{"{}name"{}}) \{}
+\DoxyCodeLine{1020     \textcolor{comment}{// check input arguments, strictly required!}}
+\DoxyCodeLine{1021     \textcolor{keywordflow}{if} (!element || !target) \{}
+\DoxyCodeLine{1022         \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{1023     \}}
+\DoxyCodeLine{1024 }
+\DoxyCodeLine{1025     \textcolor{comment}{// initialize target node at root of descriptor (e.g. document root before parsing descriptor)}}
+\DoxyCodeLine{1026     XMLNode* dst = target;}
+\DoxyCodeLine{1027 }
+\DoxyCodeLine{1028     \textcolor{comment}{// parse optional descriptor string}}
+\DoxyCodeLine{1029     \textcolor{comment}{// adds elements according to hiearchy and ids, input element is cloned into bottommost element}}
+\DoxyCodeLine{1030     \textcolor{keywordflow}{if} (!descriptor.empty() \&\& !elementAt(dst, descriptor)) \{}
+\DoxyCodeLine{1031         dst = addElementTo(dst, descriptor, \{ \textcolor{comment}{/* */} \}, id\_attribute);}
+\DoxyCodeLine{1032         \textcolor{comment}{// std::cout << treeOf(dst-\/>ToElement()) << std::endl;}}
+\DoxyCodeLine{1033     \}}
+\DoxyCodeLine{1034 }
+\DoxyCodeLine{1035     \textcolor{comment}{// copy parents/ascendants unde target node}}
+\DoxyCodeLine{1036     \textcolor{comment}{// shifts dst towards end of tree}}
+\DoxyCodeLine{1037     \textcolor{keywordflow}{if} (whole\_tree) \{}
+\DoxyCodeLine{1038         \textcolor{comment}{// check if target element exists, if it does skip and perform deep copy}}
+\DoxyCodeLine{1039         \textcolor{keywordflow}{if} (!elementAt(dst, treeOf(element, \textcolor{keyword}{false} \textcolor{comment}{/* only parent levels */}, id\_attribute))) \{}
+\DoxyCodeLine{1040             \textcolor{comment}{// tokenize source tree / parse element name}}
+\DoxyCodeLine{1041             \textcolor{keyword}{auto} levels = std::tokenize(treeOf(element, \textcolor{keyword}{false} \textcolor{comment}{/* only parent levels */}, id\_attribute), \textcolor{charliteral}{'/'});}
+\DoxyCodeLine{1042             \textcolor{comment}{// get source element (to copy)}}
+\DoxyCodeLine{1043             \textcolor{keyword}{const} XMLElement* src = elementAt(element-\/>GetDocument(), levels[0]);}
+\DoxyCodeLine{1044             \textcolor{comment}{// loop over parents, perform shallow copies of each one}}
+\DoxyCodeLine{1045             \textcolor{comment}{// afaik, impossible to implement this recursively}}
+\DoxyCodeLine{1046             \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} idx = 1; idx < levels.size(); idx++) \{}
+\DoxyCodeLine{1047                 std::cout << \textcolor{stringliteral}{"{}copying "{}} << levels[idx -\/ 1] << std::endl;}
+\DoxyCodeLine{1048                 \textcolor{comment}{// shallow copy}}
+\DoxyCodeLine{1049                 XMLNode* parent\_copy = src-\/>ShallowClone(target-\/>GetDocument());}
+\DoxyCodeLine{1050                 \textcolor{comment}{// insert into target}}
+\DoxyCodeLine{1051                 dst = dst-\/>InsertEndChild(parent\_copy);}
+\DoxyCodeLine{1052                 \textcolor{comment}{// update source element}}
+\DoxyCodeLine{1053                 src = elementAt(src, levels[idx], id\_attribute);}
+\DoxyCodeLine{1054             \}}
+\DoxyCodeLine{1055         \}}
+\DoxyCodeLine{1056     \}}
+\DoxyCodeLine{1057 }
+\DoxyCodeLine{1058     \textcolor{comment}{// when called on end child, target parent will already exist!}}
+\DoxyCodeLine{1059     XMLNode* copy = element-\/>DeepClone(target-\/>GetDocument());}
+\DoxyCodeLine{1060     dst = dst-\/>InsertEndChild(copy);}
+\DoxyCodeLine{1061 }
+\DoxyCodeLine{1062     \textcolor{keywordflow}{return} dst-\/>ToElement();}
+\DoxyCodeLine{1063 \}}
+\DoxyCodeLine{1064 }
+\DoxyCodeLine{1065 }
+\DoxyCodeLine{1066 }
+\DoxyCodeLine{1067 \textcolor{comment}{// //-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{1068 \textcolor{comment}{// /// @brief      Clones/copies a XML node into a different XML document, while keeping the same node hierarchy}}
+\DoxyCodeLine{1069 \textcolor{comment}{// ///}}
+\DoxyCodeLine{1070 \textcolor{comment}{// /// @param      source   Source document}}
+\DoxyCodeLine{1071 \textcolor{comment}{// /// @param      target   Target document}}
+\DoxyCodeLine{1072 \textcolor{comment}{// /// @param[in]  element  Name of the XML element to clone}}
+\DoxyCodeLine{1073 \textcolor{comment}{// ///}}
+\DoxyCodeLine{1074 \textcolor{comment}{// /// @return     Node of copied element on target document}}
+\DoxyCodeLine{1075 \textcolor{comment}{// ///}}
+\DoxyCodeLine{1076 \textcolor{comment}{// /// @throws     std::invalid\_argument if element is not present on source or error occurs during copy.}}
+\DoxyCodeLine{1077 \textcolor{comment}{// ///}}
+\DoxyCodeLine{1078 \textcolor{comment}{// inline XMLNode* clone(XMLNode* source, XMLDocument* target, const std::string\& element) \{}}
+\DoxyCodeLine{1079 \textcolor{comment}{//     auto elements = tokenize(element, '/');}}
+\DoxyCodeLine{1080 \textcolor{comment}{//     XMLNode* target\_node = target;}}
+\DoxyCodeLine{1081 \textcolor{comment}{//     XMLNode* source\_node = source-\/>FirstChildElement(elements[0].data());}}
+\DoxyCodeLine{1082 \textcolor{comment}{//     // shallow copy of parent nodes}}
+\DoxyCodeLine{1083 \textcolor{comment}{//     for (int idx = 0; idx < elements.size() -\/ 1; idx++) \{}}
+\DoxyCodeLine{1084 \textcolor{comment}{//         // fetch node on source document}}
+\DoxyCodeLine{1085 \textcolor{comment}{//         // this is needed instead of getHandle as we need to perform shallow copies of every parent node}}
+\DoxyCodeLine{1086 \textcolor{comment}{//         if (!source\_node) \{}}
+\DoxyCodeLine{1087 \textcolor{comment}{//             // std::cout << "{}'"{}<< elements[idx] << "{}': missing on source document, ABORTING! "{} << std::endl;}}
+\DoxyCodeLine{1088 \textcolor{comment}{//             throw std::invalid\_argument("{}Invalid element name!"{});}}
+\DoxyCodeLine{1089 \textcolor{comment}{//         \}}}
+\DoxyCodeLine{1090 \textcolor{comment}{//         // shallow copy of level}}
+\DoxyCodeLine{1091 \textcolor{comment}{//         auto copy = source\_node-\/>ShallowClone(target);}}
+\DoxyCodeLine{1092 \textcolor{comment}{//         if (!copy) \{}}
+\DoxyCodeLine{1093 \textcolor{comment}{//             throw std::invalid\_argument("{}Unable to clone source element!"{});}}
+\DoxyCodeLine{1094 \textcolor{comment}{//         \}}}
+\DoxyCodeLine{1095 \textcolor{comment}{//         // check if present on target document}}
+\DoxyCodeLine{1096 \textcolor{comment}{//         if (!target\_node-\/>LastChildElement(elements[idx].data())) \{}}
+\DoxyCodeLine{1097 \textcolor{comment}{//             // std::cout << "{}'"{}<< elements[idx] << "{}': missing on target document, adding element! "{} << std::endl;}}
+\DoxyCodeLine{1098 \textcolor{comment}{//             target\_node = target\_node-\/>InsertEndChild(copy);}}
+\DoxyCodeLine{1099 \textcolor{comment}{//         \} else \{}}
+\DoxyCodeLine{1100 \textcolor{comment}{//             // std::cout << elements[idx] << std::endl;}}
+\DoxyCodeLine{1101 \textcolor{comment}{//             target\_node = target\_node-\/>LastChildElement(elements[idx].data());}}
+\DoxyCodeLine{1102 \textcolor{comment}{//         \}}}
+\DoxyCodeLine{1103 \textcolor{comment}{//         // assign new node ptrs}}
+\DoxyCodeLine{1104 \textcolor{comment}{//         source\_node = source\_node-\/>FirstChildElement(elements[idx + 1].data());}}
+\DoxyCodeLine{1105 \textcolor{comment}{//         // target\_node = target\_node-\/>LastChildElement(elements[idx + 1].data());}}
+\DoxyCodeLine{1106 \textcolor{comment}{//     \}}}
+\DoxyCodeLine{1107 \textcolor{comment}{//     // deep copy of last/target child}}
+\DoxyCodeLine{1108 \textcolor{comment}{//     auto copy = source\_node-\/>DeepClone(target);}}
+\DoxyCodeLine{1109 \textcolor{comment}{//     target\_node-\/>InsertEndChild(copy);}}
+\DoxyCodeLine{1110 \textcolor{comment}{//     return target\_node;}}
+\DoxyCodeLine{1111 \textcolor{comment}{// \}}}
+\DoxyCodeLine{1112 }
+\DoxyCodeLine{1113 }
+\DoxyCodeLine{1114 }
+\DoxyCodeLine{1115 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{1124 \textcolor{comment}{}\textcolor{keyword}{inline} \textcolor{keywordtype}{bool} remove(XMLElement* element) \{}
+\DoxyCodeLine{1125     \textcolor{comment}{// check if input element is valid}}
+\DoxyCodeLine{1126     \textcolor{keywordflow}{if} (!element) \{}
+\DoxyCodeLine{1127         \textcolor{keywordflow}{return} \textcolor{keyword}{false};}
+\DoxyCodeLine{1128     \}}
+\DoxyCodeLine{1129 }
+\DoxyCodeLine{1130     \textcolor{comment}{// delete all children (not necessary, may be overkill)}}
+\DoxyCodeLine{1131     element-\/>DeleteChildren();}
+\DoxyCodeLine{1132     \textcolor{comment}{// delete node from parent or directly from document if at top level}}
+\DoxyCodeLine{1133     \textcolor{keywordflow}{if} (element-\/>Parent()) \{}
+\DoxyCodeLine{1134         element-\/>Parent()-\/>DeleteChild(element);}
+\DoxyCodeLine{1135     \} \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{1136         element-\/>GetDocument()-\/>DeleteNode(element);}
+\DoxyCodeLine{1137     \}}
+\DoxyCodeLine{1138 }
+\DoxyCodeLine{1139     \textcolor{keywordflow}{return} \textcolor{keyword}{true};}
+\DoxyCodeLine{1140 \}}
+\DoxyCodeLine{1141 }
+\DoxyCodeLine{1142 }
+\DoxyCodeLine{1143 }
+\DoxyCodeLine{1144 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{1154 \textcolor{comment}{}\textcolor{keyword}{inline} \textcolor{keywordtype}{size\_t} remove(\textcolor{keyword}{const} std::vector< XMLElement* > elements, \textcolor{keyword}{const} std::string\& element\_name = \textcolor{stringliteral}{"{}"{}}) \{}
+\DoxyCodeLine{1155     \textcolor{keywordtype}{size\_t} count = 0;}
+\DoxyCodeLine{1156 }
+\DoxyCodeLine{1157     \textcolor{keywordflow}{for} (\textcolor{keyword}{const} \textcolor{keyword}{auto}\& element : elements) \{}
+\DoxyCodeLine{1158         \textcolor{comment}{// check if element is valid}}
+\DoxyCodeLine{1159         \textcolor{keywordflow}{if} (!element) \{}
+\DoxyCodeLine{1160             \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{1161         \}}
+\DoxyCodeLine{1162         \textcolor{comment}{// if element\_name was given and doesn't match, skip}}
+\DoxyCodeLine{1163         \textcolor{keywordflow}{if} (!element\_name.empty() \&\& element\_name.compare(element-\/>Name()) != 0) \{}
+\DoxyCodeLine{1164             \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{1165         \}}
+\DoxyCodeLine{1166         \textcolor{comment}{// remove element \& increment counter}}
+\DoxyCodeLine{1167         \textcolor{keywordflow}{if} (remove(element)) \{}
+\DoxyCodeLine{1168             count++;}
+\DoxyCodeLine{1169         \}}
+\DoxyCodeLine{1170     \}}
+\DoxyCodeLine{1171 }
+\DoxyCodeLine{1172     \textcolor{keywordflow}{return} count;}
+\DoxyCodeLine{1173 \}}
+\DoxyCodeLine{1174 }
+\DoxyCodeLine{1175 }
+\DoxyCodeLine{1176 }
+\DoxyCodeLine{1177 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{1189 \textcolor{comment}{}\textcolor{keyword}{inline} \textcolor{keywordtype}{size\_t} removeAttributesOf(XMLElement* element, \textcolor{keyword}{const} std::vector< std::string >\& attributes, \textcolor{keywordtype}{bool} deep = \textcolor{keyword}{false}, \textcolor{keyword}{const} std::string\& element\_name = \textcolor{stringliteral}{"{}"{}}) \{}
+\DoxyCodeLine{1190     \textcolor{keywordtype}{size\_t} count = 0;}
+\DoxyCodeLine{1191 }
+\DoxyCodeLine{1192     \textcolor{comment}{// remove in children (recursive)}}
+\DoxyCodeLine{1193     \textcolor{keywordflow}{if} (deep) \{}
+\DoxyCodeLine{1194         \textcolor{comment}{// @note elementsUnder(...) filters on relevant attributes \& element name}}
+\DoxyCodeLine{1195         \textcolor{keywordflow}{for} (\textcolor{keyword}{const} \textcolor{keyword}{auto}\& child : elementsUnder(element, \textcolor{keyword}{false}, attributes, element\_name)) \{}
+\DoxyCodeLine{1196             count += removeAttributesOf(child, attributes, deep);}
+\DoxyCodeLine{1197         \}}
+\DoxyCodeLine{1198     \}}
+\DoxyCodeLine{1199 }
+\DoxyCodeLine{1200     \textcolor{keywordflow}{for} (\textcolor{keyword}{const} \textcolor{keyword}{auto}\& attribute : attributes) \{}
+\DoxyCodeLine{1201         \textcolor{comment}{// parse attribue descritor string}}
+\DoxyCodeLine{1202         \textcolor{keyword}{auto} atts = tokenize(attribute, \textcolor{charliteral}{':'});}
+\DoxyCodeLine{1203         \textcolor{keywordflow}{if} (atts.size() == 0) \{}
+\DoxyCodeLine{1204             \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{1205         \}}
+\DoxyCodeLine{1206         \textcolor{comment}{// if value is given but no argument matches}}
+\DoxyCodeLine{1207         \textcolor{keywordflow}{if} (atts.size() > 1) \{}
+\DoxyCodeLine{1208             \textcolor{keywordflow}{if} (element-\/>Attribute(atts[0].data(), atts[1].data())) \{}
+\DoxyCodeLine{1209                 \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{1210             \}}
+\DoxyCodeLine{1211         \}}
+\DoxyCodeLine{1212         \textcolor{comment}{// dele attribute by name}}
+\DoxyCodeLine{1213         element-\/>DeleteAttribute(atts[0].data());}
+\DoxyCodeLine{1214         count++;}
+\DoxyCodeLine{1215     \}}
+\DoxyCodeLine{1216 }
+\DoxyCodeLine{1217     \textcolor{keywordflow}{return} count;}
+\DoxyCodeLine{1218 \}}
+\DoxyCodeLine{1219 }
+\DoxyCodeLine{1220 }
+\DoxyCodeLine{1221 }
+\DoxyCodeLine{1222 }
+\DoxyCodeLine{1223 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{1226 \textcolor{comment}{}\textcolor{keyword}{inline} \textcolor{keywordtype}{size\_t} removeAttributesOf(XMLElement* element, \textcolor{keyword}{const} std::initializer\_list< std::string >\& attributes = \{ \textcolor{comment}{/* ... */} \}, \textcolor{keywordtype}{bool} deep = \textcolor{keyword}{false}, \textcolor{keyword}{const} std::string\& element\_name = \textcolor{stringliteral}{"{}"{}}) \{}
+\DoxyCodeLine{1227     \textcolor{keywordflow}{return} removeAttributesOf(element, std::vector< std::string >(attributes), deep, element\_name);}
+\DoxyCodeLine{1228 \}}
+\DoxyCodeLine{1229 }
+\DoxyCodeLine{1230 }
+\DoxyCodeLine{1231 }
+\DoxyCodeLine{1232 }
+\DoxyCodeLine{1233 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{1244 \textcolor{comment}{}\textcolor{keyword}{inline} \textcolor{keywordtype}{size\_t} removeAttributesOf(\textcolor{keyword}{const} std::vector< XMLElement* > elements, \textcolor{keyword}{const} std::vector< std::string >\& attributes, \textcolor{keyword}{const} std::string\& element\_name = \textcolor{stringliteral}{"{}"{}}) \{}
+\DoxyCodeLine{1245     \textcolor{keywordtype}{size\_t} count = 0;}
+\DoxyCodeLine{1246 }
+\DoxyCodeLine{1247     \textcolor{comment}{// loop over input element list}}
+\DoxyCodeLine{1248     \textcolor{keywordflow}{for} (\textcolor{keyword}{const} \textcolor{keyword}{auto}\& element : elements) \{}
+\DoxyCodeLine{1249         \textcolor{comment}{// if invalid, skip}}
+\DoxyCodeLine{1250         \textcolor{keywordflow}{if} (!element) \{}
+\DoxyCodeLine{1251             \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{1252         \}}
+\DoxyCodeLine{1253         \textcolor{comment}{// if element\_name was given and doesn't match, skip}}
+\DoxyCodeLine{1254         \textcolor{keywordflow}{if} (!element\_name.empty() \&\& element\_name.compare(element-\/>Name()) != 0) \{}
+\DoxyCodeLine{1255             \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{1256         \}}
+\DoxyCodeLine{1257         \textcolor{comment}{// if empty, append all atributes to vector}}
+\DoxyCodeLine{1258         count += removeAttributesOf(element, attributes, \textcolor{keyword}{false}, element\_name);}
+\DoxyCodeLine{1259     \}}
+\DoxyCodeLine{1260 }
+\DoxyCodeLine{1261     \textcolor{keywordflow}{return} count;}
+\DoxyCodeLine{1262 \}}
+\DoxyCodeLine{1263 }
+\DoxyCodeLine{1264 }
+\DoxyCodeLine{1265 }
+\DoxyCodeLine{1266 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{1269 \textcolor{comment}{}\textcolor{keyword}{inline} \textcolor{keywordtype}{size\_t} removeAttributesOf(\textcolor{keyword}{const} std::vector< XMLElement* > elements, \textcolor{keyword}{const} std::initializer\_list< std::string >\& attributes = \{ \textcolor{comment}{/* ... */} \}, \textcolor{keyword}{const} std::string\& element\_name = \textcolor{stringliteral}{"{}"{}}) \{}
+\DoxyCodeLine{1270     \textcolor{keywordflow}{return} removeAttributesOf(elements, std::vector< std::string >(attributes), element\_name);}
+\DoxyCodeLine{1271 \}}
+\DoxyCodeLine{1272 }
+\DoxyCodeLine{1273 }
+\DoxyCodeLine{1274 }
+\DoxyCodeLine{1275 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{1295 \textcolor{comment}{}\textcolor{keyword}{inline} \textcolor{keywordtype}{size\_t} replaceIn(XMLElement* element, \textcolor{keyword}{const} std::string\& old\_value, \textcolor{keyword}{const} std::string\& new\_value, \textcolor{keywordtype}{bool} deep = \textcolor{keyword}{false}, \textcolor{keyword}{const} std::string\& element\_name = \textcolor{stringliteral}{"{}"{}}) \{}
+\DoxyCodeLine{1296     \textcolor{comment}{// change counter}}
+\DoxyCodeLine{1297     \textcolor{keywordtype}{size\_t} count = 0;}
+\DoxyCodeLine{1298 }
+\DoxyCodeLine{1299     \textcolor{comment}{// replace in children (recursive)}}
+\DoxyCodeLine{1300     \textcolor{keywordflow}{if} (deep) \{}
+\DoxyCodeLine{1301         \textcolor{comment}{// @note elementsUnder(...) filters on relevant element name}}
+\DoxyCodeLine{1302         \textcolor{keywordflow}{for} (\textcolor{keyword}{const} \textcolor{keyword}{auto}\& child : elementsUnder(element, \textcolor{keyword}{false}, \{ \textcolor{comment}{/* */} \}, element\_name)) \{}
+\DoxyCodeLine{1303             count += replaceIn(child, old\_value, new\_value, deep, element\_name);}
+\DoxyCodeLine{1304         \}}
+\DoxyCodeLine{1305     \}}
+\DoxyCodeLine{1306 }
+\DoxyCodeLine{1307     \textcolor{comment}{// loop over attributes and parse text content}}
+\DoxyCodeLine{1308     \textcolor{keywordflow}{if} (element) \{}
+\DoxyCodeLine{1309         \textcolor{keywordflow}{if} ((!element\_name.empty() \&\& element\_name.compare(element-\/>Name()) != 0) || !element-\/>GetText()) \{}
+\DoxyCodeLine{1310             \textcolor{keywordflow}{return} count;}
+\DoxyCodeLine{1311         \}}
+\DoxyCodeLine{1312         \textcolor{keyword}{auto} text = std::string(element-\/>GetText());}
+\DoxyCodeLine{1313         count += std::replace(\&text, old\_value, new\_value);}
+\DoxyCodeLine{1314         element-\/>SetText(text.data());}
+\DoxyCodeLine{1315     \}}
+\DoxyCodeLine{1316 }
+\DoxyCodeLine{1317     \textcolor{keywordflow}{return} count;}
+\DoxyCodeLine{1318 \}}
+\DoxyCodeLine{1319 }
+\DoxyCodeLine{1320 }
+\DoxyCodeLine{1321 }
+\DoxyCodeLine{1322 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{1337 \textcolor{comment}{}\textcolor{keyword}{inline} \textcolor{keywordtype}{size\_t} replaceIn(\textcolor{keyword}{const} std::vector< XMLElement* >\& elements, \textcolor{keyword}{const} std::string\& old\_value, \textcolor{keyword}{const} std::string\& new\_value, \textcolor{keyword}{const} std::string\& element\_name = \textcolor{stringliteral}{"{}"{}}) \{}
+\DoxyCodeLine{1338     \textcolor{keywordtype}{size\_t} count = 0;}
+\DoxyCodeLine{1339 }
+\DoxyCodeLine{1340     \textcolor{comment}{// loop over attributes}}
+\DoxyCodeLine{1341     \textcolor{keywordflow}{for} (\textcolor{keyword}{auto}\& element : elements) \{}
+\DoxyCodeLine{1342         \textcolor{keywordflow}{if} (!element) \{}
+\DoxyCodeLine{1343             \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{1344         \}}
+\DoxyCodeLine{1345         \textcolor{comment}{// if element\_name was given and doesn't match, skip}}
+\DoxyCodeLine{1346         \textcolor{keywordflow}{if} (!element\_name.empty() \&\& element\_name.compare(element-\/>Name()) != 0) \{}
+\DoxyCodeLine{1347             \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{1348         \}}
+\DoxyCodeLine{1349         \textcolor{comment}{// call single element overload with replacement implementation}}
+\DoxyCodeLine{1350         count += replaceIn(element, old\_value, new\_value, \textcolor{keyword}{false}, element\_name);}
+\DoxyCodeLine{1351     \}}
+\DoxyCodeLine{1352 }
+\DoxyCodeLine{1353     \textcolor{keywordflow}{return} count;}
+\DoxyCodeLine{1354 \}}
+\DoxyCodeLine{1355 }
+\DoxyCodeLine{1356 }
+\DoxyCodeLine{1357 }
+\DoxyCodeLine{1358 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{1374 \textcolor{comment}{}\textcolor{keyword}{inline} \textcolor{keywordtype}{size\_t} replaceInAttributesOf(XMLElement* element, \textcolor{keyword}{const} std::string\& old\_value, \textcolor{keyword}{const} std::string\& new\_value, \textcolor{keyword}{const} std::string\& attribute\_name = \textcolor{stringliteral}{"{}"{}}, \textcolor{keywordtype}{bool} deep = \textcolor{keyword}{false}, \textcolor{keyword}{const} std::string\& element\_name = \textcolor{stringliteral}{"{}"{}}) \{}
+\DoxyCodeLine{1375     \textcolor{keywordflow}{if} (!element) \{}
+\DoxyCodeLine{1376         \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{1377     \}}
+\DoxyCodeLine{1378 }
+\DoxyCodeLine{1379     \textcolor{keywordtype}{size\_t} count = 0;}
+\DoxyCodeLine{1380 }
+\DoxyCodeLine{1381     \textcolor{comment}{// replace in children (recursive)}}
+\DoxyCodeLine{1382     \textcolor{keywordflow}{if} (deep) \{}
+\DoxyCodeLine{1383         \textcolor{comment}{// @note elementsUnder(...) filters on relevant attribute \& element name}}
+\DoxyCodeLine{1384         \textcolor{keywordflow}{for} (\textcolor{keyword}{const} \textcolor{keyword}{auto}\& child : elementsUnder(element, \textcolor{keyword}{false}, \{ attribute\_name \}, element\_name)) \{}
+\DoxyCodeLine{1385             count += replaceInAttributesOf(child, old\_value, new\_value, attribute\_name, \textcolor{keyword}{true}, element\_name);}
+\DoxyCodeLine{1386         \}}
+\DoxyCodeLine{1387     \}}
+\DoxyCodeLine{1388 }
+\DoxyCodeLine{1389     \textcolor{comment}{// loop over attributes and parse arguments}}
+\DoxyCodeLine{1390     \textcolor{keyword}{auto} attributes = attributesOf(element, attribute\_name);}
+\DoxyCodeLine{1391     \textcolor{keywordflow}{for} (\textcolor{keyword}{const} \textcolor{keyword}{auto}\& attribute : attributes) \{}
+\DoxyCodeLine{1392         \textcolor{comment}{// if attribute value matches, replace value!}}
+\DoxyCodeLine{1393         \textcolor{keyword}{auto} value\_str = std::string(attribute-\/>Value());}
+\DoxyCodeLine{1394         count += std::replace(\&value\_str, old\_value, new\_value);}
+\DoxyCodeLine{1395         element-\/>SetAttribute(attribute-\/>Name(), value\_str.data());}
+\DoxyCodeLine{1396     \}}
+\DoxyCodeLine{1397 }
+\DoxyCodeLine{1398     \textcolor{comment}{// if (element) \{}}
+\DoxyCodeLine{1399 }
+\DoxyCodeLine{1400     \textcolor{comment}{//     // if element\_name was given and doesn't match, skip}}
+\DoxyCodeLine{1401     \textcolor{comment}{//     if (!element\_name.empty() \&\& element\_name.compare(element-\/>Name()) != 0) \{}}
+\DoxyCodeLine{1402     \textcolor{comment}{//         return 0;}}
+\DoxyCodeLine{1403     \textcolor{comment}{//     \}}}
+\DoxyCodeLine{1404     \textcolor{comment}{//     // loop over attributes}}
+\DoxyCodeLine{1405     \textcolor{comment}{//     // const XMLAttribute* attribute = element-\/>FirstAttribute();}}
+\DoxyCodeLine{1406     \textcolor{comment}{//     // while (attribute) \{}}
+\DoxyCodeLine{1407     \textcolor{comment}{//     //     if (!attribute\_name.empty() \&\& attribute\_name.compare(attribute-\/>Name()) != 0 /* || !attribute-\/>Value() */) \{}}
+\DoxyCodeLine{1408     \textcolor{comment}{//     //         // move to next attribute}}
+\DoxyCodeLine{1409     \textcolor{comment}{//     //         attribute = attribute-\/>Next();}}
+\DoxyCodeLine{1410     \textcolor{comment}{//     //         continue;}}
+\DoxyCodeLine{1411     \textcolor{comment}{//     //     \}}}
+\DoxyCodeLine{1412     \textcolor{comment}{//     //     // if attribute value matches, replace value!}}
+\DoxyCodeLine{1413     \textcolor{comment}{//     //     auto value\_str = std::string(attribute-\/>Value());}}
+\DoxyCodeLine{1414     \textcolor{comment}{//     //     count += std::replace(\&value\_str, old\_value, new\_value);}}
+\DoxyCodeLine{1415     \textcolor{comment}{//     //     element-\/>SetAttribute(attribute-\/>Name(), value\_str.data());}}
+\DoxyCodeLine{1416     \textcolor{comment}{//     //     // move to next attribute}}
+\DoxyCodeLine{1417     \textcolor{comment}{//     //     attribute = attribute-\/>Next();}}
+\DoxyCodeLine{1418     \textcolor{comment}{//     // \}}}
+\DoxyCodeLine{1419     \textcolor{comment}{//     // @note attributesOf(...) filters according to attribute name}}
+\DoxyCodeLine{1420 }
+\DoxyCodeLine{1421     \textcolor{comment}{// \}}}
+\DoxyCodeLine{1422 }
+\DoxyCodeLine{1423     \textcolor{keywordflow}{return} count;}
+\DoxyCodeLine{1424 \}}
+\DoxyCodeLine{1425 }
+\DoxyCodeLine{1426 }
+\DoxyCodeLine{1427 }
+\DoxyCodeLine{1428 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{1443 \textcolor{comment}{}\textcolor{keyword}{inline} \textcolor{keywordtype}{size\_t} replaceInAttributesOf(\textcolor{keyword}{const} std::vector< XMLElement* > elements, \textcolor{keyword}{const} std::string\& old\_value, \textcolor{keyword}{const} std::string\& new\_value, \textcolor{keyword}{const} std::string\& attribute\_name = \textcolor{stringliteral}{"{}"{}}, \textcolor{keyword}{const} std::string\& element\_name = \textcolor{stringliteral}{"{}"{}}) \{}
+\DoxyCodeLine{1444     \textcolor{keywordtype}{size\_t} count = 0;}
+\DoxyCodeLine{1445 }
+\DoxyCodeLine{1446     \textcolor{comment}{// loop over attributes}}
+\DoxyCodeLine{1447     \textcolor{keywordflow}{for} (\textcolor{keyword}{auto}\& element : elements) \{}
+\DoxyCodeLine{1448         \textcolor{keywordflow}{if} (!element) \{}
+\DoxyCodeLine{1449             \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{1450         \}}
+\DoxyCodeLine{1451         \textcolor{comment}{// if element\_name was given and doesn't match, skip}}
+\DoxyCodeLine{1452         \textcolor{keywordflow}{if} (!element\_name.empty() \&\& element\_name.compare(element-\/>Name()) != 0) \{}
+\DoxyCodeLine{1453             \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{1454         \}}
+\DoxyCodeLine{1455         \textcolor{comment}{// call single element overload with replacement implementation}}
+\DoxyCodeLine{1456         count += replaceInAttributesOf(element, old\_value, new\_value, attribute\_name, \textcolor{keyword}{false}, element\_name);}
+\DoxyCodeLine{1457     \}}
+\DoxyCodeLine{1458 }
+\DoxyCodeLine{1459     \textcolor{keywordflow}{return} count;}
+\DoxyCodeLine{1460 \}}
+\DoxyCodeLine{1461 }
+\DoxyCodeLine{1462 }
+\DoxyCodeLine{1463 }
+\DoxyCodeLine{1464 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{1474 \textcolor{comment}{}\textcolor{keyword}{template}< \textcolor{keyword}{typename} T >}
+\DoxyCodeLine{1475 std::vector< T > getDataAt(\textcolor{keyword}{const} XMLElement* element, \textcolor{keywordtype}{char} separator = \textcolor{charliteral}{' '}) \{}
+\DoxyCodeLine{1476     std::vector< T > list;}
+\DoxyCodeLine{1477     \textcolor{keywordflow}{if} (element) \{}
+\DoxyCodeLine{1478         \textcolor{keyword}{auto} text = std::string(element-\/>GetText());}
+\DoxyCodeLine{1479         \textcolor{keyword}{auto} vals = tokenize(text, separator);}
+\DoxyCodeLine{1480         \textcolor{keywordflow}{for} (\textcolor{keyword}{const} \textcolor{keyword}{auto}\& val : vals) \{}
+\DoxyCodeLine{1481             list.emplace\_back(\textcolor{keyword}{static\_cast<} T \textcolor{keyword}{>}(atof(val.data())));}
+\DoxyCodeLine{1482         \}}
+\DoxyCodeLine{1483     \}}
+\DoxyCodeLine{1484     \textcolor{keywordflow}{return} list;}
+\DoxyCodeLine{1485 \}}
+\DoxyCodeLine{1486 }
+\DoxyCodeLine{1487 }
+\DoxyCodeLine{1488 }
+\DoxyCodeLine{1489 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{1500 \textcolor{comment}{}template< typename T, std::enable\_if\_t< std::is\_arithmetic< T >::value, \textcolor{keywordtype}{bool} > = \textcolor{keyword}{true} >}
+\DoxyCodeLine{1501 \textcolor{keywordtype}{bool} setDataAt(XMLElement* element, \textcolor{keyword}{const} std::vector< T >\& data, \textcolor{keywordtype}{char} separator = \textcolor{charliteral}{' '}) \{}
+\DoxyCodeLine{1502     \textcolor{keywordflow}{if} (element) \{}
+\DoxyCodeLine{1503         \textcolor{comment}{// construct data string}}
+\DoxyCodeLine{1504         std::string text = \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{1505         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} idx = 0; idx < data.size(); idx++) \{}
+\DoxyCodeLine{1506             text += std::to\_string(data[idx]);}
+\DoxyCodeLine{1507             \textcolor{keywordflow}{if} (idx < data.size() -\/ 1) \{}
+\DoxyCodeLine{1508                 text += separator;}
+\DoxyCodeLine{1509             \}}
+\DoxyCodeLine{1510         \}}
+\DoxyCodeLine{1511         \textcolor{comment}{// set text on element}}
+\DoxyCodeLine{1512         element-\/>SetText(text.data());}
+\DoxyCodeLine{1513 }
+\DoxyCodeLine{1514         \textcolor{keywordflow}{return} \textcolor{keyword}{true};}
+\DoxyCodeLine{1515     \}}
+\DoxyCodeLine{1516 }
+\DoxyCodeLine{1517     \textcolor{keywordflow}{return} \textcolor{keyword}{false};}
+\DoxyCodeLine{1518 \}}
+\DoxyCodeLine{1519 }
+\DoxyCodeLine{1520 }
+\DoxyCodeLine{1521 }
+\DoxyCodeLine{1522 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{1535 \textcolor{comment}{}template < typename T, std::enable\_if\_t< !std::is\_arithmetic< T >::value, \textcolor{keywordtype}{bool} > = \textcolor{keyword}{true} >}
+\DoxyCodeLine{1536 \textcolor{keywordtype}{bool} setDataAt(XMLElement* element, \textcolor{keyword}{const} std::vector< T >\& data, \textcolor{keywordtype}{char} separator = \textcolor{charliteral}{' '}) \{}
+\DoxyCodeLine{1537     \textcolor{keywordflow}{if} (element) \{}
+\DoxyCodeLine{1538         \textcolor{comment}{// construct data string}}
+\DoxyCodeLine{1539         std::string text = \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{1540         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} idx = 0; idx < data.size(); idx++) \{}
+\DoxyCodeLine{1541             text += std::string(data[idx]);}
+\DoxyCodeLine{1542             \textcolor{keywordflow}{if} (idx < data.size() -\/ 1) \{}
+\DoxyCodeLine{1543                 text += separator;}
+\DoxyCodeLine{1544             \}}
+\DoxyCodeLine{1545         \}}
+\DoxyCodeLine{1546         \textcolor{comment}{// set text on element}}
+\DoxyCodeLine{1547         element-\/>SetText(text.data());}
+\DoxyCodeLine{1548 }
+\DoxyCodeLine{1549         \textcolor{keywordflow}{return} \textcolor{keyword}{true};}
+\DoxyCodeLine{1550     \}}
+\DoxyCodeLine{1551 }
+\DoxyCodeLine{1552     \textcolor{keywordflow}{return} \textcolor{keyword}{false};}
+\DoxyCodeLine{1553 \}}
+\DoxyCodeLine{1554 }
+\DoxyCodeLine{1555 }
+\DoxyCodeLine{1556 }
+\DoxyCodeLine{1557 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{1570 \textcolor{comment}{}\textcolor{keyword}{template}< \textcolor{keyword}{typename} T >}
+\DoxyCodeLine{1571 \textcolor{keywordtype}{bool} setDataAt(XMLElement* element, \textcolor{keyword}{const} std::initializer\_list< T >\& data, \textcolor{keywordtype}{char} separator = \textcolor{charliteral}{' '}) \{}
+\DoxyCodeLine{1572     \textcolor{keywordflow}{return} setDataAt< T >(element, std::vector< T >(data), separator);}
+\DoxyCodeLine{1573 \}}
+\DoxyCodeLine{1574 }
+\DoxyCodeLine{1575 }
+\DoxyCodeLine{1576 \}  \textcolor{comment}{// namespace extra}}
+\DoxyCodeLine{1577 }
+\DoxyCodeLine{1578 \}  \textcolor{comment}{// namespace tinyxml2}}
+\DoxyCodeLine{1579 }
+\DoxyCodeLine{1580 }
+\DoxyCodeLine{1581 \textcolor{preprocessor}{\#endif  }\textcolor{comment}{//  \_INCLUDE\_UTILS\_TINYXML2UTILS\_HPP\_}}
+
+\end{DoxyCode}

@@ -1,0 +1,13 @@
+<map id="motion::DMPMotionGenerator" name="motion::DMPMotionGenerator">
+<area shape="rect" id="node1" title="Generic multi&#45;dimensional DMP&#45;base motion generator, extending BasicPolicyGenerator...." alt="" coords="1315,73,1497,97"/>
+<area shape="rect" id="node2" href="$classmotion_1_1_basic_policy_generator.html" title=" " alt="" coords="1039,39,1221,75"/>
+<area shape="rect" id="node3" href="$classmotion_1_1_dynamical_system.html" title="Class implementing a simple unidimensional first&#45; or second&#45;order dynamical system (Euler&#39;s method)" alt="" coords="403,12,568,36"/>
+<area shape="rect" id="node4" href="$classmotion_1_1_basic_policy_generator.html" title="Generic base abstract class for open&#45; and closed&#45;loop multidimensional motion policy generators." alt="" coords="703,39,885,75"/>
+<area shape="rect" id="node5" href="$classmotion_1_1_skill.html" title="Class describing a motion skill as a weigthed combination of multiple primitives, for variable output..." alt="" coords="1085,100,1175,124"/>
+<area shape="rect" id="node6" href="$classmotion_1_1_unique_type.html" title="Base class for unique objects, holding a generic unique identifier (UUID)." alt="" coords="728,100,860,124"/>
+<area shape="rect" id="node7" href="$classstd_1_1matrix.html" title=" " alt="" coords="729,148,859,172"/>
+<area shape="rect" id="node8" title=" " alt="" coords="273,125,379,149"/>
+<area shape="rect" id="node9" title=" " alt="" coords="5,149,61,173"/>
+<area shape="rect" id="node11" title=" " alt="" coords="163,176,249,200"/>
+<area shape="rect" id="node10" href="$classstd_1_1matrix.html" title="Class implementaing a STL&#45;like 2D container." alt="" coords="429,184,541,208"/>
+</map>

@@ -1,0 +1,20 @@
+@PACKAGE_INIT@
+
+# @note replaced "motion" w/ ${PROJECT_NAME} -> test if still compatible w/ catkin!
+
+# Include configuration file generated with CMakeLists.txt
+include(${CMAKE_CURRENT_LIST_DIR}/${PROJECT_NAME}Targets.cmake)
+
+# In order to use the library in a catkin package
+# storage_INCLUDE_DIRS and storage_LIBRARIES need to be defined.
+# Otherwise catkin_package() would generate a warning complaining about it.
+set_and_check(${PROJECT_NAME}_INCLUDE_DIRS "@PACKAGE_INCLUDE_INSTALL_DIR@")
+set(${PROJECT_NAME}_LIBRARIES ${PROJECT_NAME}::${PROJECT_NAME})
+
+# Dependency forwarding
+# Required to avoid explicitly finding mplibrary's dependencies on 3rd party packages
+include(CMakeFindDependencyMacro)
+find_dependency(Boost 1.0 REQUIRED COMPONENTS system NO_MODULE)
+
+# confirm that all required components have been found
+check_required_components(${PROJECT_NAME})

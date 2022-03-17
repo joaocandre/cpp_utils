@@ -1,0 +1,274 @@
+\hypertarget{classstd_1_1volume}{}\doxysection{std\+::volume\texorpdfstring{$<$}{<} T \texorpdfstring{$>$}{>} Class Template Reference}
+\label{classstd_1_1volume}\index{std::volume$<$ T $>$@{std::volume$<$ T $>$}}
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_af2cb289e1f0f63a327f630c23b4058cc}\label{classstd_1_1volume_af2cb289e1f0f63a327f630c23b4058cc}} 
+typedef T {\bfseries value\+\_\+type}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_acb46f0316ae4bbb09f8aee8b6acddbe1}\label{classstd_1_1volume_acb46f0316ae4bbb09f8aee8b6acddbe1}} 
+{\bfseries volume} (int \+\_\+layers, int \+\_\+rows, int \+\_\+cols)
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_a286d763d0d0b57907bd40cf38daea56a}\label{classstd_1_1volume_a286d763d0d0b57907bd40cf38daea56a}} 
+{\bfseries volume} (int \+\_\+layers, int \+\_\+rows, int \+\_\+cols, const T \&\+\_\+val)
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_a5a37e4934e8a1dde56fe1f9fa4435db1}\label{classstd_1_1volume_a5a37e4934e8a1dde56fe1f9fa4435db1}} 
+{\footnotesize template$<$typename iT $>$ }\\{\bfseries volume} (const vector$<$ vector$<$ vector$<$ iT $>$ $>$ $>$ \&\+\_\+in)
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_a5510ca7f7e14ca4aa7f3374b314ef9cd}\label{classstd_1_1volume_a5510ca7f7e14ca4aa7f3374b314ef9cd}} 
+{\footnotesize template$<$typename iT , typename  = typename enable\+\_\+if$<$is\+\_\+generic\+\_\+container$<$i\+T$>$()$>$\+::type$>$ }\\{\bfseries volume} (int \+\_\+rows, int \+\_\+cols, int \+\_\+layers, const iT \&\+\_\+in)
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_adb168ddf1e9b35f5ad7ad4815a17f67d}\label{classstd_1_1volume_adb168ddf1e9b35f5ad7ad4815a17f67d}} 
+T \& {\bfseries operator$\ast$} ()
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_abd7700f5dc60ffa791fe78f549040e37}\label{classstd_1_1volume_abd7700f5dc60ffa791fe78f549040e37}} 
+{\footnotesize template$<$typename iT $>$ }\\\mbox{\hyperlink{classstd_1_1volume}{volume}}$<$ T $>$ \& {\bfseries operator=} (const iT \&\+\_\+in)
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_a4d47ed1b2215058823babb5b2cd15c1b}\label{classstd_1_1volume_a4d47ed1b2215058823babb5b2cd15c1b}} 
+T \& {\bfseries operator()} (int \+\_\+l, int \+\_\+r, int \+\_\+c)
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_a07e266e227433c31d0d44c931989661e}\label{classstd_1_1volume_a07e266e227433c31d0d44c931989661e}} 
+const T \& {\bfseries operator()} (int \+\_\+l, int \+\_\+r, int \+\_\+c) const
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_a07c6b26de62907f873bf809833be3a69}\label{classstd_1_1volume_a07c6b26de62907f873bf809833be3a69}} 
+T \& {\bfseries operator\mbox{[}$\,$\mbox{]}} (int \+\_\+id)
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_a92caa8de874ec801d1ada36933d06b29}\label{classstd_1_1volume_a92caa8de874ec801d1ada36933d06b29}} 
+const T \& {\bfseries operator\mbox{[}$\,$\mbox{]}} (int \+\_\+id) const
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_a784b2134cd4537b3d5072c6db9ce92ce}\label{classstd_1_1volume_a784b2134cd4537b3d5072c6db9ce92ce}} 
+\mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{volume\+\_\+subset}}$<$ T $>$ {\bfseries operator\mbox{[}$\,$\mbox{]}} (const vector$<$ int $>$ \&\+\_\+idx)
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_a33aaf34a54509ca1990c33bf9a95bb0c}\label{classstd_1_1volume_a33aaf34a54509ca1990c33bf9a95bb0c}} 
+\mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{volume\+\_\+subset\+\_\+const}}$<$ T $>$ {\bfseries operator\mbox{[}$\,$\mbox{]}} (const vector$<$ int $>$ \&\+\_\+idx) const
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_aeaff18eac3e7ae3baba977a05d3ff15d}\label{classstd_1_1volume_aeaff18eac3e7ae3baba977a05d3ff15d}} 
+\mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{volume\+\_\+subset}}$<$ T $>$ {\bfseries operator\mbox{[}$\,$\mbox{]}} (\mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{volume\+\_\+subset}}$<$ T $>$ \&\&\+\_\+sbst)
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_a1edf662cae00d3ef1459a7bdf89b3712}\label{classstd_1_1volume_a1edf662cae00d3ef1459a7bdf89b3712}} 
+\mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{volume\+\_\+subset\+\_\+const}}$<$ T $>$ {\bfseries operator\mbox{[}$\,$\mbox{]}} (\mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{volume\+\_\+subset}}$<$ T $>$ \&\&\+\_\+sbst) const
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_aa0f5ea25156eddbd452bbec6519ccff5}\label{classstd_1_1volume_aa0f5ea25156eddbd452bbec6519ccff5}} 
+const vector$<$ T $>$ \& {\bfseries data\+\_\+vector} () const
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_aa997628a69677365dc1aa1057e2aa478}\label{classstd_1_1volume_aa997628a69677365dc1aa1057e2aa478}} 
+size\+\_\+t {\bfseries rows} () const
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_a517940e67c8f5813eac9a076addfb2a4}\label{classstd_1_1volume_a517940e67c8f5813eac9a076addfb2a4}} 
+size\+\_\+t {\bfseries cols} () const
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_a442ed35a87d1f6938b81d9c4bbacb954}\label{classstd_1_1volume_a442ed35a87d1f6938b81d9c4bbacb954}} 
+size\+\_\+t {\bfseries layers} () const
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_a508bb7ee6a83a63da1ebb245933e3d8b}\label{classstd_1_1volume_a508bb7ee6a83a63da1ebb245933e3d8b}} 
+size\+\_\+t {\bfseries size} () const
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_ab58cd14c436c42b720c63a05db32aef8}\label{classstd_1_1volume_ab58cd14c436c42b720c63a05db32aef8}} 
+vector$<$ size\+\_\+t $>$ {\bfseries dim} () const
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_a0e408c85d5edf9b2600d5b24148b3761}\label{classstd_1_1volume_a0e408c85d5edf9b2600d5b24148b3761}} 
+vector$<$ size\+\_\+t $>$ {\bfseries pos} (int i) const
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_aae4713e41cd5ca176a55cc723be843dd}\label{classstd_1_1volume_aae4713e41cd5ca176a55cc723be843dd}} 
+bool {\bfseries is\+Cubic} () const
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_a581b88474f857314cb9ba2f0388c62aa}\label{classstd_1_1volume_a581b88474f857314cb9ba2f0388c62aa}} 
+bool {\bfseries is\+Empty} () const
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_a345390ab02c9c27aecdaeba093c186e1}\label{classstd_1_1volume_a345390ab02c9c27aecdaeba093c186e1}} 
+vector$<$ int $>$ {\bfseries all\+ID} () const
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_a781ca34dfed45bdede913d0c4b8a6a19}\label{classstd_1_1volume_a781ca34dfed45bdede913d0c4b8a6a19}} 
+vector$<$ int $>$ {\bfseries row\+ID} (int \+\_\+l, int \+\_\+r) const
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_a0a097745c0b1b4c3fd95a8455fe968b2}\label{classstd_1_1volume_a0a097745c0b1b4c3fd95a8455fe968b2}} 
+vector$<$ int $>$ {\bfseries col\+ID} (int \+\_\+l, int \+\_\+c) const
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_ace1ba199783a07f584acf5d92a612472}\label{classstd_1_1volume_ace1ba199783a07f584acf5d92a612472}} 
+vector$<$ int $>$ {\bfseries tow\+ID} (int \+\_\+r, int \+\_\+c) const
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_a050f8cf4652d9f0f772bf492cf378a3f}\label{classstd_1_1volume_a050f8cf4652d9f0f772bf492cf378a3f}} 
+vector$<$ int $>$ {\bfseries diag\+ID} (int \+\_\+l) const
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_a251fb43c7f77b6d68f0a507beefafa7a}\label{classstd_1_1volume_a251fb43c7f77b6d68f0a507beefafa7a}} 
+vector$<$ int $>$ {\bfseries layer\+ID} (int \+\_\+l) const
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_a2436b12198852c9b6d251f6875ff05b0}\label{classstd_1_1volume_a2436b12198852c9b6d251f6875ff05b0}} 
+vector$<$ int $>$ {\bfseries row\+Layer\+ID} (int \+\_\+r) const
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_a7d9bac1247aa6adc1bfdcbcd2f4ed8f7}\label{classstd_1_1volume_a7d9bac1247aa6adc1bfdcbcd2f4ed8f7}} 
+vector$<$ int $>$ {\bfseries col\+Layer\+ID} (int \+\_\+c) const
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_a3379a29596e667c7eefa8d49aa5dcea3}\label{classstd_1_1volume_a3379a29596e667c7eefa8d49aa5dcea3}} 
+vector$<$ int $>$ {\bfseries layer\+Block\+ID} (int \+\_\+l, int \+\_\+first\+\_\+row, int \+\_\+last\+\_\+row, int \+\_\+first\+\_\+col, int \+\_\+last\+\_\+col) const
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_a40e64884d7ce2bd5623c73d6ff87ae99}\label{classstd_1_1volume_a40e64884d7ce2bd5623c73d6ff87ae99}} 
+vector$<$ int $>$ {\bfseries row\+Block\+ID} (int \+\_\+r, int \+\_\+first\+\_\+lay, int \+\_\+last\+\_\+lay, int \+\_\+first\+\_\+col, int \+\_\+last\+\_\+col) const
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_afc487636714c202e4dda1f91c1e32b74}\label{classstd_1_1volume_afc487636714c202e4dda1f91c1e32b74}} 
+vector$<$ int $>$ {\bfseries col\+Block\+ID} (int \+\_\+c, int \+\_\+first\+\_\+lay, int \+\_\+last\+\_\+lay, int \+\_\+first\+\_\+row, int \+\_\+last\+\_\+row) const
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_a41e8049fe439ec12b1f63932a3cea2ec}\label{classstd_1_1volume_a41e8049fe439ec12b1f63932a3cea2ec}} 
+vector$<$ int $>$ {\bfseries cube\+ID} (int \+\_\+first\+\_\+lay, int \+\_\+last\+\_\+lay, int \+\_\+first\+\_\+row, int \+\_\+last\+\_\+row, int \+\_\+first\+\_\+col, int \+\_\+last\+\_\+col) const
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_a65a35498e1041403a590d9cfd5786b89}\label{classstd_1_1volume_a65a35498e1041403a590d9cfd5786b89}} 
+\mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{volume\+\_\+subset}}$<$ T $>$ {\bfseries all} ()
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_a5fe3a5494ad869a397ed97f7233718b1}\label{classstd_1_1volume_a5fe3a5494ad869a397ed97f7233718b1}} 
+\mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{volume\+\_\+subset\+\_\+const}}$<$ T $>$ {\bfseries all} () const
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_a7c11add290c9b4323fd63038c1fd005c}\label{classstd_1_1volume_a7c11add290c9b4323fd63038c1fd005c}} 
+\mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{volume\+\_\+subset}}$<$ T $>$ {\bfseries row} (int \+\_\+l, int \+\_\+r)
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_afd6c3a848b0e6a7efa0aa0fef00d6520}\label{classstd_1_1volume_afd6c3a848b0e6a7efa0aa0fef00d6520}} 
+\mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{volume\+\_\+subset\+\_\+const}}$<$ T $>$ {\bfseries row} (int \+\_\+l, int \+\_\+r) const
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_a9e1cc7072244b34a457863ed9354ae3c}\label{classstd_1_1volume_a9e1cc7072244b34a457863ed9354ae3c}} 
+\mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{volume\+\_\+subset}}$<$ T $>$ {\bfseries col} (int \+\_\+l, int \+\_\+c)
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_a6407cbc47f62b2087994c196b6a589d4}\label{classstd_1_1volume_a6407cbc47f62b2087994c196b6a589d4}} 
+\mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{volume\+\_\+subset\+\_\+const}}$<$ T $>$ {\bfseries col} (int \+\_\+l, int \+\_\+c) const
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_a0d57c74e62bf4a79c6adc0281e745e02}\label{classstd_1_1volume_a0d57c74e62bf4a79c6adc0281e745e02}} 
+\mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{volume\+\_\+subset}}$<$ T $>$ {\bfseries tow} (int \+\_\+r, int \+\_\+c)
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_a3e3515085554734661db409d944ef9f4}\label{classstd_1_1volume_a3e3515085554734661db409d944ef9f4}} 
+\mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{volume\+\_\+subset\+\_\+const}}$<$ T $>$ {\bfseries tow} (int \+\_\+r, int \+\_\+c) const
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_aa0be64a5b8c60c516c0c9d9cb3cb55dd}\label{classstd_1_1volume_aa0be64a5b8c60c516c0c9d9cb3cb55dd}} 
+\mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{volume\+\_\+subset}}$<$ T $>$ {\bfseries diag} (int \+\_\+l)
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_a185123e78c73da67e8336a7140663fb3}\label{classstd_1_1volume_a185123e78c73da67e8336a7140663fb3}} 
+\mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{volume\+\_\+subset\+\_\+const}}$<$ T $>$ {\bfseries diag} (int \+\_\+l) const
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_a470b9f41432682e67ae4829e14c8211f}\label{classstd_1_1volume_a470b9f41432682e67ae4829e14c8211f}} 
+\mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{volume\+\_\+subset}}$<$ T $>$ {\bfseries layer} (int \+\_\+l)
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_a4b9088a533e82a2a7b8dfbfed6a30d78}\label{classstd_1_1volume_a4b9088a533e82a2a7b8dfbfed6a30d78}} 
+\mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{volume\+\_\+subset\+\_\+const}}$<$ T $>$ {\bfseries layer} (int \+\_\+l) const
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_ad945cb93077c176019f60087e9e3d467}\label{classstd_1_1volume_ad945cb93077c176019f60087e9e3d467}} 
+\mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{volume\+\_\+subset}}$<$ T $>$ {\bfseries row\+Layer} (int \+\_\+r)
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_a29ba398d54d1af04003b39a96858522b}\label{classstd_1_1volume_a29ba398d54d1af04003b39a96858522b}} 
+\mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{volume\+\_\+subset\+\_\+const}}$<$ T $>$ {\bfseries row\+Layer} (int \+\_\+r) const
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_a1f0221e25201dbbc48901c2247f5d6e1}\label{classstd_1_1volume_a1f0221e25201dbbc48901c2247f5d6e1}} 
+\mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{volume\+\_\+subset}}$<$ T $>$ {\bfseries col\+Layer} (int \+\_\+c)
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_a302ada878d73e53de2dc1c679c7d1ad9}\label{classstd_1_1volume_a302ada878d73e53de2dc1c679c7d1ad9}} 
+\mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{volume\+\_\+subset\+\_\+const}}$<$ T $>$ {\bfseries col\+Layer} (int \+\_\+c) const
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_ab0118abc7c2b2b18d13b6ce4b0728dd2}\label{classstd_1_1volume_ab0118abc7c2b2b18d13b6ce4b0728dd2}} 
+\mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{volume\+\_\+subset}}$<$ T $>$ {\bfseries layer\+Block} (int \+\_\+l, int \+\_\+first\+\_\+row, int \+\_\+last\+\_\+row, int \+\_\+first\+\_\+col, int \+\_\+last\+\_\+col)
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_a700a9923ca6711509774ca7f2bac7abc}\label{classstd_1_1volume_a700a9923ca6711509774ca7f2bac7abc}} 
+\mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{volume\+\_\+subset\+\_\+const}}$<$ T $>$ {\bfseries layer\+Block} (int \+\_\+l, int \+\_\+first\+\_\+row, int \+\_\+last\+\_\+row, int \+\_\+first\+\_\+col, int \+\_\+last\+\_\+col) const
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_aa3f097c23d8e56dab7deb35cbf353cff}\label{classstd_1_1volume_aa3f097c23d8e56dab7deb35cbf353cff}} 
+\mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{volume\+\_\+subset}}$<$ T $>$ {\bfseries row\+Block} (int \+\_\+r, int \+\_\+first\+\_\+lay, int \+\_\+last\+\_\+lay, int \+\_\+first\+\_\+col, int \+\_\+last\+\_\+col)
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_acdbb6883e0a7e93e4ec81ce92bbab1c2}\label{classstd_1_1volume_acdbb6883e0a7e93e4ec81ce92bbab1c2}} 
+\mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{volume\+\_\+subset\+\_\+const}}$<$ T $>$ {\bfseries row\+Block} (int \+\_\+r, int \+\_\+first\+\_\+lay, int \+\_\+last\+\_\+lay, int \+\_\+first\+\_\+col, int \+\_\+last\+\_\+col) const
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_ab8bb1818a59d59970dfb0b0dcda0450e}\label{classstd_1_1volume_ab8bb1818a59d59970dfb0b0dcda0450e}} 
+\mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{volume\+\_\+subset}}$<$ T $>$ {\bfseries col\+Block} (int \+\_\+c, int \+\_\+first\+\_\+lay, int \+\_\+last\+\_\+lay, int \+\_\+first\+\_\+row, int \+\_\+last\+\_\+row)
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_abd69a3fa33138f8815f67b178f90eb1e}\label{classstd_1_1volume_abd69a3fa33138f8815f67b178f90eb1e}} 
+\mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{volume\+\_\+subset\+\_\+const}}$<$ T $>$ {\bfseries col\+Block} (int \+\_\+c, int \+\_\+first\+\_\+lay, int \+\_\+last\+\_\+lay, int \+\_\+first\+\_\+row, int \+\_\+last\+\_\+row) const
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_a7c5e7580d989d62213a602d983da90f3}\label{classstd_1_1volume_a7c5e7580d989d62213a602d983da90f3}} 
+\mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{volume\+\_\+subset}}$<$ T $>$ {\bfseries cube} (int \+\_\+first\+\_\+lay, int \+\_\+last\+\_\+lay, int \+\_\+first\+\_\+row, int \+\_\+last\+\_\+row, int \+\_\+first\+\_\+col, int \+\_\+last\+\_\+col)
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_a6ff39d1a05b3abd481a58b97251a23a4}\label{classstd_1_1volume_a6ff39d1a05b3abd481a58b97251a23a4}} 
+\mbox{\hyperlink{classstd_1_1storage_1_1st__subset__base}{volume\+\_\+subset\+\_\+const}}$<$ T $>$ {\bfseries cube} (int \+\_\+first\+\_\+lay, int \+\_\+last\+\_\+lay, int \+\_\+first\+\_\+row, int \+\_\+last\+\_\+row, int \+\_\+first\+\_\+col, int \+\_\+last\+\_\+col) const
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_abb91cba96dcd56bea1a9877284d6adf9}\label{classstd_1_1volume_abb91cba96dcd56bea1a9877284d6adf9}} 
+{\footnotesize template$<$typename iT $>$ }\\void {\bfseries set\+Data} (const iT \&\+\_\+in)
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_a560860609ae9b41ec50ba7bbf0f6e4f6}\label{classstd_1_1volume_a560860609ae9b41ec50ba7bbf0f6e4f6}} 
+{\footnotesize template$<$typename iT , typename  = typename enable\+\_\+if$<$ is\+\_\+nd\+\_\+container$<$i\+T$>$()$>$\+::type$>$ }\\void {\bfseries push\+Row} (const iT \&\+\_\+in)
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_ae22fd2f72ea58a4304e32def2422fe89}\label{classstd_1_1volume_ae22fd2f72ea58a4304e32def2422fe89}} 
+{\footnotesize template$<$typename iT , typename  = typename enable\+\_\+if$<$!is\+\_\+nd\+\_\+container$<$i\+T$>$()$>$\+::type, typename  = void$>$ }\\void {\bfseries push\+Row} (const iT \&\+\_\+in)
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_a62f28727de3c3c0d78b7dfe4fc16ad72}\label{classstd_1_1volume_a62f28727de3c3c0d78b7dfe4fc16ad72}} 
+{\footnotesize template$<$typename iT , typename  = typename enable\+\_\+if$<$ is\+\_\+nd\+\_\+container$<$i\+T$>$()$>$\+::type$>$ }\\void {\bfseries push\+Col} (const iT \&\+\_\+in)
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_afa7c0a0dfb505bc599e00c97e90435b5}\label{classstd_1_1volume_afa7c0a0dfb505bc599e00c97e90435b5}} 
+{\footnotesize template$<$typename iT , typename  = typename enable\+\_\+if$<$!is\+\_\+nd\+\_\+container$<$i\+T$>$()$>$\+::type, typename  = void$>$ }\\void {\bfseries push\+Col} (const iT \&\+\_\+in)
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_adc11d5ad4b798411288378184494248e}\label{classstd_1_1volume_adc11d5ad4b798411288378184494248e}} 
+{\footnotesize template$<$typename iT , typename  = typename enable\+\_\+if$<$ is\+\_\+nd\+\_\+container$<$i\+T$>$()$>$\+::type$>$ }\\void {\bfseries push\+Layer} (const iT \&\+\_\+in)
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_a137d0b6834b532244cc3d1a0b0472b69}\label{classstd_1_1volume_a137d0b6834b532244cc3d1a0b0472b69}} 
+{\footnotesize template$<$typename iT , typename  = typename enable\+\_\+if$<$!is\+\_\+nd\+\_\+container$<$i\+T$>$()$>$\+::type, typename  = void$>$ }\\void {\bfseries push\+Layer} (const iT \&\+\_\+in)
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_a0584618a72876938a5d387a829575a5f}\label{classstd_1_1volume_a0584618a72876938a5d387a829575a5f}} 
+void {\bfseries pop\+Row} ()
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_ad86e4b284dc93fcb23c4506a211c48af}\label{classstd_1_1volume_ad86e4b284dc93fcb23c4506a211c48af}} 
+void {\bfseries pop\+Col} ()
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_a42c8334a4dc6840459b3ba3136599e66}\label{classstd_1_1volume_a42c8334a4dc6840459b3ba3136599e66}} 
+void {\bfseries pop\+Layer} ()
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_a8454aaaee5b6f14b6ab4421580ea3f5e}\label{classstd_1_1volume_a8454aaaee5b6f14b6ab4421580ea3f5e}} 
+void {\bfseries delete\+Row} (int \+\_\+r)
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_ab75d34d5b4664d879867c3acba61da39}\label{classstd_1_1volume_ab75d34d5b4664d879867c3acba61da39}} 
+void {\bfseries delete\+Col} (int \+\_\+c)
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_a19f3f00cd44be54e221ff4e243a7fd1b}\label{classstd_1_1volume_a19f3f00cd44be54e221ff4e243a7fd1b}} 
+void {\bfseries delete\+Layer} (int \+\_\+l)
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_a19c6ad8a69457c6df2445f889f1d0228}\label{classstd_1_1volume_a19c6ad8a69457c6df2445f889f1d0228}} 
+void {\bfseries reshape} (int \+\_\+new\+\_\+layers, int \+\_\+new\+\_\+rows, int \+\_\+new\+\_\+cols)
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_a4e992b92c8fdbb1f6e8767330139ee45}\label{classstd_1_1volume_a4e992b92c8fdbb1f6e8767330139ee45}} 
+void {\bfseries resize} (int \+\_\+new\+\_\+rows, int \+\_\+new\+\_\+cols, int \+\_\+new\+\_\+layers)
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_a1c638e849643c6757e65dd4c7c85af0e}\label{classstd_1_1volume_a1c638e849643c6757e65dd4c7c85af0e}} 
+void {\bfseries clear} ()
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_aa8b48f2b39bc47439a3d7a6b5760586a}\label{classstd_1_1volume_aa8b48f2b39bc47439a3d7a6b5760586a}} 
+vector$<$ T $>$\+::iterator {\bfseries begin} ()
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_a4cbac6855ad8675b694ff4af0f0620cf}\label{classstd_1_1volume_a4cbac6855ad8675b694ff4af0f0620cf}} 
+vector$<$ T $>$\+::iterator {\bfseries end} ()
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_a8af672ec4d6ac7c75487549320af236b}\label{classstd_1_1volume_a8af672ec4d6ac7c75487549320af236b}} 
+vector$<$ T $>$\+::const\+\_\+iterator {\bfseries begin} () const
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_acf21c4a60937b5e5ae6789d6f95f201e}\label{classstd_1_1volume_acf21c4a60937b5e5ae6789d6f95f201e}} 
+vector$<$ T $>$\+::const\+\_\+iterator {\bfseries end} () const
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_a7980f5c89e4ec28f4193d8d56345a288}\label{classstd_1_1volume_a7980f5c89e4ec28f4193d8d56345a288}} 
+{\footnotesize template$<$typename oT $>$ }\\{\bfseries operator const volume$<$ o\+T $>$} () const
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_a3bdafec36d19d098fc2f90216fc952d0}\label{classstd_1_1volume_a3bdafec36d19d098fc2f90216fc952d0}} 
+{\footnotesize template$<$typename oT $>$ }\\{\bfseries operator volume$<$ o\+T $>$} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_a8f29e44d723870a630c4de5e850c04bd}\label{classstd_1_1volume_a8f29e44d723870a630c4de5e850c04bd}} 
+int {\bfseries n\+Layers}
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_a98612238ab8217811bf9ddfa03ea1d47}\label{classstd_1_1volume_a98612238ab8217811bf9ddfa03ea1d47}} 
+int {\bfseries n\+Rows}
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_a631d973c12e831672b99132e814e3942}\label{classstd_1_1volume_a631d973c12e831672b99132e814e3942}} 
+int {\bfseries n\+Cols}
+\item 
+\mbox{\Hypertarget{classstd_1_1volume_a5fd00d2814b4c49870e1008fbca61045}\label{classstd_1_1volume_a5fd00d2814b4c49870e1008fbca61045}} 
+vector$<$ T $>$ {\bfseries data}
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/joao/\+Shared/\+PHD/code/ros/src/storage/include/storage/volume.\+hpp\end{DoxyCompactItemize}

@@ -1,0 +1,174 @@
+\hypertarget{classmotion_1_1_primitive_library}{}\doxysection{motion\+::Primitive\+Library Class Reference}
+\label{classmotion_1_1_primitive_library}\index{motion::PrimitiveLibrary@{motion::PrimitiveLibrary}}
+
+
+Class implementing a dynamic library of primitives.  
+
+
+
+
+{\ttfamily \#include $<$primitive.\+hpp$>$}
+
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classmotion_1_1_primitive_library_a65f2b275f5346f1fe5e315dd07edd018}\label{classmotion_1_1_primitive_library_a65f2b275f5346f1fe5e315dd07edd018}} 
+using {\bfseries Container} = std\+::vector$<$ \mbox{\hyperlink{classmotion_1_1_primitive}{Primitive}} $>$
+\begin{DoxyCompactList}\small\item\em Type of the underlying container. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classmotion_1_1_primitive_library_a665f13508acdc15a573be4d6f70ae0c7}\label{classmotion_1_1_primitive_library_a665f13508acdc15a573be4d6f70ae0c7}} 
+{\bfseries Primitive\+Library} ()=default
+\begin{DoxyCompactList}\small\item\em Constructs a new instance. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classmotion_1_1_primitive_library_a63631791cb7098cf65c972b6daed98c3}\label{classmotion_1_1_primitive_library_a63631791cb7098cf65c972b6daed98c3}} 
+virtual {\bfseries $\sim$\+Primitive\+Library} ()=default
+\begin{DoxyCompactList}\small\item\em Destroys the object. \end{DoxyCompactList}\item 
+size\+\_\+t \mbox{\hyperlink{classmotion_1_1_primitive_library_a65c247faf3080ef576cd4892d211b311}{size}} () const
+\begin{DoxyCompactList}\small\item\em Library size accessor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classmotion_1_1_primitive}{Primitive}} \& \mbox{\hyperlink{classmotion_1_1_primitive_library_a5fef7389d62107dc6d2dd7a8e3448020}{operator\mbox{[}$\,$\mbox{]}}} (size\+\_\+t pos)
+\begin{DoxyCompactList}\small\item\em Array indexer operator, to access a single primitive @ {\itshape pos}. \end{DoxyCompactList}\item 
+const \mbox{\hyperlink{classmotion_1_1_primitive}{Primitive}} \& \mbox{\hyperlink{classmotion_1_1_primitive_library_a31fb6cb80c1600e4ded13d9833d3f0c1}{operator\mbox{[}$\,$\mbox{]}}} (size\+\_\+t pos) const
+\begin{DoxyCompactList}\small\item\em Array indexer operator, to access a single primitive @ {\itshape pos} (const overload). \end{DoxyCompactList}\item 
+Container\+::iterator \mbox{\hyperlink{classmotion_1_1_primitive_library_ae1d5edfe047ee1e21407cb67777689bc}{begin}} ()
+\begin{DoxyCompactList}\small\item\em Get iterator to the beggining of the underlying container. \end{DoxyCompactList}\item 
+Container\+::iterator \mbox{\hyperlink{classmotion_1_1_primitive_library_aabb686e4573b5bd869358620a8c810d4}{end}} ()
+\begin{DoxyCompactList}\small\item\em Get iterator to the end of the underlying container. \end{DoxyCompactList}\item 
+std\+::vector$<$ float $>$ \mbox{\hyperlink{classmotion_1_1_primitive_library_adaf1e0eaee60d4a01ca0f56d08684d9c}{get}} (float phase, const \mbox{\hyperlink{classstd_1_1matrix}{std\+::matrix}}$<$ float $>$ \&weights)
+\begin{DoxyCompactList}\small\item\em Get primitive mix (weighted average) @ given {\itshape phase}. \end{DoxyCompactList}\item 
+std\+::vector$<$ float $>$ \mbox{\hyperlink{classmotion_1_1_primitive_library_a43bc150ae6592316fb246cfe81cf66e9}{get}} (float phase, const std\+::vector$<$ size\+\_\+t $>$ idx, const \mbox{\hyperlink{classstd_1_1matrix}{std\+::matrix}}$<$ float $>$ \&weights)
+\begin{DoxyCompactList}\small\item\em Get primitive mix (weighted average) @ given {\itshape phase}, for primitives @ {\itshape idx}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classmotion_1_1_primitive_library_a639bb0138d71bcbb55a800a50ffe689e}\label{classmotion_1_1_primitive_library_a639bb0138d71bcbb55a800a50ffe689e}} 
+std\+::vector$<$ \mbox{\hyperlink{classmotion_1_1_primitive}{Primitive}} $>$ {\bfseries primitives}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Class implementing a dynamic library of primitives. 
+
+\begin{DoxyNote}{Note}
+Wraps around a simple vector of \mbox{\hyperlink{classmotion_1_1_primitive}{Primitive}} instances, implementing mixing/averaging of different primitive for a specific dimension. 
+\end{DoxyNote}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classmotion_1_1_primitive_library_ae1d5edfe047ee1e21407cb67777689bc}\label{classmotion_1_1_primitive_library_ae1d5edfe047ee1e21407cb67777689bc}} 
+\index{motion::PrimitiveLibrary@{motion::PrimitiveLibrary}!begin@{begin}}
+\index{begin@{begin}!motion::PrimitiveLibrary@{motion::PrimitiveLibrary}}
+\doxysubsubsection{\texorpdfstring{begin()}{begin()}}
+{\footnotesize\ttfamily Primitive\+Library\+::\+Container\+::iterator motion\+::\+Primitive\+Library\+::begin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get iterator to the beggining of the underlying container. 
+
+\begin{DoxyNote}{Note}
+Useful for range-\/based for loops. 
+\end{DoxyNote}
+\mbox{\Hypertarget{classmotion_1_1_primitive_library_aabb686e4573b5bd869358620a8c810d4}\label{classmotion_1_1_primitive_library_aabb686e4573b5bd869358620a8c810d4}} 
+\index{motion::PrimitiveLibrary@{motion::PrimitiveLibrary}!end@{end}}
+\index{end@{end}!motion::PrimitiveLibrary@{motion::PrimitiveLibrary}}
+\doxysubsubsection{\texorpdfstring{end()}{end()}}
+{\footnotesize\ttfamily Primitive\+Library\+::\+Container\+::iterator motion\+::\+Primitive\+Library\+::end (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get iterator to the end of the underlying container. 
+
+\begin{DoxyNote}{Note}
+Useful for range-\/based for loops. 
+\end{DoxyNote}
+\mbox{\Hypertarget{classmotion_1_1_primitive_library_adaf1e0eaee60d4a01ca0f56d08684d9c}\label{classmotion_1_1_primitive_library_adaf1e0eaee60d4a01ca0f56d08684d9c}} 
+\index{motion::PrimitiveLibrary@{motion::PrimitiveLibrary}!get@{get}}
+\index{get@{get}!motion::PrimitiveLibrary@{motion::PrimitiveLibrary}}
+\doxysubsubsection{\texorpdfstring{get()}{get()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily std\+::vector$<$ float $>$ motion\+::\+Primitive\+Library\+::get (\begin{DoxyParamCaption}\item[{float}]{phase,  }\item[{const \mbox{\hyperlink{classstd_1_1matrix}{std\+::matrix}}$<$ float $>$ \&}]{weights }\end{DoxyParamCaption})}
+
+
+
+Get primitive mix (weighted average) @ given {\itshape phase}. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em phase} & Motion phase \\
+\hline
+\mbox{\texttt{ in}}  & {\em weights} & \mbox{\hyperlink{classmotion_1_1_primitive}{Primitive}} weights weights\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Vector w/ weighted output/state of primitives for each dimension. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classmotion_1_1_primitive_library_a43bc150ae6592316fb246cfe81cf66e9}\label{classmotion_1_1_primitive_library_a43bc150ae6592316fb246cfe81cf66e9}} 
+\index{motion::PrimitiveLibrary@{motion::PrimitiveLibrary}!get@{get}}
+\index{get@{get}!motion::PrimitiveLibrary@{motion::PrimitiveLibrary}}
+\doxysubsubsection{\texorpdfstring{get()}{get()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily std\+::vector$<$ float $>$ motion\+::\+Primitive\+Library\+::get (\begin{DoxyParamCaption}\item[{float}]{phase,  }\item[{const std\+::vector$<$ size\+\_\+t $>$}]{idx,  }\item[{const \mbox{\hyperlink{classstd_1_1matrix}{std\+::matrix}}$<$ float $>$ \&}]{weights }\end{DoxyParamCaption})}
+
+
+
+Get primitive mix (weighted average) @ given {\itshape phase}, for primitives @ {\itshape idx}. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em phase} & Motion phase \\
+\hline
+\mbox{\texttt{ in}}  & {\em idx} & The index \\
+\hline
+\mbox{\texttt{ in}}  & {\em weights} & \mbox{\hyperlink{classmotion_1_1_primitive}{Primitive}} weights weights\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\{ description\+\_\+of\+\_\+the\+\_\+return\+\_\+value \} 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classmotion_1_1_primitive_library_a5fef7389d62107dc6d2dd7a8e3448020}\label{classmotion_1_1_primitive_library_a5fef7389d62107dc6d2dd7a8e3448020}} 
+\index{motion::PrimitiveLibrary@{motion::PrimitiveLibrary}!operator\mbox{[}\mbox{]}@{operator[]}}
+\index{operator\mbox{[}\mbox{]}@{operator[]}!motion::PrimitiveLibrary@{motion::PrimitiveLibrary}}
+\doxysubsubsection{\texorpdfstring{operator[]()}{operator[]()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classmotion_1_1_primitive}{Primitive}} \& motion\+::\+Primitive\+Library\+::operator\mbox{[}$\,$\mbox{]} (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{pos }\end{DoxyParamCaption})}
+
+
+
+Array indexer operator, to access a single primitive @ {\itshape pos}. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em pos} & \mbox{\hyperlink{classmotion_1_1_primitive}{Primitive}} index. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classmotion_1_1_primitive_library_a31fb6cb80c1600e4ded13d9833d3f0c1}\label{classmotion_1_1_primitive_library_a31fb6cb80c1600e4ded13d9833d3f0c1}} 
+\index{motion::PrimitiveLibrary@{motion::PrimitiveLibrary}!operator\mbox{[}\mbox{]}@{operator[]}}
+\index{operator\mbox{[}\mbox{]}@{operator[]}!motion::PrimitiveLibrary@{motion::PrimitiveLibrary}}
+\doxysubsubsection{\texorpdfstring{operator[]()}{operator[]()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{classmotion_1_1_primitive}{Primitive}} \& motion\+::\+Primitive\+Library\+::operator\mbox{[}$\,$\mbox{]} (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{pos }\end{DoxyParamCaption}) const}
+
+
+
+Array indexer operator, to access a single primitive @ {\itshape pos} (const overload). 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em pos} & \mbox{\hyperlink{classmotion_1_1_primitive}{Primitive}} index. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classmotion_1_1_primitive_library_a65c247faf3080ef576cd4892d211b311}\label{classmotion_1_1_primitive_library_a65c247faf3080ef576cd4892d211b311}} 
+\index{motion::PrimitiveLibrary@{motion::PrimitiveLibrary}!size@{size}}
+\index{size@{size}!motion::PrimitiveLibrary@{motion::PrimitiveLibrary}}
+\doxysubsubsection{\texorpdfstring{size()}{size()}}
+{\footnotesize\ttfamily size\+\_\+t motion\+::\+Primitive\+Library\+::size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Library size accessor. 
+
+\begin{DoxyReturn}{Returns}
+Number of primitives in library 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/joao/\+Shared/\+PHD/code/motion/include/motion/primitive.\+hpp\item 
+/home/joao/\+Shared/\+PHD/code/motion/src/primitive.\+cpp\end{DoxyCompactItemize}

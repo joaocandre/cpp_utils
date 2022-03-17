@@ -1,0 +1,484 @@
+\hypertarget{classmotion_1_1_primitive}{}\doxysection{motion\+::Primitive Class Reference}
+\label{classmotion_1_1_primitive}\index{motion::Primitive@{motion::Primitive}}
+
+
+Class implementing a versatile motion primitive as a linear combination of non-\/linear basis functions.  
+
+
+
+
+{\ttfamily \#include $<$primitive.\+hpp$>$}
+
+
+
+Inheritance diagram for motion\+::Primitive\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=179pt]{classmotion_1_1_primitive__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for motion\+::Primitive\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=179pt]{classmotion_1_1_primitive__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classmotion_1_1_primitive_a9c1e625626cf15a786ef42f2f74d4d6d}\label{classmotion_1_1_primitive_a9c1e625626cf15a786ef42f2f74d4d6d}} 
+using {\bfseries Parameters} = std\+::vector$<$ float $>$
+\item 
+\mbox{\Hypertarget{classmotion_1_1_primitive_a4e9df2a261fc4b77a5e6e8a578c7e700}\label{classmotion_1_1_primitive_a4e9df2a261fc4b77a5e6e8a578c7e700}} 
+using {\bfseries Library} = \mbox{\hyperlink{classmotion_1_1_archive}{Archive}}$<$ \mbox{\hyperlink{classmotion_1_1_primitive}{Primitive}} $>$
+\begin{DoxyCompactList}\small\item\em Utility container type, for handling multiple \mbox{\hyperlink{classmotion_1_1_primitive}{Primitive}} instances. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classmotion_1_1_primitive_ad9397da11be4fd7c446452f1832141d5}{Primitive}} (const std\+::vector$<$ \mbox{\hyperlink{classmotion_1_1_basis_function}{Basis\+Function}} $>$ \&\mbox{\hyperlink{classmotion_1_1_primitive_a8a4aaa71eb97432c6e2875bdd53416e9}{basis}}=\{ \})
+\begin{DoxyCompactList}\small\item\em Constructs a new instance. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classmotion_1_1_primitive_af1f5508eb100f913c6b77a12ea159773}{Primitive}} (size\+\_\+t n\+\_\+basis, const \mbox{\hyperlink{classmotion_1_1_basis_function_ab1ed806bf75d66b549bb10c922598d21}{Basis\+Function\+::\+Kernel}} \&kernel, const std\+::vector$<$ \mbox{\hyperlink{structmotion_1_1_basis_function_1_1_parameters}{Basis\+Function\+::\+Parameters}} $>$ \&parameters)
+\begin{DoxyCompactList}\small\item\em Constructs a new combination of same-\/type basis functions, from kernel \& basis parameters. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classmotion_1_1_primitive_aad36f96a7b628f1a2bfada5c1654ac5a}{Primitive}} (size\+\_\+t n\+\_\+basis, const \mbox{\hyperlink{classmotion_1_1_basis_function_ab1ed806bf75d66b549bb10c922598d21}{Basis\+Function\+::\+Kernel}} \&kernel, float lbound, float ubound, float width=2.\+0, bool cyclic=false)
+\begin{DoxyCompactList}\small\item\em Static named constructor that creates a new combination of same-\/type basis functions, centered at equidistant positions from given {\itshape lbound} to given {\itshape ubound}. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename... Args, typename  = typename std\+::enable\+\_\+if$<$ std\+::is\+\_\+constructible$<$ Basis\+Function, Args... $>$\+::value $>$\+::type$>$ }\\\mbox{\hyperlink{classmotion_1_1_primitive_af066a049ca10712c73c6011a0a2fd48e}{Primitive}} (size\+\_\+t n\+\_\+basis, Args \&\&... args)
+\begin{DoxyCompactList}\small\item\em Constructs a new combination of same-\/type equally parametrized basis functions, from \mbox{\hyperlink{classmotion_1_1_basis_function}{Basis\+Function}} constructor arguments. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classmotion_1_1_primitive_a8642e72f3df3c65d5d7f93e2cfe5bc06}\label{classmotion_1_1_primitive_a8642e72f3df3c65d5d7f93e2cfe5bc06}} 
+size\+\_\+t {\bfseries size} () const
+\begin{DoxyCompactList}\small\item\em Get number of basis functions in combination. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classmotion_1_1_primitive_a8a4aaa71eb97432c6e2875bdd53416e9}\label{classmotion_1_1_primitive_a8a4aaa71eb97432c6e2875bdd53416e9}} 
+const std\+::vector$<$ \mbox{\hyperlink{classmotion_1_1_basis_function}{Basis\+Function}} $>$ \& {\bfseries basis} () const
+\begin{DoxyCompactList}\small\item\em Access underlying basis functions in combination. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classmotion_1_1_primitive_a53f9630c8b36a476bbda3a13535f250d}\label{classmotion_1_1_primitive_a53f9630c8b36a476bbda3a13535f250d}} 
+const std\+::vector$<$ float $>$ \& {\bfseries weights} () const
+\begin{DoxyCompactList}\small\item\em Access underlying basis function weights. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classmotion_1_1_primitive_a171a9c570dc890a6408078cb783adeb1}{set\+Parameters}} (const std\+::vector$<$ \mbox{\hyperlink{structmotion_1_1_basis_function_1_1_parameters}{Basis\+Function\+::\+Parameters}} $>$ \&parameters)
+\begin{DoxyCompactList}\small\item\em Sets basis function parameters i.\+e. centers {\itshape and} widths. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classmotion_1_1_primitive_a13038ec322871762dd3040f26f97ca5b}{set\+Centers}} (const std\+::vector$<$ float $>$ \&centers)
+\begin{DoxyCompactList}\small\item\em Sets basis function centers (positions). \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classmotion_1_1_primitive_ac064680032a896e356d87a5dc36e481e}{set\+Widths}} (const std\+::vector$<$ float $>$ \&widths)
+\begin{DoxyCompactList}\small\item\em Sets basis function widths. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classmotion_1_1_primitive_a458bf2ee2aea22ddd4cf82baef183491}{set\+Weights}} (const std\+::vector$<$ float $>$ \&\mbox{\hyperlink{classmotion_1_1_primitive_a53f9630c8b36a476bbda3a13535f250d}{weights}})
+\begin{DoxyCompactList}\small\item\em Sets basis function weights for combination. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classmotion_1_1_basis_function}{Basis\+Function}} \& \mbox{\hyperlink{classmotion_1_1_primitive_ae9a0989e2318c789dc85cb1a0950b985}{operator\mbox{[}$\,$\mbox{]}}} (size\+\_\+t pos)
+\begin{DoxyCompactList}\small\item\em Array indexer operator, accessing basis function @ given {\itshape pos}. \end{DoxyCompactList}\item 
+const \mbox{\hyperlink{classmotion_1_1_basis_function}{Basis\+Function}} \& \mbox{\hyperlink{classmotion_1_1_primitive_af7459e7c1a54ae10dbcef6120eb8be52}{operator\mbox{[}$\,$\mbox{]}}} (size\+\_\+t pos) const
+\begin{DoxyCompactList}\small\item\em Array indexer operator, accessing basis function @ given {\itshape pos} (const overload). \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename... Args, typename  = typename std\+::enable\+\_\+if$<$ std\+::is\+\_\+constructible$<$ Basis\+Function, Args... $>$\+::value $>$\+::type$>$ }\\void \mbox{\hyperlink{classmotion_1_1_primitive_af7cb3e9de1f9dba0c7e4a6fa27c2ea80}{add\+Basis}} (float weight, Args \&\&... args)
+\begin{DoxyCompactList}\small\item\em Adds a basis function to the combination. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classmotion_1_1_primitive_a91f56969ab6cb5d9335571955fc74188}{remove\+Basis}} (size\+\_\+t pos)
+\begin{DoxyCompactList}\small\item\em Removes basis. \end{DoxyCompactList}\item 
+std\+::vector$<$ float $>$ \mbox{\hyperlink{classmotion_1_1_primitive_ab01770a587e5206c3868da23af451986}{values}} (float phase) const
+\begin{DoxyCompactList}\small\item\em Compute output of each basis function @ given {\itshape phase}. \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{classmotion_1_1_primitive_ace87f16f071c38ded29dbc188bafbc52}{value}} (float phase) const
+\begin{DoxyCompactList}\small\item\em Computes global combination value (weigthed across all basis functions in combination). \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{classmotion_1_1_primitive_a7ca0aba6c3901f53510e890184c1ca79}{operator()}} (float phase) const
+\begin{DoxyCompactList}\small\item\em Computes global combination value (weigthed across all basis functions in combination). \end{DoxyCompactList}\item 
+std\+::vector$<$ \mbox{\hyperlink{classmotion_1_1_basis_function}{Basis\+Function}} $>$\+::iterator \mbox{\hyperlink{classmotion_1_1_primitive_af60335c702464ff016c19b10fcbe5db1}{begin}} ()
+\begin{DoxyCompactList}\small\item\em Get iterator to the beginning of the underlying container. \end{DoxyCompactList}\item 
+std\+::vector$<$ \mbox{\hyperlink{classmotion_1_1_basis_function}{Basis\+Function}} $>$\+::const\+\_\+iterator \mbox{\hyperlink{classmotion_1_1_primitive_a11dfb95d1f7ea88cd9bcc95e53663561}{begin}} () const
+\begin{DoxyCompactList}\small\item\em Get iterator to the beginning of the underlying container (const overload). \end{DoxyCompactList}\item 
+std\+::vector$<$ \mbox{\hyperlink{classmotion_1_1_basis_function}{Basis\+Function}} $>$\+::iterator \mbox{\hyperlink{classmotion_1_1_primitive_acce5251c7e2b01febed63b49327bde3c}{end}} ()
+\begin{DoxyCompactList}\small\item\em Get iterator to the end of the underlying container. \end{DoxyCompactList}\item 
+std\+::vector$<$ \mbox{\hyperlink{classmotion_1_1_basis_function}{Basis\+Function}} $>$\+::const\+\_\+iterator \mbox{\hyperlink{classmotion_1_1_primitive_af78839240d813d7d0e7a5dd223ef352d}{end}} () const
+\begin{DoxyCompactList}\small\item\em Get iterator to the end of the underlying container (const overload). \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename T , typename  = typename std\+::enable\+\_\+if$<$ std\+::is\+\_\+arithmetic$<$ T $>$\+::value $>$\+::type$>$ }\\\mbox{\hyperlink{classmotion_1_1_primitive}{Primitive}} \& \mbox{\hyperlink{classmotion_1_1_primitive_a0886711609103aa726ce93ff6aadf303}{operator$\ast$=}} (const T \&val)
+\begin{DoxyCompactList}\small\item\em Compound multiplication operator overload. Scales primitive weights (linearly) with given {\itshape value}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classmotion_1_1_primitive_a75ca0fe4fe25fb6591c833260e1836cf}\label{classmotion_1_1_primitive_a75ca0fe4fe25fb6591c833260e1836cf}} 
+std\+::vector$<$ \mbox{\hyperlink{classmotion_1_1_basis_function}{Basis\+Function}} $>$ {\bfseries \+\_\+basis\+\_\+functions}
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classmotion_1_1_primitive}{Primitive}} basis functions. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classmotion_1_1_primitive_a5e286baff7dae2901191b3c9ef86f0f5}\label{classmotion_1_1_primitive_a5e286baff7dae2901191b3c9ef86f0f5}} 
+std\+::vector$<$ float $>$ {\bfseries \+\_\+basis\+\_\+weights}
+\begin{DoxyCompactList}\small\item\em Weights for each basis function. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Class implementing a versatile motion primitive as a linear combination of non-\/linear basis functions. 
+
+\begin{DoxyNote}{Note}
+Useful to encode trajectores of varying complexity in a parametrized policy representation. For higher order trajectories, higher number of basis can be used, at the cost of higher dimensionality. 
+\end{DoxyNote}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classmotion_1_1_primitive_ad9397da11be4fd7c446452f1832141d5}\label{classmotion_1_1_primitive_ad9397da11be4fd7c446452f1832141d5}} 
+\index{motion::Primitive@{motion::Primitive}!Primitive@{Primitive}}
+\index{Primitive@{Primitive}!motion::Primitive@{motion::Primitive}}
+\doxysubsubsection{\texorpdfstring{Primitive()}{Primitive()}\hspace{0.1cm}{\footnotesize\ttfamily [1/4]}}
+{\footnotesize\ttfamily motion\+::\+Primitive\+::\+Primitive (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ \mbox{\hyperlink{classmotion_1_1_basis_function}{Basis\+Function}} $>$ \&}]{basis = {\ttfamily \{~~\}} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+
+
+Constructs a new instance. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em basis} & Basis to initialize combination. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classmotion_1_1_primitive_af1f5508eb100f913c6b77a12ea159773}\label{classmotion_1_1_primitive_af1f5508eb100f913c6b77a12ea159773}} 
+\index{motion::Primitive@{motion::Primitive}!Primitive@{Primitive}}
+\index{Primitive@{Primitive}!motion::Primitive@{motion::Primitive}}
+\doxysubsubsection{\texorpdfstring{Primitive()}{Primitive()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
+{\footnotesize\ttfamily motion\+::\+Primitive\+::\+Primitive (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{n\+\_\+basis,  }\item[{const \mbox{\hyperlink{classmotion_1_1_basis_function_ab1ed806bf75d66b549bb10c922598d21}{Basis\+Function\+::\+Kernel}} \&}]{kernel,  }\item[{const std\+::vector$<$ \mbox{\hyperlink{structmotion_1_1_basis_function_1_1_parameters}{Basis\+Function\+::\+Parameters}} $>$ \&}]{parameters }\end{DoxyParamCaption})}
+
+
+
+Constructs a new combination of same-\/type basis functions, from kernel \& basis parameters. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em n\+\_\+basis} & Number of basis functions. \\
+\hline
+\mbox{\texttt{ in}}  & {\em kernel} & Kernel to use when initializing basis functions. \\
+\hline
+\mbox{\texttt{ in}}  & {\em parameters} & Vector of basis functions parameters \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classmotion_1_1_primitive_aad36f96a7b628f1a2bfada5c1654ac5a}\label{classmotion_1_1_primitive_aad36f96a7b628f1a2bfada5c1654ac5a}} 
+\index{motion::Primitive@{motion::Primitive}!Primitive@{Primitive}}
+\index{Primitive@{Primitive}!motion::Primitive@{motion::Primitive}}
+\doxysubsubsection{\texorpdfstring{Primitive()}{Primitive()}\hspace{0.1cm}{\footnotesize\ttfamily [3/4]}}
+{\footnotesize\ttfamily motion\+::\+Primitive\+::\+Primitive (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{n\+\_\+basis,  }\item[{const \mbox{\hyperlink{classmotion_1_1_basis_function_ab1ed806bf75d66b549bb10c922598d21}{Basis\+Function\+::\+Kernel}} \&}]{kernel,  }\item[{float}]{lbound,  }\item[{float}]{ubound,  }\item[{float}]{width = {\ttfamily 2.0},  }\item[{bool}]{cyclic = {\ttfamily false} }\end{DoxyParamCaption})}
+
+
+
+Static named constructor that creates a new combination of same-\/type basis functions, centered at equidistant positions from given {\itshape lbound} to given {\itshape ubound}. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em n\+\_\+basis} & Number of basis functions. \\
+\hline
+\mbox{\texttt{ in}}  & {\em kernel} & Kernel to use when initializing basis functions. \\
+\hline
+\mbox{\texttt{ in}}  & {\em lbound} & Phase space lower boundary. \\
+\hline
+\mbox{\texttt{ in}}  & {\em ubound} & Phase space upper boundary. \\
+\hline
+\mbox{\texttt{ in}}  & {\em width} & Basis width. Defaults to 2.\+0. \\
+\hline
+\mbox{\texttt{ in}}  & {\em cyclic} & Cyclic phase flag. If true, assumes kernel return @ lbound == @ubound and ignores upper bound. Defaults to false. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classmotion_1_1_primitive_af066a049ca10712c73c6011a0a2fd48e}\label{classmotion_1_1_primitive_af066a049ca10712c73c6011a0a2fd48e}} 
+\index{motion::Primitive@{motion::Primitive}!Primitive@{Primitive}}
+\index{Primitive@{Primitive}!motion::Primitive@{motion::Primitive}}
+\doxysubsubsection{\texorpdfstring{Primitive()}{Primitive()}\hspace{0.1cm}{\footnotesize\ttfamily [4/4]}}
+{\footnotesize\ttfamily template$<$typename... Args, typename  = typename std\+::enable\+\_\+if$<$ std\+::is\+\_\+constructible$<$ Basis\+Function, Args... $>$\+::value $>$\+::type$>$ \\
+motion\+::\+Primitive\+::\+Primitive (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{n\+\_\+basis,  }\item[{Args \&\&...}]{args }\end{DoxyParamCaption})}
+
+
+
+Constructs a new combination of same-\/type equally parametrized basis functions, from \mbox{\hyperlink{classmotion_1_1_basis_function}{Basis\+Function}} constructor arguments. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em n\+\_\+basis} & Number of basis functions. \\
+\hline
+\mbox{\texttt{ in}}  & {\em arg} & Variadic parameter pack with arguments used to instantiate basis functions.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+Forwards {\itshape args} to \mbox{\hyperlink{classmotion_1_1_basis_function}{Basis\+Function}} constructor, therefore capturing copy constructor as well. 
+\end{DoxyNote}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classmotion_1_1_primitive_af7cb3e9de1f9dba0c7e4a6fa27c2ea80}\label{classmotion_1_1_primitive_af7cb3e9de1f9dba0c7e4a6fa27c2ea80}} 
+\index{motion::Primitive@{motion::Primitive}!addBasis@{addBasis}}
+\index{addBasis@{addBasis}!motion::Primitive@{motion::Primitive}}
+\doxysubsubsection{\texorpdfstring{addBasis()}{addBasis()}}
+{\footnotesize\ttfamily template$<$typename... Args, typename  = typename std\+::enable\+\_\+if$<$ std\+::is\+\_\+constructible$<$ Basis\+Function, Args... $>$\+::value $>$\+::type$>$ \\
+void motion\+::\+Primitive\+::add\+Basis (\begin{DoxyParamCaption}\item[{float}]{weight,  }\item[{Args \&\&...}]{args }\end{DoxyParamCaption})}
+
+
+
+Adds a basis function to the combination. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em weight} & Basis weight (in linear combination) \\
+\hline
+\mbox{\texttt{ in}}  & {\em args} & Variadic parameter pack with arguments used to instantiate basis functions. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classmotion_1_1_primitive_af60335c702464ff016c19b10fcbe5db1}\label{classmotion_1_1_primitive_af60335c702464ff016c19b10fcbe5db1}} 
+\index{motion::Primitive@{motion::Primitive}!begin@{begin}}
+\index{begin@{begin}!motion::Primitive@{motion::Primitive}}
+\doxysubsubsection{\texorpdfstring{begin()}{begin()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily std\+::vector$<$ \mbox{\hyperlink{classmotion_1_1_basis_function}{Basis\+Function}} $>$\+::iterator motion\+::\+Primitive\+::begin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get iterator to the beginning of the underlying container. 
+
+\begin{DoxyNote}{Note}
+Useful for range-\/based for loops. 
+\end{DoxyNote}
+\mbox{\Hypertarget{classmotion_1_1_primitive_a11dfb95d1f7ea88cd9bcc95e53663561}\label{classmotion_1_1_primitive_a11dfb95d1f7ea88cd9bcc95e53663561}} 
+\index{motion::Primitive@{motion::Primitive}!begin@{begin}}
+\index{begin@{begin}!motion::Primitive@{motion::Primitive}}
+\doxysubsubsection{\texorpdfstring{begin()}{begin()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily std\+::vector$<$ \mbox{\hyperlink{classmotion_1_1_basis_function}{Basis\+Function}} $>$\+::const\+\_\+iterator motion\+::\+Primitive\+::begin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get iterator to the beginning of the underlying container (const overload). 
+
+\begin{DoxyNote}{Note}
+Useful for range-\/based for loops. 
+\end{DoxyNote}
+\mbox{\Hypertarget{classmotion_1_1_primitive_acce5251c7e2b01febed63b49327bde3c}\label{classmotion_1_1_primitive_acce5251c7e2b01febed63b49327bde3c}} 
+\index{motion::Primitive@{motion::Primitive}!end@{end}}
+\index{end@{end}!motion::Primitive@{motion::Primitive}}
+\doxysubsubsection{\texorpdfstring{end()}{end()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily std\+::vector$<$ \mbox{\hyperlink{classmotion_1_1_basis_function}{Basis\+Function}} $>$\+::iterator motion\+::\+Primitive\+::end (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get iterator to the end of the underlying container. 
+
+\begin{DoxyNote}{Note}
+Useful for range-\/based for loops. 
+\end{DoxyNote}
+\mbox{\Hypertarget{classmotion_1_1_primitive_af78839240d813d7d0e7a5dd223ef352d}\label{classmotion_1_1_primitive_af78839240d813d7d0e7a5dd223ef352d}} 
+\index{motion::Primitive@{motion::Primitive}!end@{end}}
+\index{end@{end}!motion::Primitive@{motion::Primitive}}
+\doxysubsubsection{\texorpdfstring{end()}{end()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily std\+::vector$<$ \mbox{\hyperlink{classmotion_1_1_basis_function}{Basis\+Function}} $>$\+::const\+\_\+iterator motion\+::\+Primitive\+::end (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get iterator to the end of the underlying container (const overload). 
+
+\begin{DoxyNote}{Note}
+Useful for range-\/based for loops. 
+\end{DoxyNote}
+\mbox{\Hypertarget{classmotion_1_1_primitive_a7ca0aba6c3901f53510e890184c1ca79}\label{classmotion_1_1_primitive_a7ca0aba6c3901f53510e890184c1ca79}} 
+\index{motion::Primitive@{motion::Primitive}!operator()@{operator()}}
+\index{operator()@{operator()}!motion::Primitive@{motion::Primitive}}
+\doxysubsubsection{\texorpdfstring{operator()()}{operator()()}}
+{\footnotesize\ttfamily float motion\+::\+Primitive\+::operator() (\begin{DoxyParamCaption}\item[{float}]{phase }\end{DoxyParamCaption}) const}
+
+
+
+Computes global combination value (weigthed across all basis functions in combination). 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em phase} & Phase value (input)\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+Overload provided for parenthesis operator for convenience/verbosity. 
+\end{DoxyNote}
+\mbox{\Hypertarget{classmotion_1_1_primitive_a0886711609103aa726ce93ff6aadf303}\label{classmotion_1_1_primitive_a0886711609103aa726ce93ff6aadf303}} 
+\index{motion::Primitive@{motion::Primitive}!operator$\ast$=@{operator$\ast$=}}
+\index{operator$\ast$=@{operator$\ast$=}!motion::Primitive@{motion::Primitive}}
+\doxysubsubsection{\texorpdfstring{operator$\ast$=()}{operator*=()}}
+{\footnotesize\ttfamily template$<$typename T , typename  = typename std\+::enable\+\_\+if$<$ std\+::is\+\_\+arithmetic$<$ T $>$\+::value $>$\+::type$>$ \\
+\mbox{\hyperlink{classmotion_1_1_primitive}{Primitive}} \& motion\+::\+Primitive\+::operator$\ast$= (\begin{DoxyParamCaption}\item[{const T \&}]{val }\end{DoxyParamCaption})}
+
+
+
+Compound multiplication operator overload. Scales primitive weights (linearly) with given {\itshape value}. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em val} & Value to multiply with primitive weigths.\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & Type of input argument. {\itshape Must} be an arithmetic type e.\+g. float, double, int. \\
+\hline
+\end{DoxyTemplParams}
+\mbox{\Hypertarget{classmotion_1_1_primitive_ae9a0989e2318c789dc85cb1a0950b985}\label{classmotion_1_1_primitive_ae9a0989e2318c789dc85cb1a0950b985}} 
+\index{motion::Primitive@{motion::Primitive}!operator\mbox{[}\mbox{]}@{operator[]}}
+\index{operator\mbox{[}\mbox{]}@{operator[]}!motion::Primitive@{motion::Primitive}}
+\doxysubsubsection{\texorpdfstring{operator[]()}{operator[]()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classmotion_1_1_basis_function}{Basis\+Function}} \& motion\+::\+Primitive\+::operator\mbox{[}$\,$\mbox{]} (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{pos }\end{DoxyParamCaption})}
+
+
+
+Array indexer operator, accessing basis function @ given {\itshape pos}. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em pos} & Basis function position\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Reference to underlying basis @ given position.
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em std\+::invalid\+\_\+argument} & if {\itshape pos} \texorpdfstring{$>$}{>}= \mbox{\hyperlink{classmotion_1_1_primitive_a8642e72f3df3c65d5d7f93e2cfe5bc06}{size()}}. \\
+\hline
+\end{DoxyExceptions}
+\mbox{\Hypertarget{classmotion_1_1_primitive_af7459e7c1a54ae10dbcef6120eb8be52}\label{classmotion_1_1_primitive_af7459e7c1a54ae10dbcef6120eb8be52}} 
+\index{motion::Primitive@{motion::Primitive}!operator\mbox{[}\mbox{]}@{operator[]}}
+\index{operator\mbox{[}\mbox{]}@{operator[]}!motion::Primitive@{motion::Primitive}}
+\doxysubsubsection{\texorpdfstring{operator[]()}{operator[]()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{classmotion_1_1_basis_function}{Basis\+Function}} \& motion\+::\+Primitive\+::operator\mbox{[}$\,$\mbox{]} (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{pos }\end{DoxyParamCaption}) const}
+
+
+
+Array indexer operator, accessing basis function @ given {\itshape pos} (const overload). 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em pos} & Basis function position\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Const reference to underlying basis @ given position.
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em std\+::invalid\+\_\+argument} & if {\itshape pos} \texorpdfstring{$>$}{>}= \mbox{\hyperlink{classmotion_1_1_primitive_a8642e72f3df3c65d5d7f93e2cfe5bc06}{size()}}. \\
+\hline
+\end{DoxyExceptions}
+\mbox{\Hypertarget{classmotion_1_1_primitive_a91f56969ab6cb5d9335571955fc74188}\label{classmotion_1_1_primitive_a91f56969ab6cb5d9335571955fc74188}} 
+\index{motion::Primitive@{motion::Primitive}!removeBasis@{removeBasis}}
+\index{removeBasis@{removeBasis}!motion::Primitive@{motion::Primitive}}
+\doxysubsubsection{\texorpdfstring{removeBasis()}{removeBasis()}}
+{\footnotesize\ttfamily void motion\+::\+Primitive\+::remove\+Basis (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{pos }\end{DoxyParamCaption})}
+
+
+
+Removes basis. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em pos} & Position of basis function to remove. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classmotion_1_1_primitive_a13038ec322871762dd3040f26f97ca5b}\label{classmotion_1_1_primitive_a13038ec322871762dd3040f26f97ca5b}} 
+\index{motion::Primitive@{motion::Primitive}!setCenters@{setCenters}}
+\index{setCenters@{setCenters}!motion::Primitive@{motion::Primitive}}
+\doxysubsubsection{\texorpdfstring{setCenters()}{setCenters()}}
+{\footnotesize\ttfamily void motion\+::\+Primitive\+::set\+Centers (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ float $>$ \&}]{centers }\end{DoxyParamCaption})}
+
+
+
+Sets basis function centers (positions). 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em centers} & Vector of center values for each basis function.\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em std\+::invalid\+\_\+argument} & if length of input vector does not match \mbox{\hyperlink{classmotion_1_1_primitive_a8642e72f3df3c65d5d7f93e2cfe5bc06}{size()}}. \\
+\hline
+\end{DoxyExceptions}
+\mbox{\Hypertarget{classmotion_1_1_primitive_a171a9c570dc890a6408078cb783adeb1}\label{classmotion_1_1_primitive_a171a9c570dc890a6408078cb783adeb1}} 
+\index{motion::Primitive@{motion::Primitive}!setParameters@{setParameters}}
+\index{setParameters@{setParameters}!motion::Primitive@{motion::Primitive}}
+\doxysubsubsection{\texorpdfstring{setParameters()}{setParameters()}}
+{\footnotesize\ttfamily void motion\+::\+Primitive\+::set\+Parameters (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ \mbox{\hyperlink{structmotion_1_1_basis_function_1_1_parameters}{Basis\+Function\+::\+Parameters}} $>$ \&}]{parameters }\end{DoxyParamCaption})}
+
+
+
+Sets basis function parameters i.\+e. centers {\itshape and} widths. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em parameters} & Vector of \mbox{\hyperlink{structmotion_1_1_basis_function_1_1_parameters}{Basis\+Function\+::\+Parameters}} instances to assign to underlying basis.\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em std\+::invalid\+\_\+argument} & if length of input vector does not match \mbox{\hyperlink{classmotion_1_1_primitive_a8642e72f3df3c65d5d7f93e2cfe5bc06}{size()}}. \\
+\hline
+\end{DoxyExceptions}
+\mbox{\Hypertarget{classmotion_1_1_primitive_a458bf2ee2aea22ddd4cf82baef183491}\label{classmotion_1_1_primitive_a458bf2ee2aea22ddd4cf82baef183491}} 
+\index{motion::Primitive@{motion::Primitive}!setWeights@{setWeights}}
+\index{setWeights@{setWeights}!motion::Primitive@{motion::Primitive}}
+\doxysubsubsection{\texorpdfstring{setWeights()}{setWeights()}}
+{\footnotesize\ttfamily void motion\+::\+Primitive\+::set\+Weights (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ float $>$ \&}]{weights }\end{DoxyParamCaption})}
+
+
+
+Sets basis function weights for combination. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em centers} & Vector of weigth values for each basis function.\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em std\+::invalid\+\_\+argument} & if length of input vector does not match \mbox{\hyperlink{classmotion_1_1_primitive_a8642e72f3df3c65d5d7f93e2cfe5bc06}{size()}}. \\
+\hline
+\end{DoxyExceptions}
+\mbox{\Hypertarget{classmotion_1_1_primitive_ac064680032a896e356d87a5dc36e481e}\label{classmotion_1_1_primitive_ac064680032a896e356d87a5dc36e481e}} 
+\index{motion::Primitive@{motion::Primitive}!setWidths@{setWidths}}
+\index{setWidths@{setWidths}!motion::Primitive@{motion::Primitive}}
+\doxysubsubsection{\texorpdfstring{setWidths()}{setWidths()}}
+{\footnotesize\ttfamily void motion\+::\+Primitive\+::set\+Widths (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ float $>$ \&}]{widths }\end{DoxyParamCaption})}
+
+
+
+Sets basis function widths. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em centers} & Vector of width values for each basis function.\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em std\+::invalid\+\_\+argument} & if length of input vector does not match \mbox{\hyperlink{classmotion_1_1_primitive_a8642e72f3df3c65d5d7f93e2cfe5bc06}{size()}}. \\
+\hline
+\end{DoxyExceptions}
+\mbox{\Hypertarget{classmotion_1_1_primitive_ace87f16f071c38ded29dbc188bafbc52}\label{classmotion_1_1_primitive_ace87f16f071c38ded29dbc188bafbc52}} 
+\index{motion::Primitive@{motion::Primitive}!value@{value}}
+\index{value@{value}!motion::Primitive@{motion::Primitive}}
+\doxysubsubsection{\texorpdfstring{value()}{value()}}
+{\footnotesize\ttfamily float motion\+::\+Primitive\+::value (\begin{DoxyParamCaption}\item[{float}]{phase }\end{DoxyParamCaption}) const}
+
+
+
+Computes global combination value (weigthed across all basis functions in combination). 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em phase} & Phase value (input) \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classmotion_1_1_primitive_ab01770a587e5206c3868da23af451986}\label{classmotion_1_1_primitive_ab01770a587e5206c3868da23af451986}} 
+\index{motion::Primitive@{motion::Primitive}!values@{values}}
+\index{values@{values}!motion::Primitive@{motion::Primitive}}
+\doxysubsubsection{\texorpdfstring{values()}{values()}}
+{\footnotesize\ttfamily std\+::vector$<$ float $>$ motion\+::\+Primitive\+::values (\begin{DoxyParamCaption}\item[{float}]{phase }\end{DoxyParamCaption}) const}
+
+
+
+Compute output of each basis function @ given {\itshape phase}. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em phase} & Phase value (input)\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Vector of output values matching number of basis function in combination. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/joao/\+Shared/\+PHD/code/mplibrary/include/mplibrary/primitive.\+hpp\item 
+/home/joao/\+Shared/\+PHD/code/mplibrary/src/primitive.\+cpp\end{DoxyCompactItemize}

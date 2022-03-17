@@ -1,0 +1,946 @@
+\hypertarget{indexer_8hpp_source}{}\doxysection{indexer.\+hpp}
+\label{indexer_8hpp_source}\index{/home/joao/Shared/PHD/code/ros/src/storage/include/storage/indexer.hpp@{/home/joao/Shared/PHD/code/ros/src/storage/include/storage/indexer.hpp}}
+\mbox{\hyperlink{indexer_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{15 \textcolor{comment}{}\textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{16 }
+\DoxyCodeLine{17 \textcolor{preprocessor}{\#ifndef TRIGNOCLIENT\_INCLUDE\_TRIGNOCLIENT\_STD\_INDEXER\_HPP\_}}
+\DoxyCodeLine{18 \textcolor{preprocessor}{\#define TRIGNOCLIENT\_INCLUDE\_TRIGNOCLIENT\_STD\_INDEXER\_HPP\_}}
+\DoxyCodeLine{19 }
+\DoxyCodeLine{20 \textcolor{preprocessor}{\#include <vector>}}
+\DoxyCodeLine{21 \textcolor{preprocessor}{\#include <type\_traits>}}
+\DoxyCodeLine{22 \textcolor{preprocessor}{\#include <cassert>}}
+\DoxyCodeLine{23 \textcolor{preprocessor}{\#include <utility>}}
+\DoxyCodeLine{24 \textcolor{preprocessor}{\#include <exception>}}
+\DoxyCodeLine{25 \textcolor{preprocessor}{\#include <initializer\_list>}}
+\DoxyCodeLine{26 \textcolor{preprocessor}{\#include <algorithm>}}
+\DoxyCodeLine{27 \textcolor{preprocessor}{\#include "{}type\_check.hpp"{}}      \textcolor{comment}{// std::can\_apply<>}}
+\DoxyCodeLine{28 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{tagged_8hpp}{tagged.hpp}}"{}}          \textcolor{comment}{// std::tagged<>}}
+\DoxyCodeLine{29 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{cast__iterator_8hpp}{cast\_iterator.hpp}}"{}}   \textcolor{comment}{// std::cast\_iterator<>}}
+\DoxyCodeLine{30 \textcolor{preprocessor}{\#include "{}range\_iterator.hpp"{}}  \textcolor{comment}{// std::range\_iterator<>}}
+\DoxyCodeLine{31 }
+\DoxyCodeLine{32 \textcolor{keyword}{namespace }std \{}
+\DoxyCodeLine{33 }
+\DoxyCodeLine{34 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{44 \textcolor{comment}{}\textcolor{keyword}{template} < \textcolor{keyword}{class} T >}
+\DoxyCodeLine{45 \textcolor{keyword}{using} \mbox{\hyperlink{indexer_8hpp_a277f410feae48e1109ad6e71c6a314c9}{id\_member}} = \textcolor{keyword}{decltype}(declval<T>().key);}
+\DoxyCodeLine{46 \textcolor{keyword}{template} < \textcolor{keyword}{class} T >}
+\DoxyCodeLine{47 \textcolor{keyword}{using} id\_function = \textcolor{keyword}{decltype}(declval<T>().key());}
+\DoxyCodeLine{48 \textcolor{keyword}{template} < \textcolor{keyword}{class} T >}
+\DoxyCodeLine{49 \textcolor{keyword}{using} position\_accessor = \textcolor{keyword}{decltype}(declval<T>().operator[](0));}
+\DoxyCodeLine{50 \textcolor{keyword}{template} < \textcolor{keyword}{class} T >}
+\DoxyCodeLine{51 \textcolor{keyword}{using} front\_accessor = \textcolor{keyword}{decltype}(declval<T>().front());}
+\DoxyCodeLine{52 \textcolor{keyword}{template} < \textcolor{keyword}{class} T >}
+\DoxyCodeLine{53 \textcolor{keyword}{using} back\_accessor = \textcolor{keyword}{decltype}(declval<T>().back());}
+\DoxyCodeLine{54 \textcolor{keyword}{template} < \textcolor{keyword}{class} T >}
+\DoxyCodeLine{55 \textcolor{keyword}{using} front\_pusher = \textcolor{keyword}{decltype}(declval<T>().push\_front());}
+\DoxyCodeLine{56 \textcolor{keyword}{template} < \textcolor{keyword}{class} T >}
+\DoxyCodeLine{57 \textcolor{keyword}{using} back\_pusher = \textcolor{keyword}{decltype}(declval<T>().push\_back());}
+\DoxyCodeLine{58 \textcolor{keyword}{template} < \textcolor{keyword}{class} T >}
+\DoxyCodeLine{59 \textcolor{keyword}{using} front\_emplacer = \textcolor{keyword}{decltype}(declval<T>().emplace\_front());}
+\DoxyCodeLine{60 \textcolor{keyword}{template} < \textcolor{keyword}{class} T >}
+\DoxyCodeLine{61 \textcolor{keyword}{using} back\_emplacer = \textcolor{keyword}{decltype}(declval<T>().emplace\_back());}
+\DoxyCodeLine{62 \textcolor{keyword}{template} < \textcolor{keyword}{class} T >}
+\DoxyCodeLine{63 \textcolor{keyword}{using} front\_popper = \textcolor{keyword}{decltype}(declval<T>().pop\_front());}
+\DoxyCodeLine{64 \textcolor{keyword}{template} < \textcolor{keyword}{class} T >}
+\DoxyCodeLine{65 \textcolor{keyword}{using} back\_popper = \textcolor{keyword}{decltype}(declval<T>().pop\_back());}
+\DoxyCodeLine{67 \textcolor{keyword}{template} < \textcolor{keyword}{class} T >}
+\DoxyCodeLine{68 \textcolor{keyword}{using} \mbox{\hyperlink{structstd_1_1details_1_1can__apply}{has\_id}} = \mbox{\hyperlink{structstd_1_1details_1_1can__apply}{can\_apply< id\_member, T >}};}
+\DoxyCodeLine{69 \textcolor{keyword}{template} < \textcolor{keyword}{class} T >}
+\DoxyCodeLine{70 \textcolor{keyword}{using} \mbox{\hyperlink{structstd_1_1details_1_1can__apply}{has\_id\_function}} = \mbox{\hyperlink{structstd_1_1details_1_1can__apply}{can\_apply< id\_function, T >}};}
+\DoxyCodeLine{71 \textcolor{keyword}{template} < \textcolor{keyword}{class} T >}
+\DoxyCodeLine{72 \textcolor{keyword}{using} \mbox{\hyperlink{structstd_1_1details_1_1can__apply}{has\_position\_accessor}} = \mbox{\hyperlink{structstd_1_1details_1_1can__apply}{can\_apply< position\_accessor, T >}};}
+\DoxyCodeLine{73 \textcolor{keyword}{template} < \textcolor{keyword}{class} T >}
+\DoxyCodeLine{74 \textcolor{keyword}{using} \mbox{\hyperlink{structstd_1_1details_1_1can__apply}{has\_front\_accessor}} = \mbox{\hyperlink{structstd_1_1details_1_1can__apply}{can\_apply< front\_accessor, T >}};}
+\DoxyCodeLine{75 \textcolor{keyword}{template} < \textcolor{keyword}{class} T >}
+\DoxyCodeLine{76 \textcolor{keyword}{using} \mbox{\hyperlink{structstd_1_1details_1_1can__apply}{has\_back\_accessor}} = \mbox{\hyperlink{structstd_1_1details_1_1can__apply}{can\_apply< back\_accessor, T >}};}
+\DoxyCodeLine{77 \textcolor{keyword}{template} < \textcolor{keyword}{class} T >}
+\DoxyCodeLine{78 \textcolor{keyword}{using} \mbox{\hyperlink{structstd_1_1details_1_1can__apply}{has\_front\_pusher}} = \mbox{\hyperlink{structstd_1_1details_1_1can__apply}{can\_apply< front\_pusher, T >}};}
+\DoxyCodeLine{79 \textcolor{keyword}{template} < \textcolor{keyword}{class} T >}
+\DoxyCodeLine{80 \textcolor{keyword}{using} \mbox{\hyperlink{structstd_1_1details_1_1can__apply}{has\_back\_pusher}} = \mbox{\hyperlink{structstd_1_1details_1_1can__apply}{can\_apply< back\_pusher, T >}};}
+\DoxyCodeLine{81 \textcolor{keyword}{template} < \textcolor{keyword}{class} T >}
+\DoxyCodeLine{82 \textcolor{keyword}{using} \mbox{\hyperlink{structstd_1_1details_1_1can__apply}{has\_front\_emplacer}} = \mbox{\hyperlink{structstd_1_1details_1_1can__apply}{can\_apply< front\_emplacer, T >}};}
+\DoxyCodeLine{83 \textcolor{keyword}{template} < \textcolor{keyword}{class} T >}
+\DoxyCodeLine{84 \textcolor{keyword}{using} \mbox{\hyperlink{structstd_1_1details_1_1can__apply}{has\_back\_emplacer}} = \mbox{\hyperlink{structstd_1_1details_1_1can__apply}{can\_apply< back\_emplacer, T >}};}
+\DoxyCodeLine{85 \textcolor{keyword}{template} < \textcolor{keyword}{class} T >}
+\DoxyCodeLine{86 \textcolor{keyword}{using} \mbox{\hyperlink{structstd_1_1details_1_1can__apply}{has\_front\_popper}} = \mbox{\hyperlink{structstd_1_1details_1_1can__apply}{can\_apply< front\_popper, T >}};}
+\DoxyCodeLine{87 \textcolor{keyword}{template} < \textcolor{keyword}{class} T >}
+\DoxyCodeLine{88 \textcolor{keyword}{using} \mbox{\hyperlink{structstd_1_1details_1_1can__apply}{has\_back\_popper}} = \mbox{\hyperlink{structstd_1_1details_1_1can__apply}{can\_apply< back\_popper, T >}};}
+\DoxyCodeLine{90 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T >}
+\DoxyCodeLine{91 \textcolor{keyword}{constexpr} \textcolor{keywordtype}{bool} can\_be\_indexed() \{ \textcolor{keywordflow}{return} (\mbox{\hyperlink{structstd_1_1details_1_1can__apply}{has\_id< T >}}() \&\& !\mbox{\hyperlink{structstd_1_1details_1_1can__apply}{has\_id\_function< T >}}()); \}}
+\DoxyCodeLine{92 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T, \textcolor{keyword}{typename} U >}
+\DoxyCodeLine{93 \textcolor{keyword}{constexpr} \textcolor{keywordtype}{bool} can\_be\_replaced\_by() \{ \textcolor{keywordflow}{return} (is\_convertible< U, T >() \&\& is\_convertible< T, U >() \textcolor{comment}{/* whether T=U and U=T are valid */}); \}}
+\DoxyCodeLine{94 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T >}
+\DoxyCodeLine{95 \textcolor{keyword}{constexpr} \textcolor{keywordtype}{bool} is\_position\_accessible() \{ \textcolor{keywordflow}{return} (has\_position\_accessor< T >()); \}}
+\DoxyCodeLine{96 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T >}
+\DoxyCodeLine{97 \textcolor{keyword}{constexpr} \textcolor{keywordtype}{bool} has\_front() \{ \textcolor{keywordflow}{return} (has\_front\_accessor< T >()); \}}
+\DoxyCodeLine{98 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T >}
+\DoxyCodeLine{99 \textcolor{keyword}{constexpr} \textcolor{keywordtype}{bool} has\_back() \{ \textcolor{keywordflow}{return} (has\_back\_accessor< T >()); \}}
+\DoxyCodeLine{100 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T >}
+\DoxyCodeLine{101 \textcolor{keyword}{constexpr} \textcolor{keywordtype}{bool} is\_front\_pushable() \{ \textcolor{keywordflow}{return} (has\_front\_pusher< T >()); \}}
+\DoxyCodeLine{102 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T >}
+\DoxyCodeLine{103 \textcolor{keyword}{constexpr} \textcolor{keywordtype}{bool} is\_back\_pushable() \{ \textcolor{keywordflow}{return} (has\_back\_pusher< T >()); \}}
+\DoxyCodeLine{104 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T >}
+\DoxyCodeLine{105 \textcolor{keyword}{constexpr} \textcolor{keywordtype}{bool} is\_front\_emplaceable() \{ \textcolor{keywordflow}{return} (has\_front\_emplacer< T >()); \}}
+\DoxyCodeLine{106 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T >}
+\DoxyCodeLine{107 \textcolor{keyword}{constexpr} \textcolor{keywordtype}{bool} is\_back\_emplaceable() \{ \textcolor{keywordflow}{return} (has\_back\_emplacer< T >()); \}}
+\DoxyCodeLine{108 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T >}
+\DoxyCodeLine{109 \textcolor{keyword}{constexpr} \textcolor{keywordtype}{bool} is\_front\_poppable() \{ \textcolor{keywordflow}{return} (has\_front\_popper< T >()); \}}
+\DoxyCodeLine{110 \textcolor{keyword}{template} < \textcolor{keyword}{typename} T >}
+\DoxyCodeLine{111 \textcolor{keyword}{constexpr} \textcolor{keywordtype}{bool} is\_back\_poppable() \{ \textcolor{keywordflow}{return} (has\_back\_popper< T >()); \}}
+\DoxyCodeLine{112 }
+\DoxyCodeLine{113 }
+\DoxyCodeLine{114 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{136 \textcolor{comment}{}\textcolor{keyword}{template} < \textcolor{keyword}{typename} Container, \textcolor{keyword}{typename} T = \textcolor{keyword}{typename} Container::value\_type, \textcolor{keywordtype}{bool} Locked = false >}
+\DoxyCodeLine{137 \textcolor{keyword}{class }\mbox{\hyperlink{classstd_1_1indexer}{indexer}} \{}
+\DoxyCodeLine{138  \textcolor{keyword}{public}:}
+\DoxyCodeLine{139     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{142 \textcolor{comment}{}    \textcolor{keyword}{static\_assert}(std::is\_class< Container >(),}
+\DoxyCodeLine{143                   \textcolor{stringliteral}{"{}CONTAINER TYPE MUST BE A CLASS (NON-\/UNION)!"{}});}
+\DoxyCodeLine{144 }
+\DoxyCodeLine{145     \textcolor{keyword}{static\_assert}(std::is\_position\_accessible< Container >(),}
+\DoxyCodeLine{146                   \textcolor{stringliteral}{"{}CONTAINER TYPE MUST BE RANDOM POSITION ACCESSIBLE ([])!"{}});}
+\DoxyCodeLine{147 }
+\DoxyCodeLine{148     \textcolor{keyword}{static\_assert}(std::can\_be\_indexed< typename Container::value\_type >(),}
+\DoxyCodeLine{149                   \textcolor{stringliteral}{"{}UNDERLYING CONTAINER ELEMENT TYPE [Container::value\_type] MUST BE INDEXABLE!"{}});}
+\DoxyCodeLine{150 }
+\DoxyCodeLine{151     \textcolor{keyword}{static\_assert}(std::can\_be\_replaced\_by< typename Container::value\_type, T >(),}
+\DoxyCodeLine{152                   \textcolor{stringliteral}{"{}UNDERLYING CONTAINER ELEMENT TYPE [Container::value\_type] MUST BE IMPLICITLY CONVERTIBLE!"{}});}
+\DoxyCodeLine{153 }
+\DoxyCodeLine{154     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{157 \textcolor{comment}{}    \textcolor{keyword}{using} \mbox{\hyperlink{classstd_1_1indexer_ae759f8b0b7df8e5e56c8498f66a59dcd}{value\_type}} = T;  \textcolor{comment}{// typename Container::value\_type;}}
+\DoxyCodeLine{158 }
+\DoxyCodeLine{159     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{162 \textcolor{comment}{}    \textcolor{keyword}{using} \mbox{\hyperlink{classstd_1_1indexer_a9d5553ed1fd172b6b5208ac8661146e3}{container\_type}} = Container;}
+\DoxyCodeLine{163 }
+\DoxyCodeLine{164     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{167 \textcolor{comment}{}    \textcolor{keyword}{using} \mbox{\hyperlink{classstd_1_1indexer_ac2ee55885c05959226722520959fa96c}{element\_type}} = \textcolor{keyword}{typename} Container::value\_type;}
+\DoxyCodeLine{168 }
+\DoxyCodeLine{169     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{172 \textcolor{comment}{}    \textcolor{keyword}{using} \mbox{\hyperlink{classstd_1_1indexer_af19cd09a80a82ecba0b08482703c478f}{element\_reference}} = \mbox{\hyperlink{classstd_1_1indexer_ac2ee55885c05959226722520959fa96c}{element\_type}}\&;}
+\DoxyCodeLine{173 }
+\DoxyCodeLine{174     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{177 \textcolor{comment}{}    \textcolor{keyword}{using} \mbox{\hyperlink{classstd_1_1indexer_a2b21e6a5992ff589b9a17a95f58f89f3}{element\_const\_reference}} = \textcolor{keyword}{const} \mbox{\hyperlink{classstd_1_1indexer_ac2ee55885c05959226722520959fa96c}{element\_type}}\&;}
+\DoxyCodeLine{178 }
+\DoxyCodeLine{179     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{182 \textcolor{comment}{}    \textcolor{keyword}{using} \mbox{\hyperlink{classstd_1_1indexer_a677771da29cdc65d7db881149cf4abdc}{key\_type}} = \textcolor{keyword}{decltype}(declval< element\_type >().key);}
+\DoxyCodeLine{183 }
+\DoxyCodeLine{184     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{187 \textcolor{comment}{}    \textcolor{keyword}{using} \mbox{\hyperlink{classstd_1_1indexer_a59e97f3ead469e9d8d383f8a10f46a56}{size\_type}} = \textcolor{keyword}{typename} Container::size\_type;}
+\DoxyCodeLine{188 }
+\DoxyCodeLine{189     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{192 \textcolor{comment}{}    \textcolor{keyword}{using} \mbox{\hyperlink{classstd_1_1indexer_ae2db1ee5c5641d5faaef45747c63ac37}{reference}} = T\&;  \textcolor{comment}{// typename Container::reference;}}
+\DoxyCodeLine{193 }
+\DoxyCodeLine{194     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{197 \textcolor{comment}{}    \textcolor{keyword}{using} \mbox{\hyperlink{classstd_1_1indexer_abfaec2da712e26c1c02b7433952f6599}{const\_reference}} = \textcolor{keyword}{const} T\&;  \textcolor{comment}{// typename Container::const\_reference;}}
+\DoxyCodeLine{198 }
+\DoxyCodeLine{199     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{204 \textcolor{comment}{}    \textcolor{keyword}{using} \mbox{\hyperlink{classstd_1_1cast__iterator}{iterator}} = \mbox{\hyperlink{classstd_1_1cast__iterator}{cast\_iterator< Container, T >}};}
+\DoxyCodeLine{205 }
+\DoxyCodeLine{206     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{211 \textcolor{comment}{}    \textcolor{keyword}{using} \mbox{\hyperlink{classstd_1_1cast__iterator}{const\_iterator}} = \mbox{\hyperlink{classstd_1_1cast__iterator}{cast\_iterator< const Container, const T >}};}
+\DoxyCodeLine{212 }
+\DoxyCodeLine{213     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{228 \textcolor{comment}{}    \textcolor{keyword}{template} < \textcolor{keyword}{typename}... Args, \textcolor{keyword}{typename} = \textcolor{keyword}{typename} enable\_if< is\_constructible< Container, Args... >::value >::type >}
+\DoxyCodeLine{229     \mbox{\hyperlink{classstd_1_1indexer_a356d97a5ba7a2ea11fcc8f88373b969c}{indexer}}(Args\&\&... args);}
+\DoxyCodeLine{230 }
+\DoxyCodeLine{231     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{238 \textcolor{comment}{}    \textcolor{keyword}{template} < \textcolor{keywordtype}{bool} oLocked >}
+\DoxyCodeLine{239     \mbox{\hyperlink{classstd_1_1indexer_a4b313b2b516e0084fdbf8677dc1d4c85}{indexer}}(\textcolor{keyword}{const} \mbox{\hyperlink{classstd_1_1indexer}{indexer< Container, T, oLocked >}}\& other);}
+\DoxyCodeLine{240 }
+\DoxyCodeLine{241     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{248 \textcolor{comment}{}    \textcolor{keyword}{template} < \textcolor{keywordtype}{bool} oLocked >}
+\DoxyCodeLine{249     \mbox{\hyperlink{classstd_1_1indexer_a8e35d38c3fabb61c723d1505f6ff588e}{indexer}}(\mbox{\hyperlink{classstd_1_1indexer}{indexer< Container, T, oLocked >}}\&\& other);}
+\DoxyCodeLine{250 }
+\DoxyCodeLine{251     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{260 \textcolor{comment}{}    \mbox{\hyperlink{classstd_1_1indexer_a9c45b3b3fa3f3f7c81ce0295f3d4a6ae}{indexer}}(std::initializer\_list< T > data);}
+\DoxyCodeLine{261 }
+\DoxyCodeLine{262     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{269 \textcolor{comment}{}    \textcolor{keyword}{virtual} \mbox{\hyperlink{classstd_1_1indexer_a2f0bb9a0aad009349fb9d3a86cc724a4}{\string~indexer}}() = \textcolor{keywordflow}{default};}
+\DoxyCodeLine{270 }
+\DoxyCodeLine{271     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{278 \textcolor{comment}{}    \textcolor{keyword}{template} < \textcolor{keywordtype}{bool} oLocked >}
+\DoxyCodeLine{279     \mbox{\hyperlink{classstd_1_1indexer}{indexer< Container, T, Locked >}}\& \mbox{\hyperlink{classstd_1_1indexer_aa60b1004706755f1378b22ac5967365a}{operator=}}(\textcolor{keyword}{const} \mbox{\hyperlink{classstd_1_1indexer}{indexer< Container, T, oLocked >}}\& other);}
+\DoxyCodeLine{280 }
+\DoxyCodeLine{281     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{288 \textcolor{comment}{}    \textcolor{keyword}{template} < \textcolor{keywordtype}{bool} oLocked >}
+\DoxyCodeLine{289     \mbox{\hyperlink{classstd_1_1indexer}{indexer< Container, T, Locked >}}\& \mbox{\hyperlink{classstd_1_1indexer_aa045218a06b84b97d094362083b5a486}{operator=}}(\mbox{\hyperlink{classstd_1_1indexer}{indexer< Container, T, oLocked >}}\&\& other);}
+\DoxyCodeLine{290 }
+\DoxyCodeLine{291     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{305 \textcolor{comment}{}    template < typename Arg = key\_type, typename = typename enable\_if< !is\_convertible< Arg, size\_type >::value >::type >}
+\DoxyCodeLine{306     \mbox{\hyperlink{classstd_1_1indexer_ae2db1ee5c5641d5faaef45747c63ac37}{reference}} \mbox{\hyperlink{classstd_1_1indexer_a2e5fac2a6c305177ba9834949af44dd6}{operator()}}(\mbox{\hyperlink{classstd_1_1indexer_a59e97f3ead469e9d8d383f8a10f46a56}{size\_type}} pos);}
+\DoxyCodeLine{307 }
+\DoxyCodeLine{308     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{322 \textcolor{comment}{}    template < typename Arg = key\_type, typename = typename enable\_if< !is\_convertible< Arg, size\_type >::value >::type >}
+\DoxyCodeLine{323     \mbox{\hyperlink{classstd_1_1indexer_abfaec2da712e26c1c02b7433952f6599}{const\_reference}} \mbox{\hyperlink{classstd_1_1indexer_a87e7541c4b7e2bada8f8001eaab88480}{operator()}}(\mbox{\hyperlink{classstd_1_1indexer_a59e97f3ead469e9d8d383f8a10f46a56}{size\_type}} pos) \textcolor{keyword}{const};}
+\DoxyCodeLine{324 }
+\DoxyCodeLine{325     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{334 \textcolor{comment}{}    \mbox{\hyperlink{classstd_1_1indexer_ae2db1ee5c5641d5faaef45747c63ac37}{reference}} \mbox{\hyperlink{classstd_1_1indexer_a3aee8e61220c8fb64cc7a3647b991ff8}{operator()}}(\textcolor{keyword}{const} \mbox{\hyperlink{classstd_1_1indexer_a677771da29cdc65d7db881149cf4abdc}{key\_type}}\& \mbox{\hyperlink{classstd_1_1indexer_abdfc9ddeeb8ba66f9927f58b684dc8b5}{key}});}
+\DoxyCodeLine{335 }
+\DoxyCodeLine{336     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{345 \textcolor{comment}{}    \mbox{\hyperlink{classstd_1_1indexer_abfaec2da712e26c1c02b7433952f6599}{const\_reference}} \mbox{\hyperlink{classstd_1_1indexer_ac4eccd9de572f750b182be285a66b767}{operator()}}(\textcolor{keyword}{const} \mbox{\hyperlink{classstd_1_1indexer_a677771da29cdc65d7db881149cf4abdc}{key\_type}}\& \mbox{\hyperlink{classstd_1_1indexer_abdfc9ddeeb8ba66f9927f58b684dc8b5}{key}}) \textcolor{keyword}{const};}
+\DoxyCodeLine{346 }
+\DoxyCodeLine{347     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{359 \textcolor{comment}{}    \mbox{\hyperlink{classstd_1_1indexer_ae2db1ee5c5641d5faaef45747c63ac37}{reference}} \mbox{\hyperlink{classstd_1_1indexer_a5c85d26bb9699dbdcd146f4b673339cb}{operator[]}}(\mbox{\hyperlink{classstd_1_1indexer_a59e97f3ead469e9d8d383f8a10f46a56}{size\_type}} pos);}
+\DoxyCodeLine{360 }
+\DoxyCodeLine{361     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{370 \textcolor{comment}{}    \mbox{\hyperlink{classstd_1_1indexer_abfaec2da712e26c1c02b7433952f6599}{const\_reference}} \mbox{\hyperlink{classstd_1_1indexer_a0243ac580a0039246757ee371e1ffba3}{operator[]}}(\mbox{\hyperlink{classstd_1_1indexer_a59e97f3ead469e9d8d383f8a10f46a56}{size\_type}} pos) \textcolor{keyword}{const};}
+\DoxyCodeLine{371 }
+\DoxyCodeLine{372     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{387 \textcolor{comment}{}    template < typename Arg = key\_type, typename = typename enable\_if< !is\_convertible< Arg, size\_type >::value >::type >}
+\DoxyCodeLine{388     \mbox{\hyperlink{classstd_1_1indexer_ae2db1ee5c5641d5faaef45747c63ac37}{reference}} \mbox{\hyperlink{classstd_1_1indexer_a81010896f3babe94a6488fe1d6fbd8cb}{operator[]}}(\textcolor{keyword}{const} \mbox{\hyperlink{classstd_1_1indexer_a677771da29cdc65d7db881149cf4abdc}{key\_type}}\& \mbox{\hyperlink{classstd_1_1indexer_abdfc9ddeeb8ba66f9927f58b684dc8b5}{key}});}
+\DoxyCodeLine{389 }
+\DoxyCodeLine{390     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{405 \textcolor{comment}{}    template < typename Arg = key\_type, typename = typename enable\_if< !is\_convertible< Arg, size\_type >::value >::type >}
+\DoxyCodeLine{406     \mbox{\hyperlink{classstd_1_1indexer_abfaec2da712e26c1c02b7433952f6599}{const\_reference}} \mbox{\hyperlink{classstd_1_1indexer_a67dd9c5bddcdd98fe37b0374576799fa}{operator[]}}(\textcolor{keyword}{const} \mbox{\hyperlink{classstd_1_1indexer_a677771da29cdc65d7db881149cf4abdc}{key\_type}}\& \mbox{\hyperlink{classstd_1_1indexer_abdfc9ddeeb8ba66f9927f58b684dc8b5}{key}}) \textcolor{keyword}{const};}
+\DoxyCodeLine{407 }
+\DoxyCodeLine{408     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{421 \textcolor{comment}{}    \textcolor{keyword}{template} < \textcolor{keyword}{typename} oT = value\_type >}
+\DoxyCodeLine{422     oT\& \mbox{\hyperlink{classstd_1_1indexer_a8ed5217ce0360fcc00207cc4b0da4a5a}{at}}(\mbox{\hyperlink{classstd_1_1indexer_a59e97f3ead469e9d8d383f8a10f46a56}{size\_type}} pos);}
+\DoxyCodeLine{423 }
+\DoxyCodeLine{424     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{437 \textcolor{comment}{}    \textcolor{keyword}{template} < \textcolor{keyword}{typename} oT = value\_type >}
+\DoxyCodeLine{438     \textcolor{keyword}{const} oT\& \mbox{\hyperlink{classstd_1_1indexer_a3b5ad9f44d57000afca5cc1822869796}{at}}(\mbox{\hyperlink{classstd_1_1indexer_a59e97f3ead469e9d8d383f8a10f46a56}{size\_type}} pos) \textcolor{keyword}{const};}
+\DoxyCodeLine{439 }
+\DoxyCodeLine{440     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{458 \textcolor{comment}{}    template < typename oT = value\_type, typename Arg = key\_type, typename = typename enable\_if< !is\_convertible< Arg, size\_type >::value >::type >}
+\DoxyCodeLine{459     oT\& \mbox{\hyperlink{classstd_1_1indexer_a14e3c9c39df36e6067a26df3d3d6eb03}{at}}(\textcolor{keyword}{const} \mbox{\hyperlink{classstd_1_1indexer_a677771da29cdc65d7db881149cf4abdc}{key\_type}}\& \mbox{\hyperlink{classstd_1_1indexer_abdfc9ddeeb8ba66f9927f58b684dc8b5}{key}});}
+\DoxyCodeLine{460 }
+\DoxyCodeLine{461     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{479 \textcolor{comment}{}    template < typename oT = value\_type, typename Arg = key\_type, typename = typename enable\_if< !is\_convertible< Arg, size\_type >::value >::type >}
+\DoxyCodeLine{480     \textcolor{keyword}{const} oT\& \mbox{\hyperlink{classstd_1_1indexer_aa98fc0b290777197dd753d149bef5e4e}{at}}(\textcolor{keyword}{const} \mbox{\hyperlink{classstd_1_1indexer_a677771da29cdc65d7db881149cf4abdc}{key\_type}}\& \mbox{\hyperlink{classstd_1_1indexer_abdfc9ddeeb8ba66f9927f58b684dc8b5}{key}}) \textcolor{keyword}{const};}
+\DoxyCodeLine{481 }
+\DoxyCodeLine{482     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{489 \textcolor{comment}{}    \textcolor{keyword}{virtual} \mbox{\hyperlink{classstd_1_1indexer_a59e97f3ead469e9d8d383f8a10f46a56}{size\_type}} \mbox{\hyperlink{classstd_1_1indexer_a56604ec6f2532c9f5ea37ad538132525}{find}}(\textcolor{keyword}{const} \mbox{\hyperlink{classstd_1_1indexer_a677771da29cdc65d7db881149cf4abdc}{key\_type}}\& \mbox{\hyperlink{classstd_1_1indexer_abdfc9ddeeb8ba66f9927f58b684dc8b5}{key}}) \textcolor{keyword}{const} \textcolor{keyword}{noexcept};}
+\DoxyCodeLine{490 }
+\DoxyCodeLine{491     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{502 \textcolor{comment}{}    \mbox{\hyperlink{classstd_1_1indexer_a677771da29cdc65d7db881149cf4abdc}{key\_type}}\& \mbox{\hyperlink{classstd_1_1indexer_abdfc9ddeeb8ba66f9927f58b684dc8b5}{key}}(\mbox{\hyperlink{classstd_1_1indexer_a59e97f3ead469e9d8d383f8a10f46a56}{size\_type}} pos);}
+\DoxyCodeLine{503 }
+\DoxyCodeLine{504     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{513 \textcolor{comment}{}    \textcolor{keyword}{const} \mbox{\hyperlink{classstd_1_1indexer_a677771da29cdc65d7db881149cf4abdc}{key\_type}}\& \mbox{\hyperlink{classstd_1_1indexer_a1a7dcf5ebaa5f8f0f1c1149ad505982f}{key}}(\mbox{\hyperlink{classstd_1_1indexer_a59e97f3ead469e9d8d383f8a10f46a56}{size\_type}} pos) \textcolor{keyword}{const};}
+\DoxyCodeLine{514 }
+\DoxyCodeLine{515     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{523 \textcolor{comment}{}    \textcolor{keyword}{template} < \textcolor{keyword}{typename} OutputContainer >}
+\DoxyCodeLine{524     OutputContainer \mbox{\hyperlink{classstd_1_1indexer_a1edaebfe6db06cea70710eb12d2648d7}{get\_keys}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{525 }
+\DoxyCodeLine{526     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{533 \textcolor{comment}{}    \textcolor{keyword}{template} < \textcolor{keyword}{typename} InputContainer >}
+\DoxyCodeLine{534     \textcolor{keywordtype}{void} \mbox{\hyperlink{classstd_1_1indexer_acc79363995e1201900c3e2d4c5cc2c29}{set\_keys}}(\textcolor{keyword}{const} InputContainer\& \textcolor{keywordtype}{id});}
+\DoxyCodeLine{535 }
+\DoxyCodeLine{536     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{543 \textcolor{comment}{}    \textcolor{keywordtype}{bool} \mbox{\hyperlink{classstd_1_1indexer_a0485f55eeabad823c7b04ed3041ba1ff}{empty}}() const noexcept;}
+\DoxyCodeLine{544 }
+\DoxyCodeLine{545     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{550 \textcolor{comment}{}    \mbox{\hyperlink{classstd_1_1indexer_a59e97f3ead469e9d8d383f8a10f46a56}{size\_type}} \mbox{\hyperlink{classstd_1_1indexer_a7b7eda6fff717701d1c35a85641700f3}{size}}() const noexcept;}
+\DoxyCodeLine{551 }
+\DoxyCodeLine{552     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{557 \textcolor{comment}{}    \mbox{\hyperlink{classstd_1_1indexer_a59e97f3ead469e9d8d383f8a10f46a56}{size\_type}} \mbox{\hyperlink{classstd_1_1indexer_a8f7aa1e601161184638e428752e16306}{max\_size}}() const noexcept;}
+\DoxyCodeLine{558 }
+\DoxyCodeLine{559     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{566 \textcolor{comment}{}    \textcolor{keywordtype}{void} \mbox{\hyperlink{classstd_1_1indexer_a43f4a833351e90afb93cb8e9c5b5599f}{clear}}() noexcept;}
+\DoxyCodeLine{567 }
+\DoxyCodeLine{568     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{573 \textcolor{comment}{}    \mbox{\hyperlink{classstd_1_1cast__iterator}{iterator}} \mbox{\hyperlink{classstd_1_1indexer_a1af166e35dbce8fa4b56b8b30144a045}{begin}}() noexcept;}
+\DoxyCodeLine{574 }
+\DoxyCodeLine{575     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{580 \textcolor{comment}{}    \mbox{\hyperlink{classstd_1_1cast__iterator}{iterator}} \mbox{\hyperlink{classstd_1_1indexer_a59044e9e311ac2959367760233be8808}{end}}() noexcept;}
+\DoxyCodeLine{581 }
+\DoxyCodeLine{582     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{587 \textcolor{comment}{}    \mbox{\hyperlink{classstd_1_1cast__iterator}{const\_iterator}} \mbox{\hyperlink{classstd_1_1indexer_a1af166e35dbce8fa4b56b8b30144a045}{begin}}() const noexcept;}
+\DoxyCodeLine{588 }
+\DoxyCodeLine{589     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{594 \textcolor{comment}{}    \mbox{\hyperlink{classstd_1_1cast__iterator}{const\_iterator}} \mbox{\hyperlink{classstd_1_1indexer_a59044e9e311ac2959367760233be8808}{end}}() const noexcept;}
+\DoxyCodeLine{595 }
+\DoxyCodeLine{596     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{601 \textcolor{comment}{}    \mbox{\hyperlink{classstd_1_1cast__iterator}{const\_iterator}} \mbox{\hyperlink{classstd_1_1indexer_a618fa6dc8e2f4a8fe18e302390b3c8e3}{cbegin}}() const noexcept;}
+\DoxyCodeLine{602 }
+\DoxyCodeLine{603     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{608 \textcolor{comment}{}    \mbox{\hyperlink{classstd_1_1cast__iterator}{const\_iterator}} \mbox{\hyperlink{classstd_1_1indexer_a9c4fc5265b22bde81be5e6fdbc4d3663}{cend}}() const noexcept;}
+\DoxyCodeLine{609 }
+\DoxyCodeLine{610     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{615 \textcolor{comment}{}    Container\& \mbox{\hyperlink{classstd_1_1indexer_adcae7721f0e6fd9404633568ca924615}{elements}}() noexcept;}
+\DoxyCodeLine{616 }
+\DoxyCodeLine{617     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{622 \textcolor{comment}{}    const Container\& \mbox{\hyperlink{classstd_1_1indexer_adcae7721f0e6fd9404633568ca924615}{elements}}() const noexcept;}
+\DoxyCodeLine{623 }
+\DoxyCodeLine{624     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{629 \textcolor{comment}{}    \mbox{\hyperlink{classstd_1_1indexer_af19cd09a80a82ecba0b08482703c478f}{element\_reference}} \mbox{\hyperlink{classstd_1_1indexer_a6db8b4e2cd3f9e1229e56199d9570e8e}{element}}(\mbox{\hyperlink{classstd_1_1indexer_a59e97f3ead469e9d8d383f8a10f46a56}{size\_type}} pos);}
+\DoxyCodeLine{630 }
+\DoxyCodeLine{631     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{636 \textcolor{comment}{}    \mbox{\hyperlink{classstd_1_1indexer_a2b21e6a5992ff589b9a17a95f58f89f3}{element\_const\_reference}} \mbox{\hyperlink{classstd_1_1indexer_a6db8b4e2cd3f9e1229e56199d9570e8e}{element}}(\mbox{\hyperlink{classstd_1_1indexer_a59e97f3ead469e9d8d383f8a10f46a56}{size\_type}} pos) const;}
+\DoxyCodeLine{637 }
+\DoxyCodeLine{638     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{647 \textcolor{comment}{}    template < \textcolor{keywordtype}{bool} oLocked >}
+\DoxyCodeLine{648     \textcolor{keywordtype}{void} \mbox{\hyperlink{classstd_1_1indexer_aac91bf80a4c7718b72e71df5428f8a27}{swap}}(const \mbox{\hyperlink{classstd_1_1indexer}{indexer}}< Container, T, oLocked >\& other) noexcept;}
+\DoxyCodeLine{649 }
+\DoxyCodeLine{650     \textcolor{keywordtype}{void} assign(\mbox{\hyperlink{classstd_1_1indexer_a59e97f3ead469e9d8d383f8a10f46a56}{size\_type}} count, const T\& value);}
+\DoxyCodeLine{651 }
+\DoxyCodeLine{652     template< class InputIt >}
+\DoxyCodeLine{653     \textcolor{keywordtype}{void} assign(InputIt first, InputIt last);}
+\DoxyCodeLine{654 }
+\DoxyCodeLine{655     \textcolor{keywordtype}{void} assign(std::initializer\_list<T> ilist);}
+\DoxyCodeLine{656 }
+\DoxyCodeLine{657     template< typename InputIt, typename = typename enable\_if< is\_convertible< InputIt, typename \mbox{\hyperlink{classstd_1_1indexer_a9d5553ed1fd172b6b5208ac8661146e3}{container\_type}}::\mbox{\hyperlink{classstd_1_1cast__iterator}{iterator}} >::value >::type,}
+\DoxyCodeLine{658               typename U = T, typename... Args, typename = typename enable\_if< is\_constructible< U, Args... >::value >::type >}
+\DoxyCodeLine{659     \textcolor{keywordtype}{void} emplace(InputIt pos, Args... args);}
+\DoxyCodeLine{660 }
+\DoxyCodeLine{661     template< class InputIt, typename = typename enable\_if< is\_convertible< InputIt, typename \mbox{\hyperlink{classstd_1_1indexer_a9d5553ed1fd172b6b5208ac8661146e3}{container\_type}}::\mbox{\hyperlink{classstd_1_1cast__iterator}{iterator}} >::value >::type >}
+\DoxyCodeLine{662     \textcolor{keywordtype}{void} insert(InputIt pos, const T\& value);}
+\DoxyCodeLine{663 }
+\DoxyCodeLine{664     template< class InputIt, typename = typename enable\_if< is\_convertible< InputIt, typename \mbox{\hyperlink{classstd_1_1indexer_a9d5553ed1fd172b6b5208ac8661146e3}{container\_type}}::\mbox{\hyperlink{classstd_1_1cast__iterator}{iterator}} >::value >::type >}
+\DoxyCodeLine{665     \textcolor{keywordtype}{void} insert(InputIt pos, T\&\& value);}
+\DoxyCodeLine{666 }
+\DoxyCodeLine{667     template< class InputIt, typename = typename enable\_if< is\_convertible< InputIt, typename \mbox{\hyperlink{classstd_1_1indexer_a9d5553ed1fd172b6b5208ac8661146e3}{container\_type}}::\mbox{\hyperlink{classstd_1_1cast__iterator}{iterator}} >::value >::type >}
+\DoxyCodeLine{668     \textcolor{keywordtype}{void} insert(InputIt pos, \mbox{\hyperlink{classstd_1_1indexer_a59e97f3ead469e9d8d383f8a10f46a56}{size\_type}} count, const T\& value);}
+\DoxyCodeLine{669 }
+\DoxyCodeLine{670     template< typename InputIt, typename SourceIt, typename = typename enable\_if< is\_convertible< InputIt, typename \mbox{\hyperlink{classstd_1_1indexer_a9d5553ed1fd172b6b5208ac8661146e3}{container\_type}}::\mbox{\hyperlink{classstd_1_1cast__iterator}{iterator}} >::value >::type >}
+\DoxyCodeLine{671     \textcolor{keywordtype}{void} insert(InputIt pos, SourceIt first, SourceIt last);}
+\DoxyCodeLine{672 }
+\DoxyCodeLine{673     template< class InputIt, typename = typename enable\_if< is\_convertible< InputIt, typename \mbox{\hyperlink{classstd_1_1indexer_a9d5553ed1fd172b6b5208ac8661146e3}{container\_type}}::\mbox{\hyperlink{classstd_1_1cast__iterator}{iterator}} >::value >::type >}
+\DoxyCodeLine{674     \textcolor{keywordtype}{void} insert(InputIt pos, std::initializer\_list< T > ilist);}
+\DoxyCodeLine{675 }
+\DoxyCodeLine{676     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{681 \textcolor{comment}{}    template< class InputIt, typename = typename enable\_if< is\_convertible< InputIt, typename \mbox{\hyperlink{classstd_1_1indexer_a9d5553ed1fd172b6b5208ac8661146e3}{container\_type}}::\mbox{\hyperlink{classstd_1_1cast__iterator}{iterator}} >::value >::type >}
+\DoxyCodeLine{682     \textcolor{keywordtype}{void} \mbox{\hyperlink{classstd_1_1indexer_a90231ed9d82f2df1af3a8b1375d15fd8}{erase}}(InputIt pos);}
+\DoxyCodeLine{683 }
+\DoxyCodeLine{684     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{691 \textcolor{comment}{}    template< class InputIt, typename = typename enable\_if< is\_convertible< InputIt, typename \mbox{\hyperlink{classstd_1_1indexer_a9d5553ed1fd172b6b5208ac8661146e3}{container\_type}}::\mbox{\hyperlink{classstd_1_1cast__iterator}{iterator}} >::value >::type >}
+\DoxyCodeLine{692     \textcolor{keywordtype}{void} \mbox{\hyperlink{classstd_1_1indexer_a90231ed9d82f2df1af3a8b1375d15fd8}{erase}}(InputIt first, InputIt last);}
+\DoxyCodeLine{693 }
+\DoxyCodeLine{694     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{699 \textcolor{comment}{}    template < typename oT = \mbox{\hyperlink{classstd_1_1indexer_ae759f8b0b7df8e5e56c8498f66a59dcd}{value\_type}}, typename C = Container, typename = typename enable\_if< has\_front< C >() >::type >}
+\DoxyCodeLine{700     oT\& \mbox{\hyperlink{classstd_1_1indexer_ab41b36dd8e552ecf2cd320e61d18dc4e}{front}}();}
+\DoxyCodeLine{701 }
+\DoxyCodeLine{702     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{707 \textcolor{comment}{}    template < typename oT = \mbox{\hyperlink{classstd_1_1indexer_ae759f8b0b7df8e5e56c8498f66a59dcd}{value\_type}}, typename C = Container, typename = typename enable\_if< has\_front< C >() >::type >}
+\DoxyCodeLine{708     const oT\& \mbox{\hyperlink{classstd_1_1indexer_ab41b36dd8e552ecf2cd320e61d18dc4e}{front}}() const;}
+\DoxyCodeLine{709 }
+\DoxyCodeLine{710     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{715 \textcolor{comment}{}    template < typename oT = \mbox{\hyperlink{classstd_1_1indexer_ae759f8b0b7df8e5e56c8498f66a59dcd}{value\_type}}, typename C = Container, typename = typename enable\_if< has\_back< C >() >::type >}
+\DoxyCodeLine{716     oT\& \mbox{\hyperlink{classstd_1_1indexer_ae37e049188ad94b38aed10756bd9de48}{back}}();}
+\DoxyCodeLine{717 }
+\DoxyCodeLine{718     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{723 \textcolor{comment}{}    template < typename oT = \mbox{\hyperlink{classstd_1_1indexer_ae759f8b0b7df8e5e56c8498f66a59dcd}{value\_type}}, typename C = Container, typename = typename enable\_if< has\_back< C >() >::type >}
+\DoxyCodeLine{724     const oT\& \mbox{\hyperlink{classstd_1_1indexer_ae37e049188ad94b38aed10756bd9de48}{back}}() const;}
+\DoxyCodeLine{725 }
+\DoxyCodeLine{726     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{735 \textcolor{comment}{}    template < typename C = Container, typename = typename enable\_if< is\_front\_emplaceable< C >() >::type,}
+\DoxyCodeLine{736                typename U = T, typename... Args, typename = typename enable\_if< is\_constructible< U, Args... >::value >::type >}
+\DoxyCodeLine{737     \textcolor{keywordtype}{void} \mbox{\hyperlink{classstd_1_1indexer_a9b7b7c46b8a066b633fcf29d3ec46846}{emplace\_front}}(Args\&\&... args);}
+\DoxyCodeLine{738 }
+\DoxyCodeLine{739     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{749 \textcolor{comment}{}    template < typename C = Container, typename = typename enable\_if< is\_front\_emplaceable< C >() >::type,}
+\DoxyCodeLine{750                typename U = T, typename... Args, typename = typename enable\_if< is\_constructible< U, Args... >::value >::type >}
+\DoxyCodeLine{751     \textcolor{keywordtype}{void} \mbox{\hyperlink{classstd_1_1indexer_a9b7b7c46b8a066b633fcf29d3ec46846}{emplace\_front}}(const \mbox{\hyperlink{classstd_1_1indexer_a677771da29cdc65d7db881149cf4abdc}{key\_type}}\& \mbox{\hyperlink{classstd_1_1indexer_abdfc9ddeeb8ba66f9927f58b684dc8b5}{key}}, Args\&\&... args);}
+\DoxyCodeLine{752 }
+\DoxyCodeLine{753     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{762 \textcolor{comment}{}    template < typename C = Container, typename = typename enable\_if< is\_back\_emplaceable< C >() >::type,}
+\DoxyCodeLine{763                typename U = T, typename... Args, typename = typename enable\_if< is\_constructible< U, Args... >::value >::type >}
+\DoxyCodeLine{764     \textcolor{keywordtype}{void} \mbox{\hyperlink{classstd_1_1indexer_ab777b75368653a305d8624660a4f4281}{emplace\_back}}(Args\&\&... args);}
+\DoxyCodeLine{765 }
+\DoxyCodeLine{766     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{776 \textcolor{comment}{}    template < typename C = Container, typename = typename enable\_if< is\_back\_emplaceable< C >() >::type,}
+\DoxyCodeLine{777                typename U = T, typename... Args, typename = typename enable\_if< is\_constructible< U, Args... >::value >::type >}
+\DoxyCodeLine{778     \textcolor{keywordtype}{void} \mbox{\hyperlink{classstd_1_1indexer_ab777b75368653a305d8624660a4f4281}{emplace\_back}}(const \mbox{\hyperlink{classstd_1_1indexer_a677771da29cdc65d7db881149cf4abdc}{key\_type}}\& \mbox{\hyperlink{classstd_1_1indexer_abdfc9ddeeb8ba66f9927f58b684dc8b5}{key}}, Args\&\&... args);}
+\DoxyCodeLine{779 }
+\DoxyCodeLine{780     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{785 \textcolor{comment}{}    template < typename C = Container, typename = typename enable\_if< is\_front\_pushable< C >() >::type >}
+\DoxyCodeLine{786     \textcolor{keywordtype}{void} \mbox{\hyperlink{classstd_1_1indexer_a84386d648c8188094902e5b3a29386a5}{push\_front}}(\mbox{\hyperlink{classstd_1_1indexer_ae759f8b0b7df8e5e56c8498f66a59dcd}{value\_type}}\&\& value);}
+\DoxyCodeLine{787 }
+\DoxyCodeLine{788     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{794 \textcolor{comment}{}    template < typename C = Container, typename = typename enable\_if< is\_front\_pushable< C >() >::type >}
+\DoxyCodeLine{795     \textcolor{keywordtype}{void} \mbox{\hyperlink{classstd_1_1indexer_a84386d648c8188094902e5b3a29386a5}{push\_front}}(const \mbox{\hyperlink{classstd_1_1indexer_a677771da29cdc65d7db881149cf4abdc}{key\_type}}\& \mbox{\hyperlink{classstd_1_1indexer_abdfc9ddeeb8ba66f9927f58b684dc8b5}{key}}, \mbox{\hyperlink{classstd_1_1indexer_ae759f8b0b7df8e5e56c8498f66a59dcd}{value\_type}}\&\& value);}
+\DoxyCodeLine{796 }
+\DoxyCodeLine{797     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{802 \textcolor{comment}{}    template < typename C = Container, typename = typename enable\_if< is\_back\_pushable< C >() >::type >}
+\DoxyCodeLine{803     \textcolor{keywordtype}{void} \mbox{\hyperlink{classstd_1_1indexer_aa43a897cfe36b14e5e8c2648fd05e442}{push\_back}}(\mbox{\hyperlink{classstd_1_1indexer_ae759f8b0b7df8e5e56c8498f66a59dcd}{value\_type}}\&\& value);}
+\DoxyCodeLine{804 }
+\DoxyCodeLine{805     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{811 \textcolor{comment}{}    template < typename C = Container, typename = typename enable\_if< is\_back\_pushable< C >() >::type >}
+\DoxyCodeLine{812     \textcolor{keywordtype}{void} \mbox{\hyperlink{classstd_1_1indexer_aa43a897cfe36b14e5e8c2648fd05e442}{push\_back}}(const \mbox{\hyperlink{classstd_1_1indexer_a677771da29cdc65d7db881149cf4abdc}{key\_type}}\& \mbox{\hyperlink{classstd_1_1indexer_abdfc9ddeeb8ba66f9927f58b684dc8b5}{key}}, \mbox{\hyperlink{classstd_1_1indexer_ae759f8b0b7df8e5e56c8498f66a59dcd}{value\_type}}\&\& value);}
+\DoxyCodeLine{813 }
+\DoxyCodeLine{814     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{817 \textcolor{comment}{}    template < typename C = Container, typename = typename enable\_if< is\_front\_poppable< C >() >::type >}
+\DoxyCodeLine{818     \textcolor{keywordtype}{void} \mbox{\hyperlink{classstd_1_1indexer_a91dfc0949cf5b1aae7da146ec14ff3b0}{pop\_front}}();}
+\DoxyCodeLine{819 }
+\DoxyCodeLine{820     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{823 \textcolor{comment}{}    template < typename C = Container, typename = typename enable\_if< is\_back\_poppable< C >() >::type >}
+\DoxyCodeLine{824     \textcolor{keywordtype}{void} \mbox{\hyperlink{classstd_1_1indexer_a20e5877846fc01256bdc56a469590013}{pop\_back}}();}
+\DoxyCodeLine{825 }
+\DoxyCodeLine{826  protected:}
+\DoxyCodeLine{827     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{830 \textcolor{comment}{}    Container \mbox{\hyperlink{classstd_1_1indexer_a9ac6f1d456dbee05bfa6e88a614d5801}{\_data}};}
+\DoxyCodeLine{831 \};}
+\DoxyCodeLine{832 }
+\DoxyCodeLine{833 }
+\DoxyCodeLine{834 }
+\DoxyCodeLine{835 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{837 \textcolor{comment}{}}
+\DoxyCodeLine{838 template < typename Container, typename T, \textcolor{keywordtype}{bool} Locked >}
+\DoxyCodeLine{839 template < typename... Args, typename >}
+\DoxyCodeLine{840 \mbox{\hyperlink{classstd_1_1indexer}{indexer}}< Container, T, Locked >::\mbox{\hyperlink{classstd_1_1indexer}{indexer}}(Args\&\&... args) : \mbox{\hyperlink{classstd_1_1indexer_a9ac6f1d456dbee05bfa6e88a614d5801}{\_data}}(std::forward<Args>(args)...) \{}
+\DoxyCodeLine{841     \textcolor{comment}{/* ... */}}
+\DoxyCodeLine{842     assert(\mbox{\hyperlink{classstd_1_1indexer_a9ac6f1d456dbee05bfa6e88a614d5801}{\_data}}.size() || !Locked \&\& (\textcolor{stringliteral}{"{}LOCKED CONTAINER CAN'T BE DEFAULT/EMPTY-\/INITIALIZED!"{}}));}
+\DoxyCodeLine{843 \}}
+\DoxyCodeLine{844 }
+\DoxyCodeLine{845 }
+\DoxyCodeLine{846 }
+\DoxyCodeLine{847 \textcolor{keyword}{template} < \textcolor{keyword}{typename} Container, \textcolor{keyword}{typename} T, \textcolor{keywordtype}{bool} Locked >}
+\DoxyCodeLine{848 \textcolor{keyword}{template} < \textcolor{keywordtype}{bool} oLocked >}
+\DoxyCodeLine{849 \mbox{\hyperlink{classstd_1_1indexer_a356d97a5ba7a2ea11fcc8f88373b969c}{indexer< Container, T, Locked >::indexer}}(\textcolor{keyword}{const} \mbox{\hyperlink{classstd_1_1indexer}{indexer< Container, T, oLocked >}}\& other) \{}
+\DoxyCodeLine{850     \textcolor{comment}{/* ... */}}
+\DoxyCodeLine{851     assert(other.\mbox{\hyperlink{classstd_1_1indexer_a7b7eda6fff717701d1c35a85641700f3}{size}}() || !Locked \&\& (\textcolor{stringliteral}{"{}LOCKED CONTAINER CAN'T BE DEFAULT/EMPTY-\/INITIALIZED!"{}}));}
+\DoxyCodeLine{852     \mbox{\hyperlink{classstd_1_1indexer_a9ac6f1d456dbee05bfa6e88a614d5801}{\_data}} = other.\mbox{\hyperlink{classstd_1_1indexer_a9ac6f1d456dbee05bfa6e88a614d5801}{\_data}};}
+\DoxyCodeLine{853 \}}
+\DoxyCodeLine{854 }
+\DoxyCodeLine{855 }
+\DoxyCodeLine{856 }
+\DoxyCodeLine{857 \textcolor{keyword}{template} < \textcolor{keyword}{typename} Container, \textcolor{keyword}{typename} T, \textcolor{keywordtype}{bool} Locked >}
+\DoxyCodeLine{858 \textcolor{keyword}{template} < \textcolor{keywordtype}{bool} oLocked >}
+\DoxyCodeLine{859 \mbox{\hyperlink{classstd_1_1indexer_a356d97a5ba7a2ea11fcc8f88373b969c}{indexer< Container, T, Locked >::indexer}}(indexer< Container, T, oLocked >\&\& other) \{}
+\DoxyCodeLine{860     \textcolor{comment}{/* ... */}}
+\DoxyCodeLine{861     assert(other.size() || !Locked \&\& (\textcolor{stringliteral}{"{}LOCKED CONTAINER CAN'T BE DEFAULT/EMPTY-\/INITIALIZED!"{}}));}
+\DoxyCodeLine{862     \mbox{\hyperlink{classstd_1_1indexer_a9ac6f1d456dbee05bfa6e88a614d5801}{\_data}} = std::move(other.\_data);}
+\DoxyCodeLine{863 \}}
+\DoxyCodeLine{864 }
+\DoxyCodeLine{865 }
+\DoxyCodeLine{866 }
+\DoxyCodeLine{867 \textcolor{keyword}{template} < \textcolor{keyword}{typename} Container, \textcolor{keyword}{typename} T, \textcolor{keywordtype}{bool} Locked >}
+\DoxyCodeLine{868 \mbox{\hyperlink{classstd_1_1indexer_a356d97a5ba7a2ea11fcc8f88373b969c}{indexer< Container, T, Locked >::indexer}}(std::initializer\_list< T > data) \{}
+\DoxyCodeLine{869     \textcolor{comment}{/* ... */}}
+\DoxyCodeLine{870     \textcolor{comment}{// \_data.reserve(data.size());  // requires Container to be std::vector!}}
+\DoxyCodeLine{871     \textcolor{keywordflow}{for} (\textcolor{keyword}{auto}\& \mbox{\hyperlink{classstd_1_1indexer_a6db8b4e2cd3f9e1229e56199d9570e8e}{element}} : data) \{}
+\DoxyCodeLine{872         \textcolor{comment}{// since element\_type and T are implicitely convertible/constructible}}
+\DoxyCodeLine{873         \textcolor{comment}{// calls element\_type(const T\&) copy constructor overload}}
+\DoxyCodeLine{874         \mbox{\hyperlink{classstd_1_1indexer_a9ac6f1d456dbee05bfa6e88a614d5801}{\_data}}.emplace\_back(std::move(\mbox{\hyperlink{classstd_1_1indexer_a6db8b4e2cd3f9e1229e56199d9570e8e}{element}}));}
+\DoxyCodeLine{875     \}}
+\DoxyCodeLine{876 \}}
+\DoxyCodeLine{877 }
+\DoxyCodeLine{878 }
+\DoxyCodeLine{879 }
+\DoxyCodeLine{880 \textcolor{comment}{// template < typename Container, typename T, bool Locked >}}
+\DoxyCodeLine{881 \textcolor{comment}{// indexer< Container, T, Locked >::\string~indexer() \{}}
+\DoxyCodeLine{882 \textcolor{comment}{//     /* ... */}}
+\DoxyCodeLine{883 \textcolor{comment}{// \}}}
+\DoxyCodeLine{884 }
+\DoxyCodeLine{885 }
+\DoxyCodeLine{886 }
+\DoxyCodeLine{887 \textcolor{keyword}{template} < \textcolor{keyword}{typename} Container, \textcolor{keyword}{typename} T, \textcolor{keywordtype}{bool} Locked >}
+\DoxyCodeLine{888 \textcolor{keyword}{template} < \textcolor{keywordtype}{bool} oLocked >}
+\DoxyCodeLine{889 indexer< Container, T, Locked >\& \mbox{\hyperlink{classstd_1_1indexer_aa60b1004706755f1378b22ac5967365a}{indexer< Container, T, Locked >::operator=}}(\textcolor{keyword}{const} indexer< Container, T, oLocked >\& other) \{}
+\DoxyCodeLine{890     \textcolor{comment}{/* ... */}}
+\DoxyCodeLine{891     assert(\mbox{\hyperlink{classstd_1_1indexer_a9ac6f1d456dbee05bfa6e88a614d5801}{\_data}}.size() == other.size() || !Locked \&\& (\textcolor{stringliteral}{"{}LOCKED CONTAINER CAN'T BE RESIZED!"{}}));}
+\DoxyCodeLine{892     \mbox{\hyperlink{classstd_1_1indexer_a9ac6f1d456dbee05bfa6e88a614d5801}{\_data}} = other.\_data;}
+\DoxyCodeLine{893     \textcolor{comment}{/* ... */}}
+\DoxyCodeLine{894     \textcolor{keywordflow}{return} (*\textcolor{keyword}{this});}
+\DoxyCodeLine{895 \}}
+\DoxyCodeLine{896 }
+\DoxyCodeLine{897 }
+\DoxyCodeLine{898 }
+\DoxyCodeLine{899 \textcolor{keyword}{template} < \textcolor{keyword}{typename} Container, \textcolor{keyword}{typename} T, \textcolor{keywordtype}{bool} Locked >}
+\DoxyCodeLine{900 \textcolor{keyword}{template} < \textcolor{keywordtype}{bool} oLocked >}
+\DoxyCodeLine{901 indexer< Container, T, Locked >\& \mbox{\hyperlink{classstd_1_1indexer_aa60b1004706755f1378b22ac5967365a}{indexer< Container, T, Locked >::operator=}}(indexer< Container, T, oLocked >\&\& other) \{}
+\DoxyCodeLine{902     \textcolor{comment}{/* ... */}}
+\DoxyCodeLine{903     assert(\mbox{\hyperlink{classstd_1_1indexer_a9ac6f1d456dbee05bfa6e88a614d5801}{\_data}}.size() == other.size() || !Locked \&\& (\textcolor{stringliteral}{"{}LOCKED CONTAINER CAN'T BE RESIZED!"{}}));}
+\DoxyCodeLine{904     \mbox{\hyperlink{classstd_1_1indexer_a9ac6f1d456dbee05bfa6e88a614d5801}{\_data}} = other.\_data;}
+\DoxyCodeLine{905     \textcolor{comment}{/* ... */}}
+\DoxyCodeLine{906     \textcolor{keywordflow}{return} (*\textcolor{keyword}{this});}
+\DoxyCodeLine{907 \}}
+\DoxyCodeLine{908 }
+\DoxyCodeLine{909 }
+\DoxyCodeLine{910 }
+\DoxyCodeLine{911 \textcolor{keyword}{template} < \textcolor{keyword}{typename} Container, \textcolor{keyword}{typename} T, \textcolor{keywordtype}{bool} Locked >}
+\DoxyCodeLine{912 \textcolor{keyword}{template} < \textcolor{keyword}{typename}, \textcolor{keyword}{typename} >}
+\DoxyCodeLine{913 \textcolor{keyword}{typename} \mbox{\hyperlink{classstd_1_1indexer_ae2db1ee5c5641d5faaef45747c63ac37}{indexer< Container, T, Locked >::reference}} \mbox{\hyperlink{classstd_1_1indexer_a2e5fac2a6c305177ba9834949af44dd6}{indexer< Container, T, Locked >::operator()}}(\textcolor{keyword}{typename} \mbox{\hyperlink{classstd_1_1indexer_a59e97f3ead469e9d8d383f8a10f46a56}{indexer< Container, T, Locked >::size\_type}} pos) \{}
+\DoxyCodeLine{914     \textcolor{keywordflow}{if} (pos >= 0 \&\& pos < \mbox{\hyperlink{classstd_1_1indexer_a9ac6f1d456dbee05bfa6e88a614d5801}{\_data}}.size()) \{}
+\DoxyCodeLine{915         \textcolor{keywordflow}{return} \mbox{\hyperlink{classstd_1_1indexer_a9ac6f1d456dbee05bfa6e88a614d5801}{\_data}}[pos];}
+\DoxyCodeLine{916     \}}
+\DoxyCodeLine{917     \textcolor{keywordflow}{throw} std::out\_of\_range(\textcolor{stringliteral}{"{}["{}} + std::string(\_\_func\_\_) + \textcolor{stringliteral}{"{}] Invalid position!"{}});}
+\DoxyCodeLine{918 \}}
+\DoxyCodeLine{919 }
+\DoxyCodeLine{920 }
+\DoxyCodeLine{921 }
+\DoxyCodeLine{922 \textcolor{keyword}{template} < \textcolor{keyword}{typename} Container, \textcolor{keyword}{typename} T, \textcolor{keywordtype}{bool} Locked >}
+\DoxyCodeLine{923 \textcolor{keyword}{template} < \textcolor{keyword}{typename}, \textcolor{keyword}{typename} >}
+\DoxyCodeLine{924 \textcolor{keyword}{typename} \mbox{\hyperlink{classstd_1_1indexer_abfaec2da712e26c1c02b7433952f6599}{indexer< Container, T, Locked >::const\_reference}} \mbox{\hyperlink{classstd_1_1indexer_a2e5fac2a6c305177ba9834949af44dd6}{indexer< Container, T, Locked >::operator()}}(\textcolor{keyword}{typename} \mbox{\hyperlink{classstd_1_1indexer_a59e97f3ead469e9d8d383f8a10f46a56}{indexer< Container, T, Locked >::size\_type}} pos)\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{925     \textcolor{keywordflow}{if} (pos >= 0 \&\& pos < \mbox{\hyperlink{classstd_1_1indexer_a9ac6f1d456dbee05bfa6e88a614d5801}{\_data}}.size()) \{}
+\DoxyCodeLine{926         \textcolor{keywordflow}{return} \mbox{\hyperlink{classstd_1_1indexer_a9ac6f1d456dbee05bfa6e88a614d5801}{\_data}}[pos];}
+\DoxyCodeLine{927     \}}
+\DoxyCodeLine{928     \textcolor{keywordflow}{throw} std::out\_of\_range(\textcolor{stringliteral}{"{}["{}} + std::string(\_\_func\_\_) + \textcolor{stringliteral}{"{}] Invalid position!"{}});}
+\DoxyCodeLine{929 \}}
+\DoxyCodeLine{930 }
+\DoxyCodeLine{931 }
+\DoxyCodeLine{932 }
+\DoxyCodeLine{933 \textcolor{keyword}{template} < \textcolor{keyword}{typename} Container, \textcolor{keyword}{typename} T, \textcolor{keywordtype}{bool} Locked >}
+\DoxyCodeLine{934 \textcolor{keyword}{typename} \mbox{\hyperlink{classstd_1_1indexer_ae2db1ee5c5641d5faaef45747c63ac37}{indexer< Container, T, Locked >::reference}} \mbox{\hyperlink{classstd_1_1indexer_a2e5fac2a6c305177ba9834949af44dd6}{indexer< Container, T, Locked >::operator()}}(\textcolor{keyword}{const} \textcolor{keyword}{typename} \mbox{\hyperlink{classstd_1_1indexer_a677771da29cdc65d7db881149cf4abdc}{indexer< Container, T, Locked >::key\_type}}\& \mbox{\hyperlink{classstd_1_1indexer_abdfc9ddeeb8ba66f9927f58b684dc8b5}{key}}) \{}
+\DoxyCodeLine{935     \textcolor{keywordflow}{return} \mbox{\hyperlink{classstd_1_1indexer_a9ac6f1d456dbee05bfa6e88a614d5801}{\_data}}[\mbox{\hyperlink{classstd_1_1indexer_a56604ec6f2532c9f5ea37ad538132525}{find}}(\mbox{\hyperlink{classstd_1_1indexer_abdfc9ddeeb8ba66f9927f58b684dc8b5}{key}})];}
+\DoxyCodeLine{936 \}}
+\DoxyCodeLine{937 }
+\DoxyCodeLine{938 }
+\DoxyCodeLine{939 }
+\DoxyCodeLine{940 \textcolor{keyword}{template} < \textcolor{keyword}{typename} Container, \textcolor{keyword}{typename} T, \textcolor{keywordtype}{bool} Locked >}
+\DoxyCodeLine{941 \textcolor{keyword}{typename} \mbox{\hyperlink{classstd_1_1indexer_abfaec2da712e26c1c02b7433952f6599}{indexer< Container, T, Locked >::const\_reference}} \mbox{\hyperlink{classstd_1_1indexer_a2e5fac2a6c305177ba9834949af44dd6}{indexer< Container, T, Locked >::operator()}}(\textcolor{keyword}{const} \textcolor{keyword}{typename} \mbox{\hyperlink{classstd_1_1indexer_a677771da29cdc65d7db881149cf4abdc}{indexer< Container, T, Locked >::key\_type}}\& \mbox{\hyperlink{classstd_1_1indexer_abdfc9ddeeb8ba66f9927f58b684dc8b5}{key}})\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{942     \textcolor{keywordflow}{return} \mbox{\hyperlink{classstd_1_1indexer_a9ac6f1d456dbee05bfa6e88a614d5801}{\_data}}[\mbox{\hyperlink{classstd_1_1indexer_a56604ec6f2532c9f5ea37ad538132525}{find}}(\mbox{\hyperlink{classstd_1_1indexer_abdfc9ddeeb8ba66f9927f58b684dc8b5}{key}})];}
+\DoxyCodeLine{943 \}}
+\DoxyCodeLine{944 }
+\DoxyCodeLine{945 }
+\DoxyCodeLine{946 }
+\DoxyCodeLine{947 \textcolor{keyword}{template} < \textcolor{keyword}{typename} Container, \textcolor{keyword}{typename} T, \textcolor{keywordtype}{bool} Locked >}
+\DoxyCodeLine{948 \textcolor{keyword}{typename} \mbox{\hyperlink{classstd_1_1indexer_ae2db1ee5c5641d5faaef45747c63ac37}{indexer< Container, T, Locked >::reference}} \mbox{\hyperlink{classstd_1_1indexer_a5c85d26bb9699dbdcd146f4b673339cb}{indexer< Container, T, Locked >::operator[]}}(\textcolor{keyword}{typename} \mbox{\hyperlink{classstd_1_1indexer_a59e97f3ead469e9d8d383f8a10f46a56}{indexer< Container, T, Locked >::size\_type}} pos) \{}
+\DoxyCodeLine{949     \textcolor{keywordflow}{return} \mbox{\hyperlink{classstd_1_1indexer_a8ed5217ce0360fcc00207cc4b0da4a5a}{at}}(pos);}
+\DoxyCodeLine{950 \}}
+\DoxyCodeLine{951 }
+\DoxyCodeLine{952 }
+\DoxyCodeLine{953 }
+\DoxyCodeLine{954 \textcolor{keyword}{template} < \textcolor{keyword}{typename} Container, \textcolor{keyword}{typename} T, \textcolor{keywordtype}{bool} Locked >}
+\DoxyCodeLine{955 \textcolor{keyword}{typename} \mbox{\hyperlink{classstd_1_1indexer_abfaec2da712e26c1c02b7433952f6599}{indexer< Container, T, Locked >::const\_reference}} \mbox{\hyperlink{classstd_1_1indexer_a5c85d26bb9699dbdcd146f4b673339cb}{indexer< Container, T, Locked >::operator[]}}(\textcolor{keyword}{typename} \mbox{\hyperlink{classstd_1_1indexer_a59e97f3ead469e9d8d383f8a10f46a56}{indexer< Container, T, Locked >::size\_type}} pos)\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{956     \textcolor{keywordflow}{return} \mbox{\hyperlink{classstd_1_1indexer_a8ed5217ce0360fcc00207cc4b0da4a5a}{at}}(pos);}
+\DoxyCodeLine{957 \}}
+\DoxyCodeLine{958 }
+\DoxyCodeLine{959 }
+\DoxyCodeLine{960 }
+\DoxyCodeLine{961 \textcolor{keyword}{template} < \textcolor{keyword}{typename} Container, \textcolor{keyword}{typename} T, \textcolor{keywordtype}{bool} Locked >}
+\DoxyCodeLine{962 \textcolor{keyword}{template} < \textcolor{keyword}{typename}, \textcolor{keyword}{typename} >}
+\DoxyCodeLine{963 \textcolor{keyword}{typename} \mbox{\hyperlink{classstd_1_1indexer_ae2db1ee5c5641d5faaef45747c63ac37}{indexer< Container, T, Locked >::reference}} \mbox{\hyperlink{classstd_1_1indexer_a5c85d26bb9699dbdcd146f4b673339cb}{indexer< Container, T, Locked >::operator[]}}(\textcolor{keyword}{const} \textcolor{keyword}{typename} \mbox{\hyperlink{classstd_1_1indexer_a677771da29cdc65d7db881149cf4abdc}{indexer< Container, T, Locked >::key\_type}}\& \mbox{\hyperlink{classstd_1_1indexer_abdfc9ddeeb8ba66f9927f58b684dc8b5}{key}}) \{}
+\DoxyCodeLine{964     \textcolor{keywordflow}{return} \mbox{\hyperlink{classstd_1_1indexer_a8ed5217ce0360fcc00207cc4b0da4a5a}{at}}(\mbox{\hyperlink{classstd_1_1indexer_abdfc9ddeeb8ba66f9927f58b684dc8b5}{key}});}
+\DoxyCodeLine{965 \}}
+\DoxyCodeLine{966 }
+\DoxyCodeLine{967 }
+\DoxyCodeLine{968 }
+\DoxyCodeLine{969 \textcolor{keyword}{template} < \textcolor{keyword}{typename} Container, \textcolor{keyword}{typename} T, \textcolor{keywordtype}{bool} Locked >}
+\DoxyCodeLine{970 \textcolor{keyword}{template} < \textcolor{keyword}{typename}, \textcolor{keyword}{typename} >}
+\DoxyCodeLine{971 \textcolor{keyword}{typename} \mbox{\hyperlink{classstd_1_1indexer_abfaec2da712e26c1c02b7433952f6599}{indexer< Container, T, Locked >::const\_reference}} \mbox{\hyperlink{classstd_1_1indexer_a5c85d26bb9699dbdcd146f4b673339cb}{indexer< Container, T, Locked >::operator[]}}(\textcolor{keyword}{const} \textcolor{keyword}{typename} \mbox{\hyperlink{classstd_1_1indexer_a677771da29cdc65d7db881149cf4abdc}{indexer< Container, T, Locked >::key\_type}}\& \mbox{\hyperlink{classstd_1_1indexer_abdfc9ddeeb8ba66f9927f58b684dc8b5}{key}})\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{972     \textcolor{keywordflow}{return} \mbox{\hyperlink{classstd_1_1indexer_a8ed5217ce0360fcc00207cc4b0da4a5a}{at}}(\mbox{\hyperlink{classstd_1_1indexer_abdfc9ddeeb8ba66f9927f58b684dc8b5}{key}});}
+\DoxyCodeLine{973 \}}
+\DoxyCodeLine{974 }
+\DoxyCodeLine{975 }
+\DoxyCodeLine{976 }
+\DoxyCodeLine{977 \textcolor{keyword}{template} < \textcolor{keyword}{typename} Container, \textcolor{keyword}{typename} T, \textcolor{keywordtype}{bool} Locked >}
+\DoxyCodeLine{978 \textcolor{keyword}{template} < \textcolor{keyword}{typename} oT >}
+\DoxyCodeLine{979 oT\& \mbox{\hyperlink{classstd_1_1indexer_a8ed5217ce0360fcc00207cc4b0da4a5a}{indexer< Container, T, Locked >::at}}(\textcolor{keyword}{typename} \mbox{\hyperlink{classstd_1_1indexer_a59e97f3ead469e9d8d383f8a10f46a56}{indexer< Container, T, Locked >::size\_type}} pos) \{}
+\DoxyCodeLine{980     \textcolor{keyword}{static\_assert}(is\_convertible< element\_type, oT >(),}
+\DoxyCodeLine{981                   \textcolor{stringliteral}{"{}[element\_type] MUST BE CONVERTIBLE TO OUTPUT TYPE [oT]"{}});}
+\DoxyCodeLine{982     \textcolor{comment}{//}}
+\DoxyCodeLine{983     \textcolor{keywordflow}{if} (pos >= 0 \&\& pos < \mbox{\hyperlink{classstd_1_1indexer_a9ac6f1d456dbee05bfa6e88a614d5801}{\_data}}.size()) \{}
+\DoxyCodeLine{984         \textcolor{keywordflow}{return} \mbox{\hyperlink{classstd_1_1indexer_a9ac6f1d456dbee05bfa6e88a614d5801}{\_data}}[pos];}
+\DoxyCodeLine{985     \}}
+\DoxyCodeLine{986     \textcolor{keywordflow}{throw} std::out\_of\_range(\textcolor{stringliteral}{"{}["{}} + std::string(\_\_func\_\_) + \textcolor{stringliteral}{"{}] Invalid position!"{}});}
+\DoxyCodeLine{987 \}}
+\DoxyCodeLine{988 }
+\DoxyCodeLine{989 }
+\DoxyCodeLine{990 }
+\DoxyCodeLine{991 \textcolor{keyword}{template} < \textcolor{keyword}{typename} Container, \textcolor{keyword}{typename} T, \textcolor{keywordtype}{bool} Locked >}
+\DoxyCodeLine{992 \textcolor{keyword}{template} < \textcolor{keyword}{typename} oT >}
+\DoxyCodeLine{993 \textcolor{keyword}{const} oT\& \mbox{\hyperlink{classstd_1_1indexer_a8ed5217ce0360fcc00207cc4b0da4a5a}{indexer< Container, T, Locked >::at}}(\textcolor{keyword}{typename} \mbox{\hyperlink{classstd_1_1indexer_a59e97f3ead469e9d8d383f8a10f46a56}{indexer< Container, T, Locked >::size\_type}} pos)\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{994     \textcolor{keyword}{static\_assert}(is\_convertible< element\_type, oT >(),}
+\DoxyCodeLine{995                   \textcolor{stringliteral}{"{}[element\_type] MUST BE CONVERTIBLE TO OUTPUT TYPE [oT]"{}});}
+\DoxyCodeLine{996     \textcolor{comment}{//}}
+\DoxyCodeLine{997     \textcolor{keywordflow}{if} (pos >= 0 \&\& pos < \mbox{\hyperlink{classstd_1_1indexer_a9ac6f1d456dbee05bfa6e88a614d5801}{\_data}}.size()) \{}
+\DoxyCodeLine{998         \textcolor{keywordflow}{return} \mbox{\hyperlink{classstd_1_1indexer_a9ac6f1d456dbee05bfa6e88a614d5801}{\_data}}[pos];}
+\DoxyCodeLine{999     \}}
+\DoxyCodeLine{1000     \textcolor{keywordflow}{throw} std::out\_of\_range(\textcolor{stringliteral}{"{}["{}} + std::string(\_\_func\_\_) + \textcolor{stringliteral}{"{}] Invalid position!"{}});}
+\DoxyCodeLine{1001 \}}
+\DoxyCodeLine{1002 }
+\DoxyCodeLine{1003 }
+\DoxyCodeLine{1004 }
+\DoxyCodeLine{1005 \textcolor{keyword}{template} < \textcolor{keyword}{typename} Container, \textcolor{keyword}{typename} T, \textcolor{keywordtype}{bool} Locked >}
+\DoxyCodeLine{1006 \textcolor{keyword}{template} < \textcolor{keyword}{typename} oT, \textcolor{keyword}{typename}, \textcolor{keyword}{typename} >}
+\DoxyCodeLine{1007 oT\& \mbox{\hyperlink{classstd_1_1indexer_a8ed5217ce0360fcc00207cc4b0da4a5a}{indexer< Container, T, Locked >::at}}(\textcolor{keyword}{const} \textcolor{keyword}{typename} \mbox{\hyperlink{classstd_1_1indexer_a677771da29cdc65d7db881149cf4abdc}{indexer< Container, T, Locked >::key\_type}}\& \mbox{\hyperlink{classstd_1_1indexer_abdfc9ddeeb8ba66f9927f58b684dc8b5}{key}}) \{}
+\DoxyCodeLine{1008     \textcolor{keywordflow}{return} \mbox{\hyperlink{classstd_1_1indexer_a9ac6f1d456dbee05bfa6e88a614d5801}{\_data}}[\mbox{\hyperlink{classstd_1_1indexer_a56604ec6f2532c9f5ea37ad538132525}{find}}(\mbox{\hyperlink{classstd_1_1indexer_abdfc9ddeeb8ba66f9927f58b684dc8b5}{key}})];}
+\DoxyCodeLine{1009 \}}
+\DoxyCodeLine{1010 }
+\DoxyCodeLine{1011 }
+\DoxyCodeLine{1012 }
+\DoxyCodeLine{1013 \textcolor{keyword}{template} < \textcolor{keyword}{typename} Container, \textcolor{keyword}{typename} T, \textcolor{keywordtype}{bool} Locked >}
+\DoxyCodeLine{1014 \textcolor{keyword}{template} < \textcolor{keyword}{typename} oT, \textcolor{keyword}{typename}, \textcolor{keyword}{typename} >}
+\DoxyCodeLine{1015 \textcolor{keyword}{const} oT\& \mbox{\hyperlink{classstd_1_1indexer_a8ed5217ce0360fcc00207cc4b0da4a5a}{indexer< Container, T, Locked >::at}}(\textcolor{keyword}{const} \textcolor{keyword}{typename} \mbox{\hyperlink{classstd_1_1indexer_a677771da29cdc65d7db881149cf4abdc}{indexer< Container, T, Locked >::key\_type}}\& \mbox{\hyperlink{classstd_1_1indexer_abdfc9ddeeb8ba66f9927f58b684dc8b5}{key}})\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{1016     \textcolor{keywordflow}{return} \mbox{\hyperlink{classstd_1_1indexer_a9ac6f1d456dbee05bfa6e88a614d5801}{\_data}}[\mbox{\hyperlink{classstd_1_1indexer_a56604ec6f2532c9f5ea37ad538132525}{find}}(\mbox{\hyperlink{classstd_1_1indexer_abdfc9ddeeb8ba66f9927f58b684dc8b5}{key}})];}
+\DoxyCodeLine{1017 \}}
+\DoxyCodeLine{1018 }
+\DoxyCodeLine{1019 }
+\DoxyCodeLine{1020 }
+\DoxyCodeLine{1021 \textcolor{keyword}{template} < \textcolor{keyword}{typename} Container, \textcolor{keyword}{typename} T, \textcolor{keywordtype}{bool} Locked >}
+\DoxyCodeLine{1022 \textcolor{keyword}{typename} \mbox{\hyperlink{classstd_1_1indexer_a59e97f3ead469e9d8d383f8a10f46a56}{indexer< Container, T, Locked >::size\_type}} \mbox{\hyperlink{classstd_1_1indexer_a56604ec6f2532c9f5ea37ad538132525}{indexer< Container, T, Locked >::find}}(\textcolor{keyword}{const} \mbox{\hyperlink{classstd_1_1indexer_a677771da29cdc65d7db881149cf4abdc}{indexer< Container, T, Locked >::key\_type}}\& identifier) \textcolor{keyword}{const} \textcolor{keyword}{noexcept} \{}
+\DoxyCodeLine{1023     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} idx = 0; idx < \mbox{\hyperlink{classstd_1_1indexer_a9ac6f1d456dbee05bfa6e88a614d5801}{\_data}}.size(); idx++) \{}
+\DoxyCodeLine{1024         \textcolor{keywordflow}{if} (\mbox{\hyperlink{classstd_1_1indexer_a9ac6f1d456dbee05bfa6e88a614d5801}{\_data}}[idx].\mbox{\hyperlink{classstd_1_1indexer_abdfc9ddeeb8ba66f9927f58b684dc8b5}{key}} == identifier) \{}
+\DoxyCodeLine{1025             \textcolor{keywordflow}{return} idx;}
+\DoxyCodeLine{1026         \}}
+\DoxyCodeLine{1027     \}}
+\DoxyCodeLine{1028     \textcolor{keywordflow}{return} -\/1;}
+\DoxyCodeLine{1029 \}}
+\DoxyCodeLine{1030 }
+\DoxyCodeLine{1031 }
+\DoxyCodeLine{1032 }
+\DoxyCodeLine{1033 \textcolor{keyword}{template} < \textcolor{keyword}{typename} Container, \textcolor{keyword}{typename} T, \textcolor{keywordtype}{bool} Locked >}
+\DoxyCodeLine{1034 \textcolor{keyword}{typename} \mbox{\hyperlink{classstd_1_1indexer_a677771da29cdc65d7db881149cf4abdc}{indexer< Container, T, Locked >::key\_type}}\& \mbox{\hyperlink{classstd_1_1indexer_abdfc9ddeeb8ba66f9927f58b684dc8b5}{indexer< Container, T, Locked >::key}}(\mbox{\hyperlink{classstd_1_1indexer_a59e97f3ead469e9d8d383f8a10f46a56}{indexer< Container, T, Locked >::size\_type}} pos) \{}
+\DoxyCodeLine{1035     \textcolor{keywordflow}{if} (pos >= 0 \&\& pos < \mbox{\hyperlink{classstd_1_1indexer_a9ac6f1d456dbee05bfa6e88a614d5801}{\_data}}.size()) \{}
+\DoxyCodeLine{1036         \textcolor{keywordflow}{return} \mbox{\hyperlink{classstd_1_1indexer_a9ac6f1d456dbee05bfa6e88a614d5801}{\_data}}[pos].key;}
+\DoxyCodeLine{1037     \}}
+\DoxyCodeLine{1038     \textcolor{keywordflow}{throw} std::out\_of\_range(\textcolor{stringliteral}{"{}["{}} + std::string(\_\_func\_\_) + \textcolor{stringliteral}{"{}] Invalid position!"{}});}
+\DoxyCodeLine{1039 \}}
+\DoxyCodeLine{1040 }
+\DoxyCodeLine{1041 }
+\DoxyCodeLine{1042 }
+\DoxyCodeLine{1043 \textcolor{keyword}{template} < \textcolor{keyword}{typename} Container, \textcolor{keyword}{typename} T, \textcolor{keywordtype}{bool} Locked >}
+\DoxyCodeLine{1044 \textcolor{keyword}{const} \textcolor{keyword}{typename} \mbox{\hyperlink{classstd_1_1indexer_a677771da29cdc65d7db881149cf4abdc}{indexer< Container, T, Locked >::key\_type}}\& \mbox{\hyperlink{classstd_1_1indexer_abdfc9ddeeb8ba66f9927f58b684dc8b5}{indexer< Container, T, Locked >::key}}(\mbox{\hyperlink{classstd_1_1indexer_a59e97f3ead469e9d8d383f8a10f46a56}{indexer< Container, T, Locked >::size\_type}} pos)\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{1045     \textcolor{keywordflow}{if} (pos >= 0 \&\& pos < \mbox{\hyperlink{classstd_1_1indexer_a9ac6f1d456dbee05bfa6e88a614d5801}{\_data}}.size()) \{}
+\DoxyCodeLine{1046         \textcolor{keywordflow}{return} \mbox{\hyperlink{classstd_1_1indexer_a9ac6f1d456dbee05bfa6e88a614d5801}{\_data}}[pos].key;}
+\DoxyCodeLine{1047     \}}
+\DoxyCodeLine{1048     \textcolor{keywordflow}{throw} std::out\_of\_range(\textcolor{stringliteral}{"{}["{}} + std::string(\_\_func\_\_) + \textcolor{stringliteral}{"{}] Invalid position!"{}});}
+\DoxyCodeLine{1049 \}}
+\DoxyCodeLine{1050 }
+\DoxyCodeLine{1051 }
+\DoxyCodeLine{1052 }
+\DoxyCodeLine{1053 \textcolor{keyword}{template} < \textcolor{keyword}{typename} Container, \textcolor{keyword}{typename} T, \textcolor{keywordtype}{bool} Locked >}
+\DoxyCodeLine{1054 \textcolor{keyword}{template} < \textcolor{keyword}{typename} OutputContainer >}
+\DoxyCodeLine{1055 OutputContainer \mbox{\hyperlink{classstd_1_1indexer_a1edaebfe6db06cea70710eb12d2648d7}{indexer< Container, T, Locked >::get\_keys}}()\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{1056     OutputContainer ids;}
+\DoxyCodeLine{1057     \textcolor{keywordflow}{for} (\textcolor{keyword}{const} \textcolor{keyword}{auto}\& \mbox{\hyperlink{classstd_1_1indexer_a6db8b4e2cd3f9e1229e56199d9570e8e}{element}} : \mbox{\hyperlink{classstd_1_1indexer_a9ac6f1d456dbee05bfa6e88a614d5801}{\_data}}) \{}
+\DoxyCodeLine{1058         ids.push\_back(\mbox{\hyperlink{classstd_1_1indexer_a6db8b4e2cd3f9e1229e56199d9570e8e}{element}}.key);}
+\DoxyCodeLine{1059     \}}
+\DoxyCodeLine{1060     \textcolor{keywordflow}{return} ids;}
+\DoxyCodeLine{1061 \}}
+\DoxyCodeLine{1062 }
+\DoxyCodeLine{1063 }
+\DoxyCodeLine{1064 }
+\DoxyCodeLine{1065 \textcolor{keyword}{template} < \textcolor{keyword}{typename} Container, \textcolor{keyword}{typename} T, \textcolor{keywordtype}{bool} Locked >}
+\DoxyCodeLine{1066 \textcolor{keyword}{template} < \textcolor{keyword}{typename} InputContainer >}
+\DoxyCodeLine{1067 \textcolor{keywordtype}{void} \mbox{\hyperlink{classstd_1_1indexer_acc79363995e1201900c3e2d4c5cc2c29}{indexer< Container, T, Locked >::set\_keys}}(\textcolor{keyword}{const} InputContainer\& identifiers) \{}
+\DoxyCodeLine{1068     \textcolor{keywordtype}{int} i = 0;}
+\DoxyCodeLine{1069     \textcolor{keywordflow}{for} (\textcolor{keyword}{const} \textcolor{keyword}{auto}\& \mbox{\hyperlink{classstd_1_1indexer_a6db8b4e2cd3f9e1229e56199d9570e8e}{element}} : \mbox{\hyperlink{classstd_1_1indexer_a9ac6f1d456dbee05bfa6e88a614d5801}{\_data}}) \{}
+\DoxyCodeLine{1070         \mbox{\hyperlink{classstd_1_1indexer_a6db8b4e2cd3f9e1229e56199d9570e8e}{element}}.key = identifiers[i++];}
+\DoxyCodeLine{1071     \}}
+\DoxyCodeLine{1072 \}}
+\DoxyCodeLine{1073 }
+\DoxyCodeLine{1074 }
+\DoxyCodeLine{1075 }
+\DoxyCodeLine{1076 \textcolor{keyword}{template} < \textcolor{keyword}{typename} Container, \textcolor{keyword}{typename} T, \textcolor{keywordtype}{bool} Locked >}
+\DoxyCodeLine{1077 \textcolor{keywordtype}{bool} \mbox{\hyperlink{classstd_1_1indexer_a0485f55eeabad823c7b04ed3041ba1ff}{indexer< Container, T, Locked >::empty}}() const noexcept \{}
+\DoxyCodeLine{1078     \textcolor{keywordflow}{return} \mbox{\hyperlink{classstd_1_1indexer_a9ac6f1d456dbee05bfa6e88a614d5801}{\_data}}.empty();}
+\DoxyCodeLine{1079 \}}
+\DoxyCodeLine{1080 }
+\DoxyCodeLine{1081 }
+\DoxyCodeLine{1082 }
+\DoxyCodeLine{1083 \textcolor{keyword}{template} < \textcolor{keyword}{typename} Container, \textcolor{keyword}{typename} T, \textcolor{keywordtype}{bool} Locked >}
+\DoxyCodeLine{1084 \textcolor{keyword}{typename} \mbox{\hyperlink{classstd_1_1indexer_a59e97f3ead469e9d8d383f8a10f46a56}{indexer< Container, T, Locked >::size\_type}} \mbox{\hyperlink{classstd_1_1indexer_a7b7eda6fff717701d1c35a85641700f3}{indexer< Container, T, Locked >::size}}() const noexcept \{}
+\DoxyCodeLine{1085     \textcolor{keywordflow}{return} \mbox{\hyperlink{classstd_1_1indexer_a9ac6f1d456dbee05bfa6e88a614d5801}{\_data}}.size();}
+\DoxyCodeLine{1086 \}}
+\DoxyCodeLine{1087 }
+\DoxyCodeLine{1088 }
+\DoxyCodeLine{1089 }
+\DoxyCodeLine{1090 \textcolor{keyword}{template} < \textcolor{keyword}{typename} Container, \textcolor{keyword}{typename} T, \textcolor{keywordtype}{bool} Locked >}
+\DoxyCodeLine{1091 \textcolor{keyword}{typename} \mbox{\hyperlink{classstd_1_1indexer_a59e97f3ead469e9d8d383f8a10f46a56}{indexer< Container, T, Locked >::size\_type}} \mbox{\hyperlink{classstd_1_1indexer_a8f7aa1e601161184638e428752e16306}{indexer< Container, T, Locked >::max\_size}}() const noexcept \{}
+\DoxyCodeLine{1092     \textcolor{keywordflow}{return} \mbox{\hyperlink{classstd_1_1indexer_a9ac6f1d456dbee05bfa6e88a614d5801}{\_data}}.max\_size();}
+\DoxyCodeLine{1093 \}}
+\DoxyCodeLine{1094 }
+\DoxyCodeLine{1095 }
+\DoxyCodeLine{1096 }
+\DoxyCodeLine{1097 \textcolor{keyword}{template} < \textcolor{keyword}{typename} Container, \textcolor{keyword}{typename} T, \textcolor{keywordtype}{bool} Locked >}
+\DoxyCodeLine{1098 \textcolor{keywordtype}{void} \mbox{\hyperlink{classstd_1_1indexer_a43f4a833351e90afb93cb8e9c5b5599f}{indexer< Container, T, Locked >::clear}}() noexcept \{}
+\DoxyCodeLine{1099     \textcolor{keyword}{static\_assert}(!Locked, \textcolor{stringliteral}{"{}LOCKED CONTAINER; RESIZE OPERATIONS FORBIDDEN"{}});}
+\DoxyCodeLine{1100     \mbox{\hyperlink{classstd_1_1indexer_a9ac6f1d456dbee05bfa6e88a614d5801}{\_data}}.clear();}
+\DoxyCodeLine{1101 \}}
+\DoxyCodeLine{1102 }
+\DoxyCodeLine{1103 }
+\DoxyCodeLine{1104 }
+\DoxyCodeLine{1105 \textcolor{keyword}{template} < \textcolor{keyword}{typename} Container, \textcolor{keyword}{typename} T, \textcolor{keywordtype}{bool} Locked >}
+\DoxyCodeLine{1106 \textcolor{keyword}{typename} \mbox{\hyperlink{classstd_1_1indexer_ab561f176e9d82a674e186ff6e33ee81f}{indexer< Container, T, Locked >::iterator}} \mbox{\hyperlink{classstd_1_1indexer_a1af166e35dbce8fa4b56b8b30144a045}{indexer< Container, T, Locked >::begin}}() noexcept \{}
+\DoxyCodeLine{1107     \textcolor{keywordflow}{return} \mbox{\hyperlink{classstd_1_1indexer_ab561f176e9d82a674e186ff6e33ee81f}{iterator}}(\&\mbox{\hyperlink{classstd_1_1indexer_a9ac6f1d456dbee05bfa6e88a614d5801}{\_data}}, 0);}
+\DoxyCodeLine{1108 \}}
+\DoxyCodeLine{1109 }
+\DoxyCodeLine{1110 }
+\DoxyCodeLine{1111 }
+\DoxyCodeLine{1112 \textcolor{keyword}{template} < \textcolor{keyword}{typename} Container, \textcolor{keyword}{typename} T, \textcolor{keywordtype}{bool} Locked >}
+\DoxyCodeLine{1113 \textcolor{keyword}{typename} \mbox{\hyperlink{classstd_1_1indexer_ab561f176e9d82a674e186ff6e33ee81f}{indexer< Container, T, Locked >::iterator}} \mbox{\hyperlink{classstd_1_1indexer_a59044e9e311ac2959367760233be8808}{indexer< Container, T, Locked >::end}}() noexcept \{}
+\DoxyCodeLine{1114     \textcolor{keywordflow}{return} \mbox{\hyperlink{classstd_1_1indexer_ab561f176e9d82a674e186ff6e33ee81f}{iterator}}(\&\mbox{\hyperlink{classstd_1_1indexer_a9ac6f1d456dbee05bfa6e88a614d5801}{\_data}}, \mbox{\hyperlink{classstd_1_1indexer_a9ac6f1d456dbee05bfa6e88a614d5801}{\_data}}.size());}
+\DoxyCodeLine{1115 \}}
+\DoxyCodeLine{1116 }
+\DoxyCodeLine{1117 }
+\DoxyCodeLine{1118 }
+\DoxyCodeLine{1119 \textcolor{keyword}{template} < \textcolor{keyword}{typename} Container, \textcolor{keyword}{typename} T, \textcolor{keywordtype}{bool} Locked >}
+\DoxyCodeLine{1120 \textcolor{keyword}{typename} \mbox{\hyperlink{classstd_1_1indexer_a1d435d880c6fed943652f1fb924b6338}{indexer< Container, T, Locked >::const\_iterator}} \mbox{\hyperlink{classstd_1_1indexer_a1af166e35dbce8fa4b56b8b30144a045}{indexer< Container, T, Locked >::begin}}() const noexcept \{}
+\DoxyCodeLine{1121     \textcolor{keywordflow}{return} \mbox{\hyperlink{classstd_1_1indexer_a1d435d880c6fed943652f1fb924b6338}{const\_iterator}}(\&\mbox{\hyperlink{classstd_1_1indexer_a9ac6f1d456dbee05bfa6e88a614d5801}{\_data}}, 0);}
+\DoxyCodeLine{1122 \}}
+\DoxyCodeLine{1123 }
+\DoxyCodeLine{1124 }
+\DoxyCodeLine{1125 }
+\DoxyCodeLine{1126 \textcolor{keyword}{template} < \textcolor{keyword}{typename} Container, \textcolor{keyword}{typename} T, \textcolor{keywordtype}{bool} Locked >}
+\DoxyCodeLine{1127 \textcolor{keyword}{typename} \mbox{\hyperlink{classstd_1_1indexer_a1d435d880c6fed943652f1fb924b6338}{indexer< Container, T, Locked >::const\_iterator}} \mbox{\hyperlink{classstd_1_1indexer_a59044e9e311ac2959367760233be8808}{indexer< Container, T, Locked >::end}}() const noexcept \{}
+\DoxyCodeLine{1128     \textcolor{keywordflow}{return} \mbox{\hyperlink{classstd_1_1indexer_a1d435d880c6fed943652f1fb924b6338}{const\_iterator}}(\&\mbox{\hyperlink{classstd_1_1indexer_a9ac6f1d456dbee05bfa6e88a614d5801}{\_data}}, \mbox{\hyperlink{classstd_1_1indexer_a9ac6f1d456dbee05bfa6e88a614d5801}{\_data}}.size());}
+\DoxyCodeLine{1129 \}}
+\DoxyCodeLine{1130 }
+\DoxyCodeLine{1131 }
+\DoxyCodeLine{1132 }
+\DoxyCodeLine{1133 \textcolor{keyword}{template} < \textcolor{keyword}{typename} Container, \textcolor{keyword}{typename} T, \textcolor{keywordtype}{bool} Locked >}
+\DoxyCodeLine{1134 \textcolor{keyword}{typename} \mbox{\hyperlink{classstd_1_1indexer_a1d435d880c6fed943652f1fb924b6338}{indexer< Container, T, Locked >::const\_iterator}} \mbox{\hyperlink{classstd_1_1indexer_a618fa6dc8e2f4a8fe18e302390b3c8e3}{indexer< Container, T, Locked >::cbegin}}() const noexcept \{}
+\DoxyCodeLine{1135     \textcolor{keywordflow}{return} \mbox{\hyperlink{classstd_1_1indexer_a1d435d880c6fed943652f1fb924b6338}{const\_iterator}}(\&\mbox{\hyperlink{classstd_1_1indexer_a9ac6f1d456dbee05bfa6e88a614d5801}{\_data}}, 0);}
+\DoxyCodeLine{1136 \}}
+\DoxyCodeLine{1137 }
+\DoxyCodeLine{1138 }
+\DoxyCodeLine{1139 }
+\DoxyCodeLine{1140 \textcolor{keyword}{template} < \textcolor{keyword}{typename} Container, \textcolor{keyword}{typename} T, \textcolor{keywordtype}{bool} Locked >}
+\DoxyCodeLine{1141 \textcolor{keyword}{typename} \mbox{\hyperlink{classstd_1_1indexer_a1d435d880c6fed943652f1fb924b6338}{indexer< Container, T, Locked >::const\_iterator}} \mbox{\hyperlink{classstd_1_1indexer_a9c4fc5265b22bde81be5e6fdbc4d3663}{indexer< Container, T, Locked >::cend}}() const noexcept \{}
+\DoxyCodeLine{1142     \textcolor{keywordflow}{return} \mbox{\hyperlink{classstd_1_1indexer_a1d435d880c6fed943652f1fb924b6338}{const\_iterator}}(\&\mbox{\hyperlink{classstd_1_1indexer_a9ac6f1d456dbee05bfa6e88a614d5801}{\_data}}, \mbox{\hyperlink{classstd_1_1indexer_a9ac6f1d456dbee05bfa6e88a614d5801}{\_data}}.size());}
+\DoxyCodeLine{1143 \}}
+\DoxyCodeLine{1144 }
+\DoxyCodeLine{1145 }
+\DoxyCodeLine{1146 }
+\DoxyCodeLine{1147 \textcolor{keyword}{template} < \textcolor{keyword}{typename} Container, \textcolor{keyword}{typename} T, \textcolor{keywordtype}{bool} Locked >}
+\DoxyCodeLine{1148 Container\& \mbox{\hyperlink{classstd_1_1indexer_adcae7721f0e6fd9404633568ca924615}{indexer< Container, T, Locked >::elements}}() noexcept \{}
+\DoxyCodeLine{1149     \textcolor{keywordflow}{return} \mbox{\hyperlink{classstd_1_1indexer_a9ac6f1d456dbee05bfa6e88a614d5801}{\_data}};}
+\DoxyCodeLine{1150 \}}
+\DoxyCodeLine{1151 }
+\DoxyCodeLine{1152 }
+\DoxyCodeLine{1153 }
+\DoxyCodeLine{1154 \textcolor{keyword}{template} < \textcolor{keyword}{typename} Container, \textcolor{keyword}{typename} T, \textcolor{keywordtype}{bool} Locked >}
+\DoxyCodeLine{1155 \textcolor{keyword}{const} Container\& \mbox{\hyperlink{classstd_1_1indexer_adcae7721f0e6fd9404633568ca924615}{indexer< Container, T, Locked >::elements}}() const noexcept \{}
+\DoxyCodeLine{1156     \textcolor{keywordflow}{return} \mbox{\hyperlink{classstd_1_1indexer_a9ac6f1d456dbee05bfa6e88a614d5801}{\_data}};}
+\DoxyCodeLine{1157 \}}
+\DoxyCodeLine{1158 }
+\DoxyCodeLine{1159 }
+\DoxyCodeLine{1160 }
+\DoxyCodeLine{1161 \textcolor{keyword}{template} < \textcolor{keyword}{typename} Container, \textcolor{keyword}{typename} T, \textcolor{keywordtype}{bool} Locked >}
+\DoxyCodeLine{1162 \textcolor{keyword}{typename} \mbox{\hyperlink{classstd_1_1indexer_af19cd09a80a82ecba0b08482703c478f}{indexer< Container, T, Locked >::element\_reference}} \mbox{\hyperlink{classstd_1_1indexer_a6db8b4e2cd3f9e1229e56199d9570e8e}{indexer< Container, T, Locked >::element}}(\mbox{\hyperlink{classstd_1_1indexer_a59e97f3ead469e9d8d383f8a10f46a56}{indexer< Container, T, Locked >::size\_type}} pos) \{}
+\DoxyCodeLine{1163     \textcolor{keywordflow}{return} \mbox{\hyperlink{classstd_1_1indexer_a9ac6f1d456dbee05bfa6e88a614d5801}{\_data}}[pos];  \textcolor{comment}{// return \_data.at< element\_reference >(pos);}}
+\DoxyCodeLine{1164 \}}
+\DoxyCodeLine{1165 }
+\DoxyCodeLine{1166 }
+\DoxyCodeLine{1167 }
+\DoxyCodeLine{1168 \textcolor{keyword}{template} < \textcolor{keyword}{typename} Container, \textcolor{keyword}{typename} T, \textcolor{keywordtype}{bool} Locked >}
+\DoxyCodeLine{1169 \textcolor{keyword}{typename} \mbox{\hyperlink{classstd_1_1indexer_a2b21e6a5992ff589b9a17a95f58f89f3}{indexer< Container, T, Locked >::element\_const\_reference}} \mbox{\hyperlink{classstd_1_1indexer_a6db8b4e2cd3f9e1229e56199d9570e8e}{indexer< Container, T, Locked >::element}}(\mbox{\hyperlink{classstd_1_1indexer_a59e97f3ead469e9d8d383f8a10f46a56}{indexer< Container, T, Locked >::size\_type}} pos)\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{1170     \textcolor{keywordflow}{return} \mbox{\hyperlink{classstd_1_1indexer_a9ac6f1d456dbee05bfa6e88a614d5801}{\_data}}[pos];  \textcolor{comment}{// return \_data.at< element\_reference >(pos);}}
+\DoxyCodeLine{1171 \}}
+\DoxyCodeLine{1172 }
+\DoxyCodeLine{1173 }
+\DoxyCodeLine{1174 }
+\DoxyCodeLine{1175 \textcolor{keyword}{template} < \textcolor{keyword}{typename} Container, \textcolor{keyword}{typename} T, \textcolor{keywordtype}{bool} Locked >}
+\DoxyCodeLine{1176 \textcolor{keyword}{template} < \textcolor{keywordtype}{bool} oLocked >}
+\DoxyCodeLine{1177 \textcolor{keywordtype}{void} \mbox{\hyperlink{classstd_1_1indexer_aac91bf80a4c7718b72e71df5428f8a27}{indexer< Container, T, Locked >::swap}}(\textcolor{keyword}{const} indexer< Container, T, oLocked >\& other) \textcolor{keyword}{noexcept} \{}
+\DoxyCodeLine{1178     \mbox{\hyperlink{classstd_1_1indexer_a9ac6f1d456dbee05bfa6e88a614d5801}{\_data}}.swap(other.\_data);}
+\DoxyCodeLine{1179 \}}
+\DoxyCodeLine{1180 }
+\DoxyCodeLine{1181 }
+\DoxyCodeLine{1182 }
+\DoxyCodeLine{1183 \textcolor{keyword}{template} < \textcolor{keyword}{typename} Container, \textcolor{keyword}{typename} T, \textcolor{keywordtype}{bool} Locked >}
+\DoxyCodeLine{1184 \textcolor{keywordtype}{void} indexer< Container, T, Locked >::assign(\mbox{\hyperlink{classstd_1_1indexer_a59e97f3ead469e9d8d383f8a10f46a56}{indexer< Container, T, Locked >::size\_type}} count, \textcolor{keyword}{const} T\& value) \{}
+\DoxyCodeLine{1185     \mbox{\hyperlink{classstd_1_1indexer_a9ac6f1d456dbee05bfa6e88a614d5801}{\_data}}.assign(count, value);}
+\DoxyCodeLine{1186 \}}
+\DoxyCodeLine{1187 }
+\DoxyCodeLine{1188 }
+\DoxyCodeLine{1189 }
+\DoxyCodeLine{1190 \textcolor{keyword}{template} < \textcolor{keyword}{typename} Container, \textcolor{keyword}{typename} T, \textcolor{keywordtype}{bool} Locked >}
+\DoxyCodeLine{1191 \textcolor{keyword}{template}< \textcolor{keyword}{class} InputIt >}
+\DoxyCodeLine{1192 \textcolor{keywordtype}{void} indexer< Container, T, Locked >::assign(InputIt first, InputIt last) \{}
+\DoxyCodeLine{1193     \mbox{\hyperlink{classstd_1_1indexer_a9ac6f1d456dbee05bfa6e88a614d5801}{\_data}}.assign(first, last);}
+\DoxyCodeLine{1194 \}}
+\DoxyCodeLine{1195 }
+\DoxyCodeLine{1196 }
+\DoxyCodeLine{1197 }
+\DoxyCodeLine{1198 \textcolor{keyword}{template} < \textcolor{keyword}{typename} Container, \textcolor{keyword}{typename} T, \textcolor{keywordtype}{bool} Locked >}
+\DoxyCodeLine{1199 \textcolor{keywordtype}{void} indexer< Container, T, Locked >::assign(std::initializer\_list< T > ilist) \{}
+\DoxyCodeLine{1200     \mbox{\hyperlink{classstd_1_1indexer_a9ac6f1d456dbee05bfa6e88a614d5801}{\_data}}.assign(ilist);}
+\DoxyCodeLine{1201 \}}
+\DoxyCodeLine{1202 }
+\DoxyCodeLine{1203 }
+\DoxyCodeLine{1204 }
+\DoxyCodeLine{1205 \textcolor{keyword}{template} < \textcolor{keyword}{typename} Container, \textcolor{keyword}{typename} T, \textcolor{keywordtype}{bool} Locked >}
+\DoxyCodeLine{1206 \textcolor{keyword}{template} < \textcolor{keyword}{typename} InputIt, \textcolor{keyword}{typename}, \textcolor{keyword}{typename}, \textcolor{keyword}{typename}... Args, \textcolor{keyword}{typename} >}
+\DoxyCodeLine{1207 \textcolor{keywordtype}{void} indexer< Container, T, Locked >::emplace(InputIt pos, Args... args) \{}
+\DoxyCodeLine{1208     \textcolor{keywordflow}{return} \mbox{\hyperlink{classstd_1_1indexer_a9ac6f1d456dbee05bfa6e88a614d5801}{\_data}}.emplace(pos, std::forward<Args>(args)...);}
+\DoxyCodeLine{1209 \}}
+\DoxyCodeLine{1210 }
+\DoxyCodeLine{1211 }
+\DoxyCodeLine{1212 }
+\DoxyCodeLine{1213 \textcolor{keyword}{template} < \textcolor{keyword}{typename} Container, \textcolor{keyword}{typename} T, \textcolor{keywordtype}{bool} Locked >}
+\DoxyCodeLine{1214 \textcolor{keyword}{template} < \textcolor{keyword}{typename} InputIt, \textcolor{keyword}{typename} >}
+\DoxyCodeLine{1215 \textcolor{keywordtype}{void} indexer< Container, T, Locked >::insert(InputIt pos, \textcolor{keyword}{const} T\& value) \{}
+\DoxyCodeLine{1216     \textcolor{comment}{// parse input iterator}}
+\DoxyCodeLine{1217     \mbox{\hyperlink{classstd_1_1indexer_a9ac6f1d456dbee05bfa6e88a614d5801}{\_data}}.insert(pos, value);}
+\DoxyCodeLine{1218 \}}
+\DoxyCodeLine{1219 }
+\DoxyCodeLine{1220 }
+\DoxyCodeLine{1221 }
+\DoxyCodeLine{1222 \textcolor{keyword}{template} < \textcolor{keyword}{typename} Container, \textcolor{keyword}{typename} T, \textcolor{keywordtype}{bool} Locked >}
+\DoxyCodeLine{1223 \textcolor{keyword}{template} < \textcolor{keyword}{typename} InputIt, \textcolor{keyword}{typename} >}
+\DoxyCodeLine{1224 \textcolor{keywordtype}{void} indexer< Container, T, Locked >::insert(InputIt pos, T\&\& value) \{}
+\DoxyCodeLine{1225     \mbox{\hyperlink{classstd_1_1indexer_a9ac6f1d456dbee05bfa6e88a614d5801}{\_data}}.insert(pos, value);}
+\DoxyCodeLine{1226 \}}
+\DoxyCodeLine{1227 }
+\DoxyCodeLine{1228 }
+\DoxyCodeLine{1229 }
+\DoxyCodeLine{1230 \textcolor{keyword}{template} < \textcolor{keyword}{typename} Container, \textcolor{keyword}{typename} T, \textcolor{keywordtype}{bool} Locked >}
+\DoxyCodeLine{1231 \textcolor{keyword}{template} < \textcolor{keyword}{typename} InputIt, \textcolor{keyword}{typename} >}
+\DoxyCodeLine{1232 \textcolor{keywordtype}{void} indexer< Container, T, Locked >::insert(InputIt pos, \textcolor{keyword}{typename} \mbox{\hyperlink{classstd_1_1indexer_a59e97f3ead469e9d8d383f8a10f46a56}{indexer< Container, T, Locked >::size\_type}} count, \textcolor{keyword}{const} T\& value) \{}
+\DoxyCodeLine{1233     \mbox{\hyperlink{classstd_1_1indexer_a9ac6f1d456dbee05bfa6e88a614d5801}{\_data}}.insert(pos, count, value);}
+\DoxyCodeLine{1234 \}}
+\DoxyCodeLine{1235 }
+\DoxyCodeLine{1236 }
+\DoxyCodeLine{1237 }
+\DoxyCodeLine{1238 \textcolor{keyword}{template} < \textcolor{keyword}{typename} Container, \textcolor{keyword}{typename} T, \textcolor{keywordtype}{bool} Locked >}
+\DoxyCodeLine{1239 \textcolor{keyword}{template}< \textcolor{keyword}{class} InputIt, \textcolor{keyword}{typename} SourceIt, \textcolor{keyword}{typename} >}
+\DoxyCodeLine{1240 \textcolor{keywordtype}{void} indexer< Container, T, Locked >::insert(InputIt pos, SourceIt first, SourceIt last) \{}
+\DoxyCodeLine{1241     \mbox{\hyperlink{classstd_1_1indexer_a9ac6f1d456dbee05bfa6e88a614d5801}{\_data}}.insert(pos, first, last);}
+\DoxyCodeLine{1242 \}}
+\DoxyCodeLine{1243 }
+\DoxyCodeLine{1244 }
+\DoxyCodeLine{1245 }
+\DoxyCodeLine{1246 \textcolor{keyword}{template} < \textcolor{keyword}{typename} Container, \textcolor{keyword}{typename} T, \textcolor{keywordtype}{bool} Locked >}
+\DoxyCodeLine{1247 \textcolor{keyword}{template} < \textcolor{keyword}{typename} InputIt, \textcolor{keyword}{typename} >}
+\DoxyCodeLine{1248 \textcolor{keywordtype}{void} indexer< Container, T, Locked >::insert(InputIt pos, std::initializer\_list< T > ilist) \{}
+\DoxyCodeLine{1249     \mbox{\hyperlink{classstd_1_1indexer_a9ac6f1d456dbee05bfa6e88a614d5801}{\_data}}.insert(pos, ilist);}
+\DoxyCodeLine{1250 \}}
+\DoxyCodeLine{1251 }
+\DoxyCodeLine{1252 }
+\DoxyCodeLine{1253 }
+\DoxyCodeLine{1254 \textcolor{keyword}{template} < \textcolor{keyword}{typename} Container, \textcolor{keyword}{typename} T, \textcolor{keywordtype}{bool} Locked >}
+\DoxyCodeLine{1255 \textcolor{keyword}{template}< \textcolor{keyword}{class} InputIt, \textcolor{keyword}{typename} >}
+\DoxyCodeLine{1256 \textcolor{keywordtype}{void} \mbox{\hyperlink{classstd_1_1indexer_a90231ed9d82f2df1af3a8b1375d15fd8}{indexer< Container, T, Locked >::erase}}(InputIt pos) \{}
+\DoxyCodeLine{1257     \textcolor{comment}{// @note  cast\_iterator< container\_type > is implicitly convertible to container\_type::iterator, we can just call underlying erase() overload}}
+\DoxyCodeLine{1258     \mbox{\hyperlink{classstd_1_1indexer_a9ac6f1d456dbee05bfa6e88a614d5801}{\_data}}.erase(pos);}
+\DoxyCodeLine{1259 \}}
+\DoxyCodeLine{1260 }
+\DoxyCodeLine{1261 }
+\DoxyCodeLine{1262 }
+\DoxyCodeLine{1263 \textcolor{keyword}{template} < \textcolor{keyword}{typename} Container, \textcolor{keyword}{typename} T, \textcolor{keywordtype}{bool} Locked >}
+\DoxyCodeLine{1264 \textcolor{keyword}{template}< \textcolor{keyword}{class} InputIt, \textcolor{keyword}{typename} >}
+\DoxyCodeLine{1265 \textcolor{keywordtype}{void} \mbox{\hyperlink{classstd_1_1indexer_a90231ed9d82f2df1af3a8b1375d15fd8}{indexer< Container, T, Locked >::erase}}(InputIt first, InputIt last) \{}
+\DoxyCodeLine{1266     \textcolor{comment}{// @note  cast\_iterator< container\_type > is implicitly convertible to container\_type::iterator, we can just call underlying erase() overload}}
+\DoxyCodeLine{1267     \mbox{\hyperlink{classstd_1_1indexer_a9ac6f1d456dbee05bfa6e88a614d5801}{\_data}}.erase(first, last);}
+\DoxyCodeLine{1268 \}}
+\DoxyCodeLine{1269 }
+\DoxyCodeLine{1270 }
+\DoxyCodeLine{1271 }
+\DoxyCodeLine{1272 \textcolor{keyword}{template} < \textcolor{keyword}{typename} Container, \textcolor{keyword}{typename} T, \textcolor{keywordtype}{bool} Locked >}
+\DoxyCodeLine{1273 \textcolor{keyword}{template} < \textcolor{keyword}{typename} oT, \textcolor{keyword}{typename}, \textcolor{keyword}{typename} >}
+\DoxyCodeLine{1274 oT\& \mbox{\hyperlink{classstd_1_1indexer_ab41b36dd8e552ecf2cd320e61d18dc4e}{indexer< Container, T, Locked >::front}}() \{}
+\DoxyCodeLine{1275     \textcolor{keywordflow}{return} \mbox{\hyperlink{classstd_1_1indexer_a9ac6f1d456dbee05bfa6e88a614d5801}{\_data}}.front();}
+\DoxyCodeLine{1276 \}}
+\DoxyCodeLine{1277 }
+\DoxyCodeLine{1278 }
+\DoxyCodeLine{1279 }
+\DoxyCodeLine{1280 \textcolor{keyword}{template} < \textcolor{keyword}{typename} Container, \textcolor{keyword}{typename} T, \textcolor{keywordtype}{bool} Locked >}
+\DoxyCodeLine{1281 \textcolor{keyword}{template} < \textcolor{keyword}{typename} oT, \textcolor{keyword}{typename}, \textcolor{keyword}{typename} >}
+\DoxyCodeLine{1282 \textcolor{keyword}{const} oT\& \mbox{\hyperlink{classstd_1_1indexer_ab41b36dd8e552ecf2cd320e61d18dc4e}{indexer< Container, T, Locked >::front}}()\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{1283     \textcolor{keywordflow}{return} \mbox{\hyperlink{classstd_1_1indexer_a9ac6f1d456dbee05bfa6e88a614d5801}{\_data}}.front();}
+\DoxyCodeLine{1284 \}}
+\DoxyCodeLine{1285 }
+\DoxyCodeLine{1286 }
+\DoxyCodeLine{1287 }
+\DoxyCodeLine{1288 \textcolor{keyword}{template} < \textcolor{keyword}{typename} Container, \textcolor{keyword}{typename} T, \textcolor{keywordtype}{bool} Locked >}
+\DoxyCodeLine{1289 \textcolor{keyword}{template} < \textcolor{keyword}{typename} oT, \textcolor{keyword}{typename}, \textcolor{keyword}{typename} >}
+\DoxyCodeLine{1290 oT\& \mbox{\hyperlink{classstd_1_1indexer_ae37e049188ad94b38aed10756bd9de48}{indexer< Container, T, Locked >::back}}() \{}
+\DoxyCodeLine{1291     \textcolor{keywordflow}{return} \mbox{\hyperlink{classstd_1_1indexer_a9ac6f1d456dbee05bfa6e88a614d5801}{\_data}}.back();}
+\DoxyCodeLine{1292 \}}
+\DoxyCodeLine{1293 }
+\DoxyCodeLine{1294 }
+\DoxyCodeLine{1295 }
+\DoxyCodeLine{1296 \textcolor{keyword}{template} < \textcolor{keyword}{typename} Container, \textcolor{keyword}{typename} T, \textcolor{keywordtype}{bool} Locked >}
+\DoxyCodeLine{1297 \textcolor{keyword}{template} < \textcolor{keyword}{typename} oT, \textcolor{keyword}{typename}, \textcolor{keyword}{typename} >}
+\DoxyCodeLine{1298 \textcolor{keyword}{const} oT\& \mbox{\hyperlink{classstd_1_1indexer_ae37e049188ad94b38aed10756bd9de48}{indexer< Container, T, Locked >::back}}()\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{1299     \textcolor{keywordflow}{return} \mbox{\hyperlink{classstd_1_1indexer_a9ac6f1d456dbee05bfa6e88a614d5801}{\_data}}.back();}
+\DoxyCodeLine{1300 \}}
+\DoxyCodeLine{1301 }
+\DoxyCodeLine{1302 }
+\DoxyCodeLine{1303 }
+\DoxyCodeLine{1304 \textcolor{keyword}{template} < \textcolor{keyword}{typename} Container, \textcolor{keyword}{typename} T, \textcolor{keywordtype}{bool} Locked >}
+\DoxyCodeLine{1305 \textcolor{keyword}{template} < \textcolor{keyword}{typename}, \textcolor{keyword}{typename}, \textcolor{keyword}{typename}, \textcolor{keyword}{typename}... Args, \textcolor{keyword}{typename} >}
+\DoxyCodeLine{1306 \textcolor{keywordtype}{void} \mbox{\hyperlink{classstd_1_1indexer_a9b7b7c46b8a066b633fcf29d3ec46846}{indexer< Container, T, Locked >::emplace\_front}}(Args\&\&... args) \{}
+\DoxyCodeLine{1307     \mbox{\hyperlink{classstd_1_1indexer_a9ac6f1d456dbee05bfa6e88a614d5801}{\_data}}.emplace\_front(std::forward<Args>(args)...);  \textcolor{comment}{// for return type, compile with C++17!!}}
+\DoxyCodeLine{1308 \}}
+\DoxyCodeLine{1309 }
+\DoxyCodeLine{1310 }
+\DoxyCodeLine{1311 }
+\DoxyCodeLine{1312 \textcolor{keyword}{template} < \textcolor{keyword}{typename} Container, \textcolor{keyword}{typename} T, \textcolor{keywordtype}{bool} Locked >}
+\DoxyCodeLine{1313 \textcolor{keyword}{template} < \textcolor{keyword}{typename}, \textcolor{keyword}{typename}, \textcolor{keyword}{typename}, \textcolor{keyword}{typename}... Args, \textcolor{keyword}{typename} >}
+\DoxyCodeLine{1314 \textcolor{keywordtype}{void} \mbox{\hyperlink{classstd_1_1indexer_a9b7b7c46b8a066b633fcf29d3ec46846}{indexer< Container, T, Locked >::emplace\_front}}(\textcolor{keyword}{const} \textcolor{keyword}{typename} \mbox{\hyperlink{classstd_1_1indexer_a677771da29cdc65d7db881149cf4abdc}{indexer< Container, T, Locked >::key\_type}}\& \mbox{\hyperlink{classstd_1_1indexer_abdfc9ddeeb8ba66f9927f58b684dc8b5}{key}}, Args\&\&... args) \{}
+\DoxyCodeLine{1315     \mbox{\hyperlink{classstd_1_1indexer_a9ac6f1d456dbee05bfa6e88a614d5801}{\_data}}.emplace\_front(\mbox{\hyperlink{classstd_1_1indexer_abdfc9ddeeb8ba66f9927f58b684dc8b5}{key}}, std::forward<Args>(args)...);  \textcolor{comment}{// for return type, compile with C++17!!}}
+\DoxyCodeLine{1316 \}}
+\DoxyCodeLine{1317 }
+\DoxyCodeLine{1318 }
+\DoxyCodeLine{1319 }
+\DoxyCodeLine{1320 \textcolor{keyword}{template} < \textcolor{keyword}{typename} Container, \textcolor{keyword}{typename} T, \textcolor{keywordtype}{bool} Locked >}
+\DoxyCodeLine{1321 \textcolor{keyword}{template} < \textcolor{keyword}{typename}, \textcolor{keyword}{typename}, \textcolor{keyword}{typename}, \textcolor{keyword}{typename}... Args, \textcolor{keyword}{typename} >}
+\DoxyCodeLine{1322 \textcolor{keywordtype}{void} \mbox{\hyperlink{classstd_1_1indexer_ab777b75368653a305d8624660a4f4281}{indexer< Container, T, Locked >::emplace\_back}}(Args\&\&... args) \{}
+\DoxyCodeLine{1323     \mbox{\hyperlink{classstd_1_1indexer_a9ac6f1d456dbee05bfa6e88a614d5801}{\_data}}.emplace\_back(std::forward<Args>(args)...);  \textcolor{comment}{// for return type, compile with C++17!!}}
+\DoxyCodeLine{1324 \}}
+\DoxyCodeLine{1325 }
+\DoxyCodeLine{1326 }
+\DoxyCodeLine{1327 }
+\DoxyCodeLine{1328 \textcolor{keyword}{template} < \textcolor{keyword}{typename} Container, \textcolor{keyword}{typename} T, \textcolor{keywordtype}{bool} Locked >}
+\DoxyCodeLine{1329 \textcolor{keyword}{template} < \textcolor{keyword}{typename}, \textcolor{keyword}{typename}, \textcolor{keyword}{typename}, \textcolor{keyword}{typename}... Args, \textcolor{keyword}{typename} >}
+\DoxyCodeLine{1330 \textcolor{keywordtype}{void} \mbox{\hyperlink{classstd_1_1indexer_ab777b75368653a305d8624660a4f4281}{indexer< Container, T, Locked >::emplace\_back}}(\textcolor{keyword}{const} \textcolor{keyword}{typename} \mbox{\hyperlink{classstd_1_1indexer_a677771da29cdc65d7db881149cf4abdc}{indexer< Container, T, Locked >::key\_type}}\& \mbox{\hyperlink{classstd_1_1indexer_abdfc9ddeeb8ba66f9927f58b684dc8b5}{key}}, Args\&\&... args) \{}
+\DoxyCodeLine{1331     \mbox{\hyperlink{classstd_1_1indexer_a9ac6f1d456dbee05bfa6e88a614d5801}{\_data}}.emplace\_back(\mbox{\hyperlink{classstd_1_1indexer_abdfc9ddeeb8ba66f9927f58b684dc8b5}{key}}, std::forward<Args>(args)...);  \textcolor{comment}{// for return type, compile with C++17!!}}
+\DoxyCodeLine{1332 \}}
+\DoxyCodeLine{1333 }
+\DoxyCodeLine{1334 }
+\DoxyCodeLine{1335 }
+\DoxyCodeLine{1336 \textcolor{keyword}{template} < \textcolor{keyword}{typename} Container, \textcolor{keyword}{typename} T, \textcolor{keywordtype}{bool} Locked >}
+\DoxyCodeLine{1337 \textcolor{keyword}{template} < \textcolor{keyword}{typename}, \textcolor{keyword}{typename} >}
+\DoxyCodeLine{1338 \textcolor{keywordtype}{void} \mbox{\hyperlink{classstd_1_1indexer_a84386d648c8188094902e5b3a29386a5}{indexer< Container, T, Locked >::push\_front}}(\textcolor{keyword}{typename} \mbox{\hyperlink{classstd_1_1indexer_ae759f8b0b7df8e5e56c8498f66a59dcd}{indexer< Container, T, Locked >::value\_type}}\&\& value) \{}
+\DoxyCodeLine{1339     \mbox{\hyperlink{classstd_1_1indexer_a9ac6f1d456dbee05bfa6e88a614d5801}{\_data}}.push\_front(std::forward< value\_type >(value));}
+\DoxyCodeLine{1340 \}}
+\DoxyCodeLine{1341 }
+\DoxyCodeLine{1342 }
+\DoxyCodeLine{1343 }
+\DoxyCodeLine{1344 \textcolor{keyword}{template} < \textcolor{keyword}{typename} Container, \textcolor{keyword}{typename} T, \textcolor{keywordtype}{bool} Locked >}
+\DoxyCodeLine{1345 \textcolor{keyword}{template} < \textcolor{keyword}{typename}, \textcolor{keyword}{typename} >}
+\DoxyCodeLine{1346 \textcolor{keywordtype}{void} \mbox{\hyperlink{classstd_1_1indexer_a84386d648c8188094902e5b3a29386a5}{indexer< Container, T, Locked >::push\_front}}(\textcolor{keyword}{const} \mbox{\hyperlink{classstd_1_1indexer_a677771da29cdc65d7db881149cf4abdc}{indexer< Container, T, Locked >::key\_type}}\& \mbox{\hyperlink{classstd_1_1indexer_abdfc9ddeeb8ba66f9927f58b684dc8b5}{key}}, \textcolor{keyword}{typename} \mbox{\hyperlink{classstd_1_1indexer_ae759f8b0b7df8e5e56c8498f66a59dcd}{indexer< Container, T, Locked >::value\_type}}\&\& value) \{}
+\DoxyCodeLine{1347     \mbox{\hyperlink{classstd_1_1indexer_a9ac6f1d456dbee05bfa6e88a614d5801}{\_data}}.push\_front(std::forward< value\_type >(value));}
+\DoxyCodeLine{1348     \mbox{\hyperlink{classstd_1_1indexer_a9ac6f1d456dbee05bfa6e88a614d5801}{\_data}}.front().key = \mbox{\hyperlink{classstd_1_1indexer_abdfc9ddeeb8ba66f9927f58b684dc8b5}{key}};}
+\DoxyCodeLine{1349 \}}
+\DoxyCodeLine{1350 }
+\DoxyCodeLine{1351 }
+\DoxyCodeLine{1352 }
+\DoxyCodeLine{1353 \textcolor{keyword}{template} < \textcolor{keyword}{typename} Container, \textcolor{keyword}{typename} T, \textcolor{keywordtype}{bool} Locked >}
+\DoxyCodeLine{1354 \textcolor{keyword}{template} < \textcolor{keyword}{typename}, \textcolor{keyword}{typename} >}
+\DoxyCodeLine{1355 \textcolor{keywordtype}{void} \mbox{\hyperlink{classstd_1_1indexer_aa43a897cfe36b14e5e8c2648fd05e442}{indexer< Container, T, Locked >::push\_back}}(\textcolor{keyword}{typename} \mbox{\hyperlink{classstd_1_1indexer_ae759f8b0b7df8e5e56c8498f66a59dcd}{indexer< Container, T, Locked >::value\_type}}\&\& value) \{}
+\DoxyCodeLine{1356     \mbox{\hyperlink{classstd_1_1indexer_a9ac6f1d456dbee05bfa6e88a614d5801}{\_data}}.push\_back(std::forward< value\_type >(value));}
+\DoxyCodeLine{1357 \}}
+\DoxyCodeLine{1358 }
+\DoxyCodeLine{1359 }
+\DoxyCodeLine{1360 }
+\DoxyCodeLine{1361 \textcolor{keyword}{template} < \textcolor{keyword}{typename} Container, \textcolor{keyword}{typename} T, \textcolor{keywordtype}{bool} Locked >}
+\DoxyCodeLine{1362 \textcolor{keyword}{template} < \textcolor{keyword}{typename}, \textcolor{keyword}{typename} >}
+\DoxyCodeLine{1363 \textcolor{keywordtype}{void} \mbox{\hyperlink{classstd_1_1indexer_aa43a897cfe36b14e5e8c2648fd05e442}{indexer< Container, T, Locked >::push\_back}}(\textcolor{keyword}{const} \mbox{\hyperlink{classstd_1_1indexer_a677771da29cdc65d7db881149cf4abdc}{indexer< Container, T, Locked >::key\_type}}\& \mbox{\hyperlink{classstd_1_1indexer_abdfc9ddeeb8ba66f9927f58b684dc8b5}{key}}, \textcolor{keyword}{typename} \mbox{\hyperlink{classstd_1_1indexer_ae759f8b0b7df8e5e56c8498f66a59dcd}{indexer< Container, T, Locked >::value\_type}}\&\& value) \{}
+\DoxyCodeLine{1364     \mbox{\hyperlink{classstd_1_1indexer_a9ac6f1d456dbee05bfa6e88a614d5801}{\_data}}.push\_back(std::forward< value\_type >(value));}
+\DoxyCodeLine{1365     \mbox{\hyperlink{classstd_1_1indexer_a9ac6f1d456dbee05bfa6e88a614d5801}{\_data}}.back().key = \mbox{\hyperlink{classstd_1_1indexer_abdfc9ddeeb8ba66f9927f58b684dc8b5}{key}};}
+\DoxyCodeLine{1366 \}}
+\DoxyCodeLine{1367 }
+\DoxyCodeLine{1368 }
+\DoxyCodeLine{1369 }
+\DoxyCodeLine{1370 \textcolor{keyword}{template} < \textcolor{keyword}{typename} Container, \textcolor{keyword}{typename} T, \textcolor{keywordtype}{bool} Locked >}
+\DoxyCodeLine{1371 \textcolor{keyword}{template} < \textcolor{keyword}{typename}, \textcolor{keyword}{typename} >}
+\DoxyCodeLine{1372 \textcolor{keywordtype}{void} \mbox{\hyperlink{classstd_1_1indexer_a91dfc0949cf5b1aae7da146ec14ff3b0}{indexer< Container, T, Locked >::pop\_front}}() \{}
+\DoxyCodeLine{1373     \mbox{\hyperlink{classstd_1_1indexer_a9ac6f1d456dbee05bfa6e88a614d5801}{\_data}}.pop\_front();}
+\DoxyCodeLine{1374 \}}
+\DoxyCodeLine{1375 }
+\DoxyCodeLine{1376 }
+\DoxyCodeLine{1377 }
+\DoxyCodeLine{1378 \textcolor{keyword}{template} < \textcolor{keyword}{typename} Container, \textcolor{keyword}{typename} T, \textcolor{keywordtype}{bool} Locked >}
+\DoxyCodeLine{1379 \textcolor{keyword}{template} < \textcolor{keyword}{typename}, \textcolor{keyword}{typename} >}
+\DoxyCodeLine{1380 \textcolor{keywordtype}{void} \mbox{\hyperlink{classstd_1_1indexer_a20e5877846fc01256bdc56a469590013}{indexer< Container, T, Locked >::pop\_back}}() \{}
+\DoxyCodeLine{1381     \mbox{\hyperlink{classstd_1_1indexer_a9ac6f1d456dbee05bfa6e88a614d5801}{\_data}}.pop\_back();}
+\DoxyCodeLine{1382 \}}
+\DoxyCodeLine{1383 }
+\DoxyCodeLine{1385 }
+\DoxyCodeLine{1386 }
+\DoxyCodeLine{1387 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{1402 \textcolor{comment}{}\textcolor{keyword}{template} <\textcolor{keyword}{typename} Container, \textcolor{keyword}{typename} T = \textcolor{keyword}{typename} Container::value\_type, \textcolor{keywordtype}{bool} Locked = \textcolor{keyword}{false}, \textcolor{keyword}{typename}... Args >}
+\DoxyCodeLine{1403 \mbox{\hyperlink{classstd_1_1indexer}{indexer< Container, T, Locked >}} \mbox{\hyperlink{indexer_8hpp_a021c8da8ca2b5d7e0a640de2bf8c1b23}{make\_indexer}}(\textcolor{keyword}{const} initializer\_list< \textcolor{keyword}{typename} \mbox{\hyperlink{classstd_1_1indexer_a677771da29cdc65d7db881149cf4abdc}{indexer< Container, T, Locked >::key\_type}} > keys, Args... args) \{}
+\DoxyCodeLine{1404     \textcolor{keyword}{auto} obj = \mbox{\hyperlink{classstd_1_1indexer}{indexer< Container, T, Locked >}}(args...);}
+\DoxyCodeLine{1405     obj.set\_keys(keys);}
+\DoxyCodeLine{1406     \textcolor{keywordflow}{return} obj;}
+\DoxyCodeLine{1407 \}}
+\DoxyCodeLine{1408 }
+\DoxyCodeLine{1409 }
+\DoxyCodeLine{1410 }
+\DoxyCodeLine{1411 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{1420 \textcolor{comment}{}\textcolor{keyword}{template} < \textcolor{keyword}{typename} T, \textcolor{keyword}{typename} Key = \textcolor{keywordtype}{string}, \textcolor{keywordtype}{bool} Locked = false>}
+\DoxyCodeLine{1421 \textcolor{keyword}{using} \mbox{\hyperlink{classstd_1_1indexer}{index}} = \mbox{\hyperlink{classstd_1_1indexer}{indexer< std::vector< std::tagged< T, Key >}} >, T, Locked >;}
+\DoxyCodeLine{1422 }
+\DoxyCodeLine{1423 \}  \textcolor{comment}{// namespace std}}
+\DoxyCodeLine{1424 }
+\DoxyCodeLine{1425 \textcolor{preprocessor}{\#endif  }\textcolor{comment}{// TRIGNOCLIENT\_INCLUDE\_TRIGNOCLIENT\_STD\_REGISTER\_HPP\_}}
+
+\end{DoxyCode}

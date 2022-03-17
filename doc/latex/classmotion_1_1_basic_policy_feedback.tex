@@ -1,0 +1,133 @@
+\hypertarget{classmotion_1_1_basic_policy_feedback}{}\doxysection{motion\+::Basic\+Policy\+Feedback\texorpdfstring{$<$}{<} Input\+Type \texorpdfstring{$>$}{>} Class Template Reference}
+\label{classmotion_1_1_basic_policy_feedback}\index{motion::BasicPolicyFeedback$<$ InputType $>$@{motion::BasicPolicyFeedback$<$ InputType $>$}}
+
+
+Generic base abstract class for implementing dynamical feedback mechanisms.  
+
+
+
+
+{\ttfamily \#include $<$basic\+\_\+policy\+\_\+feedback.\+hpp$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classmotion_1_1_basic_policy_feedback_a58b23b7ff88f4ad0f592a7b033089341}{Basic\+Policy\+Feedback}} (float \mbox{\hyperlink{classmotion_1_1_basic_policy_feedback_a8049cb3ee5b4df1bb6e9dba7440abb04}{gain}}, const std\+::vector$<$ const Input\+Type $\ast$ $>$ \&\mbox{\hyperlink{classmotion_1_1_basic_policy_feedback_a48a2d80262d67318993622512c809034}{sources}}=\{ \})
+\begin{DoxyCompactList}\small\item\em Constructs a new instance with given {\itshape gain}. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classmotion_1_1_basic_policy_feedback_ac88029584b1feeaca31cdc80aad45c70}{Basic\+Policy\+Feedback}} (const std\+::vector$<$ const Input\+Type $\ast$ $>$ \&\mbox{\hyperlink{classmotion_1_1_basic_policy_feedback_a48a2d80262d67318993622512c809034}{sources}}=\{ \})
+\begin{DoxyCompactList}\small\item\em Constructs a new instance, with unitary gain. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classmotion_1_1_basic_policy_feedback_a4228078d1c208f312469732a59e377f8}\label{classmotion_1_1_basic_policy_feedback_a4228078d1c208f312469732a59e377f8}} 
+float {\bfseries value} () const
+\begin{DoxyCompactList}\small\item\em Access feedback output value. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classmotion_1_1_basic_policy_feedback_a8049cb3ee5b4df1bb6e9dba7440abb04}\label{classmotion_1_1_basic_policy_feedback_a8049cb3ee5b4df1bb6e9dba7440abb04}} 
+float {\bfseries gain} () const
+\begin{DoxyCompactList}\small\item\em Access current feedback gain. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classmotion_1_1_basic_policy_feedback_a48a2d80262d67318993622512c809034}\label{classmotion_1_1_basic_policy_feedback_a48a2d80262d67318993622512c809034}} 
+const std\+::vector$<$ const Input\+Type $\ast$ $>$ \& {\bfseries sources} () const
+\begin{DoxyCompactList}\small\item\em Access feedback input sources (const). \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classmotion_1_1_basic_policy_feedback_ab64f0280d7fc4d55d1e07cba3f6ac096}{set\+Gain}} (float \mbox{\hyperlink{classmotion_1_1_basic_policy_feedback_a8049cb3ee5b4df1bb6e9dba7440abb04}{gain}})
+\begin{DoxyCompactList}\small\item\em Sets the gain value. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{classmotion_1_1_basic_policy_feedback_a5d6f7ac175588307647c9c62dc7599d2}{update}} (float ts)=0
+\begin{DoxyCompactList}\small\item\em Updates the output feedback value from input sources and derived implementation. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classmotion_1_1_basic_policy_feedback_a9e1d11f535975e32ffb345d6ac5b0fe7}\label{classmotion_1_1_basic_policy_feedback_a9e1d11f535975e32ffb345d6ac5b0fe7}} 
+float {\bfseries \+\_\+gain}
+\begin{DoxyCompactList}\small\item\em Feedback gain. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classmotion_1_1_basic_policy_feedback_a07d71d816ef5a82358cb0186af01b97f}\label{classmotion_1_1_basic_policy_feedback_a07d71d816ef5a82358cb0186af01b97f}} 
+float {\bfseries \+\_\+value}
+\begin{DoxyCompactList}\small\item\em Computed feedback system output. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classmotion_1_1_basic_policy_feedback_a4239f34c7880b1467ba98f79d0c0be2f}\label{classmotion_1_1_basic_policy_feedback_a4239f34c7880b1467ba98f79d0c0be2f}} 
+std\+::vector$<$ const Input\+Type $\ast$ $>$ {\bfseries \+\_\+sources}
+\begin{DoxyCompactList}\small\item\em Input sources. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$typename Input\+Type$>$\newline
+class motion\+::\+Basic\+Policy\+Feedback$<$ Input\+Type $>$}
+Generic base abstract class for implementing dynamical feedback mechanisms. 
+
+\begin{DoxyNote}{Note}
+Templated according to input data source for versatility and a more generic approach (e.\+g. ros\+::\+Sensor, etc.) 
+\end{DoxyNote}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classmotion_1_1_basic_policy_feedback_a58b23b7ff88f4ad0f592a7b033089341}\label{classmotion_1_1_basic_policy_feedback_a58b23b7ff88f4ad0f592a7b033089341}} 
+\index{motion::BasicPolicyFeedback$<$ InputType $>$@{motion::BasicPolicyFeedback$<$ InputType $>$}!BasicPolicyFeedback@{BasicPolicyFeedback}}
+\index{BasicPolicyFeedback@{BasicPolicyFeedback}!motion::BasicPolicyFeedback$<$ InputType $>$@{motion::BasicPolicyFeedback$<$ InputType $>$}}
+\doxysubsubsection{\texorpdfstring{BasicPolicyFeedback()}{BasicPolicyFeedback()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename Input\+Type $>$ \\
+\mbox{\hyperlink{classmotion_1_1_basic_policy_feedback}{motion\+::\+Basic\+Policy\+Feedback}}$<$ Input\+Type $>$\+::\+Basic\+Policy\+Feedback (\begin{DoxyParamCaption}\item[{float}]{gain,  }\item[{const std\+::vector$<$ const Input\+Type $\ast$ $>$ \&}]{sources = {\ttfamily \{~~\}} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+
+
+Constructs a new instance with given {\itshape gain}. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em gain} & Feedback gain i.\+e. scaling factor for output values. \\
+\hline
+\mbox{\texttt{ in}}  & {\em sources} & List of sources to be used when computing feedback values. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classmotion_1_1_basic_policy_feedback_ac88029584b1feeaca31cdc80aad45c70}\label{classmotion_1_1_basic_policy_feedback_ac88029584b1feeaca31cdc80aad45c70}} 
+\index{motion::BasicPolicyFeedback$<$ InputType $>$@{motion::BasicPolicyFeedback$<$ InputType $>$}!BasicPolicyFeedback@{BasicPolicyFeedback}}
+\index{BasicPolicyFeedback@{BasicPolicyFeedback}!motion::BasicPolicyFeedback$<$ InputType $>$@{motion::BasicPolicyFeedback$<$ InputType $>$}}
+\doxysubsubsection{\texorpdfstring{BasicPolicyFeedback()}{BasicPolicyFeedback()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename Input\+Type $>$ \\
+\mbox{\hyperlink{classmotion_1_1_basic_policy_feedback}{motion\+::\+Basic\+Policy\+Feedback}}$<$ Input\+Type $>$\+::\+Basic\+Policy\+Feedback (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ const Input\+Type $\ast$ $>$ \&}]{sources = {\ttfamily \{~~\}} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+
+
+Constructs a new instance, with unitary gain. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em sources} & List of sources to be used when computing feedback values. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classmotion_1_1_basic_policy_feedback_ab64f0280d7fc4d55d1e07cba3f6ac096}\label{classmotion_1_1_basic_policy_feedback_ab64f0280d7fc4d55d1e07cba3f6ac096}} 
+\index{motion::BasicPolicyFeedback$<$ InputType $>$@{motion::BasicPolicyFeedback$<$ InputType $>$}!setGain@{setGain}}
+\index{setGain@{setGain}!motion::BasicPolicyFeedback$<$ InputType $>$@{motion::BasicPolicyFeedback$<$ InputType $>$}}
+\doxysubsubsection{\texorpdfstring{setGain()}{setGain()}}
+{\footnotesize\ttfamily template$<$typename Input\+Type $>$ \\
+void \mbox{\hyperlink{classmotion_1_1_basic_policy_feedback}{motion\+::\+Basic\+Policy\+Feedback}}$<$ Input\+Type $>$\+::set\+Gain (\begin{DoxyParamCaption}\item[{float}]{gain }\end{DoxyParamCaption})}
+
+
+
+Sets the gain value. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em gain} & Feedback gain i.\+e. scaling factor for output values. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classmotion_1_1_basic_policy_feedback_a5d6f7ac175588307647c9c62dc7599d2}\label{classmotion_1_1_basic_policy_feedback_a5d6f7ac175588307647c9c62dc7599d2}} 
+\index{motion::BasicPolicyFeedback$<$ InputType $>$@{motion::BasicPolicyFeedback$<$ InputType $>$}!update@{update}}
+\index{update@{update}!motion::BasicPolicyFeedback$<$ InputType $>$@{motion::BasicPolicyFeedback$<$ InputType $>$}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily template$<$typename Input\+Type $>$ \\
+virtual void \mbox{\hyperlink{classmotion_1_1_basic_policy_feedback}{motion\+::\+Basic\+Policy\+Feedback}}$<$ Input\+Type $>$\+::update (\begin{DoxyParamCaption}\item[{float}]{ts }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Updates the output feedback value from input sources and derived implementation. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em ts} & Integration/computation time step.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+Pure virtual, derived types must provide their own implementation 
+\end{DoxyNote}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/joao/\+Shared/\+PHD/code/mplibrary/include/mplibrary/basic\+\_\+policy\+\_\+feedback.\+hpp\end{DoxyCompactItemize}

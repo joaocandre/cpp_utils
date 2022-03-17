@@ -1,0 +1,6 @@
+<map id="motion::LinearPacer" name="motion::LinearPacer">
+<area shape="rect" id="node1" title="Class extending ConstrainedDynamicalSystem for the use case of a linear 1st order constant&#45;slope osci..." alt="" coords="123,187,255,211"/>
+<area shape="rect" id="node2" href="$classmotion_1_1_constrained_dynamical_system.html" title="Class extending DynamicalSystem to impose value lower and upper boundaries." alt="" coords="94,101,285,137"/>
+<area shape="rect" id="node3" href="$classmotion_1_1_dynamical_system.html" title="Class implementing a simple unidimensional first&#45; or second&#45;order dynamical system (Euler&#39;s method)" alt="" coords="5,11,171,35"/>
+<area shape="rect" id="node4" href="$structmotion_1_1_constrained_dynamical_system_1_1_limits.html" title="Limit type (for simplicty/verbosity)" alt="" coords="195,5,386,41"/>
+</map>

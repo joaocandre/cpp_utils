@@ -1,0 +1,330 @@
+\hypertarget{classstd_1_1cast__iterator}{}\doxysection{std\+::cast\+\_\+iterator\texorpdfstring{$<$}{<} Container, T \texorpdfstring{$>$}{>} Class Template Reference}
+\label{classstd_1_1cast__iterator}\index{std::cast\_iterator$<$ Container, T $>$@{std::cast\_iterator$<$ Container, T $>$}}
+
+
+Generic class describing a {\itshape random access} bidirectional iterator, with different container and dereference (target) type. Allows masking an interator to a different type when types are implicitly convertible.  
+
+
+
+
+{\ttfamily \#include $<$cast\+\_\+iterator.\+hpp$>$}
+
+
+
+Inheritance diagram for std\+::cast\+\_\+iterator\texorpdfstring{$<$}{<} Container, T \texorpdfstring{$>$}{>}\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=324pt]{classstd_1_1cast__iterator__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for std\+::cast\+\_\+iterator\texorpdfstring{$<$}{<} Container, T \texorpdfstring{$>$}{>}\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=324pt]{classstd_1_1cast__iterator__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+using \mbox{\hyperlink{classstd_1_1cast__iterator_adbd3f71cf0696a402c7676fdb774c0f4}{value\+\_\+type}} = typename std\+::iterator$<$ std\+::random\+\_\+access\+\_\+iterator\+\_\+tag, T $>$\+::value\+\_\+type
+\begin{DoxyCompactList}\small\item\em Base public types. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classstd_1_1cast__iterator_a80b15114c1055d3b43ebd43c38bf7a8d}\label{classstd_1_1cast__iterator_a80b15114c1055d3b43ebd43c38bf7a8d}} 
+using {\bfseries iterator\+\_\+category} = typename std\+::iterator$<$ std\+::random\+\_\+access\+\_\+iterator\+\_\+tag, T $>$\+::iterator\+\_\+category
+\item 
+\mbox{\Hypertarget{classstd_1_1cast__iterator_aef36ab6d46d9ce8c13906a7d15d3e1c8}\label{classstd_1_1cast__iterator_aef36ab6d46d9ce8c13906a7d15d3e1c8}} 
+using {\bfseries pointer} = typename std\+::iterator$<$ std\+::random\+\_\+access\+\_\+iterator\+\_\+tag, T $>$\+::pointer
+\item 
+\mbox{\Hypertarget{classstd_1_1cast__iterator_a07509974e898959957336dd0431211ba}\label{classstd_1_1cast__iterator_a07509974e898959957336dd0431211ba}} 
+using {\bfseries reference} = typename std\+::iterator$<$ std\+::random\+\_\+access\+\_\+iterator\+\_\+tag, T $>$\+::reference
+\item 
+\mbox{\Hypertarget{classstd_1_1cast__iterator_a70d18fcbaa5b7e17b55709e4a0954b4d}\label{classstd_1_1cast__iterator_a70d18fcbaa5b7e17b55709e4a0954b4d}} 
+using {\bfseries difference\+\_\+type} = typename std\+::iterator$<$ std\+::random\+\_\+access\+\_\+iterator\+\_\+tag, T $>$\+::difference\+\_\+type
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classstd_1_1cast__iterator_a3a80e418dfb8b74347d927ad80e858fb}{cast\+\_\+iterator}} (Container $\ast$container, unsigned int pos=0)
+\begin{DoxyCompactList}\small\item\em Static assertion on data types/template arguments. Required in order to avoid ill-\/formed expressions within class definition. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classstd_1_1cast__iterator_a5658560fb7adb71e14406bcdeb23832a}\label{classstd_1_1cast__iterator_a5658560fb7adb71e14406bcdeb23832a}} 
+\mbox{\hyperlink{classstd_1_1cast__iterator}{cast\+\_\+iterator}} \& {\bfseries operator++} ()
+\begin{DoxyCompactList}\small\item\em Increment operator (self). \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classstd_1_1cast__iterator_a5fe11a1213d120329be12e4dcbf5998d}\label{classstd_1_1cast__iterator_a5fe11a1213d120329be12e4dcbf5998d}} 
+\mbox{\hyperlink{classstd_1_1cast__iterator}{cast\+\_\+iterator}} {\bfseries operator++} (int)
+\begin{DoxyCompactList}\small\item\em Increment operator (copy). \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classstd_1_1cast__iterator_a9729b7ebb2c5f6f1c85d47b0f74eac2d}\label{classstd_1_1cast__iterator_a9729b7ebb2c5f6f1c85d47b0f74eac2d}} 
+\mbox{\hyperlink{classstd_1_1cast__iterator}{cast\+\_\+iterator}} \& {\bfseries operator-\/-\/} ()
+\begin{DoxyCompactList}\small\item\em Decrement operator (self). \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classstd_1_1cast__iterator_a689fa0a4d4f6443ec531ce5057fbdbfe}\label{classstd_1_1cast__iterator_a689fa0a4d4f6443ec531ce5057fbdbfe}} 
+\mbox{\hyperlink{classstd_1_1cast__iterator}{cast\+\_\+iterator}} {\bfseries operator-\/-\/} (int)
+\begin{DoxyCompactList}\small\item\em Decrement operator (copy). \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classstd_1_1cast__iterator}{cast\+\_\+iterator}}$<$ Container, T $>$ \& \mbox{\hyperlink{classstd_1_1cast__iterator_a763f1fa2eeb2adb0ba0c77a399663401}{operator+=}} (const difference\+\_\+type \&n)
+\begin{DoxyCompactList}\small\item\em Conpound addition operator. Increments the iterator {\itshape n} times. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classstd_1_1cast__iterator}{cast\+\_\+iterator}}$<$ Container, T $>$ \& \mbox{\hyperlink{classstd_1_1cast__iterator_a7addc5ff0a9906ae69468ec7579dcca1}{operator-\/=}} (const difference\+\_\+type \&n)
+\begin{DoxyCompactList}\small\item\em Conpound subtraction operator. Decrements the iterator {\itshape n} times. \end{DoxyCompactList}\item 
+T \& \mbox{\hyperlink{classstd_1_1cast__iterator_aaded347960c0339082e8eb17c06435e5}{operator$\ast$}} ()
+\begin{DoxyCompactList}\small\item\em Dereference operator. \end{DoxyCompactList}\item 
+const T \& \mbox{\hyperlink{classstd_1_1cast__iterator_a1889ed6b3dc27db16ac50537569e6199}{operator$\ast$}} () const
+\begin{DoxyCompactList}\small\item\em {\itshape const} dereference operator. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classstd_1_1cast__iterator_a491e06a03fa3b178967e7d2fc4456b8e}\label{classstd_1_1cast__iterator_a491e06a03fa3b178967e7d2fc4456b8e}} 
+{\bfseries operator typename Container\+::iterator} ()
+\begin{DoxyCompactList}\small\item\em Conversion operator to iterator of the underlying container type. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classstd_1_1cast__iterator_a771f483cf8c4bcbe9fcf3bb6a36c49d9}\label{classstd_1_1cast__iterator_a771f483cf8c4bcbe9fcf3bb6a36c49d9}} 
+{\bfseries operator typename Container\+::const\+\_\+iterator} ()
+\begin{DoxyCompactList}\small\item\em Conversion operator to {\itshape const} iterator of the underlying container type. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename o\+Container , typename oT , typename  = typename enable\+\_\+if$<$ is\+\_\+convertible$<$ T, o\+T $>$\+::value $>$\+::type$>$ }\\\mbox{\hyperlink{classstd_1_1cast__iterator_a61896a47c3ba2f44bf4b584f31d23fd3}{operator cast\+\_\+iterator$<$ o\+Container, o\+T $>$}} ()
+\begin{DoxyCompactList}\small\item\em Conversion operator to different container/value type. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename o\+Container , typename oT , typename  = typename enable\+\_\+if$<$ is\+\_\+convertible$<$ T, o\+T $>$\+::value $>$\+::type$>$ }\\\mbox{\hyperlink{classstd_1_1cast__iterator_a3696885926118008453d2ab2cb44c251}{operator cast\+\_\+iterator$<$ o\+Container, o\+T $>$}} () const
+\begin{DoxyCompactList}\small\item\em Conversion operator to different container/value type ({\itshape const} overload). \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classstd_1_1cast__iterator_a861c901995eaebdaf6f904e0d3ad5eb9}\label{classstd_1_1cast__iterator_a861c901995eaebdaf6f904e0d3ad5eb9}} 
+unsigned int {\bfseries \+\_\+pos}
+\begin{DoxyCompactList}\small\item\em Iterator position. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classstd_1_1cast__iterator_a85f318446e57903cd371ac013a5e83a5}\label{classstd_1_1cast__iterator_a85f318446e57903cd371ac013a5e83a5}} 
+Container $\ast$ {\bfseries \+\_\+container}
+\begin{DoxyCompactList}\small\item\em Associated container instance. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename o\+Container , typename oT $>$ }\\bool \mbox{\hyperlink{classstd_1_1cast__iterator_a00086b1f1a194a80d245d0c23601d890}{operator==}} (const \mbox{\hyperlink{classstd_1_1cast__iterator}{cast\+\_\+iterator}}$<$ o\+Container, oT $>$ \&lhs, const \mbox{\hyperlink{classstd_1_1cast__iterator}{cast\+\_\+iterator}}$<$ o\+Container, oT $>$ \&rhs)
+\begin{DoxyCompactList}\small\item\em Equality operator. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename o\+Container , typename oT $>$ }\\bool \mbox{\hyperlink{classstd_1_1cast__iterator_abc954c7ee2694ed92d0ab4d9c648e0a6}{operator$<$}} (const \mbox{\hyperlink{classstd_1_1cast__iterator}{cast\+\_\+iterator}}$<$ o\+Container, oT $>$ \&lhs, const \mbox{\hyperlink{classstd_1_1cast__iterator}{cast\+\_\+iterator}}$<$ o\+Container, oT $>$ \&rhs)
+\begin{DoxyCompactList}\small\item\em \textquotesingle{}Less than\textquotesingle{} comparison operator. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename o\+Container , typename oT $>$ }\\\mbox{\hyperlink{classstd_1_1cast__iterator}{cast\+\_\+iterator}}$<$ o\+Container, oT $>$\+::difference\+\_\+type \mbox{\hyperlink{classstd_1_1cast__iterator_a0bcb4994c7efbcbca3c2d47db551daca}{operator-\/}} (const \mbox{\hyperlink{classstd_1_1cast__iterator}{cast\+\_\+iterator}}$<$ o\+Container, oT $>$ \&lhs, const \mbox{\hyperlink{classstd_1_1cast__iterator}{cast\+\_\+iterator}}$<$ o\+Container, oT $>$ \&rhs)
+\begin{DoxyCompactList}\small\item\em Subtraction operator. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$typename Container, typename T = typename Container\+::value\+\_\+type$>$\newline
+class std\+::cast\+\_\+iterator$<$ Container, T $>$}
+Generic class describing a {\itshape random access} bidirectional iterator, with different container and dereference (target) type. Allows masking an interator to a different type when types are implicitly convertible. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Container} & Generic container of descriptor/tagged type instances. Must fit STL\textquotesingle{}s Container \& Sequence\+Container (partial) requirements. \\
+\hline
+{\em T} & Output/\textquotesingle{}public\textquotesingle{} type\\
+\hline
+\end{DoxyTemplParams}
+\begin{DoxyNote}{Note}
+T and Container\+::value\+\_\+type must be implicitly convertible.
+
+Useful when handling types that are interchangeable (e.\+g. base/derived on polymorphic implementations).
+
+Meets STL {\itshape Random\+Access\+Iterator} \href{https://cplusplus.com/reference/iterator/RandomAccessIterator/}{\texttt{ requirements}}, and is compatible with STL {\itshape Sequence\+Container} types. 
+\end{DoxyNote}
+
+
+\doxysubsection{Member Typedef Documentation}
+\mbox{\Hypertarget{classstd_1_1cast__iterator_adbd3f71cf0696a402c7676fdb774c0f4}\label{classstd_1_1cast__iterator_adbd3f71cf0696a402c7676fdb774c0f4}} 
+\index{std::cast\_iterator$<$ Container, T $>$@{std::cast\_iterator$<$ Container, T $>$}!value\_type@{value\_type}}
+\index{value\_type@{value\_type}!std::cast\_iterator$<$ Container, T $>$@{std::cast\_iterator$<$ Container, T $>$}}
+\doxysubsubsection{\texorpdfstring{value\_type}{value\_type}}
+{\footnotesize\ttfamily template$<$typename Container , typename T  = typename Container\+::value\+\_\+type$>$ \\
+using \mbox{\hyperlink{classstd_1_1cast__iterator}{std\+::cast\+\_\+iterator}}$<$ Container, T $>$\+::value\+\_\+type =  typename std\+::iterator$<$ std\+::random\+\_\+access\+\_\+iterator\+\_\+tag, T $>$\+::value\+\_\+type}
+
+
+
+Base public types. 
+
+\begin{DoxyNote}{Note}
+Required for use of STL iterator utilities e.\+g. std\+::next(), std\+::distance(). 
+\end{DoxyNote}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classstd_1_1cast__iterator_a3a80e418dfb8b74347d927ad80e858fb}\label{classstd_1_1cast__iterator_a3a80e418dfb8b74347d927ad80e858fb}} 
+\index{std::cast\_iterator$<$ Container, T $>$@{std::cast\_iterator$<$ Container, T $>$}!cast\_iterator@{cast\_iterator}}
+\index{cast\_iterator@{cast\_iterator}!std::cast\_iterator$<$ Container, T $>$@{std::cast\_iterator$<$ Container, T $>$}}
+\doxysubsubsection{\texorpdfstring{cast\_iterator()}{cast\_iterator()}}
+{\footnotesize\ttfamily template$<$typename Container , typename T  = typename Container\+::value\+\_\+type$>$ \\
+\mbox{\hyperlink{classstd_1_1cast__iterator}{std\+::cast\+\_\+iterator}}$<$ Container, T $>$\+::cast\+\_\+iterator (\begin{DoxyParamCaption}\item[{Container $\ast$}]{container,  }\item[{unsigned int}]{pos = {\ttfamily 0} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+
+
+Static assertion on data types/template arguments. Required in order to avoid ill-\/formed expressions within class definition. 
+
+Constructs a new instance.
+
+
+\begin{DoxyParams}[1]{Parameters}
+ & {\em container} & Container \\
+\hline
+\mbox{\texttt{ in}}  & {\em pos} & Initial iterator position w.\+r.\+t. container. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classstd_1_1cast__iterator_a61896a47c3ba2f44bf4b584f31d23fd3}\label{classstd_1_1cast__iterator_a61896a47c3ba2f44bf4b584f31d23fd3}} 
+\index{std::cast\_iterator$<$ Container, T $>$@{std::cast\_iterator$<$ Container, T $>$}!operator cast\_iterator$<$ oContainer, oT $>$@{operator cast\_iterator$<$ oContainer, oT $>$}}
+\index{operator cast\_iterator$<$ oContainer, oT $>$@{operator cast\_iterator$<$ oContainer, oT $>$}!std::cast\_iterator$<$ Container, T $>$@{std::cast\_iterator$<$ Container, T $>$}}
+\doxysubsubsection{\texorpdfstring{operator cast\_iterator$<$ oContainer, oT $>$()}{operator cast\_iterator< oContainer, oT >()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename Container , typename T  = typename Container\+::value\+\_\+type$>$ \\
+template$<$typename o\+Container , typename oT , typename  = typename enable\+\_\+if$<$ is\+\_\+convertible$<$ T, o\+T $>$\+::value $>$\+::type$>$ \\
+\mbox{\hyperlink{classstd_1_1cast__iterator}{std\+::cast\+\_\+iterator}}$<$ Container, T $>$\+::operator \mbox{\hyperlink{classstd_1_1cast__iterator}{cast\+\_\+iterator}}$<$ o\+Container, oT $>$ (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Conversion operator to different container/value type. 
+
+\begin{DoxyNote}{Note}
+Also captures conversions to {\itshape const} cast iterators i.\+e. cast\+\_\+iterator$<$ const Container, const T $>$ 
+\end{DoxyNote}
+\mbox{\Hypertarget{classstd_1_1cast__iterator_a3696885926118008453d2ab2cb44c251}\label{classstd_1_1cast__iterator_a3696885926118008453d2ab2cb44c251}} 
+\index{std::cast\_iterator$<$ Container, T $>$@{std::cast\_iterator$<$ Container, T $>$}!operator cast\_iterator$<$ oContainer, oT $>$@{operator cast\_iterator$<$ oContainer, oT $>$}}
+\index{operator cast\_iterator$<$ oContainer, oT $>$@{operator cast\_iterator$<$ oContainer, oT $>$}!std::cast\_iterator$<$ Container, T $>$@{std::cast\_iterator$<$ Container, T $>$}}
+\doxysubsubsection{\texorpdfstring{operator cast\_iterator$<$ oContainer, oT $>$()}{operator cast\_iterator< oContainer, oT >()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename Container , typename T  = typename Container\+::value\+\_\+type$>$ \\
+template$<$typename o\+Container , typename oT , typename  = typename enable\+\_\+if$<$ is\+\_\+convertible$<$ T, o\+T $>$\+::value $>$\+::type$>$ \\
+\mbox{\hyperlink{classstd_1_1cast__iterator}{std\+::cast\+\_\+iterator}}$<$ Container, T $>$\+::operator \mbox{\hyperlink{classstd_1_1cast__iterator}{cast\+\_\+iterator}}$<$ o\+Container, oT $>$ (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Conversion operator to different container/value type ({\itshape const} overload). 
+
+\begin{DoxyNote}{Note}
+Also captures conversions to {\itshape const} cast iterators i.\+e. cast\+\_\+iterator$<$ const Container, const T $>$ 
+\end{DoxyNote}
+\mbox{\Hypertarget{classstd_1_1cast__iterator_aaded347960c0339082e8eb17c06435e5}\label{classstd_1_1cast__iterator_aaded347960c0339082e8eb17c06435e5}} 
+\index{std::cast\_iterator$<$ Container, T $>$@{std::cast\_iterator$<$ Container, T $>$}!operator$\ast$@{operator$\ast$}}
+\index{operator$\ast$@{operator$\ast$}!std::cast\_iterator$<$ Container, T $>$@{std::cast\_iterator$<$ Container, T $>$}}
+\doxysubsubsection{\texorpdfstring{operator$\ast$()}{operator*()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename Container , typename T  = typename Container\+::value\+\_\+type$>$ \\
+T \& \mbox{\hyperlink{classstd_1_1cast__iterator}{std\+::cast\+\_\+iterator}}$<$ Container, T $>$\+::operator$\ast$ (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Dereference operator. 
+
+\begin{DoxyReturn}{Returns}
+Reference to container value @ current iterator position. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classstd_1_1cast__iterator_a1889ed6b3dc27db16ac50537569e6199}\label{classstd_1_1cast__iterator_a1889ed6b3dc27db16ac50537569e6199}} 
+\index{std::cast\_iterator$<$ Container, T $>$@{std::cast\_iterator$<$ Container, T $>$}!operator$\ast$@{operator$\ast$}}
+\index{operator$\ast$@{operator$\ast$}!std::cast\_iterator$<$ Container, T $>$@{std::cast\_iterator$<$ Container, T $>$}}
+\doxysubsubsection{\texorpdfstring{operator$\ast$()}{operator*()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename Container , typename T  = typename Container\+::value\+\_\+type$>$ \\
+const T \& \mbox{\hyperlink{classstd_1_1cast__iterator}{std\+::cast\+\_\+iterator}}$<$ Container, T $>$\+::operator$\ast$ (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+{\itshape const} dereference operator. 
+
+\begin{DoxyReturn}{Returns}
+Reference to container value @ current iterator position. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classstd_1_1cast__iterator_a763f1fa2eeb2adb0ba0c77a399663401}\label{classstd_1_1cast__iterator_a763f1fa2eeb2adb0ba0c77a399663401}} 
+\index{std::cast\_iterator$<$ Container, T $>$@{std::cast\_iterator$<$ Container, T $>$}!operator+=@{operator+=}}
+\index{operator+=@{operator+=}!std::cast\_iterator$<$ Container, T $>$@{std::cast\_iterator$<$ Container, T $>$}}
+\doxysubsubsection{\texorpdfstring{operator+=()}{operator+=()}}
+{\footnotesize\ttfamily template$<$typename Container , typename T  = typename Container\+::value\+\_\+type$>$ \\
+\mbox{\hyperlink{classstd_1_1cast__iterator}{cast\+\_\+iterator}}$<$ Container, T $>$ \& \mbox{\hyperlink{classstd_1_1cast__iterator}{std\+::cast\+\_\+iterator}}$<$ Container, T $>$\+::operator+= (\begin{DoxyParamCaption}\item[{const difference\+\_\+type \&}]{n }\end{DoxyParamCaption})}
+
+
+
+Conpound addition operator. Increments the iterator {\itshape n} times. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em n} & Number of increments. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classstd_1_1cast__iterator_a7addc5ff0a9906ae69468ec7579dcca1}\label{classstd_1_1cast__iterator_a7addc5ff0a9906ae69468ec7579dcca1}} 
+\index{std::cast\_iterator$<$ Container, T $>$@{std::cast\_iterator$<$ Container, T $>$}!operator-\/=@{operator-\/=}}
+\index{operator-\/=@{operator-\/=}!std::cast\_iterator$<$ Container, T $>$@{std::cast\_iterator$<$ Container, T $>$}}
+\doxysubsubsection{\texorpdfstring{operator-\/=()}{operator-=()}}
+{\footnotesize\ttfamily template$<$typename Container , typename T  = typename Container\+::value\+\_\+type$>$ \\
+\mbox{\hyperlink{classstd_1_1cast__iterator}{cast\+\_\+iterator}}$<$ Container, T $>$ \& \mbox{\hyperlink{classstd_1_1cast__iterator}{std\+::cast\+\_\+iterator}}$<$ Container, T $>$\+::operator-\/= (\begin{DoxyParamCaption}\item[{const difference\+\_\+type \&}]{n }\end{DoxyParamCaption})}
+
+
+
+Conpound subtraction operator. Decrements the iterator {\itshape n} times. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em n} & Number of decrements. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Friends And Related Function Documentation}
+\mbox{\Hypertarget{classstd_1_1cast__iterator_a0bcb4994c7efbcbca3c2d47db551daca}\label{classstd_1_1cast__iterator_a0bcb4994c7efbcbca3c2d47db551daca}} 
+\index{std::cast\_iterator$<$ Container, T $>$@{std::cast\_iterator$<$ Container, T $>$}!operator-\/@{operator-\/}}
+\index{operator-\/@{operator-\/}!std::cast\_iterator$<$ Container, T $>$@{std::cast\_iterator$<$ Container, T $>$}}
+\doxysubsubsection{\texorpdfstring{operator-\/}{operator-}}
+{\footnotesize\ttfamily template$<$typename Container , typename T  = typename Container\+::value\+\_\+type$>$ \\
+template$<$typename o\+Container , typename oT $>$ \\
+\mbox{\hyperlink{classstd_1_1cast__iterator}{cast\+\_\+iterator}}$<$ o\+Container, oT $>$\+::difference\+\_\+type operator-\/ (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classstd_1_1cast__iterator}{cast\+\_\+iterator}}$<$ o\+Container, oT $>$ \&}]{lhs,  }\item[{const \mbox{\hyperlink{classstd_1_1cast__iterator}{cast\+\_\+iterator}}$<$ o\+Container, oT $>$ \&}]{rhs }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+Subtraction operator. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em lhs} & Left operand (iterator to subtract to). \\
+\hline
+\mbox{\texttt{ in}}  & {\em rhs} & Right operand (iterator to subtract).\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Difference between iterator positions.
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Required as part of STL {\itshape Random\+Access\+Iterator} requirements, allows use of STL iterator utilities with \mbox{\hyperlink{classstd_1_1cast__iterator}{cast\+\_\+iterator}}. 
+\end{DoxyNote}
+\mbox{\Hypertarget{classstd_1_1cast__iterator_abc954c7ee2694ed92d0ab4d9c648e0a6}\label{classstd_1_1cast__iterator_abc954c7ee2694ed92d0ab4d9c648e0a6}} 
+\index{std::cast\_iterator$<$ Container, T $>$@{std::cast\_iterator$<$ Container, T $>$}!operator$<$@{operator$<$}}
+\index{operator$<$@{operator$<$}!std::cast\_iterator$<$ Container, T $>$@{std::cast\_iterator$<$ Container, T $>$}}
+\doxysubsubsection{\texorpdfstring{operator$<$}{operator<}}
+{\footnotesize\ttfamily template$<$typename Container , typename T  = typename Container\+::value\+\_\+type$>$ \\
+template$<$typename o\+Container , typename oT $>$ \\
+bool operator$<$ (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classstd_1_1cast__iterator}{cast\+\_\+iterator}}$<$ o\+Container, oT $>$ \&}]{lhs,  }\item[{const \mbox{\hyperlink{classstd_1_1cast__iterator}{cast\+\_\+iterator}}$<$ o\+Container, oT $>$ \&}]{rhs }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+\textquotesingle{}Less than\textquotesingle{} comparison operator. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em lhs} & Left operand (iterator to compare). \\
+\hline
+\mbox{\texttt{ in}}  & {\em rhs} & Right operand (iterator to compare).\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if {\itshape lhs} @ previous position w.\+r.\+t container than {\itshape rhs}, false othewise. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classstd_1_1cast__iterator_a00086b1f1a194a80d245d0c23601d890}\label{classstd_1_1cast__iterator_a00086b1f1a194a80d245d0c23601d890}} 
+\index{std::cast\_iterator$<$ Container, T $>$@{std::cast\_iterator$<$ Container, T $>$}!operator==@{operator==}}
+\index{operator==@{operator==}!std::cast\_iterator$<$ Container, T $>$@{std::cast\_iterator$<$ Container, T $>$}}
+\doxysubsubsection{\texorpdfstring{operator==}{operator==}}
+{\footnotesize\ttfamily template$<$typename Container , typename T  = typename Container\+::value\+\_\+type$>$ \\
+template$<$typename o\+Container , typename oT $>$ \\
+bool operator== (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classstd_1_1cast__iterator}{cast\+\_\+iterator}}$<$ o\+Container, oT $>$ \&}]{lhs,  }\item[{const \mbox{\hyperlink{classstd_1_1cast__iterator}{cast\+\_\+iterator}}$<$ o\+Container, oT $>$ \&}]{rhs }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+Equality operator. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em lhs} & Left operand (iterator to compare). \\
+\hline
+\mbox{\texttt{ in}}  & {\em rhs} & Right operand (iterator to compare).\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if iterators @ same position w.\+r.\+t container, false othewise. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/joao/\+Shared/\+PHD/code/ros/src/storage/include/storage/\mbox{\hyperlink{cast__iterator_8hpp}{cast\+\_\+iterator.\+hpp}}\end{DoxyCompactItemize}

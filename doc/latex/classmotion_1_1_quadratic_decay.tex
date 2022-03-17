@@ -1,0 +1,106 @@
+\hypertarget{classmotion_1_1_quadratic_decay}{}\doxysection{motion\+::Quadratic\+Decay Class Reference}
+\label{classmotion_1_1_quadratic_decay}\index{motion::QuadraticDecay@{motion::QuadraticDecay}}
+
+
+Class extending \mbox{\hyperlink{classmotion_1_1_constrained_dynamical_system}{Constrained\+Dynamical\+System}} for quadratic phase variation.  
+
+
+
+
+{\ttfamily \#include $<$dynamical\+\_\+system.\+hpp$>$}
+
+
+
+Inheritance diagram for motion\+::Quadratic\+Decay\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=223pt]{classmotion_1_1_quadratic_decay__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for motion\+::Quadratic\+Decay\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classmotion_1_1_quadratic_decay__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classmotion_1_1_quadratic_decay_ac1d376bb68cd1de6c9ccb5610cfcc5fc}{Quadratic\+Decay}} (float decay\+\_\+=0.\+0)
+\begin{DoxyCompactList}\small\item\em Constructs a new instance. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classmotion_1_1_quadratic_decay_a2f6de548ef01402ad00cb14e2ecb579a}\label{classmotion_1_1_quadratic_decay_a2f6de548ef01402ad00cb14e2ecb579a}} 
+virtual {\bfseries $\sim$\+Quadratic\+Decay} ()=default
+\begin{DoxyCompactList}\small\item\em Destroys the object. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classmotion_1_1_quadratic_decay_a2d483ce12768362c8692ca45a88b056d}{update}} (float ts, float d1=0.\+0, float d2=0.\+0) override
+\begin{DoxyCompactList}\small\item\em Updates the given ts. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classmotion_1_1_quadratic_decay_a9b9c544a0ac00754183bbf039fa4c4ef}\label{classmotion_1_1_quadratic_decay_a9b9c544a0ac00754183bbf039fa4c4ef}} 
+float {\bfseries decay}
+\begin{DoxyCompactList}\small\item\em Decay parameter. Influences how fast does system output converges to 0. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Class extending \mbox{\hyperlink{classmotion_1_1_constrained_dynamical_system}{Constrained\+Dynamical\+System}} for quadratic phase variation. 
+
+\begin{DoxyNote}{Note}
+Used in e.\+g. discrete DMP canonical systems. 
+\end{DoxyNote}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classmotion_1_1_quadratic_decay_ac1d376bb68cd1de6c9ccb5610cfcc5fc}\label{classmotion_1_1_quadratic_decay_ac1d376bb68cd1de6c9ccb5610cfcc5fc}} 
+\index{motion::QuadraticDecay@{motion::QuadraticDecay}!QuadraticDecay@{QuadraticDecay}}
+\index{QuadraticDecay@{QuadraticDecay}!motion::QuadraticDecay@{motion::QuadraticDecay}}
+\doxysubsubsection{\texorpdfstring{QuadraticDecay()}{QuadraticDecay()}}
+{\footnotesize\ttfamily motion\+::\+Quadratic\+Decay\+::\+Quadratic\+Decay (\begin{DoxyParamCaption}\item[{float}]{decay\+\_\+ = {\ttfamily 0.0} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+
+
+Constructs a new instance. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em decay\+\_\+} & Value decay value i.\+e. how fast does system output converges to 0. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classmotion_1_1_quadratic_decay_a2d483ce12768362c8692ca45a88b056d}\label{classmotion_1_1_quadratic_decay_a2d483ce12768362c8692ca45a88b056d}} 
+\index{motion::QuadraticDecay@{motion::QuadraticDecay}!update@{update}}
+\index{update@{update}!motion::QuadraticDecay@{motion::QuadraticDecay}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily void motion\+::\+Quadratic\+Decay\+::update (\begin{DoxyParamCaption}\item[{float}]{ts,  }\item[{float}]{d1 = {\ttfamily 0.0},  }\item[{float}]{d2 = {\ttfamily 0.0} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Updates the given ts. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em ts} & Integration time step (Euler\textquotesingle{}s method) \\
+\hline
+\mbox{\texttt{ in}}  & {\em d1} & {\itshape IGNORED} First order derivative modifier (added to 1st order integration). Defaults to 0.\+0. \\
+\hline
+\mbox{\texttt{ in}}  & {\em d2} & {\itshape IGNORED} Second order derivative modifier (added to 2nd order intergration). Defaults to 0.\+0.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+First and second order derivatives are ignored, only provided for consistency w/ base class. 
+\end{DoxyNote}
+
+
+Reimplemented from \mbox{\hyperlink{classmotion_1_1_dynamical_system_a68156f0a4b1bdea41bf11fdb7dd3c4dd}{motion\+::\+Dynamical\+System}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/joao/\+Shared/\+PHD/code/mplibrary/include/mplibrary/dynamical\+\_\+system.\+hpp\item 
+/home/joao/\+Shared/\+PHD/code/mplibrary/src/dynamical\+\_\+system.\+cpp\end{DoxyCompactItemize}

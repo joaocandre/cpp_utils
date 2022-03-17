@@ -1,0 +1,320 @@
+\hypertarget{classmotion_1_1_basis_combination}{}\doxysection{motion\+::Basis\+Combination Class Reference}
+\label{classmotion_1_1_basis_combination}\index{motion::BasisCombination@{motion::BasisCombination}}
+
+
+Class implementing a linear combination of non-\/linear basis functions.  
+
+
+
+
+{\ttfamily \#include $<$basis\+\_\+function.\+hpp$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classmotion_1_1_basis_combination_a45a64e5f18d6b4a8a01598dcc69518f4}{Basis\+Combination}} (const std\+::vector$<$ \mbox{\hyperlink{classmotion_1_1_basis_function}{Basis\+Function}} $>$ \&\mbox{\hyperlink{classmotion_1_1_basis_combination_a05f8c9a6e137ceaab5915a2926cd9e7f}{basis}}=\{ \})
+\begin{DoxyCompactList}\small\item\em Constructs a new instance. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classmotion_1_1_basis_combination_ac296df315fc645b13ff8eec069e32bb0}{Basis\+Combination}} (size\+\_\+t n\+\_\+basis, const \mbox{\hyperlink{classmotion_1_1_basis_function_ab1ed806bf75d66b549bb10c922598d21}{Basis\+Function\+::\+Kernel}} \&kernel, const std\+::vector$<$ \mbox{\hyperlink{structmotion_1_1_basis_function_1_1_parameters}{Basis\+Function\+::\+Parameters}} $>$ \&parameters)
+\begin{DoxyCompactList}\small\item\em Constructs a new combination of same-\/type basis functions, from kernel \& basis parameters. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename... Args$>$ }\\\mbox{\hyperlink{classmotion_1_1_basis_combination_a72e2ba17f51d7ec4fc38e9010431c6cf}{Basis\+Combination}} (size\+\_\+t n\+\_\+basis, Args \&\&... args)
+\begin{DoxyCompactList}\small\item\em Constructs a new combination of same-\/type equally parametrized basis functions, from \mbox{\hyperlink{classmotion_1_1_basis_function}{Basis\+Function}} constructor arguments. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classmotion_1_1_basis_combination_a0730b8fe34050d414217dd5c6345e69c}\label{classmotion_1_1_basis_combination_a0730b8fe34050d414217dd5c6345e69c}} 
+size\+\_\+t {\bfseries size} () const
+\begin{DoxyCompactList}\small\item\em Get number of basis functions in combination. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classmotion_1_1_basis_combination_a05f8c9a6e137ceaab5915a2926cd9e7f}\label{classmotion_1_1_basis_combination_a05f8c9a6e137ceaab5915a2926cd9e7f}} 
+const std\+::vector$<$ \mbox{\hyperlink{classmotion_1_1_basis_function}{Basis\+Function}} $>$ \& {\bfseries basis} () const
+\begin{DoxyCompactList}\small\item\em Access underlying basis functions in combination. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classmotion_1_1_basis_combination_a837bf059eab950631d3edf8b7ba79320}\label{classmotion_1_1_basis_combination_a837bf059eab950631d3edf8b7ba79320}} 
+const std\+::vector$<$ float $>$ \& {\bfseries weights} () const
+\begin{DoxyCompactList}\small\item\em Access underlying basis function weights. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classmotion_1_1_basis_combination_a7948f4cfcada1c58125c4765c23673db}{set\+Parameters}} (const std\+::vector$<$ \mbox{\hyperlink{structmotion_1_1_basis_function_1_1_parameters}{Basis\+Function\+::\+Parameters}} $>$ \&parameters)
+\begin{DoxyCompactList}\small\item\em Sets basis function parameters i.\+e. centers {\itshape and} widths. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classmotion_1_1_basis_combination_a85f3b9d26c2f017c93e6f187ebde5344}{set\+Centers}} (const std\+::vector$<$ float $>$ \&centers)
+\begin{DoxyCompactList}\small\item\em Sets basis function centers (positions). \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classmotion_1_1_basis_combination_a9cb02b7f5aedd868f71725a95cd638f9}{set\+Widths}} (const std\+::vector$<$ float $>$ \&widths)
+\begin{DoxyCompactList}\small\item\em Sets basis function widths. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classmotion_1_1_basis_combination_aa3c44c7a2e133c2e52cd74b36c275223}{set\+Weights}} (const std\+::vector$<$ float $>$ \&\mbox{\hyperlink{classmotion_1_1_basis_combination_a837bf059eab950631d3edf8b7ba79320}{weights}})
+\begin{DoxyCompactList}\small\item\em Sets basis function weights for combination. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classmotion_1_1_basis_function}{Basis\+Function}} \& \mbox{\hyperlink{classmotion_1_1_basis_combination_ad454816f77e996fe2a1a9b8222e6fe74}{operator\mbox{[}$\,$\mbox{]}}} (size\+\_\+t pos)
+\begin{DoxyCompactList}\small\item\em Array indexer operator, accessing basis function @ given {\itshape pos}. \end{DoxyCompactList}\item 
+const \mbox{\hyperlink{classmotion_1_1_basis_function}{Basis\+Function}} \& \mbox{\hyperlink{classmotion_1_1_basis_combination_a710487b9dfd651f2b09fab5fcbeef057}{operator\mbox{[}$\,$\mbox{]}}} (size\+\_\+t pos) const
+\begin{DoxyCompactList}\small\item\em Array indexer operator, accessing basis function @ given {\itshape pos} (const overload). \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename... Args$>$ }\\void \mbox{\hyperlink{classmotion_1_1_basis_combination_a1f6dcb3b7aaf8fea5546e1a73f0fd5f5}{add\+Basis}} (float weight, Args \&\&... args)
+\begin{DoxyCompactList}\small\item\em Adds a basis function to the combination. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classmotion_1_1_basis_combination_a3f15d8107ee237b72e661a7449ae96ca}{remove\+Basis}} (size\+\_\+t pos)
+\begin{DoxyCompactList}\small\item\em Removes basis. \end{DoxyCompactList}\item 
+std\+::vector$<$ float $>$ \mbox{\hyperlink{classmotion_1_1_basis_combination_a3f6031b868b23137d904af75c5e61302}{values}} (float phase) const
+\begin{DoxyCompactList}\small\item\em Compute output of each basis function @ given {\itshape phase}. \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{classmotion_1_1_basis_combination_a20746cad0eb32852e900db8b2c748bda}{value}} (float phase) const
+\begin{DoxyCompactList}\small\item\em Computes global combination value (weigthed across all basis functions in combination) \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classmotion_1_1_basis_combination_ac4a76dfef44a48a21d9078a9c85c7251}\label{classmotion_1_1_basis_combination_ac4a76dfef44a48a21d9078a9c85c7251}} 
+std\+::vector$<$ \mbox{\hyperlink{classmotion_1_1_basis_function}{Basis\+Function}} $>$ {\bfseries basis\+\_\+functions}
+\item 
+\mbox{\Hypertarget{classmotion_1_1_basis_combination_a43a2e3fe2dd58a4001404f208936ab7f}\label{classmotion_1_1_basis_combination_a43a2e3fe2dd58a4001404f208936ab7f}} 
+std\+::vector$<$ float $>$ {\bfseries basis\+\_\+weights}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Class implementing a linear combination of non-\/linear basis functions. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classmotion_1_1_basis_combination_a45a64e5f18d6b4a8a01598dcc69518f4}\label{classmotion_1_1_basis_combination_a45a64e5f18d6b4a8a01598dcc69518f4}} 
+\index{motion::BasisCombination@{motion::BasisCombination}!BasisCombination@{BasisCombination}}
+\index{BasisCombination@{BasisCombination}!motion::BasisCombination@{motion::BasisCombination}}
+\doxysubsubsection{\texorpdfstring{BasisCombination()}{BasisCombination()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily motion\+::\+Basis\+Combination\+::\+Basis\+Combination (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ \mbox{\hyperlink{classmotion_1_1_basis_function}{Basis\+Function}} $>$ \&}]{basis = {\ttfamily \{~\}} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+
+
+Constructs a new instance. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em basis} & Basis to initialize combination. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classmotion_1_1_basis_combination_ac296df315fc645b13ff8eec069e32bb0}\label{classmotion_1_1_basis_combination_ac296df315fc645b13ff8eec069e32bb0}} 
+\index{motion::BasisCombination@{motion::BasisCombination}!BasisCombination@{BasisCombination}}
+\index{BasisCombination@{BasisCombination}!motion::BasisCombination@{motion::BasisCombination}}
+\doxysubsubsection{\texorpdfstring{BasisCombination()}{BasisCombination()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily motion\+::\+Basis\+Combination\+::\+Basis\+Combination (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{n\+\_\+basis,  }\item[{const \mbox{\hyperlink{classmotion_1_1_basis_function_ab1ed806bf75d66b549bb10c922598d21}{Basis\+Function\+::\+Kernel}} \&}]{kernel,  }\item[{const std\+::vector$<$ \mbox{\hyperlink{structmotion_1_1_basis_function_1_1_parameters}{Basis\+Function\+::\+Parameters}} $>$ \&}]{parameters }\end{DoxyParamCaption})}
+
+
+
+Constructs a new combination of same-\/type basis functions, from kernel \& basis parameters. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em n\+\_\+basis} & Number of basis functions. \\
+\hline
+\mbox{\texttt{ in}}  & {\em kernel} & Kernel to use when initializing basis functions. \\
+\hline
+\mbox{\texttt{ in}}  & {\em parameters} & Vector of basis functions parameters \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classmotion_1_1_basis_combination_a72e2ba17f51d7ec4fc38e9010431c6cf}\label{classmotion_1_1_basis_combination_a72e2ba17f51d7ec4fc38e9010431c6cf}} 
+\index{motion::BasisCombination@{motion::BasisCombination}!BasisCombination@{BasisCombination}}
+\index{BasisCombination@{BasisCombination}!motion::BasisCombination@{motion::BasisCombination}}
+\doxysubsubsection{\texorpdfstring{BasisCombination()}{BasisCombination()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily template$<$typename... Args$>$ \\
+motion\+::\+Basis\+Combination\+::\+Basis\+Combination (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{n\+\_\+basis,  }\item[{Args \&\&...}]{args }\end{DoxyParamCaption})}
+
+
+
+Constructs a new combination of same-\/type equally parametrized basis functions, from \mbox{\hyperlink{classmotion_1_1_basis_function}{Basis\+Function}} constructor arguments. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em n\+\_\+basis} & Number of basis functions. \\
+\hline
+\mbox{\texttt{ in}}  & {\em arg} & Variadic parameter pack with arguments used to instantiate basis functions.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+Forwards {\itshape args} to \mbox{\hyperlink{classmotion_1_1_basis_function}{Basis\+Function}} constructor, therefore capturing copy constructor as well. 
+\end{DoxyNote}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classmotion_1_1_basis_combination_a1f6dcb3b7aaf8fea5546e1a73f0fd5f5}\label{classmotion_1_1_basis_combination_a1f6dcb3b7aaf8fea5546e1a73f0fd5f5}} 
+\index{motion::BasisCombination@{motion::BasisCombination}!addBasis@{addBasis}}
+\index{addBasis@{addBasis}!motion::BasisCombination@{motion::BasisCombination}}
+\doxysubsubsection{\texorpdfstring{addBasis()}{addBasis()}}
+{\footnotesize\ttfamily template$<$typename... Args$>$ \\
+void motion\+::\+Basis\+Combination\+::add\+Basis (\begin{DoxyParamCaption}\item[{float}]{weight,  }\item[{Args \&\&...}]{args }\end{DoxyParamCaption})}
+
+
+
+Adds a basis function to the combination. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em weight} & Basis weight (in linear combination) \\
+\hline
+\mbox{\texttt{ in}}  & {\em args} & Variadic parameter pack with arguments used to instantiate basis functions. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classmotion_1_1_basis_combination_ad454816f77e996fe2a1a9b8222e6fe74}\label{classmotion_1_1_basis_combination_ad454816f77e996fe2a1a9b8222e6fe74}} 
+\index{motion::BasisCombination@{motion::BasisCombination}!operator\mbox{[}\mbox{]}@{operator[]}}
+\index{operator\mbox{[}\mbox{]}@{operator[]}!motion::BasisCombination@{motion::BasisCombination}}
+\doxysubsubsection{\texorpdfstring{operator[]()}{operator[]()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classmotion_1_1_basis_function}{Basis\+Function}} \& motion\+::\+Basis\+Combination\+::operator\mbox{[}$\,$\mbox{]} (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{pos }\end{DoxyParamCaption})}
+
+
+
+Array indexer operator, accessing basis function @ given {\itshape pos}. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em pos} & Basis function position\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Reference to underlying basis @ given position.
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em std\+::invalid\+\_\+argument} & if {\itshape pos} \texorpdfstring{$>$}{>}= \mbox{\hyperlink{classmotion_1_1_basis_combination_a0730b8fe34050d414217dd5c6345e69c}{size()}}. \\
+\hline
+\end{DoxyExceptions}
+\mbox{\Hypertarget{classmotion_1_1_basis_combination_a710487b9dfd651f2b09fab5fcbeef057}\label{classmotion_1_1_basis_combination_a710487b9dfd651f2b09fab5fcbeef057}} 
+\index{motion::BasisCombination@{motion::BasisCombination}!operator\mbox{[}\mbox{]}@{operator[]}}
+\index{operator\mbox{[}\mbox{]}@{operator[]}!motion::BasisCombination@{motion::BasisCombination}}
+\doxysubsubsection{\texorpdfstring{operator[]()}{operator[]()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{classmotion_1_1_basis_function}{Basis\+Function}} \& motion\+::\+Basis\+Combination\+::operator\mbox{[}$\,$\mbox{]} (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{pos }\end{DoxyParamCaption}) const}
+
+
+
+Array indexer operator, accessing basis function @ given {\itshape pos} (const overload). 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em pos} & Basis function position\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Const reference to underlying basis @ given position.
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em std\+::invalid\+\_\+argument} & if {\itshape pos} \texorpdfstring{$>$}{>}= \mbox{\hyperlink{classmotion_1_1_basis_combination_a0730b8fe34050d414217dd5c6345e69c}{size()}}. \\
+\hline
+\end{DoxyExceptions}
+\mbox{\Hypertarget{classmotion_1_1_basis_combination_a3f15d8107ee237b72e661a7449ae96ca}\label{classmotion_1_1_basis_combination_a3f15d8107ee237b72e661a7449ae96ca}} 
+\index{motion::BasisCombination@{motion::BasisCombination}!removeBasis@{removeBasis}}
+\index{removeBasis@{removeBasis}!motion::BasisCombination@{motion::BasisCombination}}
+\doxysubsubsection{\texorpdfstring{removeBasis()}{removeBasis()}}
+{\footnotesize\ttfamily void motion\+::\+Basis\+Combination\+::remove\+Basis (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{pos }\end{DoxyParamCaption})}
+
+
+
+Removes basis. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em pos} & Position of basis function to remove. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classmotion_1_1_basis_combination_a85f3b9d26c2f017c93e6f187ebde5344}\label{classmotion_1_1_basis_combination_a85f3b9d26c2f017c93e6f187ebde5344}} 
+\index{motion::BasisCombination@{motion::BasisCombination}!setCenters@{setCenters}}
+\index{setCenters@{setCenters}!motion::BasisCombination@{motion::BasisCombination}}
+\doxysubsubsection{\texorpdfstring{setCenters()}{setCenters()}}
+{\footnotesize\ttfamily void motion\+::\+Basis\+Combination\+::set\+Centers (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ float $>$ \&}]{centers }\end{DoxyParamCaption})}
+
+
+
+Sets basis function centers (positions). 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em centers} & Vector of center values for each basis function.\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em std\+::invalid\+\_\+argument} & if length of input vector does not match \mbox{\hyperlink{classmotion_1_1_basis_combination_a0730b8fe34050d414217dd5c6345e69c}{size()}}. \\
+\hline
+\end{DoxyExceptions}
+\mbox{\Hypertarget{classmotion_1_1_basis_combination_a7948f4cfcada1c58125c4765c23673db}\label{classmotion_1_1_basis_combination_a7948f4cfcada1c58125c4765c23673db}} 
+\index{motion::BasisCombination@{motion::BasisCombination}!setParameters@{setParameters}}
+\index{setParameters@{setParameters}!motion::BasisCombination@{motion::BasisCombination}}
+\doxysubsubsection{\texorpdfstring{setParameters()}{setParameters()}}
+{\footnotesize\ttfamily void motion\+::\+Basis\+Combination\+::set\+Parameters (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ \mbox{\hyperlink{structmotion_1_1_basis_function_1_1_parameters}{Basis\+Function\+::\+Parameters}} $>$ \&}]{parameters }\end{DoxyParamCaption})}
+
+
+
+Sets basis function parameters i.\+e. centers {\itshape and} widths. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em parameters} & Vector of \mbox{\hyperlink{structmotion_1_1_basis_function_1_1_parameters}{Basis\+Function\+::\+Parameters}} instances to assign to underlying basis.\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em std\+::invalid\+\_\+argument} & if length of input vector does not match \mbox{\hyperlink{classmotion_1_1_basis_combination_a0730b8fe34050d414217dd5c6345e69c}{size()}}. \\
+\hline
+\end{DoxyExceptions}
+\mbox{\Hypertarget{classmotion_1_1_basis_combination_aa3c44c7a2e133c2e52cd74b36c275223}\label{classmotion_1_1_basis_combination_aa3c44c7a2e133c2e52cd74b36c275223}} 
+\index{motion::BasisCombination@{motion::BasisCombination}!setWeights@{setWeights}}
+\index{setWeights@{setWeights}!motion::BasisCombination@{motion::BasisCombination}}
+\doxysubsubsection{\texorpdfstring{setWeights()}{setWeights()}}
+{\footnotesize\ttfamily void motion\+::\+Basis\+Combination\+::set\+Weights (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ float $>$ \&}]{weights }\end{DoxyParamCaption})}
+
+
+
+Sets basis function weights for combination. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em centers} & Vector of weigth values for each basis function.\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em std\+::invalid\+\_\+argument} & if length of input vector does not match \mbox{\hyperlink{classmotion_1_1_basis_combination_a0730b8fe34050d414217dd5c6345e69c}{size()}}. \\
+\hline
+\end{DoxyExceptions}
+\mbox{\Hypertarget{classmotion_1_1_basis_combination_a9cb02b7f5aedd868f71725a95cd638f9}\label{classmotion_1_1_basis_combination_a9cb02b7f5aedd868f71725a95cd638f9}} 
+\index{motion::BasisCombination@{motion::BasisCombination}!setWidths@{setWidths}}
+\index{setWidths@{setWidths}!motion::BasisCombination@{motion::BasisCombination}}
+\doxysubsubsection{\texorpdfstring{setWidths()}{setWidths()}}
+{\footnotesize\ttfamily void motion\+::\+Basis\+Combination\+::set\+Widths (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ float $>$ \&}]{widths }\end{DoxyParamCaption})}
+
+
+
+Sets basis function widths. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em centers} & Vector of width values for each basis function.\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em std\+::invalid\+\_\+argument} & if length of input vector does not match \mbox{\hyperlink{classmotion_1_1_basis_combination_a0730b8fe34050d414217dd5c6345e69c}{size()}}. \\
+\hline
+\end{DoxyExceptions}
+\mbox{\Hypertarget{classmotion_1_1_basis_combination_a20746cad0eb32852e900db8b2c748bda}\label{classmotion_1_1_basis_combination_a20746cad0eb32852e900db8b2c748bda}} 
+\index{motion::BasisCombination@{motion::BasisCombination}!value@{value}}
+\index{value@{value}!motion::BasisCombination@{motion::BasisCombination}}
+\doxysubsubsection{\texorpdfstring{value()}{value()}}
+{\footnotesize\ttfamily float motion\+::\+Basis\+Combination\+::value (\begin{DoxyParamCaption}\item[{float}]{phase }\end{DoxyParamCaption}) const}
+
+
+
+Computes global combination value (weigthed across all basis functions in combination) 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em phase} & Phase value (input) \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classmotion_1_1_basis_combination_a3f6031b868b23137d904af75c5e61302}\label{classmotion_1_1_basis_combination_a3f6031b868b23137d904af75c5e61302}} 
+\index{motion::BasisCombination@{motion::BasisCombination}!values@{values}}
+\index{values@{values}!motion::BasisCombination@{motion::BasisCombination}}
+\doxysubsubsection{\texorpdfstring{values()}{values()}}
+{\footnotesize\ttfamily vector$<$ float $>$ motion\+::\+Basis\+Combination\+::values (\begin{DoxyParamCaption}\item[{float}]{phase }\end{DoxyParamCaption}) const}
+
+
+
+Compute output of each basis function @ given {\itshape phase}. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em phase} & Phase value (input)\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Vector of output values matching number of basis function in combination. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/joao/\+Shared/\+PHD/code/motion/include/motion/basis\+\_\+function.\+hpp\item 
+/home/joao/\+Shared/\+PHD/code/motion/src/basis\+\_\+function.\+cpp\end{DoxyCompactItemize}

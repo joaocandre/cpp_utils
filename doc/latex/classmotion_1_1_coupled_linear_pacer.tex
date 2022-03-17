@@ -1,0 +1,159 @@
+\hypertarget{classmotion_1_1_coupled_linear_pacer}{}\doxysection{motion\+::Coupled\+Linear\+Pacer Class Reference}
+\label{classmotion_1_1_coupled_linear_pacer}\index{motion::CoupledLinearPacer@{motion::CoupledLinearPacer}}
+
+
+Class extending \mbox{\hyperlink{classmotion_1_1_linear_pacer}{Linear\+Pacer}} to couple it with other dynamical systems, e.\+g. keep them in anti-\/phase Any other system can be used for oupling, though by design it is intended to couple with another \mbox{\hyperlink{classmotion_1_1_linear_pacer}{Linear\+Pacer}}.  
+
+
+
+
+{\ttfamily \#include $<$dynamical\+\_\+system.\+hpp$>$}
+
+
+
+Inheritance diagram for motion\+::Coupled\+Linear\+Pacer\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=223pt]{classmotion_1_1_coupled_linear_pacer__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for motion\+::Coupled\+Linear\+Pacer\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classmotion_1_1_coupled_linear_pacer__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structmotion_1_1_coupled_linear_pacer_1_1_coupling}{Coupling}}
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{structmotion_1_1_coupled_linear_pacer_1_1_coupling}{Coupling}} parameter descriptor (for simplicty/verbosity) \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classmotion_1_1_coupled_linear_pacer_a6173df1d7dd3f8869988c9e7f0dba2b7}{Coupled\+Linear\+Pacer}} (const \mbox{\hyperlink{classmotion_1_1_dynamical_system}{Dynamical\+System}} $\ast$reference\+\_\+=nullptr, const \mbox{\hyperlink{structmotion_1_1_coupled_linear_pacer_1_1_coupling}{Coupling}} \&parameters\+\_\+=\{ 1.\+0, 0.\+0 \})
+\begin{DoxyCompactList}\small\item\em Constructs a new instance. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classmotion_1_1_coupled_linear_pacer_aa6dd862183da348fefd45a6e8ea8ac57}{Coupled\+Linear\+Pacer}} (float pace\+\_\+, const \mbox{\hyperlink{classmotion_1_1_dynamical_system}{Dynamical\+System}} $\ast$reference\+\_\+=nullptr, const \mbox{\hyperlink{structmotion_1_1_coupled_linear_pacer_1_1_coupling}{Coupling}} \&parameters\+\_\+=\{ 1.\+0, 0.\+0 \})
+\begin{DoxyCompactList}\small\item\em Constructs a new instance. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classmotion_1_1_coupled_linear_pacer_aa34746362ccfbd593e585393d7c9b2c1}\label{classmotion_1_1_coupled_linear_pacer_aa34746362ccfbd593e585393d7c9b2c1}} 
+virtual {\bfseries $\sim$\+Coupled\+Linear\+Pacer} ()=default
+\begin{DoxyCompactList}\small\item\em Destroys the object. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classmotion_1_1_coupled_linear_pacer_a7d1ea23f2e8f5fa4536dfe26f30d6e25}{update}} (float ts, float d1=0.\+0, float d2=0.\+0) override
+\begin{DoxyCompactList}\small\item\em Updates the given ts. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static float \mbox{\hyperlink{classmotion_1_1_coupled_linear_pacer_a248df2c423af9150a6b3b38414b5a154}{get\+Coupled\+Pace}} (const \mbox{\hyperlink{classmotion_1_1_dynamical_system}{Dynamical\+System}} $\ast$system\+\_\+, const \mbox{\hyperlink{classmotion_1_1_dynamical_system}{Dynamical\+System}} $\ast$reference\+\_\+, const \mbox{\hyperlink{structmotion_1_1_coupled_linear_pacer_1_1_coupling}{Coupling}} \&parameters\+\_\+)
+\begin{DoxyCompactList}\small\item\em Estimates new pace value according to given {\itshape system} and {\itshape reference} output values and coupling {\itshape parameters} \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classmotion_1_1_coupled_linear_pacer_a5d45f75b286c35c833439fc73eae1765}\label{classmotion_1_1_coupled_linear_pacer_a5d45f75b286c35c833439fc73eae1765}} 
+const \mbox{\hyperlink{classmotion_1_1_dynamical_system}{Dynamical\+System}} $\ast$ {\bfseries reference}
+\begin{DoxyCompactList}\small\item\em Coupled reference dynamical system. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classmotion_1_1_coupled_linear_pacer_ac7a7047cd41bab5827fb3c96f8d623f7}\label{classmotion_1_1_coupled_linear_pacer_ac7a7047cd41bab5827fb3c96f8d623f7}} 
+\mbox{\hyperlink{structmotion_1_1_coupled_linear_pacer_1_1_coupling}{Coupling}} {\bfseries parameters}
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{structmotion_1_1_coupled_linear_pacer_1_1_coupling}{Coupling}} parameters. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Class extending \mbox{\hyperlink{classmotion_1_1_linear_pacer}{Linear\+Pacer}} to couple it with other dynamical systems, e.\+g. keep them in anti-\/phase Any other system can be used for oupling, though by design it is intended to couple with another \mbox{\hyperlink{classmotion_1_1_linear_pacer}{Linear\+Pacer}}. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classmotion_1_1_coupled_linear_pacer_a6173df1d7dd3f8869988c9e7f0dba2b7}\label{classmotion_1_1_coupled_linear_pacer_a6173df1d7dd3f8869988c9e7f0dba2b7}} 
+\index{motion::CoupledLinearPacer@{motion::CoupledLinearPacer}!CoupledLinearPacer@{CoupledLinearPacer}}
+\index{CoupledLinearPacer@{CoupledLinearPacer}!motion::CoupledLinearPacer@{motion::CoupledLinearPacer}}
+\doxysubsubsection{\texorpdfstring{CoupledLinearPacer()}{CoupledLinearPacer()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily motion\+::\+Coupled\+Linear\+Pacer\+::\+Coupled\+Linear\+Pacer (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classmotion_1_1_dynamical_system}{Dynamical\+System}} $\ast$}]{reference\+\_\+ = {\ttfamily nullptr},  }\item[{const \mbox{\hyperlink{structmotion_1_1_coupled_linear_pacer_1_1_coupling}{Coupling}} \&}]{parameters\+\_\+ = {\ttfamily \{~1.0,~0.0~\}} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+
+
+Constructs a new instance. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em reference\+\_\+} & System to couple with. Defaults to nullptr (no coupling) i.\+e. behaves like a simple linear pacer \\
+\hline
+\mbox{\texttt{ in}}  & {\em parameters\+\_\+} & \mbox{\hyperlink{structmotion_1_1_coupled_linear_pacer_1_1_coupling}{Coupling}} parameters i.\+e. gain and shift. Defaults to unitary gain and no shift (pacer will follow coupled system output). \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classmotion_1_1_coupled_linear_pacer_aa6dd862183da348fefd45a6e8ea8ac57}\label{classmotion_1_1_coupled_linear_pacer_aa6dd862183da348fefd45a6e8ea8ac57}} 
+\index{motion::CoupledLinearPacer@{motion::CoupledLinearPacer}!CoupledLinearPacer@{CoupledLinearPacer}}
+\index{CoupledLinearPacer@{CoupledLinearPacer}!motion::CoupledLinearPacer@{motion::CoupledLinearPacer}}
+\doxysubsubsection{\texorpdfstring{CoupledLinearPacer()}{CoupledLinearPacer()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily motion\+::\+Coupled\+Linear\+Pacer\+::\+Coupled\+Linear\+Pacer (\begin{DoxyParamCaption}\item[{float}]{pace\+\_\+,  }\item[{const \mbox{\hyperlink{classmotion_1_1_dynamical_system}{Dynamical\+System}} $\ast$}]{reference\+\_\+ = {\ttfamily nullptr},  }\item[{const \mbox{\hyperlink{structmotion_1_1_coupled_linear_pacer_1_1_coupling}{Coupling}} \&}]{parameters\+\_\+ = {\ttfamily \{~1.0,~0.0~\}} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+
+
+Constructs a new instance. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em pace\+\_\+} & Initial pace for the oscillator. \\
+\hline
+\mbox{\texttt{ in}}  & {\em reference\+\_\+} & System to couple with. Defaults to nullptr (no coupling) i.\+e. behaves like a simple linear pacer \\
+\hline
+\mbox{\texttt{ in}}  & {\em parameters\+\_\+} & \mbox{\hyperlink{structmotion_1_1_coupled_linear_pacer_1_1_coupling}{Coupling}} parameters i.\+e. gain and shift. Defaults to unitary gain and anti-\/phase. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classmotion_1_1_coupled_linear_pacer_a248df2c423af9150a6b3b38414b5a154}\label{classmotion_1_1_coupled_linear_pacer_a248df2c423af9150a6b3b38414b5a154}} 
+\index{motion::CoupledLinearPacer@{motion::CoupledLinearPacer}!getCoupledPace@{getCoupledPace}}
+\index{getCoupledPace@{getCoupledPace}!motion::CoupledLinearPacer@{motion::CoupledLinearPacer}}
+\doxysubsubsection{\texorpdfstring{getCoupledPace()}{getCoupledPace()}}
+{\footnotesize\ttfamily float motion\+::\+Coupled\+Linear\+Pacer\+::get\+Coupled\+Pace (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classmotion_1_1_dynamical_system}{Dynamical\+System}} $\ast$}]{system\+\_\+,  }\item[{const \mbox{\hyperlink{classmotion_1_1_dynamical_system}{Dynamical\+System}} $\ast$}]{reference\+\_\+,  }\item[{const \mbox{\hyperlink{structmotion_1_1_coupled_linear_pacer_1_1_coupling}{Coupling}} \&}]{parameters\+\_\+ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Estimates new pace value according to given {\itshape system} and {\itshape reference} output values and coupling {\itshape parameters} 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em system} & System to estimate-\/update pace. \\
+\hline
+\mbox{\texttt{ in}}  & {\em other} & Reference system whose output is coupled to {\itshape system}. \\
+\hline
+\mbox{\texttt{ in}}  & {\em parameters} & \mbox{\hyperlink{structmotion_1_1_coupled_linear_pacer_1_1_coupling}{Coupling}} parameters.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The coupling pace. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classmotion_1_1_coupled_linear_pacer_a7d1ea23f2e8f5fa4536dfe26f30d6e25}\label{classmotion_1_1_coupled_linear_pacer_a7d1ea23f2e8f5fa4536dfe26f30d6e25}} 
+\index{motion::CoupledLinearPacer@{motion::CoupledLinearPacer}!update@{update}}
+\index{update@{update}!motion::CoupledLinearPacer@{motion::CoupledLinearPacer}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily void motion\+::\+Coupled\+Linear\+Pacer\+::update (\begin{DoxyParamCaption}\item[{float}]{ts,  }\item[{float}]{d1 = {\ttfamily 0.0},  }\item[{float}]{d2 = {\ttfamily 0.0} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Updates the given ts. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em ts} & Integration time step (Euler\textquotesingle{}s method) \\
+\hline
+\mbox{\texttt{ in}}  & {\em d1} & First order derivative modifier (added to 1st order integration). Defaults to 0.\+0. \\
+\hline
+\mbox{\texttt{ in}}  & {\em d2} & {\itshape IGNORED} Second order derivative modifier (added to 2nd order intergration). Defaults to 0.\+0.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+Second order derivative is ignored, only provided for consistency w/ base class. 
+\end{DoxyNote}
+
+
+Reimplemented from \mbox{\hyperlink{classmotion_1_1_linear_pacer_aa82e230d30672c788dd3d73d42d81aa2}{motion\+::\+Linear\+Pacer}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/joao/\+Shared/\+PHD/code/mplibrary/include/mplibrary/dynamical\+\_\+system.\+hpp\item 
+/home/joao/\+Shared/\+PHD/code/mplibrary/src/dynamical\+\_\+system.\+cpp\end{DoxyCompactItemize}

@@ -1,0 +1,225 @@
+\hypertarget{indexer_8hpp}{}\doxysection{/home/joao/\+Shared/\+PHD/code/ros/src/storage/include/storage/indexer.hpp File Reference}
+\label{indexer_8hpp}\index{/home/joao/Shared/PHD/code/ros/src/storage/include/storage/indexer.hpp@{/home/joao/Shared/PHD/code/ros/src/storage/include/storage/indexer.hpp}}
+
+
+Header file providing declaration \& definition of std\+::indexer$<$$>$ class template, as well as specializations std\+::index$<$$>$ and std\+::series$<$$>$.  
+
+
+{\ttfamily \#include $<$vector$>$}\newline
+{\ttfamily \#include $<$type\+\_\+traits$>$}\newline
+{\ttfamily \#include $<$cassert$>$}\newline
+{\ttfamily \#include $<$utility$>$}\newline
+{\ttfamily \#include $<$exception$>$}\newline
+{\ttfamily \#include $<$initializer\+\_\+list$>$}\newline
+{\ttfamily \#include $<$algorithm$>$}\newline
+{\ttfamily \#include \char`\"{}type\+\_\+check.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}tagged.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}cast\+\_\+iterator.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}range\+\_\+iterator.\+hpp\char`\"{}}\newline
+Include dependency graph for indexer.\+hpp\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{indexer_8hpp__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classstd_1_1indexer}{std\+::indexer$<$ Container, T, Locked $>$}}
+\begin{DoxyCompactList}\small\item\em Simple extensible generic container adapter that provides high-\/level indexing/key functionality to {\itshape Container}, while maintaining a customizable public interface of a container of {\itshape T}, in line with STL\textquotesingle{}s {\itshape Sequence\+Container} named requirements. Represents a pseudo-\/container type for specialized \char`\"{}indexable\char`\"{} data types i.\+e. with a public identifier {\itshape key} member. Provides associative features of std\+::set and std\+::map in sequence containers (std\+::array, std\+::vector, std\+::deque and std\+::list), leveraging perfomance advantages of these types. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$class T $>$ }\\using \mbox{\hyperlink{indexer_8hpp_a277f410feae48e1109ad6e71c6a314c9}{std\+::id\+\_\+member}} = decltype(declval$<$ T $>$().key)
+\begin{DoxyCompactList}\small\item\em Templated static SFINAE check for indexable types. It employs std\+::can\+\_\+apply$<$$>$ (cf. \mbox{\hyperlink{type__check_8hpp_source}{type\+\_\+check.\+hpp}}) while testing specifically for the validity of a \+::id member. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{indexer_8hpp_a3788cb8472d469ef46f8c500f77ab2e3}\label{indexer_8hpp_a3788cb8472d469ef46f8c500f77ab2e3}} 
+{\footnotesize template$<$class T $>$ }\\using {\bfseries std\+::id\+\_\+function} = decltype(declval$<$ T $>$().key())
+\item 
+\mbox{\Hypertarget{indexer_8hpp_ac3ef45a02e7667a0318d82ecf77131cb}\label{indexer_8hpp_ac3ef45a02e7667a0318d82ecf77131cb}} 
+{\footnotesize template$<$class T $>$ }\\using {\bfseries std\+::position\+\_\+accessor} = decltype(declval$<$ T $>$().operator\mbox{[}$\,$\mbox{]}(0))
+\item 
+\mbox{\Hypertarget{indexer_8hpp_a3ce38a8926e40ef46e7973fd9b891a2f}\label{indexer_8hpp_a3ce38a8926e40ef46e7973fd9b891a2f}} 
+{\footnotesize template$<$class T $>$ }\\using {\bfseries std\+::front\+\_\+accessor} = decltype(declval$<$ T $>$().front())
+\item 
+\mbox{\Hypertarget{indexer_8hpp_af6adf64e80ad6a9c43a7fd45e1c9458f}\label{indexer_8hpp_af6adf64e80ad6a9c43a7fd45e1c9458f}} 
+{\footnotesize template$<$class T $>$ }\\using {\bfseries std\+::back\+\_\+accessor} = decltype(declval$<$ T $>$().back())
+\item 
+\mbox{\Hypertarget{indexer_8hpp_a76370024d0e41002a12f4171fa98ba67}\label{indexer_8hpp_a76370024d0e41002a12f4171fa98ba67}} 
+{\footnotesize template$<$class T $>$ }\\using {\bfseries std\+::front\+\_\+pusher} = decltype(declval$<$ T $>$().push\+\_\+front())
+\item 
+\mbox{\Hypertarget{indexer_8hpp_aabb7e171615d75ca701b600518db82b4}\label{indexer_8hpp_aabb7e171615d75ca701b600518db82b4}} 
+{\footnotesize template$<$class T $>$ }\\using {\bfseries std\+::back\+\_\+pusher} = decltype(declval$<$ T $>$().push\+\_\+back())
+\item 
+\mbox{\Hypertarget{indexer_8hpp_a1774d01aec50cab730f0c0354040f3d3}\label{indexer_8hpp_a1774d01aec50cab730f0c0354040f3d3}} 
+{\footnotesize template$<$class T $>$ }\\using {\bfseries std\+::front\+\_\+emplacer} = decltype(declval$<$ T $>$().emplace\+\_\+front())
+\item 
+\mbox{\Hypertarget{indexer_8hpp_a03ea81c214835734ee8a01485f30fdc8}\label{indexer_8hpp_a03ea81c214835734ee8a01485f30fdc8}} 
+{\footnotesize template$<$class T $>$ }\\using {\bfseries std\+::back\+\_\+emplacer} = decltype(declval$<$ T $>$().emplace\+\_\+back())
+\item 
+\mbox{\Hypertarget{indexer_8hpp_a75b856494437ffb94678913f127aff8f}\label{indexer_8hpp_a75b856494437ffb94678913f127aff8f}} 
+{\footnotesize template$<$class T $>$ }\\using {\bfseries std\+::front\+\_\+popper} = decltype(declval$<$ T $>$().pop\+\_\+front())
+\item 
+\mbox{\Hypertarget{indexer_8hpp_a2feff0324970c6224c0d6588f1b23056}\label{indexer_8hpp_a2feff0324970c6224c0d6588f1b23056}} 
+{\footnotesize template$<$class T $>$ }\\using {\bfseries std\+::back\+\_\+popper} = decltype(declval$<$ T $>$().pop\+\_\+back())
+\item 
+\mbox{\Hypertarget{indexer_8hpp_a28cd6080437e34dcd7399bc291bd30e2}\label{indexer_8hpp_a28cd6080437e34dcd7399bc291bd30e2}} 
+{\footnotesize template$<$class T $>$ }\\using {\bfseries std\+::has\+\_\+id} = can\+\_\+apply$<$ id\+\_\+member, T $>$
+\item 
+\mbox{\Hypertarget{indexer_8hpp_a2e58eaddd3341b898b9070f6b7625c15}\label{indexer_8hpp_a2e58eaddd3341b898b9070f6b7625c15}} 
+{\footnotesize template$<$class T $>$ }\\using {\bfseries std\+::has\+\_\+id\+\_\+function} = can\+\_\+apply$<$ id\+\_\+function, T $>$
+\item 
+\mbox{\Hypertarget{indexer_8hpp_a6b523c5b2e496430624984e30f9b5b43}\label{indexer_8hpp_a6b523c5b2e496430624984e30f9b5b43}} 
+{\footnotesize template$<$class T $>$ }\\using {\bfseries std\+::has\+\_\+position\+\_\+accessor} = can\+\_\+apply$<$ position\+\_\+accessor, T $>$
+\item 
+\mbox{\Hypertarget{indexer_8hpp_a71fd7ade19d818ab6c42c8332e026311}\label{indexer_8hpp_a71fd7ade19d818ab6c42c8332e026311}} 
+{\footnotesize template$<$class T $>$ }\\using {\bfseries std\+::has\+\_\+front\+\_\+accessor} = can\+\_\+apply$<$ front\+\_\+accessor, T $>$
+\item 
+\mbox{\Hypertarget{indexer_8hpp_a636b3c2a630badd4dce39e6e98c4cb2e}\label{indexer_8hpp_a636b3c2a630badd4dce39e6e98c4cb2e}} 
+{\footnotesize template$<$class T $>$ }\\using {\bfseries std\+::has\+\_\+back\+\_\+accessor} = can\+\_\+apply$<$ back\+\_\+accessor, T $>$
+\item 
+\mbox{\Hypertarget{indexer_8hpp_a70bab5f7ca6d1de545d90652744b6cec}\label{indexer_8hpp_a70bab5f7ca6d1de545d90652744b6cec}} 
+{\footnotesize template$<$class T $>$ }\\using {\bfseries std\+::has\+\_\+front\+\_\+pusher} = can\+\_\+apply$<$ front\+\_\+pusher, T $>$
+\item 
+\mbox{\Hypertarget{indexer_8hpp_a65a7a09fc7363ffb034056cf69afe22a}\label{indexer_8hpp_a65a7a09fc7363ffb034056cf69afe22a}} 
+{\footnotesize template$<$class T $>$ }\\using {\bfseries std\+::has\+\_\+back\+\_\+pusher} = can\+\_\+apply$<$ back\+\_\+pusher, T $>$
+\item 
+\mbox{\Hypertarget{indexer_8hpp_adf8b57c5d8e47029be6ae85ca6a1e99f}\label{indexer_8hpp_adf8b57c5d8e47029be6ae85ca6a1e99f}} 
+{\footnotesize template$<$class T $>$ }\\using {\bfseries std\+::has\+\_\+front\+\_\+emplacer} = can\+\_\+apply$<$ front\+\_\+emplacer, T $>$
+\item 
+\mbox{\Hypertarget{indexer_8hpp_a0913acfa95076f9a1a30ff446b71afa6}\label{indexer_8hpp_a0913acfa95076f9a1a30ff446b71afa6}} 
+{\footnotesize template$<$class T $>$ }\\using {\bfseries std\+::has\+\_\+back\+\_\+emplacer} = can\+\_\+apply$<$ back\+\_\+emplacer, T $>$
+\item 
+\mbox{\Hypertarget{indexer_8hpp_a55f28b999015fea1f17dda6167906531}\label{indexer_8hpp_a55f28b999015fea1f17dda6167906531}} 
+{\footnotesize template$<$class T $>$ }\\using {\bfseries std\+::has\+\_\+front\+\_\+popper} = can\+\_\+apply$<$ front\+\_\+popper, T $>$
+\item 
+\mbox{\Hypertarget{indexer_8hpp_a3d62621af281a6be392744bc2d6eb5e2}\label{indexer_8hpp_a3d62621af281a6be392744bc2d6eb5e2}} 
+{\footnotesize template$<$class T $>$ }\\using {\bfseries std\+::has\+\_\+back\+\_\+popper} = can\+\_\+apply$<$ back\+\_\+popper, T $>$
+\item 
+{\footnotesize template$<$typename T , typename Key  = string, bool Locked = false$>$ }\\using \mbox{\hyperlink{indexer_8hpp_a560b478532185401adead77a6d5d8350}{std\+::index}} = indexer$<$ std\+::vector$<$ \mbox{\hyperlink{classstd_1_1tagged}{std\+::tagged}}$<$ T, Key $>$ $>$, T, Locked $>$
+\begin{DoxyCompactList}\small\item\em Public \mbox{\hyperlink{classstd_1_1indexer}{std\+::indexer}} specialization to std\+::vector with text keys, and generalizing over given type T through std\+::tagged$<$$>$ indexable wrapper. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{indexer_8hpp_ae9a0306382fc3b5e85c8cdf7ba128a57}\label{indexer_8hpp_ae9a0306382fc3b5e85c8cdf7ba128a57}} 
+{\footnotesize template$<$typename T $>$ }\\constexpr bool {\bfseries std\+::can\+\_\+be\+\_\+indexed} ()
+\item 
+\mbox{\Hypertarget{indexer_8hpp_a1e378a5dd6d35fecd2cce246495b8f8c}\label{indexer_8hpp_a1e378a5dd6d35fecd2cce246495b8f8c}} 
+{\footnotesize template$<$typename T , typename U $>$ }\\constexpr bool {\bfseries std\+::can\+\_\+be\+\_\+replaced\+\_\+by} ()
+\item 
+\mbox{\Hypertarget{indexer_8hpp_ac6441e8d91cde96b06d80c4d4f758672}\label{indexer_8hpp_ac6441e8d91cde96b06d80c4d4f758672}} 
+{\footnotesize template$<$typename T $>$ }\\constexpr bool {\bfseries std\+::is\+\_\+position\+\_\+accessible} ()
+\item 
+\mbox{\Hypertarget{indexer_8hpp_a875c105b7b148959572fb444e84e9a59}\label{indexer_8hpp_a875c105b7b148959572fb444e84e9a59}} 
+{\footnotesize template$<$typename T $>$ }\\constexpr bool {\bfseries std\+::has\+\_\+front} ()
+\item 
+\mbox{\Hypertarget{indexer_8hpp_af31e492208c5faa7e8b81a39cdc510ed}\label{indexer_8hpp_af31e492208c5faa7e8b81a39cdc510ed}} 
+{\footnotesize template$<$typename T $>$ }\\constexpr bool {\bfseries std\+::has\+\_\+back} ()
+\item 
+\mbox{\Hypertarget{indexer_8hpp_a9bf018e9db166120c5160c30c225593b}\label{indexer_8hpp_a9bf018e9db166120c5160c30c225593b}} 
+{\footnotesize template$<$typename T $>$ }\\constexpr bool {\bfseries std\+::is\+\_\+front\+\_\+pushable} ()
+\item 
+\mbox{\Hypertarget{indexer_8hpp_aed0b3c2cd9104e5b3eeef64d4982aabc}\label{indexer_8hpp_aed0b3c2cd9104e5b3eeef64d4982aabc}} 
+{\footnotesize template$<$typename T $>$ }\\constexpr bool {\bfseries std\+::is\+\_\+back\+\_\+pushable} ()
+\item 
+\mbox{\Hypertarget{indexer_8hpp_a34a74bc5b32b62b1cdd7cb185aecec44}\label{indexer_8hpp_a34a74bc5b32b62b1cdd7cb185aecec44}} 
+{\footnotesize template$<$typename T $>$ }\\constexpr bool {\bfseries std\+::is\+\_\+front\+\_\+emplaceable} ()
+\item 
+\mbox{\Hypertarget{indexer_8hpp_a06819caafcb7a19181c10c608278c5ac}\label{indexer_8hpp_a06819caafcb7a19181c10c608278c5ac}} 
+{\footnotesize template$<$typename T $>$ }\\constexpr bool {\bfseries std\+::is\+\_\+back\+\_\+emplaceable} ()
+\item 
+\mbox{\Hypertarget{indexer_8hpp_a5af50ef821bf161602b9d579a3bba7bd}\label{indexer_8hpp_a5af50ef821bf161602b9d579a3bba7bd}} 
+{\footnotesize template$<$typename T $>$ }\\constexpr bool {\bfseries std\+::is\+\_\+front\+\_\+poppable} ()
+\item 
+\mbox{\Hypertarget{indexer_8hpp_a0b9a6be520ecfd0fb7711088048cc706}\label{indexer_8hpp_a0b9a6be520ecfd0fb7711088048cc706}} 
+{\footnotesize template$<$typename T $>$ }\\constexpr bool {\bfseries std\+::is\+\_\+back\+\_\+poppable} ()
+\item 
+{\footnotesize template$<$typename Container , typename T  = typename Container\+::value\+\_\+type, bool Locked = false, typename... Args$>$ }\\indexer$<$ Container, T, Locked $>$ \mbox{\hyperlink{indexer_8hpp_a021c8da8ca2b5d7e0a640de2bf8c1b23}{std\+::make\+\_\+indexer}} (const initializer\+\_\+list$<$ typename indexer$<$ Container, T, Locked $>$\+::key\+\_\+type $>$ keys, Args... args)
+\begin{DoxyCompactList}\small\item\em Utility constructor that allows inline initialization of an indexer object and its key set. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Header file providing declaration \& definition of std\+::indexer$<$$>$ class template, as well as specializations std\+::index$<$$>$ and std\+::series$<$$>$. 
+
+\begin{DoxyAuthor}{Author}
+João André
+\end{DoxyAuthor}
+std\+::indexer$<$$>$ is a pseudo-\/container class template i.\+e. container adapter (as per STL definition), that implements high-\/level indexing \& sorting functionality to STL\textquotesingle{}s sequence containers, while also providing a pulic interface matching STL\textquotesingle{}s {\itshape Container} and {\itshape Sequence\+Container} named requirements. This means by itself it can be treated as a container and will work with any of STL\textquotesingle{}s tools (e.\+g. $<$utility$>$), while being versatile enough
+
+While STL already provides associative containers in std\+:map$<$$>$ and std\+::set$<$$>$, the major advantage of std\+::indexer$<$$>$ is that it leverages the performance edge of different sequence containers (std\+::array, std\+::vector, std\+::deque, etc), makes no assumption on the ordering/sorting of the underlying data, can be locked to prevent dynamic resizing operations, maintains efficient random access to elements, is extensible, and thus is versatile enough to fit differerent usage scenarios. 
+
+\doxysubsection{Typedef Documentation}
+\mbox{\Hypertarget{indexer_8hpp_a277f410feae48e1109ad6e71c6a314c9}\label{indexer_8hpp_a277f410feae48e1109ad6e71c6a314c9}} 
+\index{indexer.hpp@{indexer.hpp}!id\_member@{id\_member}}
+\index{id\_member@{id\_member}!indexer.hpp@{indexer.hpp}}
+\doxysubsubsection{\texorpdfstring{id\_member}{id\_member}}
+{\footnotesize\ttfamily template$<$class T $>$ \\
+using \mbox{\hyperlink{indexer_8hpp_a277f410feae48e1109ad6e71c6a314c9}{std\+::id\+\_\+member}} = typedef decltype(declval$<$T$>$().key)}
+
+
+
+Templated static SFINAE check for indexable types. It employs std\+::can\+\_\+apply$<$$>$ (cf. \mbox{\hyperlink{type__check_8hpp_source}{type\+\_\+check.\+hpp}}) while testing specifically for the validity of a \+::id member. 
+
+\begin{DoxyNote}{Note}
+At this stage, std\+::indexer$<$$>$ requires\+: 1) A Container type that meets STL\textquotesingle{}s {\itshape Container} \& {\itshape Sequence\+Container} mandatory requirements holding objects of 2) An \textquotesingle{}indexable\textquotesingle{} type that provide a valid public non-\/const \textquotesingle{}id\textquotesingle{} member.
+
+With generic use in mind, \mbox{\hyperlink{classstd_1_1indexer}{std\+::indexer}} makes minimal assumptions on data type. Any STL sequence container can be used with any class/struct that provides an \textquotesingle{}id\textquotesingle{} member. However, it was extensively tested using std\+::vector$<$$>$ as the underlying container and std\+::tagged$<$$>$ as the indexable type (that itself wraps around any other type). 
+\end{DoxyNote}
+\mbox{\Hypertarget{indexer_8hpp_a560b478532185401adead77a6d5d8350}\label{indexer_8hpp_a560b478532185401adead77a6d5d8350}} 
+\index{indexer.hpp@{indexer.hpp}!index@{index}}
+\index{index@{index}!indexer.hpp@{indexer.hpp}}
+\doxysubsubsection{\texorpdfstring{index}{index}}
+{\footnotesize\ttfamily template$<$typename T , typename Key  = string, bool Locked = false$>$ \\
+using \mbox{\hyperlink{indexer_8hpp_a560b478532185401adead77a6d5d8350}{std\+::index}} = typedef indexer$<$ std\+::vector$<$ \mbox{\hyperlink{classstd_1_1tagged}{std\+::tagged}}$<$ T, Key $>$ $>$, T, Locked $>$}
+
+
+
+Public \mbox{\hyperlink{classstd_1_1indexer}{std\+::indexer}} specialization to std\+::vector with text keys, and generalizing over given type T through std\+::tagged$<$$>$ indexable wrapper. 
+
+\begin{DoxyNote}{Note}
+Practical/intuitive specialization, exploiting \mbox{\hyperlink{classstd_1_1indexer}{std\+::indexer}} interface to provide a pseudo-\/container with associative properties.
+\end{DoxyNote}
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & Data type ({\itshape not} the container data type!) \\
+\hline
+{\em Locked} & Whether container is resizeable after initialization. Defaults to false (expandable container). \\
+\hline
+{\em Id} & Type of key/identifier. Defautls to string. \\
+\hline
+\end{DoxyTemplParams}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{indexer_8hpp_a021c8da8ca2b5d7e0a640de2bf8c1b23}\label{indexer_8hpp_a021c8da8ca2b5d7e0a640de2bf8c1b23}} 
+\index{indexer.hpp@{indexer.hpp}!make\_indexer@{make\_indexer}}
+\index{make\_indexer@{make\_indexer}!indexer.hpp@{indexer.hpp}}
+\doxysubsubsection{\texorpdfstring{make\_indexer()}{make\_indexer()}}
+{\footnotesize\ttfamily template$<$typename Container , typename T  = typename Container\+::value\+\_\+type, bool Locked = false, typename... Args$>$ \\
+indexer$<$ Container, T, Locked $>$ std\+::make\+\_\+indexer (\begin{DoxyParamCaption}\item[{const initializer\+\_\+list$<$ typename \mbox{\hyperlink{classstd_1_1indexer}{indexer}}$<$ Container, T, Locked $>$\+::key\+\_\+type $>$}]{keys,  }\item[{Args...}]{args }\end{DoxyParamCaption})}
+
+
+
+Utility constructor that allows inline initialization of an indexer object and its key set. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em keys} & Key values to be assigned to elements of resulting indexer$<$$>$. \\
+\hline
+\mbox{\texttt{ in}}  & {\em args} & Argument list to be passed to the constructor.\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Container} & Generic container of key/tagged type instances. Must fit STL\textquotesingle{}s Container \& Sequence\+Container (partial) requirements. \\
+\hline
+{\em T} & Public/interface type. \\
+\hline
+{\em Locked} & Whether runtime size manipulation is allowed after initialization. Useful when size of the container does not change but elements do. \\
+\hline
+{\em Args} & Variadic parameter pack describing types of arguments passed to constructor.\\
+\hline
+\end{DoxyTemplParams}
+\begin{DoxyReturn}{Returns}
+indexer$<$$>$ instance with given {\itshape keys}. 
+\end{DoxyReturn}

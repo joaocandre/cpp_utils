@@ -1,0 +1,209 @@
+\hypertarget{classmotion_1_1_primitive_mix}{}\doxysection{motion\+::Primitive\+Mix Class Reference}
+\label{classmotion_1_1_primitive_mix}\index{motion::PrimitiveMix@{motion::PrimitiveMix}}
+
+
+Class describing a weigthed combination of multiple primitives, for variable output dimensions.  
+
+
+
+
+{\ttfamily \#include $<$primitive.\+hpp$>$}
+
+
+
+Collaboration diagram for motion\+::Primitive\+Mix\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=241pt]{classmotion_1_1_primitive_mix__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classmotion_1_1_primitive_mix_a07ae91c9d0b123de39d6af0482777260}\label{classmotion_1_1_primitive_mix_a07ae91c9d0b123de39d6af0482777260}} 
+using {\bfseries Parameters} = \mbox{\hyperlink{classstd_1_1matrix}{std\+::matrix}}$<$ float $>$
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classmotion_1_1_primitive}{Primitive}} weighting type (mix parametrization) \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classmotion_1_1_primitive_mix_a76e3fa2690c2cd19c8d93fdba2a6140e}{Primitive\+Mix}} (const std\+::vector$<$ \mbox{\hyperlink{classmotion_1_1_primitive}{Primitive}} $\ast$ $>$ \&\mbox{\hyperlink{classmotion_1_1_primitive_mix_a1fb213eaba619f40e50d8dc967c4ef3e}{primitives}}, size\+\_\+t dims)
+\begin{DoxyCompactList}\small\item\em Constructs a new {\itshape empty} instance. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classmotion_1_1_primitive_mix_a3e3a19236d4ca3b9ced89df8e55b4d90}{Primitive\+Mix}} (const std\+::vector$<$ \mbox{\hyperlink{classmotion_1_1_primitive}{Primitive}} $\ast$ $>$ \&\mbox{\hyperlink{classmotion_1_1_primitive_mix_a1fb213eaba619f40e50d8dc967c4ef3e}{primitives}}, const \mbox{\hyperlink{classmotion_1_1_primitive_mix_a07ae91c9d0b123de39d6af0482777260}{Parameters}} \&\mbox{\hyperlink{classmotion_1_1_primitive_mix_ae82a02b9bdb4dff1a0e47cb1163ed9e4}{weights}})
+\begin{DoxyCompactList}\small\item\em Constructs a new instance. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classmotion_1_1_primitive_mix_a020d85e7c07fc0a490fa9593ae6c5f86}\label{classmotion_1_1_primitive_mix_a020d85e7c07fc0a490fa9593ae6c5f86}} 
+size\+\_\+t {\bfseries dim} () const
+\begin{DoxyCompactList}\small\item\em Number of dimensions (e.\+g. agent Do\+Fs). \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classmotion_1_1_primitive_mix_a0db8aa7409a1a05c654512c418d1cfab}\label{classmotion_1_1_primitive_mix_a0db8aa7409a1a05c654512c418d1cfab}} 
+size\+\_\+t {\bfseries size} () const
+\begin{DoxyCompactList}\small\item\em Number of primitives. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classmotion_1_1_primitive_mix_ae82a02b9bdb4dff1a0e47cb1163ed9e4}\label{classmotion_1_1_primitive_mix_ae82a02b9bdb4dff1a0e47cb1163ed9e4}} 
+const \mbox{\hyperlink{classmotion_1_1_primitive_mix_a07ae91c9d0b123de39d6af0482777260}{Parameters}} \& {\bfseries weights} () const
+\begin{DoxyCompactList}\small\item\em Access weigth matrix. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classmotion_1_1_primitive_mix_a1fb213eaba619f40e50d8dc967c4ef3e}\label{classmotion_1_1_primitive_mix_a1fb213eaba619f40e50d8dc967c4ef3e}} 
+const std\+::vector$<$ \mbox{\hyperlink{classmotion_1_1_primitive}{Primitive}} $\ast$ $>$ \& {\bfseries primitives} () const
+\begin{DoxyCompactList}\small\item\em Access primtive vector. \end{DoxyCompactList}\item 
+const \mbox{\hyperlink{classmotion_1_1_primitive}{Primitive}} \& \mbox{\hyperlink{classmotion_1_1_primitive_mix_a0d59d6c6afca3bc9d955a01c7fbc5586}{operator\mbox{[}$\,$\mbox{]}}} (size\+\_\+t pos) const
+\begin{DoxyCompactList}\small\item\em Array indexer operator, to access individual primitives. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classmotion_1_1_primitive_mix_a26b63314dc239a7c661d1e1aee72a521}{set}} (const \mbox{\hyperlink{classstd_1_1matrix}{std\+::matrix}}$<$ float $>$ \&\mbox{\hyperlink{classmotion_1_1_primitive_mix_ae82a02b9bdb4dff1a0e47cb1163ed9e4}{weights}})
+\begin{DoxyCompactList}\small\item\em Set weight matrix. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classmotion_1_1_primitive_mix_a807466d4c72d8d30aecaa6dd1924b5a9}\label{classmotion_1_1_primitive_mix_a807466d4c72d8d30aecaa6dd1924b5a9}} 
+void {\bfseries set} (const std\+::vector$<$ float $>$ \&\mbox{\hyperlink{classmotion_1_1_primitive_mix_ae82a02b9bdb4dff1a0e47cb1163ed9e4}{weights}})
+\item 
+\mbox{\Hypertarget{classmotion_1_1_primitive_mix_a0a4bee44860fb74e56a810a8210ce78a}\label{classmotion_1_1_primitive_mix_a0a4bee44860fb74e56a810a8210ce78a}} 
+void {\bfseries set} (size\+\_\+t idx, const std\+::vector$<$ float $>$ \&\mbox{\hyperlink{classmotion_1_1_primitive_mix_ae82a02b9bdb4dff1a0e47cb1163ed9e4}{weights}})
+\item 
+std\+::vector$<$ float $>$ \mbox{\hyperlink{classmotion_1_1_primitive_mix_a47d819497291de916757e12f4488a993}{value}} (float phase) const
+\begin{DoxyCompactList}\small\item\em Get output @ given {\itshape phase} i.\+e. weigthed average of the output of each primitive. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static bool \mbox{\hyperlink{classmotion_1_1_primitive_mix_a59ef732e978939b43bb844248d2e6757}{valid}} (const \mbox{\hyperlink{classmotion_1_1_primitive_mix_a07ae91c9d0b123de39d6af0482777260}{Parameters}} \&weigths)
+\begin{DoxyCompactList}\small\item\em Checks if given {\itshape weights} are valid for parametrization i.\+e. sum of values for each output dimension is 1 (normalized weighting). \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classmotion_1_1_primitive_mix_a43ab395be5e74a66b5c03dc3a582ad6e}\label{classmotion_1_1_primitive_mix_a43ab395be5e74a66b5c03dc3a582ad6e}} 
+std\+::vector$<$ \mbox{\hyperlink{classmotion_1_1_primitive}{Primitive}} $\ast$ $>$ {\bfseries \+\_\+primitives}
+\begin{DoxyCompactList}\small\item\em Conversion operator. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classmotion_1_1_primitive_mix_a0ed081fe9249278c5136ceb9c2c52aa5}\label{classmotion_1_1_primitive_mix_a0ed081fe9249278c5136ceb9c2c52aa5}} 
+\mbox{\hyperlink{classstd_1_1matrix}{std\+::matrix}}$<$ float $>$ {\bfseries \+\_\+weights}
+\begin{DoxyCompactList}\small\item\em Conversion operator. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Class describing a weigthed combination of multiple primitives, for variable output dimensions. 
+
+\begin{DoxyNote}{Note}
+Wraps around a weigth matrix which dynamically encodes the number of output dimensions. Can be used to extract multiple independent primitive outputs if an Identity matrix is used
+
+Stores pointers to individual primitives {\itshape without taking ownership of them}. 
+\end{DoxyNote}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classmotion_1_1_primitive_mix_a76e3fa2690c2cd19c8d93fdba2a6140e}\label{classmotion_1_1_primitive_mix_a76e3fa2690c2cd19c8d93fdba2a6140e}} 
+\index{motion::PrimitiveMix@{motion::PrimitiveMix}!PrimitiveMix@{PrimitiveMix}}
+\index{PrimitiveMix@{PrimitiveMix}!motion::PrimitiveMix@{motion::PrimitiveMix}}
+\doxysubsubsection{\texorpdfstring{PrimitiveMix()}{PrimitiveMix()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily motion\+::\+Primitive\+Mix\+::\+Primitive\+Mix (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ \mbox{\hyperlink{classmotion_1_1_primitive}{Primitive}} $\ast$ $>$ \&}]{primitives,  }\item[{size\+\_\+t}]{dims }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+
+
+Constructs a new {\itshape empty} instance. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em primitives} & Primitives to mix. \\
+\hline
+\mbox{\texttt{ in}}  & {\em dims} & Number of output dimensions.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+Weight matrix is null-\/initialized matching number of given primitives and output dimensions. Output will be null until \mbox{\hyperlink{classmotion_1_1_primitive_mix_a26b63314dc239a7c661d1e1aee72a521}{set()}} is called with a valid weight matrix. 
+\end{DoxyNote}
+\mbox{\Hypertarget{classmotion_1_1_primitive_mix_a3e3a19236d4ca3b9ced89df8e55b4d90}\label{classmotion_1_1_primitive_mix_a3e3a19236d4ca3b9ced89df8e55b4d90}} 
+\index{motion::PrimitiveMix@{motion::PrimitiveMix}!PrimitiveMix@{PrimitiveMix}}
+\index{PrimitiveMix@{PrimitiveMix}!motion::PrimitiveMix@{motion::PrimitiveMix}}
+\doxysubsubsection{\texorpdfstring{PrimitiveMix()}{PrimitiveMix()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily motion\+::\+Primitive\+Mix\+::\+Primitive\+Mix (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ \mbox{\hyperlink{classmotion_1_1_primitive}{Primitive}} $\ast$ $>$ \&}]{primitives,  }\item[{const \mbox{\hyperlink{classmotion_1_1_primitive_mix_a07ae91c9d0b123de39d6af0482777260}{Parameters}} \&}]{weights }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+
+
+Constructs a new instance. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em primitives} & Primitives to mix. \\
+\hline
+\mbox{\texttt{ in}}  & {\em weights} & Weight matrix with relative weigths of each primitive, for each output dimension. Shape {\itshape must} be D$\ast$N, wherein D is the number of output dimensions and N the number of primitives to mix.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+Weigth matrix {\itshape weigths} defines output dimension.
+\end{DoxyNote}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em std\+::invalid\+\_\+argument} & if {\itshape weights} and {\itshape primitives} shapes do not match. \\
+\hline
+\end{DoxyExceptions}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classmotion_1_1_primitive_mix_a0d59d6c6afca3bc9d955a01c7fbc5586}\label{classmotion_1_1_primitive_mix_a0d59d6c6afca3bc9d955a01c7fbc5586}} 
+\index{motion::PrimitiveMix@{motion::PrimitiveMix}!operator\mbox{[}\mbox{]}@{operator[]}}
+\index{operator\mbox{[}\mbox{]}@{operator[]}!motion::PrimitiveMix@{motion::PrimitiveMix}}
+\doxysubsubsection{\texorpdfstring{operator[]()}{operator[]()}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{classmotion_1_1_primitive}{Primitive}} \& motion\+::\+Primitive\+Mix\+::operator\mbox{[}$\,$\mbox{]} (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{pos }\end{DoxyParamCaption}) const}
+
+
+
+Array indexer operator, to access individual primitives. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em pos} & \mbox{\hyperlink{classmotion_1_1_primitive}{Primitive}} position / index.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Const reference to primitive @ given position.
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em std\+::invalid\+\_\+argument} & if {\itshape pos} \texorpdfstring{$>$}{>}= \mbox{\hyperlink{classmotion_1_1_primitive_mix_a0db8aa7409a1a05c654512c418d1cfab}{size()}}. \\
+\hline
+\end{DoxyExceptions}
+\mbox{\Hypertarget{classmotion_1_1_primitive_mix_a26b63314dc239a7c661d1e1aee72a521}\label{classmotion_1_1_primitive_mix_a26b63314dc239a7c661d1e1aee72a521}} 
+\index{motion::PrimitiveMix@{motion::PrimitiveMix}!set@{set}}
+\index{set@{set}!motion::PrimitiveMix@{motion::PrimitiveMix}}
+\doxysubsubsection{\texorpdfstring{set()}{set()}}
+{\footnotesize\ttfamily void motion\+::\+Primitive\+Mix\+::set (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classstd_1_1matrix}{std\+::matrix}}$<$ float $>$ \&}]{weights }\end{DoxyParamCaption})}
+
+
+
+Set weight matrix. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em weights} & The weights \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classmotion_1_1_primitive_mix_a59ef732e978939b43bb844248d2e6757}\label{classmotion_1_1_primitive_mix_a59ef732e978939b43bb844248d2e6757}} 
+\index{motion::PrimitiveMix@{motion::PrimitiveMix}!valid@{valid}}
+\index{valid@{valid}!motion::PrimitiveMix@{motion::PrimitiveMix}}
+\doxysubsubsection{\texorpdfstring{valid()}{valid()}}
+{\footnotesize\ttfamily static bool motion\+::\+Primitive\+Mix\+::valid (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classmotion_1_1_primitive_mix_a07ae91c9d0b123de39d6af0482777260}{Parameters}} \&}]{weigths }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Checks if given {\itshape weights} are valid for parametrization i.\+e. sum of values for each output dimension is 1 (normalized weighting). 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em weigths} & Weight matrix to check.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if given parameters are valid, false otherwise. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classmotion_1_1_primitive_mix_a47d819497291de916757e12f4488a993}\label{classmotion_1_1_primitive_mix_a47d819497291de916757e12f4488a993}} 
+\index{motion::PrimitiveMix@{motion::PrimitiveMix}!value@{value}}
+\index{value@{value}!motion::PrimitiveMix@{motion::PrimitiveMix}}
+\doxysubsubsection{\texorpdfstring{value()}{value()}}
+{\footnotesize\ttfamily std\+::vector$<$ float $>$ motion\+::\+Primitive\+Mix\+::value (\begin{DoxyParamCaption}\item[{float}]{phase }\end{DoxyParamCaption}) const}
+
+
+
+Get output @ given {\itshape phase} i.\+e. weigthed average of the output of each primitive. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em phase} & Phase value. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/joao/\+Shared/\+PHD/code/motion/include/motion/primitive.\+hpp\item 
+/home/joao/\+Shared/\+PHD/code/motion/src/primitive.\+cpp\end{DoxyCompactItemize}

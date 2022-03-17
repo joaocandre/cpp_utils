@@ -1,0 +1,43 @@
+\hypertarget{dmp__motion__generator_8hpp_source}{}\doxysection{dmp\+\_\+motion\+\_\+generator.\+hpp}
+\label{dmp__motion__generator_8hpp_source}\index{/home/joao/Shared/PHD/code/mplibrary/include/mplibrary/dmp\_motion\_generator.hpp@{/home/joao/Shared/PHD/code/mplibrary/include/mplibrary/dmp\_motion\_generator.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef MOTION\_INCLUDE\_MOTION\_DMPMOTIONGENERATOR\_HPP\_}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define MOTION\_INCLUDE\_MOTION\_DMPMOTIONGENERATOR\_HPP\_}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include <vector>}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include <memory>}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#include "{}dynamical\_system.hpp"{}}}
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#include "{}basic\_policy\_generator.hpp"{}}}
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include "{}skill.hpp"{}}}
+\DoxyCodeLine{9 }
+\DoxyCodeLine{10 \textcolor{keyword}{namespace }motion \{}
+\DoxyCodeLine{11 }
+\DoxyCodeLine{12 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{18 \textcolor{comment}{}\textcolor{keyword}{class }\mbox{\hyperlink{classmotion_1_1_d_m_p_motion_generator}{DMPMotionGenerator}} : \textcolor{keyword}{public} \mbox{\hyperlink{classmotion_1_1_basic_policy_generator}{BasicPolicyGenerator}}< SpringDamper > \{}
+\DoxyCodeLine{19  \textcolor{keyword}{public}:}
+\DoxyCodeLine{20     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{26 \textcolor{comment}{}    \textcolor{keyword}{explicit} \mbox{\hyperlink{classmotion_1_1_d_m_p_motion_generator_ab7c5c5f804361531add7507ab15397ec}{DMPMotionGenerator}}(\textcolor{keyword}{const} \mbox{\hyperlink{classmotion_1_1_skill}{Skill}}* \mbox{\hyperlink{classmotion_1_1_d_m_p_motion_generator_a9c08fed458484f58e7276a55ac394ff5}{source}}, \mbox{\hyperlink{classmotion_1_1_basic_policy_generator_a18cd33598fce976f6b124d849d154ee5}{PhaseSystem}}* \mbox{\hyperlink{classmotion_1_1_basic_policy_generator_ac6b61cf8c3413fa3cf9bd9219ceb9b74}{phase}});}
+\DoxyCodeLine{27 }
+\DoxyCodeLine{28     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{39 \textcolor{comment}{}    \textcolor{keyword}{explicit} \mbox{\hyperlink{classmotion_1_1_d_m_p_motion_generator_ae5cecbbe91d2e8638f1a4cf7e5012fce}{DMPMotionGenerator}}(\textcolor{keywordtype}{size\_t} N, \mbox{\hyperlink{classmotion_1_1_basic_policy_generator_a18cd33598fce976f6b124d849d154ee5}{PhaseSystem}}* \mbox{\hyperlink{classmotion_1_1_basic_policy_generator_ac6b61cf8c3413fa3cf9bd9219ceb9b74}{phase}}, \textcolor{keyword}{const} \mbox{\hyperlink{classmotion_1_1_skill}{Skill}}* \mbox{\hyperlink{classmotion_1_1_d_m_p_motion_generator_a9c08fed458484f58e7276a55ac394ff5}{source}} = \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{40 }
+\DoxyCodeLine{41     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{51 \textcolor{comment}{}    \textcolor{keyword}{explicit} \mbox{\hyperlink{classmotion_1_1_d_m_p_motion_generator_a4170a944ce9c82751c068093dffc48e6}{DMPMotionGenerator}}(\textcolor{keyword}{const} std::vector< CommandSystemPtr >\& \mbox{\hyperlink{classmotion_1_1_basic_policy_generator_ad04e0b3cbdf3f3c1e16493ef8db350c3}{commands}}, \mbox{\hyperlink{classmotion_1_1_basic_policy_generator_a18cd33598fce976f6b124d849d154ee5}{PhaseSystem}}* \mbox{\hyperlink{classmotion_1_1_basic_policy_generator_ac6b61cf8c3413fa3cf9bd9219ceb9b74}{phase}}, \textcolor{keyword}{const} \mbox{\hyperlink{classmotion_1_1_skill}{Skill}}* \mbox{\hyperlink{classmotion_1_1_d_m_p_motion_generator_a9c08fed458484f58e7276a55ac394ff5}{source}} = \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{52 }
+\DoxyCodeLine{53     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{59 \textcolor{comment}{}    \textcolor{keywordtype}{void} \mbox{\hyperlink{classmotion_1_1_d_m_p_motion_generator_af12d0e1c4d8128eacd5cd3fa7c8a4aaa}{update}}(\textcolor{keywordtype}{float} \_ts, \textcolor{keyword}{const} std::vector< float >\& \_feedback\_values = \{ \textcolor{comment}{/* ... */} \}) \textcolor{keyword}{override};}
+\DoxyCodeLine{60 }
+\DoxyCodeLine{61     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{66 \textcolor{comment}{}    \textcolor{keyword}{const} \mbox{\hyperlink{classmotion_1_1_skill}{Skill}}\& \mbox{\hyperlink{classmotion_1_1_d_m_p_motion_generator_a9c08fed458484f58e7276a55ac394ff5}{source}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{67 }
+\DoxyCodeLine{68  \textcolor{keyword}{protected}:}
+\DoxyCodeLine{69     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{72 \textcolor{comment}{}    \textcolor{keyword}{const} \mbox{\hyperlink{classmotion_1_1_skill}{Skill}}* \mbox{\hyperlink{classmotion_1_1_d_m_p_motion_generator_a46d03bf97caba2e24015c484b4954a5b}{\_source}};}
+\DoxyCodeLine{73 \};}
+\DoxyCodeLine{74 }
+\DoxyCodeLine{75 \}  \textcolor{comment}{// namespace motion}}
+\DoxyCodeLine{76 }
+\DoxyCodeLine{77 \textcolor{preprocessor}{\#endif  }\textcolor{comment}{// MOTION\_INCLUDE\_MOTION\_DMPMOTIONGENERATOR\_HPP\_}}
+
+\end{DoxyCode}
