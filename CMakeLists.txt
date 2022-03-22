@@ -68,16 +68,18 @@ find_package(Doxygen)
 ## Build ##
 ###########
 
-########### library
+## declare header-only library
+## cf. http://www.mariobadr.com/creating-a-header-only-library-with-cmake.html
+## https://stackoverflow.com/a/49143782/2340002
 
 # declare library as interface
 add_library(${PROJECT_NAME} INTERFACE)
 
 # target header locations
 # @note CMake documentation states: “Include directories usage requirements commonly differ between the build-tree and the install-tree.”
-target_include_directories(${PROJECT_NAME} INTERFACE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/${PROJECT_NAME}>
-                                                     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-                                                     $<INSTALL_INTERFACE:include/${PROJECT_NAME}>)
+target_include_directories(${PROJECT_NAME} INTERFACE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+                                                     $<INSTALL_INTERFACE:include>)
+
 
 ########### API documentation
 
@@ -106,17 +108,18 @@ endif()
 ## Install ##
 #############
 
-#headers
+# headers
 install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/include/${PROJECT_NAME}"
         DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
         FILES_MATCHING PATTERN "*.hpp")
 
-#export targets
+# export targets
 install(TARGETS ${PROJECT_NAME}
         EXPORT ${PROJECT_NAME}Targets
         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}   # GNUInstallDirs helper variables
         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}   # GNUInstallDirs helper variables
-        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})  # GNUInstallDirs helper variables
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}   # GNUInstallDirs helper variables
+        PUBLIC_HEADER DESTINATION include COMPONENT Development)
         # used to generate  ful to export cpp_utilsTargets (currently only the lib target)
 
 ############
@@ -127,14 +130,17 @@ install(TARGETS ${PROJECT_NAME}
 # https://tuebel.github.io/blog/ros/cmake/2020/06/27/ros-plain-cmake.html#installing-the-targets
 
 # generate .cmake target configuration file
-export(EXPORT ${PROJECT_NAME}Targets
+export(# EXPORT ${PROJECT_NAME}Targets
+       TARGETS ${PROJECT_NAME}  # alternatively
        FILE ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Targets.cmake
        NAMESPACE ${PROJECT_NAME}::)
 
-# alternative, targets explicitly listed
-# export(TARGETS ${PROJECT_NAME}
-#        FILE ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Targets.cmake
-#        NAMESPACE ${PROJECT_NAME}::)
+# to write *ConfigVersion.cmake
+write_basic_package_version_file(
+  ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake
+  VERSION ${PLAIN_CMAKE_VERSION}
+  COMPATIBILITY SameMajorVersion)
+
 
 # @note: the export command makes the targets available in the build tree only.
 #        to make the targets available for projects which are not part of the build tree, we also have to install them
@@ -152,13 +158,13 @@ write_basic_package_version_file(
 # to write *Config.cmake
 set(INCLUDE_INSTALL_DIR ${CMAKE_INSTALL_INCLUDEDIR})
 configure_package_config_file(
-  ${PROJECT_NAME}Config.cmake.in
+  ${PROJECT_SOURCE_DIR}/cmake/${PROJECT_NAME}Config.cmake.in
   ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake
   INSTALL_DESTINATION ${ConfigPackageLocation}
   PATH_VARS INCLUDE_INSTALL_DIR)
 
 # move both to target directory
-install(FILES 
+install(FILES
   ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake
   ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake
   DESTINATION ${ConfigPackageLocation})
