@@ -76,7 +76,8 @@ istream& read(istream& is, storage::st_subset_base< T >& st_subset, char delimit
 ///
 template < typename T >
 ostream& operator<<(ostream& ostream, const std::matrix< T >& mat) {
-    return write(ostream, mat);
+    std::cout.precision(5);
+    return write(ostream, mat, '\t');
 }
 
 //------------------------------------------------------------------------------

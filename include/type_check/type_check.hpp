@@ -44,8 +44,6 @@ struct can_apply< Z, void_t< Z< Ts... > >, Ts... > : std::true_type {
 
 }  // namespace details
 
-
-
 // alias adding verbosity for outside details namespace
 template < template < class... > class Z, class...Ts >
 using can_apply = details::can_apply< Z, void ,Ts... >;

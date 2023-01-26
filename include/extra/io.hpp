@@ -1,8 +1,8 @@
 //------------------------------------------------------------------------------
-/// @file       utils.hpp
+/// @file       io.hpp
 /// @author     João André
 ///
-/// @brief      Header file providing declaration and definition of free generic global functions within the std namespace
+/// @brief      Header file providing declaration and definition of free generic global functions
 ///             that provide higher-level functionality when working with input/ouput streams.
 ///
 //------------------------------------------------------------------------------

@@ -1,0 +1,7 @@
+doc/latex
+doc/latex/*
+doc/html
+doc/html/*
+
+build
+build/*

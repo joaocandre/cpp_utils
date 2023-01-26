@@ -6,6 +6,8 @@
 #include <ctime>
 #include <cassert>
 #include <iostream>
+#include <sstream>  // for std::matrix<T>::load()
+#include <fstream>  // for std::matrix<T>::load()
 #include <algorithm>
 #include "storage/subset.hpp"
 #include "storage/type_check.hpp"
@@ -74,6 +76,19 @@ class matrix {
     ///
     typedef T value_type;
 
+    //--------------------------------------------------------------------------
+    /// @brief      Static 'factory' named constructor that initializes a matrix from a text file
+    ///
+    /// @param[in]  path  Path to source file.
+    /// @param[in]  sep   Separator character to use. Defaults to ',' (.csv format default).
+    /// @param[in]  skip  Number of lines to skip @ beginning for file. Useful if file format includes multi-line header information. Defaults to 1 (assumes first line w/ column labels)
+    ///
+    /// @return     Newly instantiated std::matrix< T > object wherein each row is populated with contents of each line in given file @ *path*
+    ///
+    /// @note       Temporary/develo0pment implementation. will be replaced by methods within std::io namespace (cf io.hpp)
+    ///
+    static matrix< T > load(const string& path, char sep = ',', size_t skip = 1);
+
     // //--------------------------------------------------------------------------
     // /// @brief      Constructs a new instance.
     // ///
@@ -98,6 +113,9 @@ class matrix {
     matrix(size_t rows = 0, size_t cols = 0, Args&&... args);
     // matrix(size_t _rows, size_t _cols, const T& _val);
 
+
+    //explicit matrix(const std::vector< T >& in):
+
     //--------------------------------------------------------------------------
     /// @brief      Constructs a new instance, from a nested vector instance.
     ///
@@ -108,16 +126,37 @@ class matrix {
     // template < typename iT >
     // explicit matrix(const vector< vector< iT > >& in);
 
-    template < typename iT = vector< T >, typename = typename enable_if< is_generic_container< iT >()>::type >
+
+
+
+
+
+    //--------------------------------------------------------------------------
+    /// @brief      Constructs a new instance, from a vector of generic container type (e.g. nested vectors).
+    ///
+    template < typename iT = vector< T >, typename = typename enable_if< is_generic_container< iT >() >::type >
     explicit matrix(const vector< iT >& in);
 
-    /// @todo       consider marking as implict for simpler syntax (return expresions and assignment operations), though it 
+    //--------------------------------------------------------------------------
+    /// @brief      Constructs a new instance, from a vector of generic container type.
+    ///
+    /// @todo       consider marking as implict for simpler syntax (return expresions and assignment operations)
+    /// 
     template < typename iT, typename = typename enable_if< is_nd_container< iT >()>::type >
     explicit matrix(const storage::st_subset_base< iT >& in);    // from multi-dimensional container (e.g. volume, volume subset, vector, etc) with shape info (.shape() and .position())
 
     template < typename iT, typename = typename enable_if< !is_nd_container< iT >()>::type, typename = void >
     explicit matrix(const storage::st_subset_base< iT >& in);    // from non-nd containers, constructs unidimensional matrix;
 
+    //--------------------------------------------------------------------------
+    /// @brief      Constructs a new [*rows* x *cols*] matrix, sourcing elements from a generic container.
+    ///
+    /// @param[in]  rows       Number of rows
+    /// @param[in]  cols       Number of cols
+    /// @param[in]  in         Container/data source
+    ///
+    /// @tparam     iT         Type of input container
+    ///
     template < typename iT, typename = typename enable_if< is_generic_container< iT >()>::type >
     matrix(size_t rows, size_t cols, const iT& in);          // from generic container (e.g. volume, volume subset, vector, etc), reshapes!
 
@@ -407,7 +446,7 @@ class matrix {
     ///
     /// @note       Matrix is not reshapen, input container must have *at least* size() values
     ///
-    template < typename iT, typename = typename enable_if< is_generic_container< iT >() >::type >
+    template < typename iT = vector< T >, typename = typename enable_if< is_generic_container< iT >() >::type >
     void set(const iT& in);
 
     //--------------------------------------------------------------------------
@@ -421,8 +460,8 @@ class matrix {
     ///
     /// @note       Fallback overload in case input type does not behave like a container type but is implicit convertible to a vector< value_type >.
     ///
-    template < typename iT, typename = typename enable_if< !is_generic_container< iT >() >::type,
-                            typename = typename enable_if< is_convertible< iT, vector< value_type > >::value >::type >
+    template < typename iT = vector< T >, typename = typename enable_if< !is_generic_container< iT >() >::type,
+                                          typename = typename enable_if< is_convertible< iT, vector< value_type > >::value >::type >
     void set(const iT& in);
 
     //--------------------------------------------------------------------------
@@ -436,7 +475,7 @@ class matrix {
     ///
     /// @note       Fallback overload in case input type does not behave like a container type but is implicit convertible to a vector< value_type >.
     ///
-    template < typename iT, typename = typename enable_if< is_convertible< iT, value_type >::value >::type >
+    template < typename iT = vector< T >, typename = typename enable_if< is_convertible< iT, value_type >::value >::type >
     void fill(const iT& in);
 
     //--------------------------------------------------------------------------
@@ -446,7 +485,7 @@ class matrix {
     ///
     /// @tparam     iT    Type of input container.
     ///
-    template < typename iT, typename = typename enable_if< is_generic_container< iT >() >::type >
+    template < typename iT = vector< T >, typename = typename enable_if< is_generic_container< iT >() >::type >
     void pushRow(const iT& in);
 
     //--------------------------------------------------------------------------
@@ -456,8 +495,8 @@ class matrix {
     ///
     /// @note       Fallback overload in case input type does not behave like a container type but is implicit convertible to a vector< value_type >.
     ///
-    template < typename iT, typename = typename enable_if< !is_generic_container< iT >() >::type,
-                            typename = typename enable_if< is_convertible< iT, vector< value_type > >::value >::type >
+    template < typename iT = vector< T >, typename = typename enable_if< !is_generic_container< iT >() >::type,
+                                          typename = typename enable_if< is_convertible< iT, vector< value_type > >::value >::type >
     void pushRow(const iT& in);
 
     //--------------------------------------------------------------------------
@@ -467,7 +506,7 @@ class matrix {
     ///
     /// @tparam     iT    Type of input container.
     ///
-    template < typename iT, typename = typename std::enable_if< std::is_generic_container< iT >() >::type >
+    template < typename iT = vector< T >, typename = typename std::enable_if< std::is_generic_container< iT >() >::type >
     void pushCol(const iT& in);
 
     //--------------------------------------------------------------------------
@@ -477,8 +516,8 @@ class matrix {
     ///
     /// @note       Fallback overload in case input type does not behave like a container type but is implicit convertible to a vector< value_type >.
     ///
-    template < typename iT, typename = typename enable_if< !is_generic_container< iT >() >::type,
-                            typename = typename enable_if< is_convertible< iT, vector< value_type > >::value >::type >
+    template < typename iT = vector< T >, typename = typename enable_if< !is_generic_container< iT >() >::type,
+                                          typename = typename enable_if< is_convertible< iT, vector< value_type > >::value >::type >
     void pushCol(const iT& in);
 
     //--------------------------------------------------------------------------
@@ -585,8 +624,96 @@ class matrix {
     operator const matrix< oT >&() const;
 };
 
-
 /// @cond
+
+template < typename T >
+matrix< T > matrix< T >::load(const string& path, char sep, size_t skip) {
+    string line;
+    string word;
+    stringstream ss;
+    // stringstream val;
+    ifstream file(path.data());
+    if (!file.good()) {
+        throw runtime_error(string(__func__) + "(): Unable to load file!");
+    }
+    file.precision(10);
+
+    /// @todo add size arguments to pre-allocated matrix container (should be faster,  less resizes/reshapes during load)
+
+    matrix< T > out;
+    out.reserve(1000, 1000);
+    vector< T > line_vals;
+    int l = 0;
+    // int v = 0;
+    double value = 0.0;
+
+    if (file.is_open()) {
+        while (getline(file, line)) {
+            l++;
+            if (l < skip + 1) continue;
+
+            // // std::vector< T > line_vals;
+            // size_t start;
+            // size_t end = 0;
+            // while ((start = line.find_first_not_of(sep, end)) != std::string::npos) {
+            //     end = line.find(sep, start);
+            //     auto word = line.substr(start, end - start);
+            //     if (word.empty()) printf("EMPTY WORD!!!\n");
+            //     T val;
+            //     stringstream(word) >> val;
+            //     line_vals.push_back(val);
+            //     // if (single_split && end != std::string::npos) {
+            //     //     words.push_back(data.substr(end + 1));
+            //     //     break;
+            //     // }
+            // }
+            // std::cout << "start: " << (start == std::string::npos) << std::endl;
+
+            ss.str(line);
+            while (getline(ss, word, sep)) {
+                // v++;
+                if (word.empty()) {
+                    value = 0.0;
+                } else {
+                    // val.str(word);
+                    istringstream(word) >> value;
+                }
+                line_vals.push_back(value);
+                // if (v < out.cols()) {
+                //     out(out.rows() - 1, v++) = value;
+                // } else {
+                //     out.reshape(out.rows(), out.cols() + 1);
+                // }
+                // val.clear();
+                // std::cout << v << std::endl;
+            }
+
+            // fill untilk expected size
+            // required in cases where there is a missing value @ end of line
+            while (line_vals.size() < out.cols()) {
+                line_vals.push_back(0.0);
+            }
+            // resize matrix when required!
+            // if at least a row has been 
+            // if (out.rows() && line_vals.size() > out.cols()) {
+            //     out.reshape(out.rows(), line_vals.size());
+            // }
+            // 
+            // std::cout << l << ": " << line_vals.size() << std::endl;
+            out.pushRow(line_vals);
+            line_vals.resize(0);
+            line_vals.reserve(out.cols());  // may be redundant!
+            ss.clear();
+            // v = 0;
+        }
+        file.close();
+    }
+
+    return out;
+}
+
+
+
 
 // template < typename T >
 // matrix< T >::matrix() {
@@ -648,7 +775,7 @@ template < typename iT, typename >
 matrix< T >::matrix(const vector< iT >& in) {
     _rows = in.size();
     _cols = 0;
-    _data.reserve(_rows * _cols);
+    _data.reserve(_rows * (_cols + 1));
     for (size_t r = 0; r < _rows; r++) {
         if (in[r].size() > _cols) {
             _cols = in[r].size();
@@ -734,8 +861,8 @@ matrix< T >::matrix(size_t rows, size_t cols, const iT& in) {
     for (size_t i = 0; i < rows * cols; ++i) {
         _data.push_back(static_cast< T >(in[i]));
     }
-    _rows = _rows;
-    _cols = _cols;
+    _rows = rows;
+    _cols = cols;
 }
 
 
@@ -761,14 +888,14 @@ matrix< T >& matrix< T >::operator=(const iT& in) {  // input type == generic co
 
 template < typename T >
 T& matrix< T >::operator()(size_t row, size_t col) {
-    assert(row >= 0 && row < _rows && col >= 0 && col < _cols);
+    assert(row < _rows && col < _cols);
     return _data[row * _cols + col];
 }
 
 
 template < typename T >
 const T& matrix< T >::operator()(size_t row, size_t col) const {
-    assert(row >= 0 && row < _rows && col >= 0 && col < _cols);
+    assert(row < _rows && col < _cols);
     return _data[row * _cols + col];
 }
 
@@ -949,8 +1076,8 @@ vector< size_t > matrix< T >::diagID() const {
 template < typename T >
 vector< size_t > matrix< T >::blockID(size_t first_row, size_t last_row, size_t first_col, size_t last_col) const {
     // NOTE: does not work with 1 col/1 line matrix
-    assert(first_row < last_row && last_row < rows());
-    assert(first_col <= last_col && last_col < cols());
+    assert(first_row < last_row && last_row <= rows());
+    assert(first_col <= last_col && last_col <= cols());
     if (!last_col) {
         last_col = cols();
     }
@@ -1112,14 +1239,27 @@ void matrix< T >::pushCol(const iT& in) {
 template < typename T >
 void matrix< T >::pushRow() {
     assert(_rows > 0 && _cols > 0);              // can only add empty row in non-empty matrices (last value is used as placeholder)
-    pushRow(vector< T > (_rows, _data.back()));  // should maybe use fill insert?
+    if constexpr (is_convertible< float, T >()) {
+        pushRow(vector< T > (_cols, static_cast< T >(0.0)));
+        // // alternative #1 (more efficient, no temporary vector)  [needs testing!]
+        // for (int c = 0; c < _cols; c++) { _data.push_back(static_cast< T >(0.0)); }
+        // // alternative #2 call insert  [needs testing!]
+        // _data.insert(_data.end(), _cols, static_cast< T >(0.0));
+    } else {
+        pushRow(vector< T > (_cols /* elements are default-constructed */));
+    }
 }
 
 
 template < typename T >
 void matrix< T >::pushCol() {
     assert(_rows > 0 && _cols > 0);             // can only add empty col in non-empty matrices (last value is used as placeholder)
-    pushCol(vector< T > (_rows, _data.back()));
+    // pushCol(vector< T > (_rows, _data.back()));
+    if constexpr (is_convertible< float, T >()) {
+        pushCol(vector< T > (_rows, static_cast< T >(0.0)));
+    } else {
+        pushCol(vector< T > (_rows /* elements are default-constructed */));
+    }
 }
 
 
@@ -1141,7 +1281,7 @@ void matrix< T >::popCol() {
     if (_cols == 1) {
         clear();
     } else {
-        for (size_t r = _rows-1; r >= 0; r--) {
+        for (int r = _rows-1; r >= 0; r--) {
             _data.erase(_data.begin() + (r * _cols + (_cols - 1)));
         }
         _cols--;
@@ -1167,8 +1307,10 @@ void matrix< T >::deleteCol(size_t _c) {
     if (_cols == 1) {
         clear();
     } else {
-        for (size_t r = _rows-1; r >= 0; r--) {
-            _data.erase(_data.begin() + (r * _cols + _c));
+        auto old_cols = _cols;
+        for (int r = _rows-1; r >= 0; r--) {
+            // throw std::runtime_error("std::matrix<T>::" + std::string(__func__) + " is not working at the moment!")
+            _data.erase(_data.begin() + (r * old_cols + _c));
         }
         _cols--;
     }

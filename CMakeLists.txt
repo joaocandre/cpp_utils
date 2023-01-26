@@ -78,8 +78,13 @@ add_library(${PROJECT_NAME} INTERFACE)
 # target header locations
 # @note CMake documentation states: “Include directories usage requirements commonly differ between the build-tree and the install-tree.”
 target_include_directories(${PROJECT_NAME} INTERFACE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+                                                     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/storage>
                                                      $<INSTALL_INTERFACE:include>)
 
+# file(GLOB BUILD_INTERFACE_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/include/*/*.hpp)
+# file(GLOB INSTALL_INTERFACE_SRCS include/*/*.hpp)
+# target_sources(${PROJECT_NAME} INTERFACE $<BUILD_INTERFACE:${BUILD_INTERFACE_SRCS}>
+#                                          $<INSTALL_INTERFACE:${INSTALL_INTERFACE_SRCS}>)
 
 ########### API documentation
 
@@ -109,7 +114,7 @@ endif()
 #############
 
 # headers
-install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/include/${PROJECT_NAME}"
+install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include/
         DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
         FILES_MATCHING PATTERN "*.hpp")
 
@@ -118,8 +123,8 @@ install(TARGETS ${PROJECT_NAME}
         EXPORT ${PROJECT_NAME}Targets
         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}   # GNUInstallDirs helper variables
         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}   # GNUInstallDirs helper variables
-        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}   # GNUInstallDirs helper variables
-        PUBLIC_HEADER DESTINATION include COMPONENT Development)
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})   # GNUInstallDirs helper variables
+        # PUBLIC_HEADER DESTINATION include COMPONENT Development)
         # used to generate  ful to export cpp_utilsTargets (currently only the lib target)
 
 ############
@@ -130,17 +135,11 @@ install(TARGETS ${PROJECT_NAME}
 # https://tuebel.github.io/blog/ros/cmake/2020/06/27/ros-plain-cmake.html#installing-the-targets
 
 # generate .cmake target configuration file
-export(# EXPORT ${PROJECT_NAME}Targets
-       TARGETS ${PROJECT_NAME}  # alternatively
+# for build tree / in workspace
+export(EXPORT ${PROJECT_NAME}Targets
+       # TARGETS ${PROJECT_NAME}  # alternatively
        FILE ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Targets.cmake
        NAMESPACE ${PROJECT_NAME}::)
-
-# to write *ConfigVersion.cmake
-write_basic_package_version_file(
-  ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake
-  VERSION ${PLAIN_CMAKE_VERSION}
-  COMPATIBILITY SameMajorVersion)
-
 
 # @note: the export command makes the targets available in the build tree only.
 #        to make the targets available for projects which are not part of the build tree, we also have to install them
@@ -149,22 +148,26 @@ install(EXPORT ${PROJECT_NAME}Targets
         NAMESPACE ${PROJECT_NAME}::
         DESTINATION ${ConfigPackageLocation})  # @note 'ConfigPackageLocation' was set @line 21
 
+###################
+## CMake Package ##
+###################
+
 # to write *ConfigVersion.cmake
 write_basic_package_version_file(
-  ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake
-  VERSION ${PLAIN_CMAKE_VERSION}
-  COMPATIBILITY SameMajorVersion)
+    ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake
+    VERSION ${PLAIN_CMAKE_VERSION}
+    COMPATIBILITY SameMajorVersion)
 
 # to write *Config.cmake
 set(INCLUDE_INSTALL_DIR ${CMAKE_INSTALL_INCLUDEDIR})
 configure_package_config_file(
-  ${PROJECT_SOURCE_DIR}/cmake/${PROJECT_NAME}Config.cmake.in
-  ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake
-  INSTALL_DESTINATION ${ConfigPackageLocation}
-  PATH_VARS INCLUDE_INSTALL_DIR)
+    ${PROJECT_SOURCE_DIR}/cmake/${PROJECT_NAME}Config.cmake.in
+    ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake
+    INSTALL_DESTINATION ${ConfigPackageLocation}
+    PATH_VARS INCLUDE_INSTALL_DIR)
 
 # move both to target directory
 install(FILES
-  ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake
-  ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake
-  DESTINATION ${ConfigPackageLocation})
+    ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake
+    ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake
+    DESTINATION ${ConfigPackageLocation})

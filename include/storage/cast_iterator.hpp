@@ -85,14 +85,14 @@ class cast_iterator : std::iterator< std::random_access_iterator_tag, T > {
     cast_iterator operator--(int);
 
     //--------------------------------------------------------------------------
-    /// @brief      Conpound addition operator. Increments the iterator *n* times.
+    /// @brief      Compound addition operator. Increments the iterator *n* times.
     ///
     /// @param[in]  n     Number of increments.
     ///
     cast_iterator< Container, T >& operator+=(const difference_type& n);
 
     //--------------------------------------------------------------------------
-    /// @brief      Conpound subtraction operator. Decrements the iterator *n* times.
+    /// @brief      Compound subtraction operator. Decrements the iterator *n* times.
     ///
     /// @param[in]  n     Number of decrements.
     ///
@@ -103,14 +103,18 @@ class cast_iterator : std::iterator< std::random_access_iterator_tag, T > {
     ///
     /// @return     Reference to container value @ current iterator position.
     ///
-    T& operator*();
+    template < typename oT = T >
+    oT& operator*();
+    // typename Container::value_type& operator*();  // when explicitely dereference to underlying type!
 
     //--------------------------------------------------------------------------
     /// @brief      *const* dereference operator.
     ///
     /// @return     Reference to container value @ current iterator position.
     ///
-    const T& operator*() const;
+    template < typename oT = T >
+    const oT& operator*() const;
+    // const typename Container::value_type& operator*() const;  // when explicitely dereference to underlying type!
 
     //--------------------------------------------------------------------------
     /// @brief      Conversion operator to iterator of the underlying container type.
@@ -261,24 +265,39 @@ cast_iterator< Container, T >& cast_iterator< Container, T >::operator-=(const t
     return *this;
 }
 
-template < typename T >
-T& func(T& arg) { return arg; }
+// template < typename T >
+// T& func(T& arg) { return arg; }
 
 
 template < typename Container, typename T >
-T& cast_iterator< Container, T >::operator*() {
-    // std::string l = _container->at(_pos);
-    // std::string v = (*_container)[_pos];
-    return _container->at(_pos);
+template < typename oT >
+oT& cast_iterator< Container, T >::operator*() {
+    return static_cast< oT& >(_container->at(_pos));
 }
 
+
+// template < typename Container, typename T >
+// typename Container::value_type& cast_iterator< Container, T >::operator*() {
+//     // std::string l = _container->at(_pos);
+//     // std::string v = (*_container)[_pos];
+//     return _container->at< Container::value_type >(_pos);
+// }
 
 
 template < typename Container, typename T >
-const T& cast_iterator< Container, T >::operator*() const {
-    return (*_container)[_pos];
+template < typename oT >
+const oT& cast_iterator< Container, T >::operator*() const {
+    return static_cast< oT& >(_container->at(_pos));
+    // return (*_container)[_pos];
 }
 
+
+// template < typename Container, typename T >
+// const typename Container::value_type& cast_iterator< Container, T >::operator*() const {
+//     // std::string l = _container->at(_pos);
+//     // std::string v = (*_container)[_pos];
+//     return _container->at< Container::value_type >(_pos);
+// }
 
 
 template < typename Container, typename T >
