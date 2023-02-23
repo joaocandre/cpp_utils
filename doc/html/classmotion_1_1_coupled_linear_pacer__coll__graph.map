@@ -1,8 +1,0 @@
-<map id="motion::CoupledLinearPacer" name="motion::CoupledLinearPacer">
-<area shape="rect" id="node1" title="Class extending LinearPacer to couple it with other dynamical systems, e.g. keep them in anti&#45;phase A..." alt="" coords="118,293,295,317"/>
-<area shape="rect" id="node2" href="$classmotion_1_1_linear_pacer.html" title="Class extending ConstrainedDynamicalSystem for the use case of a linear 1st order constant&#45;slope osci..." alt="" coords="141,203,273,227"/>
-<area shape="rect" id="node3" href="$classmotion_1_1_constrained_dynamical_system.html" title="Class extending DynamicalSystem to impose value lower and upper boundaries." alt="" coords="126,101,317,137"/>
-<area shape="rect" id="node4" href="$classmotion_1_1_dynamical_system.html" title="Class implementing a simple unidimensional first&#45; or second&#45;order dynamical system (Euler&#39;s method)" alt="" coords="5,11,171,35"/>
-<area shape="rect" id="node5" href="$structmotion_1_1_constrained_dynamical_system_1_1_limits.html" title="Limit type (for simplicty/verbosity)" alt="" coords="195,5,386,41"/>
-<area shape="rect" id="node6" href="$structmotion_1_1_coupled_linear_pacer_1_1_coupling.html" title="Coupling parameter descriptor (for simplicty/verbosity)" alt="" coords="297,197,474,233"/>
-</map>

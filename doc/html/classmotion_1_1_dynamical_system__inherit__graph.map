@@ -1,8 +1,0 @@
-<map id="motion::DynamicalSystem" name="motion::DynamicalSystem">
-<area shape="rect" id="node1" title="Class implementing a simple unidimensional first&#45; or second&#45;order dynamical system (Euler&#39;s method)" alt="" coords="191,5,357,29"/>
-<area shape="rect" id="node2" href="$classmotion_1_1_constrained_dynamical_system.html" title="Class extending DynamicalSystem to impose value lower and upper boundaries." alt="" coords="83,77,273,113"/>
-<area shape="rect" id="node6" href="$classmotion_1_1_spring_damper.html" title="Class extending DynamicalSystem to a unidimensional 2nd order spring&#45;damper (point attractor) system." alt="" coords="298,83,445,107"/>
-<area shape="rect" id="node3" href="$classmotion_1_1_linear_pacer.html" title="Class extending ConstrainedDynamicalSystem for the use case of a linear 1st order constant&#45;slope osci..." alt="" coords="28,161,160,185"/>
-<area shape="rect" id="node5" href="$classmotion_1_1_quadratic_decay.html" title="Class extending ConstrainedDynamicalSystem for quadratic phase variation." alt="" coords="185,161,339,185"/>
-<area shape="rect" id="node4" href="$classmotion_1_1_coupled_linear_pacer.html" title="Class extending LinearPacer to couple it with other dynamical systems, e.g. keep them in anti&#45;phase A..." alt="" coords="5,233,183,257"/>
-</map>

@@ -1,4 +1,0 @@
-<map id="motion::BasicPolicyGenerator&lt; CommandSystem &gt;" name="motion::BasicPolicyGenerator&lt; CommandSystem &gt;">
-<area shape="rect" id="node1" title="Generic base abstract class for open&#45; and closed&#45;loop multidimensional motion policy generators." alt="" coords="5,89,188,125"/>
-<area shape="rect" id="node2" href="$classmotion_1_1_dynamical_system.html" title="Class implementing a simple unidimensional first&#45; or second&#45;order dynamical system (Euler&#39;s method)" alt="" coords="14,5,179,29"/>
-</map>

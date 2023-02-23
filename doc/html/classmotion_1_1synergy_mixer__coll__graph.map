@@ -1,8 +1,0 @@
-<map id="motion::synergyMixer" name="motion::synergyMixer">
-<area shape="rect" id="node1" title=" " alt="" coords="5,353,145,377"/>
-<area shape="rect" id="node2" href="$classstd_1_1matrix.html" title=" " alt="" coords="10,269,141,293"/>
-<area shape="rect" id="node3" title=" " alt="" coords="16,137,121,161"/>
-<area shape="rect" id="node4" title=" " alt="" coords="89,5,145,29"/>
-<area shape="rect" id="node6" title=" " alt="" coords="121,89,208,113"/>
-<area shape="rect" id="node5" href="$classstd_1_1matrix.html" title="Class implementaing a STL&#45;like 2D container." alt="" coords="111,185,223,209"/>
-</map>

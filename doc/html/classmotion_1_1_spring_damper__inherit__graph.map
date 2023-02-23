@@ -1,4 +1,0 @@
-<map id="motion::SpringDamper" name="motion::SpringDamper">
-<area shape="rect" id="node1" title="Class extending DynamicalSystem to a unidimensional 2nd order spring&#45;damper (point attractor) system." alt="" coords="15,77,161,101"/>
-<area shape="rect" id="node2" href="$classmotion_1_1_dynamical_system.html" title="Class implementing a simple unidimensional first&#45; or second&#45;order dynamical system (Euler&#39;s method)" alt="" coords="5,5,171,29"/>
-</map>
