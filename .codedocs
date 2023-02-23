@@ -1,1 +1,10 @@
 DOXYFILE=doc/Doxyfile.in
+
+#---------------------------------------------------------------------------
+# Doxygen Configuration
+#---------------------------------------------------------------------------
+
+# These variables have to be redefined since codedocs cannot run CMake
+CMAKE_PROJECT_NAME = "cpp_utils"
+CMAKE_PROJECT_VERSION = 1.0
+CMAKE_PROJECT_BRIEF = "Header-only C++ code providing general utilities"
