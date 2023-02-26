@@ -1,11 +1,11 @@
-#ifndef MPLEARN_INCLUDE_ETC_PLOTTING_HPP_
-#define MPLEARN_INCLUDE_ETC_PLOTTING_HPP_
+#ifndef _CPP_UTILS_EXTRA_PLOTTING_HPP_
+#define _CPP_UTILS_EXTRA_PLOTTING_HPP_
 
 #include <vector>
 #include <string>
 #include "storage/matrix.hpp"
 #include "matplotlibcpp.h"
-#include "mplibrary/primitive.hpp"
+//#include "mplibrary/primitive.hpp"
 
 namespace extra {
 
