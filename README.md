@@ -1,8 +1,10 @@
-# Storage
+# cpp_utils
 
 C++ header-only library with generic extensions to STL containers.
 
 ## Classes
+
+Complete API documentation provided at [codedocs.xyz](https://codedocs.xyz/joaocandre/cpp_utils/index.html).
 
 - `std::matrix< T >`: Container adapter providing 2D interface to a `std::vector< T >`
 - `std::volume< T >`
@@ -16,3 +18,5 @@ C++ header-only library with generic extensions to STL containers.
 Examples are provided under `src/examples`.
 
 ## Note
+
+...
