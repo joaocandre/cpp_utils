@@ -13,7 +13,7 @@ include(CMakePackageConfigHelpers) # provides functions for the automatic genera
 ###################
 
 cmake_minimum_required(VERSION 3.12)
-project(cpp_utils VERSION 1.0)
+project(cpp_utils VERSION 1.0 LANGUAGES CXX)
 set(${PROJECT_NAME}_VERSION 1.0)
 
 # set the path where CMake package configuration files (*-config.cmake) will be installed
