@@ -7,15 +7,15 @@
 ///
 //------------------------------------------------------------------------------
 
-#ifndef STLEXTRA_INCLUDE_ETC_UTILS_HPP_
-#define STLEXTRA_INCLUDE_ETC_UTILS_HPP_
+#ifndef CPPUTILS_INCLUDE_EXTRA_IO_HPP_
+#define CPPUTILS_INCLUDE_EXTRA_IO_HPP_
 
 #include <string>
 #include <sstream>
 #include <vector>
 #include <limits>
 #include <iostream>
-#include "type_check.hpp"
+#include "type/check.hpp"  // std::is_iteratable
 
 namespace std {
 
@@ -47,6 +47,57 @@ inline C tokenize(const string& data, char separator = ",", bool single_split = 
 
 
 //------------------------------------------------------------------------------
+/// @brief      Converts a numeric value to text string with variable precision.
+///             Overloads std::string with additional precision argument.
+///
+/// @param[in]  value      Value to convert
+/// @param[in]  precision  Pecision setting i.e. number of decimals.
+///
+/// @tparam     T          Type of given *value*.
+///
+/// @return     Given *value* serialized as text string.
+///
+/// @note       cf. https://stackoverflow.com/questions/16605967/set-precision-of-stdto-string-when-converting-floating-point-values
+///
+/// @todo       Move to io.hpp ?
+///
+template< typename T, typename = typename std::enable_if< std::is_arithmetic< T >::value >::type >
+std::string to_string(const T& value, size_t precision = 2) {
+    std::ostringstream out;
+    out.precision(precision);
+    out << std::fixed << value;
+    return std::move(out).str();
+}
+
+
+//------------------------------------------------------------------------------
+/// @brief      Generates a string from *args* w/ given *format*.
+///
+/// @param[in]  format     Format to apply to output string.
+/// @param      args       Arguments of given *format*, equivalent to standard format specifiers (e.g. printf).
+///
+/// @tparam     MaxLength  Buffer size i.e. maximum length of output string. Defaults to 50.
+/// @tparam     Args       Variadic parameter pack encoding the types of *args*.
+///
+/// @return     Text string with formated *args* according to *format*.
+///
+/// @note       Wraps around snprintf and std::string constructor, simplifying usage wo/ the need to instantiate a temporary buffer.
+///
+/// @todo       Purpose may be similar to std::format<> (cf. https://en.cppreference.com/w/cpp/utility/format/format), rename function?
+///
+/// @todo       Move to io.hpp?
+///
+template < size_t MaxLength = 50, typename... Args >
+std::string format(const std::string& format, Args&&... args) {
+    // char buffer[3 * format.length()];
+    char buffer[MaxLength];
+    snprintf(buffer, sizeof(buffer), format.data(), std::forward< Args >(args)...);
+
+    return std::string(buffer);
+}
+
+
+//------------------------------------------------------------------------------
 /// @brief      Skips/consumes input stream until character
 ///
 /// @param      istream  Input stream.
@@ -62,7 +113,6 @@ inline istream& ignore_until(istream& istream, char target) {
     // }
     return istream;
 }
-
 
 
 //------------------------------------------------------------------------------
@@ -88,7 +138,6 @@ inline istream& ignore_until(istream& istream, const std::initializer_list< char
 }
 
 
-
 //------------------------------------------------------------------------------
 /// @brief      Skips input stream until next line.
 ///
@@ -98,50 +147,9 @@ inline istream& ignore_until(istream& istream, const std::initializer_list< char
 ///
 /// @note       Wrapper function provided for convenience/verbosity/cleaner syntax.
 ///
-inline istream& skipline(istream& istream) { 
+inline istream& skipline(istream& istream) {
     return ignore_until(istream, '\n');
 }
-
-
-
-//------------------------------------------------------------------------------
-/// @brief      Templated static SFINAE check for iteratable types.
-///             It employs std::can_apply<> (cf. type_check.hpp) while testing specifically for container/range features of a type *T*.
-///
-/// @note       At this stage, an iteratable range (a.k.a. "ranged container"):
-///                 1) A Container type that meets STL's *Container* & *SequenceContainer* mandatory requirements holding objects of
-///                 2) An 'indexable' type that provide a valid public non-const 'id' member.
-///
-template < class T >
-using range_begin = decltype(declval<T>().begin());
-template < class T >
-using range_end = decltype(declval<T>().end());
-template < class T >
-using iterator_dereference = decltype(*(declval<T>().begin()));
-template < class T >
-using iterator_increment = decltype(++(declval<T>().begin()));
-template < class T >
-using input_stream_operator = decltype(++(declval<istream>() >> declval<T>()));
-///
-template < class T >
-using has_begin = can_apply< range_begin, T >;
-template < class T >
-using has_end = can_apply< range_end, T >;
-template < class T >
-using iterator_can_be_dereferenced = can_apply< iterator_dereference, T >;
-template < class T >
-using iterator_can_be_incremented = can_apply< iterator_increment, T >;
-template < class T >
-using can_be_loaded = can_apply< input_stream_operator, T >;
-///
-template < typename T >
-constexpr bool is_iteratable() { return (has_begin< T >() &&
-                                         has_end< T >()   &&
-                                         iterator_can_be_dereferenced< T >() &&
-                                         iterator_can_be_incremented< T >()); }
-
-template < typename T >
-constexpr bool is_loadable() { return can_be_loaded< T >(); }
 
 
 //------------------------------------------------------------------------------
@@ -160,7 +168,7 @@ constexpr bool is_loadable() { return can_be_loaded< T >(); }
 ///
 template < typename T >
 inline ostream& print_into(ostream& ostream, const T& input, char delimiter = ',') {
-    if constexpr(!is_iteratable< T >()) {
+    if constexpr(!std::is_range_iteratable< T >()) {
         // for non-iteratable types
         ostream << input;
     } else {
@@ -180,7 +188,6 @@ inline ostream& print_into(ostream& ostream, const T& input, char delimiter = ',
 }
 
 
-
 //------------------------------------------------------------------------------
 /// @brief      Loads values from an input stream into a range/container.
 ///
@@ -196,7 +203,7 @@ inline ostream& print_into(ostream& ostream, const T& input, char delimiter = ',
 ///
 template < typename T >
 inline istream& load_from(istream& istream, T& input, char delimiter = ',', bool ignore_break = true) {
-    if constexpr(!is_iteratable< T >()) {
+    if constexpr(!std::is_range_iteratable< T >()) {
         // if *ignore_new_line* is true, return @ '\n' character
         // in top-most iteratable types, will only use a single line to load data
         if (istream.peek() == '\n' && ignore_break) return istream;  // skipline(istream);
@@ -222,7 +229,6 @@ inline istream& load_from(istream& istream, T& input, char delimiter = ',', bool
     }
     return istream;
 }
-
 
 
 //------------------------------------------------------------------------------
@@ -264,8 +270,6 @@ struct formatted {
 };
 
 
-
-
 //------------------------------------------------------------------------------
 /// @brief      Left shift / output stream operator overload for std::formatted.
 ///
@@ -280,7 +284,6 @@ template < typename U >
 inline std::ostream& operator<<(std::ostream& ostream, const std::formatted< U >& f) {
     return std::print_into(ostream, *(f.src), f.del);
 }
-
 
 
 //------------------------------------------------------------------------------

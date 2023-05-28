@@ -370,11 +370,11 @@ inline std::vector<lT> operator- (const std::vector<lT>& _lhs, const std::storag
 namespace std {
 namespace vector_presets {
 template <typename _type>
-vector<_type> linspace(int _s, _type _low, _type _high) {
+vector<_type> linspaced(int _s, _type _low, _type _high) {
     static_assert(std::is_arithmetic<_type>::value, "PRESET ONLY AVAILABLE TO NUMERIC TYPES");
     vector<_type> lin(_s);
     _type step = ((_high-_low)/(_s-1));
-    for (int i=0; i<_s; i++) lin[i] = static_cast<_type>(step*i);
+    for (int i=0; i<_s; i++) lin[i] = static_cast<_type>(step * i + _low);
     return lin;
 }
 }  // namespace vector_presets

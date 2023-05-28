@@ -42,6 +42,8 @@ namespace std {
 ///
 /// @tparam     Args  Variadic template parameter pack to check.
 ///
+/// @todo       Move to type_check (?)
+///
 template < typename... Args >
 struct contains_value_type : std::false_type { /* ... */ };
 
@@ -68,7 +70,7 @@ struct contains_value_type< T, Args... > :
 ///             } while (active());
 ///             stop();
 ///             \endcode
-///             Therefore, derived implementations *must* override execute() method, and optionally *can* start(), stop()) and active().
+///             Therefore, derived implementations *must* override execute() method, and *optionally* start(), stop()) and active().
 ///             Default base implementations are provided for start(), stop() and active() so that execute() is called only once i.e. single-time operation.
 ///
 template < typename... Args >
@@ -271,7 +273,7 @@ template < typename... Args >
 class basic_timed_executor : public basic_executor< const chrono::milliseconds&, Args... > {
  public:
     //--------------------------------------------------------------------------
-    /// @brief      Timer type. Using boost::asio timers allows for greater felxiblity than std::chrono clocks (a timer class would need to be implemeted)
+    /// @brief      Timer type. Using boost::asio timers allows for greater flexiblity than std::chrono clocks (a timer class would need to be implemeted)
     ///
     using timer = boost::asio::steady_timer;
 

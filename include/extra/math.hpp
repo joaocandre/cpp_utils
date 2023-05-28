@@ -13,6 +13,26 @@
 namespace math {
 
 //------------------------------------------------------------------------------
+/// @brief      Counts the number of digits in given positive integer *value*.
+///
+/// @param[in]  value  Value to count digits of.
+///
+/// @return     Number of non-zero digits in *value*
+///
+/// @todo       Move to math.hpp?
+///
+inline size_t ndigits(size_t value) {
+    size_t count = value ? 1 : 0;
+    size_t ref = 10;
+    while (ref <= value) {
+        count++;
+        ref *= 10.0;
+    }
+    return count;
+}
+
+
+//------------------------------------------------------------------------------
 /// @brief      Computes the norm of the *data* array.
 ///
 /// @param[in]  data  Data array (i.e. pointer to first element)

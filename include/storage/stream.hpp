@@ -1,13 +1,13 @@
-#ifndef STORAGE_INCLUDE_STORAGE_IO_HPP_
-#define STORAGE_INCLUDE_STORAGE_IO_HPP_
+#ifndef STORAGE_INCLUDE_STORAGE_STREAM_HPP_
+#define STORAGE_INCLUDE_STORAGE_STREAM_HPP_
 
 #include <iostream>
-#include "matrix.hpp"
-#include "volume.hpp"
-#include "subset.hpp"
+#include "storage/matrix.hpp"
+#include "storage/volume.hpp"
+#include "storage/subset.hpp"
 
 //------------------------------------------------------------------------------
-// @note        Default vaue delimiter, employed by left/right shift operators
+// @note        Default delimiter, employed by left/right shift operators
 //              Conditional check allows user to compile trignoclient w/ a different default delimiter
 //
 #ifndef DEFAULT_DELIMITER
@@ -39,6 +39,7 @@ ostream& write(ostream& os, const volume< T >& vol, char delimiter = DEFAULT_DEL
 template < typename CT >
 ostream& write(ostream& os, const storage::st_subset_base< CT >& st_subset, char delimiter = DEFAULT_DELIMITER, bool formatted = true);
 
+
 //------------------------------------------------------------------------------
 /// @brief      Reads from an input stream into a matrix object.
 ///
@@ -62,6 +63,7 @@ istream& read(istream& is, volume< T >& vol, char delimiter = DEFAULT_DELIMITER,
 template < typename T >
 istream& read(istream& is, storage::st_subset_base< T >& st_subset, char delimiter = DEFAULT_DELIMITER, bool ignore_break = false);
 
+
 //------------------------------------------------------------------------------
 /// @brief      Left shift operator overload, for output streams.
 ///
@@ -80,6 +82,9 @@ ostream& operator<<(ostream& ostream, const std::matrix< T >& mat) {
     return write(ostream, mat, '\t');
 }
 
+/// ... add std::volume<> overload
+
+
 //------------------------------------------------------------------------------
 /// @brief      Left shift operator overload, for output streams.
 ///
@@ -97,9 +102,21 @@ std::istream& operator>>(std::istream& istream, std::matrix< T >& mat) {
     return read(istream, mat);
 }
 
+/// ... add std::volume<> overload
+
+// //------------------------------------------------------------------------------
+// /// @brief      Loads a matrix.
+// ///
+// /// @param[in]  path       The path
+// /// @param[in]  delimiter  The delimiter
+// /// @param[in]  skip       The skip
+// ///
+// /// @return     { description_of_the_return_value }
+// ///
+// std::matrix< T > load_matrix(const std::string& path, char delimiter = DEFAULT_DELIMITER, size_t skip = 1);
+
 
 //------------------------------------------------------------------------------
-
 /// @cond
 
 template < typename T >
@@ -131,10 +148,11 @@ istream& read(istream& istream, matrix< T >& mat, char delimiter, bool ignore_br
     return istream;
 }
 
-
+/// ... add std::volume<> overload
 
 /// @endcond
+//------------------------------------------------------------------------------
 
 }  // namespace std
 
-#endif  // STORAGE_INCLUDE_STORAGE_IO_HPP_
+#endif  // STORAGE_INCLUDE_STORAGE_STREAM_HPP_

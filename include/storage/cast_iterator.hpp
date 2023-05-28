@@ -65,22 +65,22 @@ class cast_iterator : std::iterator< std::random_access_iterator_tag, T > {
     explicit cast_iterator(Container* container, unsigned int pos = 0);
 
     //--------------------------------------------------------------------------
-    /// @brief      Increment operator (self).
+    /// @brief      Increment operator (prefix).
     ///
     cast_iterator& operator++();
 
     //--------------------------------------------------------------------------
-    /// @brief      Increment operator (copy).
+    /// @brief      Increment operator (postfix).
     ///
     cast_iterator operator++(int);
 
     //--------------------------------------------------------------------------
-    /// @brief      Decrement operator (self).
+    /// @brief      Decrement operator (prefix).
     ///
     cast_iterator& operator--();
 
     //--------------------------------------------------------------------------
-    /// @brief      Decrement operator (copy).
+    /// @brief      Decrement operator postfixy).
     ///
     cast_iterator operator--(int);
 

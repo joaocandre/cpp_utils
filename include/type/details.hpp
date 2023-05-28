@@ -1,18 +1,21 @@
 //------------------------------------------------------------------------------
-/// @file       type_check.hpp
+/// @file       details.hpp
 /// @author     João André
 ///
 /// @brief      Header file declaring utility implementations over C++ 'type traits' interface (<type_traits>).
 ///
-/// Defines std::can_apply<> class template, that leverages SFINAE static assertions/checks in <type_traits> header to provide a generic
-/// attribute/property check over custom types.
+/// Defines std::can_apply<> class template, that leverages SFINAE static assertions/checks in <type_traits> header
+/// to provide a generic attribute/property check over custom types.
 ///
 //------------------------------------------------------------------------------
 
-#ifndef TRIGNOCLIENT_INCLUDE_TRIGNOCLIENT_TYPECHECK_HPP_
-#define TRIGNOCLIENT_INCLUDE_TRIGNOCLIENT_TYPECHECK_HPP_
+#ifndef CPPUTILS_INCLUDE_TYPE_DETAILS_HPP_
+#define CPPUTILS_INCLUDE_TYPE_DETAILS_HPP_
 
 #include <type_traits>
+
+// SFINAE (Substitution Failure Is Not An Error) approach
+// reference: https://stackoverflow.com/a/31306194
 
 namespace std {
 
@@ -28,7 +31,6 @@ struct voider{
 // alias adding verbosity
 template < class... Ts >
 using void_t = typename voider< Ts... >::type;
-
 
 // class templates inherting from std::false_type/true_type (static/compile time representation of boolean false/true)
 // only 1 of these will be defined at any time
@@ -50,4 +52,4 @@ using can_apply = details::can_apply< Z, void ,Ts... >;
 
 }  // namespace std
 
-#endif  // TRIGNOCLIENT_INCLUDE_TRIGNOCLIENT_TYPECHECK_HPP_
+#endif  // CPPUTILS_INCLUDE_TYPE_DETAILS_HPP_

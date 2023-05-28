@@ -1,6 +1,6 @@
-#ifndef _MATRIX_HPP_
-#define _MATRIX_HPP_
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#ifndef STORAGE_INCLUDE_STORAGE_MATRIX_HPP_
+#define STORAGE_INCLUDE_STORAGE_MATRIX_HPP_
+
 #include <vector>
 #include <utility>
 #include <ctime>
@@ -9,13 +9,16 @@
 #include <sstream>  // for std::matrix<T>::load()
 #include <fstream>  // for std::matrix<T>::load()
 #include <algorithm>
+#include <string>
 #include "storage/subset.hpp"
-#include "storage/type_check.hpp"
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#include "storage/type_check.hpp"  // @todo replace/integrate with extra/type_check.hpp
+
+#define _FUNC_NAME_ "std::matrix< >::" + std::string(__func__) + "(): "
+
 namespace std {
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// TODO(joao): replace assert with "if () throw"
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// TODO(joao): replace assert with "if () throw?"
+
 // Helper classes
 template < typename T > class matrix;  // forward declaration required for 'using'
 template < typename dT >
@@ -76,19 +79,6 @@ class matrix {
     ///
     typedef T value_type;
 
-    //--------------------------------------------------------------------------
-    /// @brief      Static 'factory' named constructor that initializes a matrix from a text file
-    ///
-    /// @param[in]  path  Path to source file.
-    /// @param[in]  sep   Separator character to use. Defaults to ',' (.csv format default).
-    /// @param[in]  skip  Number of lines to skip @ beginning for file. Useful if file format includes multi-line header information. Defaults to 1 (assumes first line w/ column labels)
-    ///
-    /// @return     Newly instantiated std::matrix< T > object wherein each row is populated with contents of each line in given file @ *path*
-    ///
-    /// @note       Temporary/develo0pment implementation. will be replaced by methods within std::io namespace (cf io.hpp)
-    ///
-    static matrix< T > load(const string& path, char sep = ',', size_t skip = 1);
-
     // //--------------------------------------------------------------------------
     // /// @brief      Constructs a new instance.
     // ///
@@ -126,13 +116,8 @@ class matrix {
     // template < typename iT >
     // explicit matrix(const vector< vector< iT > >& in);
 
-
-
-
-
-
     //--------------------------------------------------------------------------
-    /// @brief      Constructs a new instance, from a vector of generic container type (e.g. nested vectors).
+    /// @brief      Constructs a new instance, from a vector of generic container type (e.g. vector, matrix).
     ///
     template < typename iT = vector< T >, typename = typename enable_if< is_generic_container< iT >() >::type >
     explicit matrix(const vector< iT >& in);
@@ -141,7 +126,7 @@ class matrix {
     /// @brief      Constructs a new instance, from a vector of generic container type.
     ///
     /// @todo       consider marking as implict for simpler syntax (return expresions and assignment operations)
-    /// 
+    ///
     template < typename iT, typename = typename enable_if< is_nd_container< iT >()>::type >
     explicit matrix(const storage::st_subset_base< iT >& in);    // from multi-dimensional container (e.g. volume, volume subset, vector, etc) with shape info (.shape() and .position())
 
@@ -432,7 +417,7 @@ class matrix {
     ///             and columns from *first_col* to *last_col* (*const overload*).
     ///
     /// @note       Wraps around block() and constructor matrix(const matrix_subset< >&) for a simpler syntax i.e
-    ///             return this->submatrix<>(1, 5, 7, 10) instead of 'std::matrix<>(this->block(1, 5, 7, 10))'       
+    ///             return this->submatrix<>(1, 5, 7, 10) instead of 'std::matrix<>(this->block(1, 5, 7, 10))'
     ///
     template < typename oT = value_type >
     matrix< oT > submat(size_t first_row, size_t last_row, size_t first_col = 0, size_t last_col = 0) const;
@@ -622,98 +607,32 @@ class matrix {
     ///
     template < typename oT >
     operator const matrix< oT >&() const;
+
+    //--------------------------------------------------------------------------
+    /// @brief      Load data from a text file into an instance of std::matrix< >.
+    ///
+    /// @param[in]  file  Path to text file.
+    /// @param[in]  sep   Value separator/delimiter character. Defaults to ','.
+    /// @param[in]  skip  Number of lines to skip. Defaults to 1. Useful if there is a header on the file.
+    ///
+    /// @return     std::matrix< > instance with values read from given *file*.
+    ///
+    static matrix< T > load(const string& file, char sep = ',', size_t skip = 1);
+
+    //--------------------------------------------------------------------------
+    /// @brief      Writes matrix content to given *file*.
+    ///
+    /// @param[in]  file    Path to text file.
+    /// @param[in]  sep     Value separator/delimiter character. Defaults to ','.
+    /// @param[in]  header  Header content, printed before exporting matrix content. Defaults to empty (no header).
+    ///
+    /// @throw      std::runtime_error if unable to write to given *file*.
+    ///
+    template < typename oT = std::string /* add SFINAE check to ensure it << operator is overloaded for T */ >
+    void save(const string& file, const std::vector< oT >& header = { /* ... */ }, char sep = ',', char row_sep = '\n');
 };
 
 /// @cond
-
-template < typename T >
-matrix< T > matrix< T >::load(const string& path, char sep, size_t skip) {
-    string line;
-    string word;
-    stringstream ss;
-    // stringstream val;
-    ifstream file(path.data());
-    if (!file.good()) {
-        throw runtime_error(string(__func__) + "(): Unable to load file!");
-    }
-    file.precision(10);
-
-    /// @todo add size arguments to pre-allocated matrix container (should be faster,  less resizes/reshapes during load)
-
-    matrix< T > out;
-    out.reserve(1000, 1000);
-    vector< T > line_vals;
-    int l = 0;
-    // int v = 0;
-    double value = 0.0;
-
-    if (file.is_open()) {
-        while (getline(file, line)) {
-            l++;
-            if (l < skip + 1) continue;
-
-            // // std::vector< T > line_vals;
-            // size_t start;
-            // size_t end = 0;
-            // while ((start = line.find_first_not_of(sep, end)) != std::string::npos) {
-            //     end = line.find(sep, start);
-            //     auto word = line.substr(start, end - start);
-            //     if (word.empty()) printf("EMPTY WORD!!!\n");
-            //     T val;
-            //     stringstream(word) >> val;
-            //     line_vals.push_back(val);
-            //     // if (single_split && end != std::string::npos) {
-            //     //     words.push_back(data.substr(end + 1));
-            //     //     break;
-            //     // }
-            // }
-            // std::cout << "start: " << (start == std::string::npos) << std::endl;
-
-            ss.str(line);
-            while (getline(ss, word, sep)) {
-                // v++;
-                if (word.empty()) {
-                    value = 0.0;
-                } else {
-                    // val.str(word);
-                    istringstream(word) >> value;
-                }
-                line_vals.push_back(value);
-                // if (v < out.cols()) {
-                //     out(out.rows() - 1, v++) = value;
-                // } else {
-                //     out.reshape(out.rows(), out.cols() + 1);
-                // }
-                // val.clear();
-                // std::cout << v << std::endl;
-            }
-
-            // fill untilk expected size
-            // required in cases where there is a missing value @ end of line
-            while (line_vals.size() < out.cols()) {
-                line_vals.push_back(0.0);
-            }
-            // resize matrix when required!
-            // if at least a row has been 
-            // if (out.rows() && line_vals.size() > out.cols()) {
-            //     out.reshape(out.rows(), line_vals.size());
-            // }
-            // 
-            // std::cout << l << ": " << line_vals.size() << std::endl;
-            out.pushRow(line_vals);
-            line_vals.resize(0);
-            line_vals.reserve(out.cols());  // may be redundant!
-            ss.clear();
-            // v = 0;
-        }
-        file.close();
-    }
-
-    return out;
-}
-
-
-
 
 // template < typename T >
 // matrix< T >::matrix() {
@@ -1503,7 +1422,101 @@ inline bool operator>=(const std::matrix<_ltype>& _lmat, const std::matrix<_rtyp
 // inline bool operator>=(const std::matrix<_ltype>& _lmat, const std::storage::st_subset_base<_rtype>& _rcont){
 //  return !operator< (_lmat,_rcont);
 // };
+// 
+// 
+
+template < typename T >
+matrix< T > matrix< T >::load(const string& path, char sep, size_t skip) {
+    /// @note   operators/functions defined in storage/stream.hpp can't be used within I/O members as they require std::matrix< T > to be defined/complete.
+    string line;
+    string word;
+    stringstream ss;
+    // stringstream val;
+    ifstream file(path.data());
+    if (!file.good()) {
+        throw runtime_error(_FUNC_NAME_ + "Unable to load file!");
+    }
+    file.precision(10);
+
+    /// @todo add size arguments to pre-allocated matrix container (should be faster,  less resizes/reshapes during load)
+
+    matrix< T > out;
+    out.reserve(1000, 1000);
+    vector< T > line_vals;
+    int l = 0;
+    double value = 0.0;
+
+    if (file.is_open()) {
+        while (getline(file, line)) {
+            l++;
+            if (l < skip + 1) continue;
+            ss.str(line);
+            while (getline(ss, word, sep)) {
+                // v++;
+                if (word.empty()) {
+                    value = 0.0;
+                } else {
+                    // val.str(word);
+                    istringstream(word) >> value;
+                }
+                line_vals.push_back(value);
+            }
+            // fill until expected size
+            // required in cases where there is a missing value @ end of line
+            while (line_vals.size() < out.cols()) {
+                line_vals.push_back(0.0);
+            }
+            // resize matrix when required!
+            out.pushRow(line_vals);
+            line_vals.resize(0);
+            line_vals.reserve(out.cols());  // may be redundant!
+            ss.clear();
+        }
+        file.close();
+    }
+
+    return out;
+}
+
+
+template < typename T >
+template < typename oT >
+void matrix< T >::save(const string& path, const std::vector< oT >& header, char sep, char row_sep) {
+    /// @note   operators/functions defined in storage/stream.hpp can't be used within I/O members as they require std::matrix< T > to be defined/complete.
+    ofstream file(path.data());
+    if (!file.good()) {
+        throw runtime_error(_FUNC_NAME_ + "Unable to load file!");
+    }
+    // write header
+    // @note    no check on header content, can be whatever is reuqired e.g. numeric indexes, labels or single descriptor.
+    // assert(header.size() == _cols);
+    if (!header.empty()) {
+        file << header[0];
+        for (size_t i = 1; i < header.size(); i++) {
+            file << sep << header[i];
+        }
+        file << row_sep;
+    }
+    // write each element sequentially
+    // @nope    element type T must have it's own << operator overloaded (!)
+    // @todo    add SFINAE check to ensure only valid types can be exported (or just limit to numeric?)
+    for (size_t r = 0; r < _rows; r++) {
+        for (size_t c = 0; c < _cols; c++) {
+            file << (*this)(r, c);
+            if (c < _cols - 1) {
+                file << sep;
+            }
+        }
+        file << row_sep;
+    }
+    file << '\n';
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 }  // namespace std
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// @note undefine macro to disable in including files.
+#undef _FUNC_NAME_
+
 #endif
