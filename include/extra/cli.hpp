@@ -15,11 +15,12 @@
 #ifndef _WIN32
 #include <sys/ioctl.h>
 #else
+#include <winsock2.h>
 #include <windows.h>
 #endif
 #include <stdio.h>
 #include <utility>
-#include <boost/asio.hpp>     // STDIN_FILENO
+#include <boost/asio.hpp>     // STDIN_FILENOmake
 #include "extra/chrono.hpp"   // std::chrono::stopwatch
 #include "extra/stream.hpp"   // std::to_string, std::format<>
 #include "extra/math.hpp"     // math::ndigits
