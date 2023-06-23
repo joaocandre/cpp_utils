@@ -12,7 +12,11 @@
 #include <iomanip>
 #include <string>
 #include <mutex>
+#ifndef _WIN32
 #include <sys/ioctl.h>
+#else
+#include <windows.h>
+#endif
 #include <stdio.h>
 #include <utility>
 #include <boost/asio.hpp>     // STDIN_FILENO
@@ -89,20 +93,26 @@ namespace cli {
 /// @return     Width of the terminal (in characters).
 ///
 inline size_t get_terminal_width() {
-#ifdef TIOCGSIZE
-    struct ttysize ts;
-    ioctl(STDIN_FILENO, TIOCGSIZE, &ts);
-    // int lines = ts.ts_lines;
-    return ts.ts_cols;
+#ifndef _WIN32
+    #ifdef TIOCGSIZE
+        struct ttysize ts;
+        ioctl(STDIN_FILENO, TIOCGSIZE, &ts);
+        // int lines = ts.ts_lines;
+        return ts.ts_cols;
 
-#elif defined(TIOCGWINSZ)
-    struct winsize ts;
-    ioctl(STDIN_FILENO, TIOCGWINSZ, &ts);
-    // int lines = ts.ws_row;
-    return ts.ws_col;
-
-#endif /* TIOCGSIZE */
-
+    #elif defined(TIOCGWINSZ)
+        struct winsize ts;
+        ioctl(STDIN_FILENO, TIOCGWINSZ, &ts);
+        // int lines = ts.ws_row;
+        return ts.ws_col;
+    #endif /* TIOCGSIZE */
+#else
+    // Windows implementation
+    // cf. https://stackoverflow.com/a/23370070
+    CONSOLE_SCREEN_BUFFER_INFO csbi;
+    GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
+    return (csbi.srWindow.Right - csbi.srWindow.Left + 1);
+#endif
     return 0;
 }
 
