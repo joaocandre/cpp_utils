@@ -40,6 +40,10 @@ endif()
 ## option (interactive) to enable/disable doc generation
 option(BUILD_DOC "Generate documentation (doxygen)" OFF)
 
+## option (interactive) to enable/disable third-party wrappers
+option(ENABLE_PLOT_UTILS "High-evel utility wrappers around matplotlib-cpp" ON)
+option(ENABLE_XML_UTILS  "High-evel utility wrappers around TinyXML2" ON)
+
 ## set default build type to Release
 ## only valid when null string (first call)
 ## in order to change betwenn build types, add flag explicitely i.e. -DCMAKE_BUILD_TYPE=
@@ -64,13 +68,25 @@ endif()
 ## Doxygen
 find_package(Doxygen)
 
+if (ENABLE_PLOT_UTILS)
+    set (matplotlib_cpp_BUILD_EXAMPLES OFF CACHE INTERNAL "Turn off examples")
+    # search_for_package(matplotlib_cpp git@github.com:lava/matplotlib-cpp master)
+    search_for_package(matplotlib_cpp git@github.com:joaocandre/matplotlib-cpp master)  # @todo revert to upstream repo if PR is accepted
+endif()
+
+if (ENABLE_XML_UTILS)   
+    set (tinyxml2_BUILD_TESTING OFF CACHE INTERNAL "Turn off tests")
+    set (tinyxml2_SHARED_LIBS ON CACHE INTERNAL "Enable shared library compilation")
+    search_for_package(tinyxml2 https://github.com/leethomason/TinyXML2 9.0.0)
+endif()
+
 ###########
 ## Build ##
 ###########
 
 ## declare header-only library
-## cf. http://www.mariobadr.com/creating-a-header-only-library-with-cmake.html
-## https://stackoverflow.com/a/49143782/2340002
+## cf. https://www.mariobadr.com/creating-a-header-only-library-with-cmake.html
+##     https://stackoverflow.com/a/49143782/2340002
 
 # declare library as interface
 add_library(${PROJECT_NAME} INTERFACE)
@@ -85,6 +101,15 @@ target_include_directories(${PROJECT_NAME} INTERFACE $<BUILD_INTERFACE:${CMAKE_C
 # file(GLOB INSTALL_INTERFACE_SRCS include/*/*.hpp)
 # target_sources(${PROJECT_NAME} INTERFACE $<BUILD_INTERFACE:${BUILD_INTERFACE_SRCS}>
 #                                          $<INSTALL_INTERFACE:${INSTALL_INTERFACE_SRCS}>)
+
+# @note INTERFACE target, linking dependencies only adds include paths
+if (ENABLE_PLOT_UTILS)
+    target_link_libraries(${PROJECT_NAME} INTERFACE ${matplotlib_cpp_TARGET})
+endif()
+
+if (ENABLE_XML_UTILS)
+    target_link_libraries(${PROJECT_NAME} INTERFACE ${tinyxml2_TARGET})
+endif()
 
 ########### API documentation
 
@@ -125,7 +150,27 @@ install(TARGETS ${PROJECT_NAME}
         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}   # GNUInstallDirs helper variables
         RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})   # GNUInstallDirs helper variables
         # PUBLIC_HEADER DESTINATION include COMPONENT Development)
-        # used to generate  ful to export cpp_utilsTargets (currently only the lib target)
+        # used to generate full to export cpp_utilsTargets (currently only the lib target)
+
+# install dependency onto targets file and to export list *if building missing dependencies*
+# propagates requirements to including/dependent projects
+# additionaly, removes the need for other dependent projects to link to matplotlib or tinyxml2 directly
+
+# if (${matplotlib_cpp_TARGET}_IMPORTED)
+#     message(WARNING "matplotlib is imported")
+# endif()
+# message(WARNING "${tinyxml2_IMPORTED}")
+# if (${tinyxml2_TARGET}_IMPORTED)
+#     message(WARNING "TinyXML2 is imported")
+# endif()
+
+if (ENABLE_PLOT_UTILS AND NOT ${matplotlib_cpp_IMPORTED})
+    install(TARGETS ${matplotlib_cpp_TARGET} EXPORT ${PROJECT_NAME}Targets)
+endif()
+
+if (ENABLE_XML_UTILS AND NOT ${tinyxml2_IMPORTED})
+    install(TARGETS ${tinyxml2_TARGET} EXPORT ${PROJECT_NAME}Targets)
+endif()
 
 ############
 ## Export ##
