@@ -1,5 +1,5 @@
-#ifndef _INCLUDE_UTILS_TINYXML2UTILS_HPP_
-#define _INCLUDE_UTILS_TINYXML2UTILS_HPP_
+#ifndef CPPUTILS_INCLUDE_EXTRA_XML_HPP_
+#define CPPUTILS_INCLUDE_EXTRA_XML_HPP_
 
 #include <vector>
 #include <string>
@@ -1578,4 +1578,4 @@ bool setDataAt(XMLElement* element, const std::initializer_list< T >& data, char
 }  // namespace tinyxml2
 
 
-#endif  //  _INCLUDE_UTILS_TINYXML2UTILS_HPP_
+#endif  //  CPPUTILS_INCLUDE_EXTRA_XML_HPP_
