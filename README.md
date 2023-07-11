@@ -7,7 +7,7 @@ C++ header-only library with generic extensions to STL containers.
 Complete API documentation provided at [codedocs.xyz](https://codedocs.xyz/joaocandre/cpp_utils/index.html).
 
 ![build status](https://github.com/joaocandre/cpp_utils/actions/workflows/cmake.yml/badge.svg?event=push)
-![doc status](https://codedocs.xyz/joaocandre/cpp_utils.svg)
+[![doc status](https://codedocs.xyz/joaocandre/cpp_utils.svg)](https://codedocs.xyz/joaocandre/cpp_utils/index.html)
 
 - `std::matrix< T >`: Container adapter providing 2D interface to a `std::vector< T >`
 - `std::volume< T >`
