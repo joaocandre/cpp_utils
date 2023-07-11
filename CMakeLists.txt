@@ -8,6 +8,24 @@
 include(GNUInstallDirs)  # provides variables for default installation directories e.g. ${CMAKE_INSTALL_LIBDIR} (check below)
 include(CMakePackageConfigHelpers) # provides functions for the automatic generation of the CMake configuration files
 
+## Add custom module to facilitate dependency fetching if needed!
+## @todo  auto-fetch from git repository?
+## Get custom helper modules from remote repository
+include(CMakeFetchHelpers OPTIONAL RESULT_VARIABLE CMakeFetchHelpers_FOUND)
+if(CMakeFetchHelpers_FOUND)
+    message(STATUS "Found CMakeFetchHelpers!")
+else()
+    include(FetchContent)
+    FetchContent_Declare(cmake-helper-modules
+        GIT_REPOSITORY  https://github.com/joaocandre/cmake-helper-modules
+        GIT_TAG main
+    )
+    FetchContent_MakeAvailable(cmake-helper-modules)
+    set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${cmake-helper-modules_SOURCE_DIR}/cmake")
+    include(CMakeFetchHelpers)
+endif()
+
+
 ###################
 ## Global Config ##
 ###################
