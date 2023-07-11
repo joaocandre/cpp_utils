@@ -89,7 +89,7 @@ find_package(Doxygen)
 if (ENABLE_PLOT_UTILS)
     set (matplotlib_cpp_BUILD_EXAMPLES OFF CACHE INTERNAL "Turn off examples")
     # search_for_package(matplotlib_cpp git@github.com:lava/matplotlib-cpp master)
-    search_for_package(matplotlib_cpp git@github.com:joaocandre/matplotlib-cpp master)  # @todo revert to upstream repo if PR is accepted
+    search_for_package(matplotlib_cpp https://github.com/joaocandre/matplotlib-cpp master)  # @todo revert to upstream repo if PR is accepted
 endif()
 
 if (ENABLE_XML_UTILS)   
