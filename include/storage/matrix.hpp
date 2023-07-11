@@ -1,3 +1,15 @@
+//------------------------------------------------------------------------------
+/// @file       matrix.hpp
+/// @author     João André
+///
+/// @brief      Definition of 2D dynamic container 'matrix'.
+///
+/// @copyright  Copyright (c) 2019 João André.
+///             Subject to the tms of the MIT No Attribution License.
+///             All other rights reserved.
+///
+//------------------------------------------------------------------------------
+
 #ifndef STORAGE_INCLUDE_STORAGE_MATRIX_HPP_
 #define STORAGE_INCLUDE_STORAGE_MATRIX_HPP_
 
@@ -17,17 +29,21 @@
 
 namespace std {
 
-// TODO(joao): replace assert with "if () throw?"
+//------------------------------------------------------------------------------
+/// @brief      Class implementing a STL-like 2D container
+///
+template < typename T > class matrix;
 
-// Helper classes
-template < typename T > class matrix;  // forward declaration required for 'using'
+//------------------------------------------------------------------------------
+/// @brief      Helper type alias at namespace scope
+///
 template < typename dT >
 using matrix_subset = storage::st_subset_base< matrix< dT > >;
 template < typename dT >
 using matrix_subset_const = storage::st_subset_base< const matrix< dT > >;
 
 //------------------------------------------------------------------------------
-/// @brief      Class implementaing a STL-like 2D container
+/// @brief      Class implementing a STL-like 2D container
 ///
 /// @tparam     T     Underlying _data type.
 ///

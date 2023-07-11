@@ -1,3 +1,16 @@
+//------------------------------------------------------------------------------
+/// @file       stream.hpp
+/// @author     João André
+///
+/// @brief      I/O stream utilities, including shift operator overloads
+///
+/// @todo       Missing some overloads for std::volume and std::st_subset_base
+///
+/// @note       print_into() and load_from() could be included and employed (should work with iteratable types in any case),
+///             but these implementations specialize towards storage types (e.g. formatting)
+///
+//------------------------------------------------------------------------------
+
 #ifndef STORAGE_INCLUDE_STORAGE_STREAM_HPP_
 #define STORAGE_INCLUDE_STORAGE_STREAM_HPP_
 
@@ -82,8 +95,24 @@ ostream& operator<<(ostream& ostream, const std::matrix< T >& mat) {
     return write(ostream, mat, '\t');
 }
 
-/// ... add std::volume<> overload
+template < typename T >
+ostream& operator<<(ostream& ostream, const std::volume< T >& vol) {
+    std::cout.precision(5);
+    return write(ostream, vol, '\t');
+}
 
+template < typename CT >
+ostream& operator<<(ostream& ostream, const storage::st_subset_base< CT >& subset) {
+    std::cout.precision(5);
+    return write(ostream, subset, '\t');
+}
+
+// // template < typename T, typename ST, typename = typename enable_if< is_same< ST, matrix< T > >::value || is_same< ST, volume< T > >::value || is_same< ST, storage::st_subset_base< T > >::value >::type >
+// template < typename ST, typename T, typename = typename enable_if< is_same< ST, storage::st_subset_base< T > >::value >::type >
+// ostream& operator<<(ostream& ostream, const ST< T >& subset) {
+//     std::cout.precision(5);
+//     return write(ostream, subset, '\t');
+// }
 
 //------------------------------------------------------------------------------
 /// @brief      Left shift operator overload, for output streams.
@@ -103,17 +132,7 @@ std::istream& operator>>(std::istream& istream, std::matrix< T >& mat) {
 }
 
 /// ... add std::volume<> overload
-
-// //------------------------------------------------------------------------------
-// /// @brief      Loads a matrix.
-// ///
-// /// @param[in]  path       The path
-// /// @param[in]  delimiter  The delimiter
-// /// @param[in]  skip       The skip
-// ///
-// /// @return     { description_of_the_return_value }
-// ///
-// std::matrix< T > load_matrix(const std::string& path, char delimiter = DEFAULT_DELIMITER, size_t skip = 1);
+/// ... add std::st_subset_base<> overload
 
 
 //------------------------------------------------------------------------------
@@ -125,9 +144,6 @@ ostream& write(ostream& ostream, const matrix< T >& mat, char delimiter, bool fo
         ostream << mat(row, 0);
         for (size_t col = 1; col < mat.cols(); col++) {
             ostream << delimiter << mat(row, col);
-            // if (!formatted || col < mat.cols() - 1) {
-            //     ostream << ", ";
-            // }
         }
         if (formatted && row < mat.rows() - 1) {
             ostream << "\n";
@@ -139,6 +155,20 @@ ostream& write(ostream& ostream, const matrix< T >& mat, char delimiter, bool fo
     return ostream;
 }
 
+/// ... add std::volume<> overload
+
+template < typename CT >
+ostream& write(ostream& ostream, const storage::st_subset_base< CT >& subset, char delimiter, bool formatted) {
+    ostream << subset[0];
+    for (size_t idx = 1; idx < subset.size(); idx++) {
+        ostream << delimiter << subset[idx];
+    }
+    if (formatted) {
+        ostream << "\n";
+        ostream << " [" << subset.size() << "]";
+    }
+    return ostream;
+}
 
 template < typename T >
 istream& read(istream& istream, matrix< T >& mat, char delimiter, bool ignore_break) {
@@ -149,6 +179,7 @@ istream& read(istream& istream, matrix< T >& mat, char delimiter, bool ignore_br
 }
 
 /// ... add std::volume<> overload
+/// ... add std::st_subset_base<> overload
 
 /// @endcond
 //------------------------------------------------------------------------------

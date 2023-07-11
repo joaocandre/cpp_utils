@@ -1,128 +1,297 @@
-#ifndef SUBSET_HPP
-#define SUBSET_HPP
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//------------------------------------------------------------------------------
+/// @file       subset.hpp
+/// @author     João André
+///
+/// @brief      Definition of a container-like subset type template, for use with 2D or 3D containers and
+///             to encode different groupings (row, col, diagonal, etc)
+///
+/// @copyright  Copyright (c) 2019 João André.
+///             Subject to the tms of the MIT No Attribution License.
+///             All other rights reserved.
+///
+//------------------------------------------------------------------------------
+
+#ifndef STORAGE_INCLUDE_STORAGE_SUBSET_HPP
+#define STORAGE_INCLUDE_STORAGE_SUBSET_HPP
+
 #include <vector>
 #include <functional>
 #include <cassert>
-// #include "storage/matrix.hpp"  // creates a dependency cycle
 #include "storage/iterator.hpp"
 #include "storage/type_check.hpp"
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 namespace std {
 namespace storage {
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// container subset class, templated, iteratable
-// can be used generic containers, as long as 1) size_t [container]::size() is defined and 2) _DT& [container]::operator[](size_t) is overloaded
-// by design, subset holds no shape info from  original object (e.g. std::matrix<> or std::volume<>)
-// TODO: use smart pointers?
+
+//------------------------------------------------------------------------------
+/// @brief      Container subset class template
+///
+/// @note       Iteratable container-like type compatible with the rest of storage types and definitions
+///
+/// @note       Can also be used generic containers (e.g. std::vector<> or std::array<>), as long as:
+///             1) size_t [container]::size() is defined and
+///             2) _CT& [container]::operator[](size_t) is overloaded
+///
+/// @note       By design, subset holds no shape info from  original object (e.g. std::matrix<> or std::volume<>)
+///
+/// @todo       Replace assert() calls with exception throws.
+///
+/// @tparam     _CT   Container type
+///
 template < typename _CT >
 class st_subset_base {
-    _CT* container;
+    _CT* _container;
     vector< size_t > idx;
 
  public:
-    // type member redirection
+    //--------------------------------------------------------------------------
+    /// @brief      Static assertion
+    ///
+    static_assert(is_generic_container< _CT >(), "_CT IS NOT A GENERIC ITERATABLE CONTAINER");
+
+    //--------------------------------------------------------------------------
+    /// @brief      Container element value type
+    ///
     typedef typename _CT::value_type value_type;
 
-    // default constructor
-    st_subset_base(_CT* _c, const vector<size_t>& _i);
-    
-    // input assignment operator overload (only data is copied -> for data/member reassignment, call default or copy constructor explicitely)
-    st_subset_base& operator=(const value_type& _in);           // single variable (bulk assignment), implicit cast
-    
-    st_subset_base& operator=(const st_subset_base<_CT>& _sbst);    // copy/move assignment overload is required otherwise a default copy assignment overload is called and members are copied/data is no reassigned
+    //--------------------------------------------------------------------------
+    /// @brief      Constructs a new instance.
+    ///
+    /// @param      container    Source container
+    /// @param[in]  idx          Index/positions of elements in subset.
+    ///
+    st_subset_base(_CT* container, const vector< size_t >& idx);
 
-    st_subset_base& operator=(const std::vector< value_type >& _in);  // general container (different container subsets/vectors, etc)
-    
-    template <typename _iT, typename = typename enable_if<is_generic_container<_iT>()>::type>
-    st_subset_base& operator=(const _iT& _in);  // general container (different container subsets/vectors, etc)
-    
+    //--------------------------------------------------------------------------
+    /// @brief      Bulk copy assignment operator.
+    ///             All subset elements set to given *in* value.
+    ///
+    /// @param[in]  in   Input value to assign.
+    ///
+    /// @return     Modified subset instance.
+    ///
+    st_subset_base& operator=(const value_type& in);
+
+    //--------------------------------------------------------------------------
+    /// @brief      Copy assignment operator (container subsets).
+    ///
+    /// @note       DEPRECATED. Assignment template overload should be called implicitly.
+    ///
+    /// @param[in]  sbst  Subset to assign. Dimensions must match.
+    ///
+    /// @return     Modified subset instance.
+    ///
+    st_subset_base& operator=(const st_subset_base< _CT >& other);
+
+    //--------------------------------------------------------------------------
+    /// @brief      Copy assignment operator (container subsets).
+    ///
+    /// @note       DEPRECATED. Assignment template overload should be called implicitly.
+    ///
+    /// @param[in]  in   Input vector to assign.
+    ///
+    /// @return     Modified subset instance.
+    ///
+    st_subset_base& operator=(const std::vector< value_type >& in);
+
+    //--------------------------------------------------------------------------
+    /// @brief      Copy assignment operator (generic container objects).
+    ///
+    /// @param[in]  in         Input container to assign.
+    ///
+    /// @tparam     iT         Input container type.
+    /// @tparam     <unnamed>  SFINAE check to ensure template is only valid for generic container types.
+    ///                        cf. type_check.hpp
+    ///
+    /// @return     Modified subset instance.
+    ///
+    template < typename iT, typename = typename enable_if< is_generic_container< iT >()>::type >
+    st_subset_base& operator=(const iT& in);
+
+    //--------------------------------------------------------------------------
+    /// @brief      Vector conversion operator template.
+    ///
+    /// @tparam     oT      Output value type.
+    ///
+    /// @return     Vector instance with elements converted to oT type.
+    ///
+    template < typename oT > operator vector< oT >() const;
+    // template <typename _oT> operator matrix<_oT>() const;  // DONT DO THIS, it will create ambiguity with function overloads for vector or matrix
+
+    //--------------------------------------------------------------------------
+    /// @brief      Positional element acessor.
+    ///
+    /// @param[in]  pos   Index/position of element (relative to subset elements).
+    ///
+    /// @return     Reference to element @ given pos.
+    ///
+    value_type& operator[](size_t pos);
+    // auto        operator[](size_t _id)       ->  decltype(std::declval< _CT >()[0]);
+
+    //--------------------------------------------------------------------------
+    /// @brief      Positional element acessor (const overload).
+    ///
+    /// @param[in]  pos   Index/position of element (relative to subset elements).
+    ///
+    /// @return     Reference to element @ given pos.
+    ///
+    const value_type& operator[](size_t pos) const;
+    // const auto  operator[](size_t _id) const ->  decltype(std::declval< _CT >()[0]);
+
+    //--------------------------------------------------------------------------
+    /// @brief      Get source container.
+    ///
+    /// @return     Pointer to source container
+    ///
+    /// @todo       Should return a const pointer instead
+    ///
+    _CT* source() const;
+
+    //--------------------------------------------------------------------------
+    /// @brief      Get length of subset.
+    ///
+    /// @return     Number of elements in subset.
+    ///
+    size_t size() const;
+
+    //--------------------------------------------------------------------------
+    /// @brief      Get length/dimensions of source container
+    ///
+    /// @return     Number of total elements in source container
+    ///
+    size_t source_size() const;
+    // vector< size_t > shape() const;
+
+    //--------------------------------------------------------------------------
+    /// @brief      Get positions of subset elements.
+    ///
+    /// @return     Index values of each element, relative to source container.
+    ///
+    const std::vector< size_t >& index() const;
+
+    //--------------------------------------------------------------------------
+    /// @brief      Get values of subset elements.
+    ///
+    /// @return     Values of each element.
+    ///
+    std::vector< value_type > data() const;
+
+    //--------------------------------------------------------------------------
+    /// @brief      Instantiate a new subset instance from elements from *start* to *stop*.
+    ///
+    /// @note       Redundant, equivalent to segment() member.
+    ///
+    /// @param[in]  start  Index of first element.
+    /// @param[in]  stop   Index of last element.
+    ///
+    /// @return     Subset instance.
+    ///
     st_subset_base range(size_t start, size_t stop = 0) const;
 
-    // output cast operator
-    // operator vector<typename _CT::value_type>()    const; //check if it helps
-    template <typename _oT> operator vector<_oT>() const;
-    // template <typename _oT> operator matrix<_oT>() const;  // DONT DO THIS, it will create ambiguity with function overloads for vector or matrix
-    // direct access to data
-    auto        operator[](size_t _id)       ->  decltype(std::declval<_CT>()[0]);
-    const auto  operator[](size_t _id) const ->  decltype(std::declval<_CT>()[0]);
-    // container pointer return
-    _CT*        source()            const;
-    // index hard limits (const)
-    size_t      size()              const;
-    size_t      source_size()       const;
-    vector<size_t> shape()          const;
-    // index accessor
-    const vector<size_t>& index()       const;
-    vector<value_type> data()       const;  // -> vector<std::remove_reference<decltype(std::declval<_CT>()[0])>::type>;
-    // segment subset
-    st_subset_base<_CT> segment(size_t _f, size_t _l) const;
-    // pseudo-iterators (non-const/const)
-    st_pseudo_iterator<st_subset_base> begin();
-    st_pseudo_iterator<st_subset_base> end();
+    //--------------------------------------------------------------------------
+    /// @brief      Instantiate a new subset instance from elements from *start* to *stop*.
+    ///
+    /// @note       Redundant, equivalent to range() member.
+    ///
+    /// @param[in]  start  Index of first element.
+    /// @param[in]  stop   Index of last element.
+    ///
+    /// @return     Subset instance.
+    ///
+    st_subset_base< _CT > segment(size_t start, size_t stop) const;
+
+    //--------------------------------------------------------------------------
+    /// @brief      Get iterator to the beginning of the subset.
+    ///
+    /// @return     Iterator instance (cf. std::st_pseudo_iterator)
+    ///
+    st_pseudo_iterator< st_subset_base > begin();
+
+    //--------------------------------------------------------------------------
+    /// @brief      Get iterator to the end of the subset.
+    ///
+    /// @return     Iterator instance (cf. std::st_pseudo_iterator)
+    ///
+    st_pseudo_iterator< st_subset_base > end();
+
+    //--------------------------------------------------------------------------
+    /// @brief      Get iterator to the beginning of the subset (const overload).
+    ///
+    /// @return     Iterator instance (cf. std::st_pseudo_iterator)
+    ///
     st_pseudo_iterator< const st_subset_base > begin() const;
+
+    //--------------------------------------------------------------------------
+    /// @brief      Get iterator to the end of the subset (const overload).
+    ///
+    /// @return     Iterator instance (cf. std::st_pseudo_iterator)
+    ///
     st_pseudo_iterator< const st_subset_base > end()   const;
 };
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// CONSTRUCTOR
-template <typename _CT>
-st_subset_base<_CT>::st_subset_base(_CT* _c, const std::vector<size_t>& _i):  container(_c), idx(_i) {
-    static_assert(is_generic_container<_CT>(), "");
-    for (size_t i : idx) assert(i <= source_size());
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// ASSIGNMENT (CONTAINER MODIFIERS)
-template <typename _CT>
-st_subset_base<_CT>& st_subset_base<_CT>::operator=(const value_type& _in) {  // single object input (bulk assignment)
-    for (auto index : idx) { (*container)[index] = (_in); }
-    return *this;
-}
-template <typename _CT>
-st_subset_base<_CT>& st_subset_base<_CT>::operator=(const st_subset_base<_CT>& _sbst) {
-    return operator=<st_subset_base<_CT>>(_sbst);
-}
-template <typename _CT>
-st_subset_base<_CT>& st_subset_base<_CT>::operator=(const vector< typename st_subset_base<_CT>::value_type >& _in) {
-    assert(_in.size() >= idx.size());
-    size_t ind = 0;
-    for (auto index : idx) { (*container)[index] = (_in[ind++]); }
-    return *this;
-}
-template <typename _CT>
-template <typename _iT, typename>
-st_subset_base<_CT>& st_subset_base<_CT>::operator=(const _iT& _in) {  // container input (elementwise assignment)
-    static_assert(is_generic_container<_iT>(), "");
-    assert(_in.size() >= idx.size());
-    size_t ind = 0;
-    for (auto index : idx) { (*container)[index] = (_in[ind++]); }
-    return *this;
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-template <typename _CT>
-st_subset_base<_CT> st_subset_base<_CT>::range(size_t start, size_t stop) const {
-    assert(start <= idx.size());
-    auto last = stop > start ? stop : idx.size();
-    std::vector< size_t > idxs;
-    idxs.reserve(last - start);
-    for (size_t i = start; i < last; i++) {
-        idxs.emplace_back(idx[i]);
+
+
+//------------------------------------------------------------------------------
+/// @cond
+
+template < typename _CT >
+st_subset_base< _CT >::st_subset_base(_CT* container, const std::vector< size_t >& idx):  _container(container), idx(idx) {
+    for (size_t i : idx) {
+        assert(i <= source_size());
     }
-    return st_subset_base<_CT>(container, idxs);
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// CAST (BULK COPY)
-template <typename _CT>
+
+template < typename _CT >
+st_subset_base< _CT >& st_subset_base< _CT >::operator=(const value_type& in) {
+    for (auto i : idx) {
+        (*_container)[i] = (in);
+    }
+    return *this;
+}
+
+
+template < typename _CT >
+st_subset_base< _CT >& st_subset_base< _CT >::operator=(const st_subset_base< _CT >& other) {
+    return operator=<st_subset_base< _CT >>(other);
+}
+
+
+template < typename _CT >
+st_subset_base< _CT >& st_subset_base< _CT >::operator=(const std::vector< typename st_subset_base< _CT >::value_type >& in) {
+    assert(in.size() >= idx.size());
+    size_t ii = 0;
+    for (auto i : idx) {
+        (*_container)[i] = (in[ii++]);
+    }
+    return *this;
+}
+
+
+template < typename _CT >
+template <typename _iT, typename>
+st_subset_base< _CT >& st_subset_base< _CT >::operator=(const _iT& in) {  // container input (elementwise assignment)
+    static_assert(is_generic_container<_iT>(), "_iT IS NOT A GENERIC ITERATABLE CONTAINER");
+    assert(in.size() >= idx.size());
+    size_t ii = 0;
+    for (auto i : idx) {
+        (*_container)[i] = (in[ii++]);
+    }
+    return *this;
+}
+
+
+template < typename _CT >
 template <typename _oT>
-st_subset_base<_CT>::operator std::vector<_oT>() const {
+st_subset_base< _CT >::operator std::vector<_oT>() const {
     std::vector<_oT> ss(0);
-    for (auto id : idx) ss.push_back((*container)[id]);
+    for (auto id : idx) ss.push_back((*_container)[id]);
     return ss;
 }
-// template <typename _CT>
+
+
+// template < typename _CT >
 // template <typename _oT>
-// st_subset_base<_CT>::operator std::matrix<_oT>() const {
+// st_subset_base< _CT >::operator std::matrix<_oT>() const {
 //     // get rows & col indexes of each block element
 //     std::vector< std::vector<size_t> > pos;
 //     for (auto id : idx) {
@@ -150,72 +319,113 @@ st_subset_base<_CT>::operator std::vector<_oT>() const {
 //     }
 //     return out;
 // }
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// DATA ACCESS
-template <typename _CT>
-auto       st_subset_base<_CT>::operator[](size_t _id) ->  decltype(std::declval<_CT>()[0]) {
-    return (*container)[idx[_id]];
-};
-template <typename _CT>
-const auto st_subset_base<_CT>::operator[](size_t _id)  const ->  decltype(std::declval<_CT>()[0]) {
-    return (*container)[idx[_id]];
-};
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-template <typename _CT>
-_CT* st_subset_base<_CT>::source()  const {
-    return container;
+
+
+template < typename _CT >
+typename st_subset_base< _CT >::value_type& st_subset_base< _CT >::operator[](size_t pos) {
+    return (*_container)[idx[pos]];
 }
-template <typename _CT>
-size_t  st_subset_base<_CT>::size() const {
+
+
+// template < typename _CT >
+// auto       st_subset_base< _CT >::operator[](size_t _id) ->  decltype(std::declval<_CT>()[0]) {
+//     return (*_container)[idx[_id]];
+// }
+
+
+template < typename _CT >
+const typename st_subset_base< _CT >::value_type& st_subset_base< _CT >::operator[](size_t pos)  const{
+    return (*_container)[idx[pos]];
+}
+
+
+// template < typename _CT >
+// const auto st_subset_base< _CT >::operator[](size_t _id)  const ->  decltype(std::declval<_CT>()[0]) {
+//     return (*_container)[idx[_id]];
+// }
+
+
+template < typename _CT >
+_CT* st_subset_base< _CT >::source()  const {
+    return _container;
+}
+
+
+template < typename _CT >
+size_t  st_subset_base< _CT >::size() const {
     return idx.size();
 }
-template <typename _CT>
-size_t  st_subset_base<_CT>::source_size() const {
-    return (*container).size();
+
+
+template < typename _CT >
+size_t  st_subset_base< _CT >::source_size() const {
+    return (*_container).size();
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// INDEX POSITIONS
-template <typename _CT>
-const std::vector<size_t>& st_subset_base<_CT>::index() const {
+
+
+template < typename _CT >
+const std::vector<size_t>& st_subset_base< _CT >::index() const {
     return idx;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// CONTAINER DATA
-template <typename _CT>
-vector<typename st_subset_base<_CT>::value_type> st_subset_base<_CT>::data() const {
+
+
+template < typename _CT >
+vector<typename st_subset_base< _CT >::value_type> st_subset_base< _CT >::data() const {
     vector<value_type> data(0);
-    for (auto& val : (*this)) data.push_back(val);
+    for (auto& val : (*this)) {
+        data.push_back(val);
+    }
     return data;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// SEGMENT
-template <typename _CT>
-st_subset_base<_CT> st_subset_base<_CT>::segment(size_t _f, size_t _l) const {
-    assert(_f< _l && _l < size());
-    return st_subset_base(container, std::vector<size_t> (idx.begin()+_f, idx.begin()+_l));
+
+
+template < typename _CT >
+st_subset_base< _CT > st_subset_base< _CT >::range(size_t start, size_t stop) const {
+    assert(start <= idx.size());
+    auto last = stop > start ? stop : idx.size();
+    std::vector< size_t > idxs;
+    idxs.reserve(last - start);
+    for (size_t i = start; i < last; i++) {
+        idxs.emplace_back(idx[i]);
+    }
+    return st_subset_base< _CT >(_container, idxs);
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// ITERATORS
-template <typename _CT>
-st_pseudo_iterator<st_subset_base<_CT>> st_subset_base<_CT>::begin() {
+
+
+template < typename _CT >
+st_subset_base< _CT > st_subset_base< _CT >::segment(size_t _f, size_t _l) const {
+    assert(_f< _l && _l < size());
+    return st_subset_base(_container, std::vector<size_t> (idx.begin()+_f, idx.begin()+_l));
+}
+
+
+template < typename _CT >
+st_pseudo_iterator<st_subset_base< _CT >> st_subset_base< _CT >::begin() {
     return st_pseudo_iterator<st_subset_base>(this, 0);
 }
-template <typename _CT>
-st_pseudo_iterator<st_subset_base<_CT>> st_subset_base<_CT>::end() {
+
+
+template < typename _CT >
+st_pseudo_iterator<st_subset_base< _CT >> st_subset_base< _CT >::end() {
     return st_pseudo_iterator<st_subset_base>(this, size());
 }
-template <typename _CT>
-st_pseudo_iterator<const st_subset_base<_CT>> st_subset_base<_CT>::begin() const {
+
+
+template < typename _CT >
+st_pseudo_iterator<const st_subset_base< _CT >> st_subset_base< _CT >::begin() const {
     return st_pseudo_iterator<const st_subset_base>(this, 0);
 }
-template <typename _CT>
-st_pseudo_iterator<const st_subset_base<_CT>> st_subset_base<_CT>::end() const {
+
+
+template < typename _CT >
+st_pseudo_iterator<const st_subset_base< _CT >> st_subset_base< _CT >::end() const {
     return st_pseudo_iterator<const st_subset_base>(this, size());
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/// @endcond
+//------------------------------------------------------------------------------
+
 }  // namespace storage
 }  // namespace std
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#endif
+
+#endif  // STORAGE_INCLUDE_STORAGE_SUBSET_HPP

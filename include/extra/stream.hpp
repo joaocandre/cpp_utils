@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-/// @file       io.hpp
+/// @file       stream.hpp
 /// @author     João André
 ///
 /// @brief      Header file providing declaration and definition of free generic global functions
@@ -7,14 +7,15 @@
 ///
 //------------------------------------------------------------------------------
 
-#ifndef CPPUTILS_INCLUDE_EXTRA_IO_HPP_
-#define CPPUTILS_INCLUDE_EXTRA_IO_HPP_
+#ifndef CPPUTILS_INCLUDE_EXTRA_STREAM_HPP_
+#define CPPUTILS_INCLUDE_EXTRA_STREAM_HPP_
 
 #include <string>
 #include <sstream>
 #include <vector>
 #include <limits>
 #include <iostream>
+#include <utility>
 #include "type/check.hpp"  // std::is_iteratable
 
 namespace std {
