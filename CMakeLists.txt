@@ -92,7 +92,7 @@ if (ENABLE_PLOT_UTILS)
     search_for_package(matplotlib_cpp https://github.com/joaocandre/matplotlib-cpp master)  # @todo revert to upstream repo if PR is accepted
 endif()
 
-if (ENABLE_XML_UTILS)   
+if (ENABLE_XML_UTILS)
     set (tinyxml2_BUILD_TESTING OFF CACHE INTERNAL "Turn off tests")
     set (tinyxml2_SHARED_LIBS ON CACHE INTERNAL "Enable shared library compilation")
     search_for_package(tinyxml2 https://github.com/leethomason/TinyXML2 9.0.0)
