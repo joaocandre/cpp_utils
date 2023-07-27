@@ -50,28 +50,13 @@ inline double norm(const double * data, const int N) {
 
 
 //------------------------------------------------------------------------------
-/// @brief      RMSD (Root-mean-square deviation) value (i.e. Euclidean distance) between input vectors *data* and *reference*.
+/// @brief      Normalize values in given *data*, optionally according to given *bounds*
 ///
-/// @param[in]  data       First data vector.
-/// @param[in]  reference  Second data vector.
+/// @param[in]  data    Values to normalize.
+/// @param[in]  bounds  Lower and upper bounds of data.
 ///
-/// @return     Value of the RMSD metric between input vectors.
+/// @return     Normalized values
 ///
-inline double rmsd(const std::vector< double >& data, const std::vector< double >& reference) {
-    if (data.size() != reference.size()) {
-        throw std::invalid_argument(std::string(__func__) + ": data and reference containers must have same size.");
-    }
-    double rmsd = 0.0;
-    for (size_t idx = 0; idx < data.size(); idx++) {
-        rmsd += sqrt(pow(data[idx] - reference[idx], 2));
-        // rmsd += pow(data[idx] - reference[idx], 2);
-    }
-    return rmsd;
-}
-
-
-//------------------------------------------------------------------------------
-
 inline std::vector< double > normalize(const std::vector< double >& data, const std::vector< double >& bounds = { }) {
     if (!data.size()) {
         throw std::invalid_argument(std::string(__func__) + ": invalid input data.");
@@ -105,7 +90,35 @@ inline std::vector< double > normalize(const std::vector< double >& data, const 
 
 
 //------------------------------------------------------------------------------
+/// @brief      RMSD (Root-mean-square deviation) value (i.e. Euclidean distance) between input vectors *data* and *reference*.
+///
+/// @param[in]  data       First data vector.
+/// @param[in]  reference  Second data vector.
+///
+/// @return     Value of the RMSD metric between input vectors.
+///
+inline double rmsd(const std::vector< double >& data, const std::vector< double >& reference) {
+    if (data.size() != reference.size()) {
+        throw std::invalid_argument(std::string(__func__) + ": data and reference containers must have same size.");
+    }
+    double rmsd = 0.0;
+    for (size_t idx = 0; idx < data.size(); idx++) {
+        rmsd += sqrt(pow(data[idx] - reference[idx], 2));
+        // rmsd += pow(data[idx] - reference[idx], 2);
+    }
+    return rmsd;
+}
 
+
+//------------------------------------------------------------------------------
+/// @brief      RMSD (Root-mean-square deviation) value (i.e. Euclidean distance) between input vectors *data* and *reference*.
+///             Alternative implementation.
+///
+/// @param[in]  data       First data vector.
+/// @param[in]  reference  Second data vector.
+///
+/// @return     Value of the RMSD metric between input vectors.
+///
 inline double rmsd2(const std::vector< double >& data, const std::vector< double >& reference) {
     if (data.size() != reference.size()) {
         throw std::invalid_argument(std::string(__func__) + ": data and reference containers must have same size.");
@@ -387,33 +400,79 @@ std::vector< T > interpolate(const std::vector< T >& x, const std::vector< T >& 
     return interpolated;
 }
 
+
+//------------------------------------------------------------------------------
+/// @brief      Compute arithmetic average of given *data* vector.
+///
+/// @param[in]  data  Data vector.
+///
+/// @tparam     T     Input data type. Should be numerical.
+///
+/// @return     Average/mean value.
+///
+template < typename T = double >
+double average(const std::vector< T >& data) {
+    double avg = 0.0;
+    double w = 1.0 / data.size();
+    for (const auto& sample : data) {
+        avg += (w * sample);
+    }
+    return avg;
+}
+
+
+//------------------------------------------------------------------------------
+/// @brief      First midpoint between max-min values in given *data* vector (i.e. half-peak amplitude)
+///
+/// @param[in]  data  Data vector.
+///
+/// @tparam     T     Input data type. Should be numerical.
+///
+/// @return     Midpoint between maximum and minimum of input *data*.
+///
+template < typename T = double >
+double midpoint(const std::vector< T >& data) {
+    assert(data.size());
+    double max = data[0];
+    double min = max;
+    for (const auto& sample : data) {
+        if (sample > max) {
+            max = sample;
+        } else if (sample < min) {
+            min = sample;
+        }
+    }
+    return (min + 0.5 * (max - min));
+}
+
+
 }  // namespace math
 
-namespace extra {
+// namespace extra {
 
-//------------------------------------------------------------------------------
-/// @brief      Output stream modifier turning text output to boldface.
-///
-/// @param      os    Output stream
-///
-/// @return     Modified output stream - further stream operations *with* bold text.
-///
-inline std::ostream& bold_on(std::ostream& os) {
-    return os << "\e[1m";
-}
+// //------------------------------------------------------------------------------
+// /// @brief      Output stream modifier turning text output to boldface.
+// ///
+// /// @param      os    Output stream
+// ///
+// /// @return     Modified output stream - further stream operations *with* bold text.
+// ///
+// inline std::ostream& bold_on(std::ostream& os) {
+//     return os << "\e[1m";
+// }
 
 
-//------------------------------------------------------------------------------
-/// @brief      Output stream modifier disabling boldface output.
-///
-/// @param      os    Output stream
-///
-/// @return     Modified output stream - further stream operations *without* bold text.
-///
-inline std::ostream& bold_off(std::ostream& os) {
-    return os << "\e[0m";
-}
+// //------------------------------------------------------------------------------
+// /// @brief      Output stream modifier disabling boldface output.
+// ///
+// /// @param      os    Output stream
+// ///
+// /// @return     Modified output stream - further stream operations *without* bold text.
+// ///
+// inline std::ostream& bold_off(std::ostream& os) {
+//     return os << "\e[0m";
+// }
 
-}  // namespace extra
+// }  // namespace extra
 
 #endif  // MPLEARN_INCLUDE_ETC_UTILS_HPP_

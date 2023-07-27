@@ -157,6 +157,7 @@ endif()
 #############
 
 # headers
+# @todo only add extra/xml.hpp and extra/plotting.hpp if ENABLE_XML_UTILS and ENABLE_PLOTTING_UTILS are enabled
 install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include/
         DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
         FILES_MATCHING PATTERN "*.hpp")

@@ -10,60 +10,9 @@
 #include <iostream>
 #include <exception>
 #include <tinyxml2.h>
-
+#include "extra/stream.hpp"  // std::tokenize, std::replace
 
 namespace std {
-
-//------------------------------------------------------------------------------
-/// @brief      Split text string into multiple sub-strings according to a given delimiter character.
-///
-/// @param[in]  data       Input text string.
-/// @param[in]  separator  Delimiter/separator character.
-///
-/// @return     Vector of words/tokens matching substrings delimited by separator char. Empty vector if separator is not found.
-///
-vector< string > tokenize(const string& data, char separator = ',', bool single_split = false) {
-    vector< string > words;
-    size_t start;
-    size_t end = 0;
-
-    while ((start = data.find_first_not_of(separator, end)) != std::string::npos) {
-        end = data.find(separator, start);
-        words.push_back(data.substr(start, end - start));
-        if (single_split && end != string::npos) {
-            words.push_back(data.substr(end + 1));
-            break;
-        }
-    }
-
-    return words;
-}
-
-
-
-//------------------------------------------------------------------------------
-/// @brief      Replaces occurrences of "old_text" with "new_text" in given text string
-///
-/// @param      source    The source
-/// @param[in]  old_text  The old text
-/// @param[in]  new_text  The new text
-///
-/// @return     { description_of_the_return_value }
-///
-size_t replace(string* source, const string& old_text, const string& new_text) {
-    size_t count = 0;
-    auto pos = source->find(old_text);
-
-    while (pos != std::string::npos) {
-        source->replace(pos, old_text.size(), new_text);
-        count++;
-        pos = source->find(old_text);
-    }
-
-    return count;  // += replace(source.substr(pos), old_text, new_text);
-}
-
-
 
 //------------------------------------------------------------------------------
 /// @brief      Moves a vector into another.
@@ -105,17 +54,13 @@ void move_into(vector< T >& container, vector< T >&& data) {
     move_into(container, data);
 }
 
-
-
 }  // namespace std
-
 
 
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
 
 namespace tinyxml2 {
-
 namespace extra {
 
 

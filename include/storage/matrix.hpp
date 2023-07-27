@@ -13,6 +13,7 @@
 #ifndef STORAGE_INCLUDE_STORAGE_MATRIX_HPP_
 #define STORAGE_INCLUDE_STORAGE_MATRIX_HPP_
 
+#include <type_traits>
 #include <vector>
 #include <utility>
 #include <ctime>
@@ -46,6 +47,15 @@ using matrix_subset_const = storage::st_subset_base< const matrix< dT > >;
 /// @brief      Class implementing a STL-like 2D container
 ///
 /// @tparam     T     Underlying _data type.
+///
+/// @todo       Add container type template parameter, in order to allow types other than std::vector.
+///             i.e. behave like a container adapter.
+///
+/// @todo       Add a public "interface" type (as long as convertible from T) to mask data as std::matrix< oT >.
+///
+/// @todo       Check if all named requirements are met (cf. https://en.cppreference.com/w/cpp/named_req/Container)
+///
+/// @todo       Add "rowwise" and "colwise" iterator interface (type w/ begin() and end() iterators)
 ///
 template < typename T >
 class matrix {
@@ -264,14 +274,36 @@ class matrix {
     matrix_subset_const< T > operator[](const matrix_subset< T >& sbst) const;
 
     //--------------------------------------------------------------------------
-    /// @brief      Access underlying STL container (read-only).
+    /// @brief      Access underlying container.
+    ///
+    /// @return     Reference to underlying data container.
+    ///
+    /// @note       Effectively "flattens" the matrix into a 1D container.
+    ///
+    /// @todo       Rename to raw() or even all()?
+    ///
+    vector< T >& elements();
+
+    //--------------------------------------------------------------------------
+    /// @brief      Access underlying container (const overload).
     ///
     /// @return     Const reference to underlying data container.
+    ///
+    /// @note       Effectively "flattens" the matrix into a 1D container.
+    ///
+    /// @todo       Rename to raw() or even all()?
     ///
     const vector< T >& elements() const;
 
     //--------------------------------------------------------------------------
     /// @brief      Access raw data.
+    ///
+    /// @return     Const pointer to first element.
+    ///
+    T* data();
+
+    //--------------------------------------------------------------------------
+    /// @brief      Access raw data (const overload).
     ///
     /// @return     Const pointer to first element.
     ///
@@ -341,6 +373,8 @@ class matrix {
     ///
     /// @todo       Declare protected/private - no need to be part of the public interface.
     ///
+    /// @todo       Remove this, no need as it can be replaced by elements() with less overhead (no temporary subset instance).
+    ///
     vector< size_t > allID() const;
 
     //--------------------------------------------------------------------------
@@ -379,10 +413,14 @@ class matrix {
     //--------------------------------------------------------------------------
     /// @brief      Get subset including all matrix elements.
     ///
+    /// @todo       Remove this, no need as it can be replaced by elements() with less overhead (no temporary subset instance).
+    ///
     matrix_subset< T > all();
 
     //--------------------------------------------------------------------------
     /// @brief      Get subset including all matrix elements (*const overload*).
+    ///
+    /// @todo       Remove this, no need as it can be replaced by elements() with less overhead (no temporary subset instance).
     ///
     matrix_subset_const< T > all() const;
 
@@ -601,28 +639,74 @@ class matrix {
     typename vector< T >::const_iterator end()   const;
 
     //--------------------------------------------------------------------------
-    /// @brief      Conversion operator to vector object (by reference)
+    /// @brief      Convert matrix elements to different data type.
+    ///
+    /// @tparam     oT    Target data type.
+    ///
+    /// @return     std::matrix< oT > instance.
+    ///
+    /// @note       Converting between different data types implies a new copied object (no way around it),
+    ///             can't return a reference to it (local scope)
+    ///
+    /// @note       Provided for convenience/verbosity, equivalent to explicit conversion operator.
+    ///             May improve syntax e.g. better to have (mat.as< float >) instead of (std::matrix< float >(mat))
     ///
     template < typename oT >
-    operator vector< oT >&();
+    matrix< oT > as() const;
 
     //--------------------------------------------------------------------------
-    /// @brief      Conversion operator to vector object (by const reference)
+    /// @brief      Conversion operator to vector object (by reference).
     ///
-    template < typename oT >
-    operator const vector< oT >&() const;
+    /// @note       Provided for convenience and verbosity; effectivey equivalent to elements() or flatten().
+    ///             Pracitcally equivalent to all() (wo/ intermediary subset instance).
+    ///
+    /// @note       Flattens the container returning a reference to the underlying container.
+    ///
+    explicit operator vector< T >&();
+
+    //--------------------------------------------------------------------------
+    /// @brief      Conversion operator to vector object (by const reference).
+    ///
+    /// @note       Provided for convenience and verbosity; effectivey equivalent to elements() or flatten().
+    ///             Pracitcally equivalent to all() (wo/ intermediary subset instance).
+    ///
+    /// @note       Flattens the container returning a reference to the underlying container.
+    ///
+    explicit operator const vector< T >&() const;
+
+    //--------------------------------------------------------------------------
+    /// @brief      Conversion operator to vector object (by reference) to *oT*
+    ///
+    /// @note       Flattens the container returning a new vector of type *oT*.
+    ///
+    template < typename oT, typename = typename enable_if< !is_same< T, oT >::value >::type >
+    explicit operator vector< oT >();
+
+    //--------------------------------------------------------------------------
+    /// @brief      Conversion operator to vector object (by const reference) to *oT*
+    ///
+    /// @note       Flattens the container returning a new vector of type *oT*.
+    ///
+    template < typename oT, typename = typename enable_if< !is_same< T, oT >::value >::type >
+    explicit operator const vector< oT >() const;
 
     //--------------------------------------------------------------------------
     /// @brief      Conversion operator to matrix object of different type (by reference)
     ///
+    /// @note       Converting between different data types implies a new copied object (no way around it),
+    ///             can't return a reference to it (local scope)
+    ///
     template < typename oT >
-    operator matrix< oT >&();
+    explicit operator matrix< oT >();
 
     //--------------------------------------------------------------------------
     /// @brief      Conversion operator to matrix object of different type (by const reference)
     ///
+    /// @note       Converting between different data types implies a new copied object (no way around it),
+    ///             can't return a reference to it (local scope)
+    ///
     template < typename oT >
-    operator const matrix< oT >&() const;
+    explicit operator const matrix< oT >() const;
 
     //--------------------------------------------------------------------------
     /// @brief      Load data from a text file into an instance of std::matrix< >.
@@ -876,8 +960,20 @@ matrix_subset_const< T > matrix< T >::operator[](const matrix_subset< T >& sbst)
 
 
 template < typename T >
+vector< T >& matrix< T >::elements() {
+    return _data;
+}
+
+
+template < typename T >
 const vector< T >& matrix< T >::elements() const {
     return _data;
+}
+
+
+template < typename T >
+T* matrix< T >::data() {
+    return _data.data();
 }
 
 
@@ -1346,31 +1442,48 @@ typename vector< T >::const_iterator matrix< T >::end() const {
 
 template < typename T >
 template < typename oT >
-matrix< T >::operator vector< oT >&() {
-    // return vector< oT >(_data.begin(), _data.end());
+matrix< oT > matrix< T >::as() const {
+    return matrix< oT >(_rows, _cols, vector< oT >(_data.begin(), _data.end()));
+}
+
+
+template < typename T >
+matrix< T >::operator vector< T >&() {
     return _data;
 }
 
 
 template < typename T >
-template < typename oT >
-matrix< T >::operator const vector< oT >&() const {
-    // return vector< oT > (_data.begin(), _data.end());
+matrix< T >::operator const vector< T >&() const {
     return _data;
 }
 
 
 template < typename T >
-template < typename oT >
-matrix< T >::operator matrix< oT >&() {
-    return matrix< oT > (_rows, _cols, vector< oT >(_data.begin(), _data.end()));
+template < typename oT, typename >
+matrix< T >::operator vector< oT >() {
+    return vector< oT >(begin(), end());
+}
+
+
+template < typename T >
+template < typename oT, typename >
+matrix< T >::operator const vector< oT >() const {
+    return vector< oT >(begin(), end());
 }
 
 
 template < typename T >
 template < typename oT >
-matrix< T >::operator const matrix< oT >&() const {
-    return matrix< oT > (_rows, _cols, vector< oT >(_data.begin(), _data.end()));
+matrix< T >::operator matrix< oT >() {
+    return matrix< oT >(_rows, _cols, vector< oT >(_data.begin(), _data.end()));
+}
+
+
+template < typename T >
+template < typename oT >
+matrix< T >::operator const matrix< oT >() const {
+    return matrix< oT >(_rows, _cols, vector< oT >(_data.begin(), _data.end()));
 }
 
 /// @endcond

@@ -16,7 +16,7 @@
 #include <limits>
 #include <iostream>
 #include <utility>
-#include "type/check.hpp"  // std::is_iteratable
+#include "type/check.hpp"  // std::is_iteratable<>
 
 namespace std {
 
@@ -29,7 +29,7 @@ namespace std {
 /// @return     Vector of words/tokens matching substrings delimited by separator char. Empty vector if separator is not found.
 ///
 template < typename C = vector< string > >
-inline C tokenize(const string& data, char separator = ",", bool single_split = false) {
+inline C tokenize(const string& data, char separator = ',', bool single_split = false) {
     C words;
     size_t start;
     size_t end = 0;
@@ -44,6 +44,28 @@ inline C tokenize(const string& data, char separator = ",", bool single_split = 
     }
 
     return words;
+}
+
+//------------------------------------------------------------------------------
+/// @brief      Replaces occurrences of "old_text" with "new_text" in given text string
+///
+/// @param      source    The source
+/// @param[in]  old_text  The old text
+/// @param[in]  new_text  The new text
+///
+/// @return     { description_of_the_return_value }
+///
+inline size_t replace(string* source, const string& old_text, const string& new_text) {
+    size_t count = 0;
+    auto pos = source->find(old_text);
+
+    while (pos != std::string::npos) {
+        source->replace(pos, old_text.size(), new_text);
+        count++;
+        pos = source->find(old_text);
+    }
+
+    return count;  // += replace(source.substr(pos), old_text, new_text);
 }
 
 
@@ -301,6 +323,30 @@ template < typename U >
 inline std::istream& operator>>(std::istream& istream, std::formatted< U >&& f) {
     return std::load_from(istream, *(f.src), f.del);
 }
+
+//------------------------------------------------------------------------------
+/// @brief      Output stream modifier turning text output to boldface.
+///
+/// @param      os    Output stream
+///
+/// @return     Modified output stream - further stream operations *with* bold text.
+///
+inline std::ostream& bold_on(std::ostream& os) {
+    return os << "\e[1m";
+}
+
+
+//------------------------------------------------------------------------------
+/// @brief      Output stream modifier disabling boldface output.
+///
+/// @param      os    Output stream
+///
+/// @return     Modified output stream - further stream operations *without* bold text.
+///
+inline std::ostream& bold_off(std::ostream& os) {
+    return os << "\e[0m";
+}
+
 
 }  // namespace std
 

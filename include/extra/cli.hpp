@@ -13,6 +13,7 @@
 #include <string>
 #include <mutex>
 #ifndef _WIN32
+#include <unistd.h>
 #include <sys/ioctl.h>
 #else
 #include <windows.h>

@@ -401,12 +401,22 @@ std::matrix<_type> zeros(int _r, int _c) {
     return std::matrix<_type>(_r, _c, 0);
 }
 template <typename _type>
+std::matrix<_type> zeros(int _s) {
+    static_assert(std::is_arithmetic<_type>::value, "PRESET ONLY AVAILABLE TO NUMERIC TYPES");
+    return std::matrix<_type>(_s, _s, 0);
+}
+template <typename _type>
 std::matrix<_type> ones(int _r, int _c) {
     static_assert(std::is_arithmetic<_type>::value, "PRESET ONLY AVAILABLE TO NUMERIC TYPES");
     return std::matrix<_type>(_r, _c, 1);
 }
 template <typename _type>
-std::matrix<_type> square(int _s) {
+std::matrix<_type> ones(int _s) {
+    static_assert(std::is_arithmetic<_type>::value, "PRESET ONLY AVAILABLE TO NUMERIC TYPES");
+    return std::matrix<_type>(_s, _s, 1);
+}
+template <typename _type>
+std::matrix<_type> square(int _s, _type value = static_cast< _type >(0.0)) {
     static_assert(std::is_arithmetic<_type>::value, "PRESET ONLY AVAILABLE TO NUMERIC TYPES");
     return std::matrix<_type> (_s, _s, 0.0);
 }
