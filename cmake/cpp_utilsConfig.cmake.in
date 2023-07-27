@@ -13,12 +13,8 @@ set(cpp_utils_LIBRARIES ${PROJECT_NAME}::${PROJECT_NAME})
 # Required to avoid explicitly finding dependencies on 3rd party packages
 # @note cpp_utils defines an INTERFACE target, dependencies are only optionally required, even if compile flags are enabled
 include(CMakeFindDependencyMacro)
-if (ENABLE_PLOT_UTILS)
-    find_dependency(matplotlib_cpp)
-endif()
-if (ENABLE_XML_UTILS)
-    find_dependency(tinyxml2)
-endif()
+find_dependency(matplotlib_cpp)
+find_dependency(tinyxml2)
 
 # confirm that all required components have been found
 check_required_components(cpp_utils)
