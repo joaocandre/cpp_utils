@@ -5,6 +5,9 @@
 ## CMake tools/helpers ##
 #########################
 
+cmake_policy(SET CMP0007 NEW)      # avoids list/range issue win FindPython module in newer CMake versions
+enable_language(CXX)               # to disable warning when including GNUInstallDirs module
+
 include(GNUInstallDirs)  # provides variables for default installation directories e.g. ${CMAKE_INSTALL_LIBDIR} (check below)
 include(CMakePackageConfigHelpers) # provides functions for the automatic generation of the CMake configuration files
 
@@ -56,11 +59,11 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 endif()
 
 ## option (interactive) to enable/disable doc generation
-option(BUILD_DOC "Generate documentation (doxygen)" OFF)
+option(${PROJECT_NAME}_GEN_DOC "Generate documentation (doxygen)" OFF)
 
 ## option (interactive) to enable/disable third-party wrappers
-option(ENABLE_PLOT_UTILS "High-evel utility wrappers around matplotlib-cpp" ON)
-option(ENABLE_XML_UTILS  "High-evel utility wrappers around TinyXML2" ON)
+option(${PROJECT_NAME}_ENABLE_PLOT_UTILS "High-evel utility wrappers around matplotlib-cpp" ON)
+option(${PROJECT_NAME}_ENABLE_XML_UTILS  "High-evel utility wrappers around TinyXML2" ON)
 
 ## set default build type to Release
 ## only valid when null string (first call)
@@ -86,13 +89,13 @@ endif()
 ## Doxygen
 find_package(Doxygen)
 
-if (ENABLE_PLOT_UTILS)
+if (${PROJECT_NAME}_ENABLE_PLOT_UTILS)
     set (matplotlib_cpp_BUILD_EXAMPLES OFF CACHE INTERNAL "Turn off examples")
     # search_for_package(matplotlib_cpp git@github.com:lava/matplotlib-cpp master)
     search_for_package(matplotlib_cpp https://github.com/joaocandre/matplotlib-cpp master)  # @todo revert to upstream repo if PR is accepted
 endif()
 
-if (ENABLE_XML_UTILS)
+if (${PROJECT_NAME}_ENABLE_XML_UTILS)
     set (tinyxml2_BUILD_TESTING OFF CACHE INTERNAL "Turn off tests")
     set (tinyxml2_SHARED_LIBS ON CACHE INTERNAL "Enable shared library compilation")
     search_for_package(tinyxml2 https://github.com/leethomason/TinyXML2 9.0.0)
@@ -121,17 +124,17 @@ target_include_directories(${PROJECT_NAME} INTERFACE $<BUILD_INTERFACE:${CMAKE_C
 #                                          $<INSTALL_INTERFACE:${INSTALL_INTERFACE_SRCS}>)
 
 # @note INTERFACE target, linking dependencies only adds include paths
-if (ENABLE_PLOT_UTILS)
+if (${PROJECT_NAME}_ENABLE_PLOT_UTILS)
     target_link_libraries(${PROJECT_NAME} INTERFACE ${matplotlib_cpp_TARGET})
 endif()
 
-if (ENABLE_XML_UTILS)
+if (${PROJECT_NAME}_ENABLE_XML_UTILS)
     target_link_libraries(${PROJECT_NAME} INTERFACE ${tinyxml2_TARGET})
 endif()
 
 ########### API documentation
 
-if(${DOXYGEN_FOUND} AND BUILD_DOC)
+if(${DOXYGEN_FOUND} AND ${PROJECT_NAME}_GEN_DOC)
     # cf. https://vicrucann.github.io/tutorials/quick-cmake-doxygen/
 
     # set input and output files
@@ -183,11 +186,11 @@ install(TARGETS ${PROJECT_NAME}
 #     message(WARNING "TinyXML2 is imported")
 # endif()
 
-if (ENABLE_PLOT_UTILS AND NOT ${matplotlib_cpp_IMPORTED})
+if (${PROJECT_NAME}_ENABLE_PLOT_UTILS AND NOT ${matplotlib_cpp_IMPORTED})
     install(TARGETS ${matplotlib_cpp_TARGET} EXPORT ${PROJECT_NAME}Targets)
 endif()
 
-if (ENABLE_XML_UTILS AND NOT ${tinyxml2_IMPORTED})
+if (${PROJECT_NAME}_ENABLE_XML_UTILS AND NOT ${tinyxml2_IMPORTED})
     install(TARGETS ${tinyxml2_TARGET} EXPORT ${PROJECT_NAME}Targets)
 endif()
 
