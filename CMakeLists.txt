@@ -87,7 +87,9 @@ if("${Boost_FIND_VERSION}" VERSION_LESS "1.66.1")
 endif()
 
 ## Doxygen
-find_package(Doxygen)
+if (${PROJECT_NAME}_GEN_DOC)
+    find_package(Doxygen REQUIRED)
+endif()
 
 if (${PROJECT_NAME}_ENABLE_PLOT_UTILS)
     set (matplotlib_cpp_BUILD_EXAMPLES OFF CACHE INTERNAL "Turn off examples")
@@ -134,7 +136,7 @@ endif()
 
 ########### API documentation
 
-if(${DOXYGEN_FOUND} AND ${PROJECT_NAME}_GEN_DOC)
+if (${${PROJECT_NAME}_GEN_DOC})
     # cf. https://vicrucann.github.io/tutorials/quick-cmake-doxygen/
 
     # set input and output files
@@ -146,7 +148,7 @@ if(${DOXYGEN_FOUND} AND ${PROJECT_NAME}_GEN_DOC)
     message(STATUS "Building documentation (doxygen) for target ${PROJECT_NAME}")
 
     # note the option ALL which allows to build the docs together with the application
-    add_custom_target(doc_doxygen ALL
+    add_custom_target(${PROJECT_NAME}_doc ALL
         COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYGEN_OUT}
         WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
         COMMENT "Generating API documentation with Doxygen"

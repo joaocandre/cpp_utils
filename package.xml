@@ -10,6 +10,9 @@
 
   <buildtool_depend>cmake</buildtool_depend>
 
+  <build_export_depend>tinyxml2</build_export_depend>
+  <build_export_depend>matplotlib_cpp</build_export_depend>
+
   <export>
     <build_type>cmake</build_type>
   </export>
