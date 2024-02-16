@@ -338,6 +338,8 @@ class matrix {
     ///
     /// @return     Vector of size 2 matching { row, col }.
     ///
+    /// @todo       Rename to "coordinates" (?)
+    ///
     vector< size_t > position(size_t idx) const;
 
     //--------------------------------------------------------------------------

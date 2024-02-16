@@ -35,23 +35,29 @@ namespace std {
 /// @note       Meets STL *RandomAccessIterator* <a href="https://cplusplus.com/reference/iterator/RandomAccessIterator/">requirements</a>,
 ///             and is compatible with STL *SequenceContainer* types.
 ///
+/// @note       Requires both types to be impllicitley convertible by-reference (@todo update static assertion below to reference vs value type)
+///
 template < typename Container, typename T = typename Container::value_type >
-class cast_iterator : std::iterator< std::random_access_iterator_tag, T > {
+class cast_iterator /*: std::iterator< std::random_access_iterator_tag, T >*/ {
  public:
     //--------------------------------------------------------------------------
     /// @brief      Base public types.
     ///
     /// @note       Required for use of STL iterator utilities e.g. std::next(), std::distance().
     ///
-    using value_type        = typename std::iterator< std::random_access_iterator_tag, T >::value_type;
-    using iterator_category = typename std::iterator< std::random_access_iterator_tag, T >::iterator_category;
-    using pointer           = typename std::iterator< std::random_access_iterator_tag, T >::pointer;
-    using reference         = typename std::iterator< std::random_access_iterator_tag, T >::reference;
-    using difference_type   = typename std::iterator< std::random_access_iterator_tag, T >::difference_type;
+    /// @note       std::iterator deprecated as of C++17; public typedefs defined directly instead of inheriting from std::iterator<>
+    ///
+    using iterator_category = typename std::random_access_iterator_tag;  // typename std::iterator< std::random_access_iterator_tag, T >::iterator_category;
+    using value_type        = T;                                         // typename std::iterator< std::random_access_iterator_tag, T >::value_type;
+    using difference_type   = size_t;                                    // typename std::iterator< std::random_access_iterator_tag, T >::difference_type;
+    using pointer           = T*;                                        // typename std::iterator< std::random_access_iterator_tag, T >::pointer;
+    using reference         = T&;                                        // typename std::iterator< std::random_access_iterator_tag, T >::reference;
 
     //--------------------------------------------------------------------------
     /// @brief      Static assertion on data types/template arguments.
     ///             Required in order to avoid ill-formed expressions within class definition.
+    ///
+    /// @todo       Check if there is any need for bidirection convertible requirement, only value_type->T should be required (!)
     ///
     static_assert(is_convertible< typename Container::value_type, T >() && is_convertible< T, typename Container::value_type >(),
                   "UNDERLYING CONTAINER ELEMENT TYPE [Container::value_type] MUST BE IMPLICITLY CONVERTIBLE!");
@@ -103,6 +109,8 @@ class cast_iterator : std::iterator< std::random_access_iterator_tag, T > {
     ///
     /// @return     Reference to container value @ current iterator position.
     ///
+    /// @note       Converts underlying value_type to wrapped type T
+    ///
     template < typename oT = T >
     oT& operator*();
     // typename Container::value_type& operator*();  // when explicitely dereference to underlying type!
@@ -111,6 +119,8 @@ class cast_iterator : std::iterator< std::random_access_iterator_tag, T > {
     /// @brief      *const* dereference operator.
     ///
     /// @return     Reference to container value @ current iterator position.
+    ///
+    /// @note       Converts underlying value_type to wrapped type T (const overload).
     ///
     template < typename oT = T >
     const oT& operator*() const;

@@ -323,6 +323,7 @@ st_subset_base< _CT >::operator std::vector<_oT>() const {
 
 template < typename _CT >
 typename st_subset_base< _CT >::value_type& st_subset_base< _CT >::operator[](size_t pos) {
+    assert(pos < this->size());
     return (*_container)[idx[pos]];
 }
 
@@ -335,6 +336,7 @@ typename st_subset_base< _CT >::value_type& st_subset_base< _CT >::operator[](si
 
 template < typename _CT >
 const typename st_subset_base< _CT >::value_type& st_subset_base< _CT >::operator[](size_t pos)  const{
+    assert(pos < this->size());
     return (*_container)[idx[pos]];
 }
 
