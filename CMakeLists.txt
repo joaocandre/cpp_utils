@@ -79,7 +79,7 @@ endif()
 ##################
 
 ## Boost
-find_package(Boost REQUIRED COMPONENTS system)
+find_package(Boost REQUIRED OPTIONAL_COMPONENTS system)
 
 if("${Boost_FIND_VERSION}" VERSION_LESS "1.66.1")
     add_definitions(-DBOOST_LEGACY_VERSION)
