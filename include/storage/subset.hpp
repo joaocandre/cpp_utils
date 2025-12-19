@@ -115,7 +115,8 @@ class st_subset_base {
     ///
     /// @return     Vector instance with elements converted to oT type.
     ///
-    template < typename oT > operator vector< oT >() const;
+    template < typename oT >
+    operator vector< oT >() const;
     // template <typename _oT> operator matrix<_oT>() const;  // DONT DO THIS, it will create ambiguity with function overloads for vector or matrix
 
     //--------------------------------------------------------------------------

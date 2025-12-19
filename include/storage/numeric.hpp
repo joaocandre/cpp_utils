@@ -394,45 +394,46 @@ typedef matrix<float>  matrixFloat;
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // MATRIX NUMERIC PRESETS
+// @todo rename namespace to std::numeric::
 namespace matrix_presets {
-template <typename _type>
+template < typename _type = double >
 std::matrix<_type> zeros(int _r, int _c) {
     static_assert(std::is_arithmetic<_type>::value, "PRESET ONLY AVAILABLE TO NUMERIC TYPES");
     return std::matrix<_type>(_r, _c, 0);
 }
-template <typename _type>
+template < typename _type = double >
 std::matrix<_type> zeros(int _s) {
     static_assert(std::is_arithmetic<_type>::value, "PRESET ONLY AVAILABLE TO NUMERIC TYPES");
     return std::matrix<_type>(_s, _s, 0);
 }
-template <typename _type>
+template < typename _type = double >
 std::matrix<_type> ones(int _r, int _c) {
     static_assert(std::is_arithmetic<_type>::value, "PRESET ONLY AVAILABLE TO NUMERIC TYPES");
     return std::matrix<_type>(_r, _c, 1);
 }
-template <typename _type>
+template < typename _type = double >
 std::matrix<_type> ones(int _s) {
     static_assert(std::is_arithmetic<_type>::value, "PRESET ONLY AVAILABLE TO NUMERIC TYPES");
     return std::matrix<_type>(_s, _s, 1);
 }
-template <typename _type>
+template < typename _type = double >
 std::matrix<_type> square(int _s, _type value = static_cast< _type >(0.0)) {
     static_assert(std::is_arithmetic<_type>::value, "PRESET ONLY AVAILABLE TO NUMERIC TYPES");
     return std::matrix<_type> (_s, _s, 0.0);
 }
-template <typename _type>
+template < typename _type = double >
 std::matrix<_type> list(int _s) {
     static_assert(std::is_arithmetic<_type>::value, "PRESET ONLY AVAILABLE TO NUMERIC TYPES");
     return std::matrix<_type> (_s, 1, static_cast<_type>(0));
 }
-template <typename _type>
+template < typename _type = double >
 std::matrix<_type> identity(int _s) {
     static_assert(std::is_arithmetic<_type>::value, "PRESET ONLY AVAILABLE TO NUMERIC TYPES");
     std::matrix<_type> ident(_s, _s, 0.0);
     ident[ident.diag()] = std::vector<_type> (_s, static_cast<_type>(1));
     return ident;
 }
-template <typename _type>
+template < typename _type = double >
 std::matrix<_type> random(int _r, int _c) {
     static_assert(std::is_arithmetic<_type>::value, "PRESET ONLY AVAILABLE TO NUMERIC TYPES");
     std::vector<_type> vec(_r*_c);
@@ -441,7 +442,7 @@ std::matrix<_type> random(int _r, int _c) {
     for (auto& val : vec) val = normal(rng);
     return std::matrix<_type> (vec, _r, _c);
 }
-template <typename _type>
+template < typename _type = double >
 std::matrix<_type> linspace(int _s, _type _low, _type _high) {
     static_assert(std::is_arithmetic<_type>::value, "PRESET ONLY AVAILABLE TO NUMERIC TYPES");
     std::matrix<_type> lin(1, _s);
