@@ -13,6 +13,20 @@
 namespace math {
 
 //------------------------------------------------------------------------------
+/// @brief      Get sign (-1, 0, 1) of given *value*
+///
+/// @param[in]  val   Value (numerical).
+///
+/// @tparam     T     *value* type.
+///
+/// @return     -1 if *value* is negative, 1 if positive, 0 otherwise.
+///
+template <typename T> int sgn(T val) {
+    return (T(0) < val) - (val < T(0));
+}
+
+
+//------------------------------------------------------------------------------
 /// @brief      Counts the number of digits in given positive integer *value*.
 ///
 /// @param[in]  value  Value to count digits of.
