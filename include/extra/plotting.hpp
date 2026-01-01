@@ -103,18 +103,6 @@ long plot(const Y& y, const X& x = {}, const std::string& name = "", const std::
     return plot(-1, y, x, name, labels, ylabel, xlabel, show, style);
 }
 
-
-// @todo remove this (?)
-inline void plot(const motion::Primitive& primitive, const std::vector< double >& phase) {
-    std::matrix< double > ys(primitive.size(), phase.size());
-    for (size_t p = 0; p < phase.size(); p++) {
-        for (size_t b = 0; b < primitive.size(); b++) {
-            ys(b, p) = primitive[b]->value(phase[p]);
-        }
-    }
-    plot(ys, phase, "Basis");
-}
-
 }  // namespace extra
 
 #endif  // CPPUTILS_INCLUDE_EXTRA_UTILS_HPP_
