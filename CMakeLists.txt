@@ -62,8 +62,8 @@ endif()
 option(${PROJECT_NAME}_GEN_DOC "Generate documentation (doxygen)" OFF)
 
 ## option (interactive) to enable/disable third-party wrappers
-option(${PROJECT_NAME}_ENABLE_PLOT_UTILS "High-evel utility wrappers around matplotlib-cpp" ON)
-option(${PROJECT_NAME}_ENABLE_XML_UTILS  "High-evel utility wrappers around TinyXML2" ON)
+option(${PROJECT_NAME}_ENABLE_PLOT_UTILS "High-evel utility wrappers around matplotlib-cpp" OFF)
+option(${PROJECT_NAME}_ENABLE_XML_UTILS  "High-evel utility wrappers around TinyXML2" OFF)
 
 ## set default build type to Release
 ## only valid when null string (first call)
