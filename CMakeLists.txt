@@ -91,7 +91,7 @@ if (${PROJECT_NAME}_GEN_DOC)
     find_package(Doxygen REQUIRED)
 endif()
 
-if (${PROJECT_NAME}_ENABLE_XML_UTILS)
+if (${PROJECT_NAME}_ENABLE_XML_WRAPPERS)
     set(tinyxml2_BUILD_TESTING OFF CACHE INTERNAL "Turn off tests")
     set(tinyxml2_SHARED_LIBS ON CACHE INTERNAL "Enable shared library compilation")
     search_for_package(tinyxml2 https://github.com/leethomason/TinyXML2 9.0.0)
@@ -120,7 +120,7 @@ target_include_directories(${PROJECT_NAME} INTERFACE $<BUILD_INTERFACE:${CMAKE_C
 #                                          $<INSTALL_INTERFACE:${INSTALL_INTERFACE_SRCS}>)
 
 # @note INTERFACE target, linking dependencies only adds include paths
-if (${PROJECT_NAME}_ENABLE_XML_UTILS)
+if (${PROJECT_NAME}_ENABLE_XML_WRAPPERS)
     target_link_libraries(${PROJECT_NAME} INTERFACE ${tinyxml2_TARGET})
 endif()
 
@@ -175,7 +175,7 @@ install(TARGETS ${PROJECT_NAME}
 #     message(WARNING "TinyXML2 is imported")
 # endif()
 
-if (${PROJECT_NAME}_ENABLE_XML_UTILS AND NOT ${tinyxml2_IMPORTED})
+if (${PROJECT_NAME}_ENABLE_XML_WRAPPERS AND NOT ${tinyxml2_IMPORTED})
     install(TARGETS ${tinyxml2_TARGET} EXPORT ${PROJECT_NAME}Targets)
 endif()
 
