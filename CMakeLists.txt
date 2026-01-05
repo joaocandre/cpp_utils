@@ -62,8 +62,7 @@ endif()
 option(${PROJECT_NAME}_GEN_DOC "Generate documentation (doxygen)" OFF)
 
 ## option (interactive) to enable/disable third-party wrappers
-option(${PROJECT_NAME}_ENABLE_PLOT_UTILS "High-evel utility wrappers around matplotlib-cpp" OFF)
-option(${PROJECT_NAME}_ENABLE_XML_UTILS  "High-evel utility wrappers around TinyXML2" OFF)
+option(${PROJECT_NAME}_ENABLE_XML_WRAPPERS  "High-level utility wrappers around TinyXML2" OFF)
 
 ## set default build type to Release
 ## only valid when null string (first call)
@@ -79,6 +78,7 @@ endif()
 ##################
 
 ## Boost
+cmake_policy(SET CMP0167 NEW)  # bypasses deprecated FindBoost
 find_package(Boost REQUIRED OPTIONAL_COMPONENTS system)
 
 if("${Boost_FIND_VERSION}" VERSION_LESS "1.66.1")
@@ -91,15 +91,9 @@ if (${PROJECT_NAME}_GEN_DOC)
     find_package(Doxygen REQUIRED)
 endif()
 
-if (${PROJECT_NAME}_ENABLE_PLOT_UTILS)
-    set (matplotlib_cpp_BUILD_EXAMPLES OFF CACHE INTERNAL "Turn off examples")
-    # search_for_package(matplotlib_cpp git@github.com:lava/matplotlib-cpp master)
-    search_for_package(matplotlib_cpp https://github.com/joaocandre/matplotlib-cpp master)  # @todo revert to upstream repo if PR is accepted
-endif()
-
 if (${PROJECT_NAME}_ENABLE_XML_UTILS)
-    set (tinyxml2_BUILD_TESTING OFF CACHE INTERNAL "Turn off tests")
-    set (tinyxml2_SHARED_LIBS ON CACHE INTERNAL "Enable shared library compilation")
+    set(tinyxml2_BUILD_TESTING OFF CACHE INTERNAL "Turn off tests")
+    set(tinyxml2_SHARED_LIBS ON CACHE INTERNAL "Enable shared library compilation")
     search_for_package(tinyxml2 https://github.com/leethomason/TinyXML2 9.0.0)
 endif()
 
@@ -126,10 +120,6 @@ target_include_directories(${PROJECT_NAME} INTERFACE $<BUILD_INTERFACE:${CMAKE_C
 #                                          $<INSTALL_INTERFACE:${INSTALL_INTERFACE_SRCS}>)
 
 # @note INTERFACE target, linking dependencies only adds include paths
-if (${PROJECT_NAME}_ENABLE_PLOT_UTILS)
-    target_link_libraries(${PROJECT_NAME} INTERFACE ${matplotlib_cpp_TARGET})
-endif()
-
 if (${PROJECT_NAME}_ENABLE_XML_UTILS)
     target_link_libraries(${PROJECT_NAME} INTERFACE ${tinyxml2_TARGET})
 endif()
@@ -180,17 +170,10 @@ install(TARGETS ${PROJECT_NAME}
 # propagates requirements to including/dependent projects
 # additionaly, removes the need for other dependent projects to link to matplotlib or tinyxml2 directly
 
-# if (${matplotlib_cpp_TARGET}_IMPORTED)
-#     message(WARNING "matplotlib is imported")
-# endif()
 # message(WARNING "${tinyxml2_IMPORTED}")
 # if (${tinyxml2_TARGET}_IMPORTED)
 #     message(WARNING "TinyXML2 is imported")
 # endif()
-
-if (${PROJECT_NAME}_ENABLE_PLOT_UTILS AND NOT ${matplotlib_cpp_IMPORTED})
-    install(TARGETS ${matplotlib_cpp_TARGET} EXPORT ${PROJECT_NAME}Targets)
-endif()
 
 if (${PROJECT_NAME}_ENABLE_XML_UTILS AND NOT ${tinyxml2_IMPORTED})
     install(TARGETS ${tinyxml2_TARGET} EXPORT ${PROJECT_NAME}Targets)
