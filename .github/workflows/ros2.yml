@@ -1,40 +1,25 @@
-name: ROS2 CI
+name: ROS2
 
 on: [push, pull_request]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    container: osrf/ros:humble-desktop  # Use the ROS 2 Humble image
+    container: osrf/ros:humble-desktop
 
     steps:
-    - uses: actions/checkout@v4
+      - name: Create ROS 2 workspace
+        run: mkdir -p ~/ros2_ws/src
 
-    - name: Cache apt packages
-      uses: actions/cache@v3
-      with:
-        path: /var/cache/apt
-        key: ${{ runner.os }}-apt-${{ hashFiles('**/apt-packages.txt') }}
-        restore-keys: |
-          ${{ runner.os }}-apt-
+      - name: Checkout repository into workspace
+        uses: actions/checkout@v4
+        with:
+          path: ~/ros2_ws/src/${{ github.event.repository.name }}
 
-    - name: Cache colcon build
-      uses: actions/cache@v3
-      with:
-        path: |
-          ~/ros2_ws/build
-          ~/ros2_ws/install
-          ~/ros2_ws/log
-        key: ${{ runner.os }}-colcon-${{ hashFiles('**/package.xml') }}
-        restore-keys: |
-          ${{ runner.os }}-colcon-
+      - name: Build with colcon
+        shell: bash
+        run: |
+          source /opt/ros/humble/setup.bash
+          cd ~/ros2_ws
+          colcon build --symlink-install
 
-    - name: Install dependencies
-      run: |
-        apt-get update && apt-get install -y --no-install-recommends \
-          $(sort -u apt-packages.txt)
-
-    - name: Build ROS 2 package
-      run: |
-        source /opt/ros/humble/setup.bash
-        colcon build --symlink-install
