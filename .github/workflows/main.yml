@@ -1,0 +1,40 @@
+name: ROS2 CI
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: osrf/ros:humble-desktop  # Use the ROS 2 Humble image
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Cache apt packages
+      uses: actions/cache@v3
+      with:
+        path: /var/cache/apt
+        key: ${{ runner.os }}-apt-${{ hashFiles('**/apt-packages.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-apt-
+
+    - name: Cache colcon build
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/ros2_ws/build
+          ~/ros2_ws/install
+          ~/ros2_ws/log
+        key: ${{ runner.os }}-colcon-${{ hashFiles('**/package.xml') }}
+        restore-keys: |
+          ${{ runner.os }}-colcon-
+
+    - name: Install dependencies
+      run: |
+        apt-get update && apt-get install -y --no-install-recommends \
+          $(sort -u apt-packages.txt)
+
+    - name: Build ROS 2 package
+      run: |
+        source /opt/ros/humble/setup.bash
+        colcon build --symlink-install
