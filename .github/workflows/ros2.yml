@@ -16,5 +16,5 @@ jobs:
       - name: Build with colcon
         shell: bash
         run: |
-          source /opt/ros/humble/setup.bash
+          source /opt/ros/jazzy/setup.bash
           colcon build --symlink-install
