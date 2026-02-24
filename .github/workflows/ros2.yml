@@ -8,20 +8,20 @@ jobs:
     container: osrf/ros:humble-desktop
 
     steps:
-      - name: Create ROS 2 workspace
-        run: mkdir -p ~/ros2_ws/src
+      - name: Create workspace source directory
+        shell: bash
+        run: mkdir src
 
       - name: Checkout repository into workspace
         uses: actions/checkout@v4
         with:
-          path: ~/ros2_ws/src/${{ github.event.repository.name }}
+          path: src
 
       - name: Build with colcon
         shell: bash
         run: |
           source /opt/ros/humble/setup.bash
-          cd ~/ros2_ws
-          ls src/${{ github.event.repository.name }}
+          ls src
           colcon build --symlink-install
           ls .
 
