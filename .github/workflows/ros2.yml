@@ -1,11 +1,11 @@
-name: ROS2
+name: colcon
 
 on: [push, pull_request]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    container: osrf/ros:humble-desktop
+    container: osrf/ros:jazzy-desktop
 
     steps:
       - name: Checkout repository into workspace sources
