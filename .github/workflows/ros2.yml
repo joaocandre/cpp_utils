@@ -8,11 +8,7 @@ jobs:
     container: osrf/ros:humble-desktop
 
     steps:
-      - name: Create workspace source directory
-        shell: bash
-        run: mkdir src
-
-      - name: Checkout repository into workspace
+      - name: Checkout repository into workspace sources
         uses: actions/checkout@v4
         with:
           path: src
@@ -21,7 +17,4 @@ jobs:
         shell: bash
         run: |
           source /opt/ros/humble/setup.bash
-          ls src
           colcon build --symlink-install
-          ls .
-
