@@ -21,7 +21,7 @@ jobs:
         run: |
           source /opt/ros/humble/setup.bash
           cd ~/ros2_ws
-          ls src
+          ls src/${{ github.event.repository.name }}
           colcon build --symlink-install
           ls .
 
