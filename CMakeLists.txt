@@ -103,7 +103,6 @@ if (${PROJECT_NAME}_ENABLE_THREAD_UTILS)
         # add_compile_definitions(BOOST_LEGACY_VERSION)
     endif()
 endif()
-print_all_cmake_targets()
 
 ## TinyXML2
 if (${PROJECT_NAME}_ENABLE_XML_WRAPPERS)
