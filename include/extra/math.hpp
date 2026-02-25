@@ -1,5 +1,5 @@
-#ifndef MPLEARN_INCLUDE_ETC_UTILS_HPP_
-#define MPLEARN_INCLUDE_ETC_UTILS_HPP_
+#ifndef CPPUTILS_INCLUDE_EXTRA_MATH_HPP_
+#define CPPUTILS_INCLUDE_EXTRA_MATH_HPP_
 
 #include <cmath>
 #include <vector>
@@ -489,4 +489,4 @@ double midpoint(const std::vector< T >& data) {
 
 // }  // namespace extra
 
-#endif  // MPLEARN_INCLUDE_ETC_UTILS_HPP_
+#endif  // CPPUTILS_INCLUDE_EXTRA_MATH_HPP_

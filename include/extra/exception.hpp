@@ -9,11 +9,11 @@
 ///
 /// std::timed_out is derived from std::runtime_error intended to ease handling IO read/writes i.e.
 /// signaling a recoverable specific timed context.
-/// 
+///
 //------------------------------------------------------------------------------
 
-#ifndef _TRIGNOCLIENT_INCLUDE_TRIGNOCLIENT_STD_EXCEPTION_HPP_
-#define _TRIGNOCLIENT_INCLUDE_TRIGNOCLIENT_STD_EXCEPTION_HPP_
+#ifndef CPPUTILS_INCLUDE_EXTRA_EXCEPTION_HPP_
+#define CPPUTILS_INCLUDE_EXTRA_EXCEPTION_HPP_
 
 #include <string>
 #include <stdexcept>
@@ -66,4 +66,4 @@ class timed_out : public runtime_error {
 
 }  // namespace std
 
-#endif  // _TRIGNOCLIENT_INCLUDE_TRIGNOCLIENT_STD_EXCEPTION_HPP_
+#endif  // CPPUTILS_INCLUDE_EXTRA_EXCEPTION_HPP_

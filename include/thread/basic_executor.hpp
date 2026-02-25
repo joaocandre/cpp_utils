@@ -16,8 +16,11 @@
 ///
 //------------------------------------------------------------------------------
 
-#ifndef TRIGNOCLIENT_INCLUDE_TRIGNOCLIENT_STD_BASICEXECUTOR_HPP_
-#define TRIGNOCLIENT_INCLUDE_TRIGNOCLIENT_STD_BASICEXECUTOR_HPP_
+#ifndef CPPUTILS_INCLUDE_CPPUTILS_THREAD_BASICEXECUTOR_HPP_
+#define CPPUTILS_INCLUDE_CPPUTILS_THREAD_BASICEXECUTOR_HPP_
+
+// @note aternative implementation requires testing
+#define LEGACY_ASYNC_IMPLEMENTATION
 
 #include <chrono>
 #include <atomic>
@@ -28,11 +31,6 @@
 #include <utility>
 #include <boost/asio.hpp>
 #include <tuple>
-
-#define LEGACY_ASYNC_IMPLEMENTATION
-
-#ifndef LEGACY_ASYNC_IMPLEMENTATION
-#endif  // LEGACY_ASYNC_IMPLEMENTATION
 
 
 namespace std {
@@ -493,4 +491,4 @@ inline void chain(std::initializer_list< basic_executor< Args... >* >& executors
 
 }  // namespace std
 
-#endif  // TRIGNOCLIENT_INCLUDE_TRIGNOCLIENT_STD_BASICEXECUTOR_HPP_
+#endif  // CPPUTILS_INCLUDE_CPPUTILS_THREAD_BASICEXECUTOR_HPP_
