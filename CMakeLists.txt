@@ -1,4 +1,4 @@
-# Example CMakeLists.txt for a plain cmake project compilable/installable in a catkin workspace
+# Example CMakeLists.txt for a plain cmake project compilable/installable in a catkin workspace (also works for colcon)
 # cf. https://tuebel.github.io/blog/ros/cmake/2020/06/27/ros-plain-cmake.html#installing-the-targets
 
 #########################
@@ -6,10 +6,8 @@
 #########################
 
 cmake_policy(SET CMP0007 NEW)      # avoids list/range issue win FindPython module in newer CMake versions
-enable_language(CXX)               # to disable warning when including GNUInstallDirs module
 
-include(GNUInstallDirs)  # provides variables for default installation directories e.g. ${CMAKE_INSTALL_LIBDIR} (check below)
-include(CMakePackageConfigHelpers) # provides functions for the automatic generation of the CMake configuration files
+include(FetchContent)
 
 ## Add custom module to facilitate dependency fetching if needed!
 ## @todo  auto-fetch from git repository?
@@ -37,38 +35,47 @@ cmake_minimum_required(VERSION 3.12)
 project(cpp_utils VERSION 1.0 LANGUAGES CXX)
 set(${PROJECT_NAME}_VERSION 1.0)
 
+# helpers (for full package configuration)
+include(GNUInstallDirs)            # provides variables for default installation directories e.g. ${CMAKE_INSTALL_LIBDIR} (check below)
+include(CMakePackageConfigHelpers) # provides functions for the automatic generation of the CMake configuration files
+
 # set the path where CMake package configuration files (*-config.cmake) will be installed
 # when finding a package, CMake searches by default lib/<package name>/cmake (among others)
 set(ConfigPackageLocation ${CMAKE_INSTALL_LIBDIR}/${CMAKE_PROJECT_NAME}/cmake)
 
-# Doxygen descriptors (requires matching Doxyfile.in)
-# set(CMAKE_PROJECT_DESCRIPTION "C++ library implementing generic motion representation dynamics.")  # for CMake<3.9
-set(CMAKE_PROJECT_BRIEF "C++ header-only library providing generic extensions to STL containers.")
+# doxygen descriptors (requires matching Doxyfile.in)
+if (CMAKE_VERSION VERSION_GREATER_EQUAL 3.9)
+    set(CMAKE_PROJECT_BRIEF "C++ header-only library providing generic extensions to STL containers.")
+else()
+    set(CMAKE_PROJECT_DESCRIPTION "C++ library implementing generic motion representation dynamics.")  # for CMake<3.9
+endif()
 
-## Compile using C++17 standard
-# set(CMAKE_CXX_STANDARD 17)
-add_compile_options(-std=c++17)
+# use C++17 standard
+set(CMAKE_CXX_STANDARD 17)
+# add_compile_options(-std=c++17)
 
-## Find catkin macros and libraries
-## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
-## is used, also find other catkin packages
 # GCC or Clang compiler flags (verbose warnings)
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   # add_compile_options(-Wall -Wextra -Wpedantic)
-  add_compile_options(-O3)  # optimization default for all build types!
+  add_compile_options(-O3)
 endif()
+
+## option (interactive) to pull and install boost::asio and tinyXML2
+option(${PROJECT_NAME}_FETCH_DEPENDENCIES "Fetch and install dependencies when not found" OFF)
 
 ## option (interactive) to enable/disable doc generation
 option(${PROJECT_NAME}_GEN_DOC "Generate documentation (doxygen)" OFF)
 
 ## option (interactive) to enable/disable third-party wrappers
-option(${PROJECT_NAME}_ENABLE_XML_WRAPPERS  "High-level utility wrappers around TinyXML2" OFF)
+option(${PROJECT_NAME}_ENABLE_XML_WRAPPERS "High-level utility wrappers around TinyXML2" OFF)
+
+## option (interactive) to enable/disable third-party wrappers
+option(${PROJECT_NAME}_ENABLE_THREAD_UTILS "High-level utilities for multi-threaded applications" OFF)
 
 ## set default build type to Release
 ## only valid when null string (first call)
 ## in order to change betwenn build types, add flag explicitely i.e. -DCMAKE_BUILD_TYPE=
 ## or remove CMakeCache from project root
-
 if (${CMAKE_BUILD_TYPE})
     message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
 endif()
@@ -77,24 +84,41 @@ endif()
 ## Dependencies ##
 ##################
 
-## Boost
-cmake_policy(SET CMP0167 NEW)  # bypasses deprecated FindBoost
-find_package(Boost REQUIRED OPTIONAL_COMPONENTS system)
+## Boost (ASIO)
+if (${PROJECT_NAME}_ENABLE_THREAD_UTILS)
+    if (CMAKE_VERSION VERSION_GREATER_EQUAL 3.30)
+        cmake_policy(SET CMP0167 NEW)   # bypasses deprecated CMake's FindBoost module favoring Boost's CMkae config files
+    endif()
+    if (${PROJECT_NAME}_FETCH_DEPENDENCIES)
+        # @note not recommended, only to streamline builds where OS-packaged boost isn't available
+        set(BUILD_TESTING OFF CACHE INTERNAL "Turn off tests")
+        # find_or_fetch_package(Boost https://github.com/boostorg/boost master headers)
+        find_or_fetch_package(Boost https://github.com/boostorg/asio master asio)
+    else()
+        # @note as of Feb 2026, OS-packaged boost still don't expose INTERFACE modules as components
+        find_package(Boost REQUIRED OPTIONAL_COMPONENTS asio)
+    endif()
+    if ("${Boost_FIND_VERSION}" VERSION_LESS "1.66.1")
+        add_definitions(-DBOOST_LEGACY_VERSION)
+        # add_compile_definitions(BOOST_LEGACY_VERSION)
+    endif()
+endif()
+print_all_cmake_targets()
 
-if("${Boost_FIND_VERSION}" VERSION_LESS "1.66.1")
-    add_definitions(-DBOOST_LEGACY_VERSION)
-    # add_compile_definitions(BOOST_LEGACY_VERSION)
+## TinyXML2
+if (${PROJECT_NAME}_ENABLE_XML_WRAPPERS)
+    if (${PROJECT_NAME}_FETCH_DEPENDENCIES)
+        set(tinyxml2_BUILD_TESTING OFF CACHE INTERNAL "Turn off tests")
+        set(tinyxml2_SHARED_LIBS ON CACHE INTERNAL "Enable shared library compilation")
+        search_for_package(tinyxml2 https://github.com/leethomason/TinyXML2 9.0.0)
+    else()
+        find_package(tinyxml2)
+    endif()
 endif()
 
 ## Doxygen
 if (${PROJECT_NAME}_GEN_DOC)
     find_package(Doxygen REQUIRED)
-endif()
-
-if (${PROJECT_NAME}_ENABLE_XML_WRAPPERS)
-    set(tinyxml2_BUILD_TESTING OFF CACHE INTERNAL "Turn off tests")
-    set(tinyxml2_SHARED_LIBS ON CACHE INTERNAL "Enable shared library compilation")
-    search_for_package(tinyxml2 https://github.com/leethomason/TinyXML2 9.0.0)
 endif()
 
 ###########
@@ -123,12 +147,13 @@ target_include_directories(${PROJECT_NAME} INTERFACE $<BUILD_INTERFACE:${CMAKE_C
 if (${PROJECT_NAME}_ENABLE_XML_WRAPPERS)
     target_link_libraries(${PROJECT_NAME} INTERFACE ${tinyxml2_TARGET})
 endif()
+target_link_libraries(${PROJECT_NAME} INTERFACE ${Boost_TARGET})
+
 
 ########### API documentation
 
+# cf. https://vicrucann.github.io/tutorials/quick-cmake-doxygen/
 if (${${PROJECT_NAME}_GEN_DOC})
-    # cf. https://vicrucann.github.io/tutorials/quick-cmake-doxygen/
-
     # set input and output files
     # generates Doxyfile with source and target paths (cf. 'Doxyfile.in')
     set(DOXYGEN_IN ${CMAKE_CURRENT_SOURCE_DIR}/doc/Doxyfile.in)
@@ -170,11 +195,20 @@ install(TARGETS ${PROJECT_NAME}
 # propagates requirements to including/dependent projects
 # additionaly, removes the need for other dependent projects to link to matplotlib or tinyxml2 directly
 
-# message(WARNING "${tinyxml2_IMPORTED}")
-# if (${tinyxml2_TARGET}_IMPORTED)
-#     message(WARNING "TinyXML2 is imported")
-# endif()
-
+# export dependencies *if not imported* (in the build tree)
+if (${PROJECT_NAME}_ENABLE_THREAD_UTILS AND NOT ${Boost_IMPORTED})
+    # boost INTERFACE modules don't define header install rules
+    install(DIRECTORY ${boost_asio_SOURCE_DIR}/include/
+            DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+    # add install tree path to INTERFACE_INCLUDE_DIRECTORIES for each target dependency (internals)
+    # and export together with cpp_utils to consumer projects
+    foreach(_target boost_asio;boost_asio_core;boost_asio_spawn;boost_asio_deadline_timer)
+        set_target_properties(${_target} PROPERTIES INTERFACE_INCLUDE_DIRECTORIES "")
+        target_include_directories(${_target} INTERFACE $<BUILD_INTERFACE:${boost_asio_SOURCE_DIR}/include>
+                                                        $<INSTALL_INTERFACE:include>)
+        install(TARGETS ${_target} EXPORT ${PROJECT_NAME}Targets)
+    endforeach()
+endif()
 if (${PROJECT_NAME}_ENABLE_XML_WRAPPERS AND NOT ${tinyxml2_IMPORTED})
     install(TARGETS ${tinyxml2_TARGET} EXPORT ${PROJECT_NAME}Targets)
 endif()
