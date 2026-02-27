@@ -1,4 +1,4 @@
-name: colcon
+name: ROS2
 
 on: [push, pull_request]
 
@@ -11,7 +11,7 @@ jobs:
       - name: Checkout repository into workspace sources
         uses: actions/checkout@v4
         with:
-          path: src
+          path: src/cpp_utils
 
       - name: Build with colcon
         shell: bash
