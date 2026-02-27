@@ -4,7 +4,7 @@ C++ header-only library with extensions to STL containers and other general-purp
 Complete API documentation provided at [codedocs.xyz](https://codedocs.xyz/joaocandre/cpp_utils/index.html).
 
 ![build status](https://github.com/joaocandre/cpp_utils/actions/workflows/cmake.yml/badge.svg?event=push)
-![build status](https://github.com/joaocandre/cpp_utils/actions/workflows/colcon.yml/badge.svg?event=push)
+![build status](https://github.com/joaocandre/cpp_utils/actions/workflows/ros2.yml/badge.svg?event=push)
 [![doc status](https://codedocs.xyz/joaocandre/cpp_utils.svg)](https://codedocs.xyz/joaocandre/cpp_utils/index.html)
 
 ## Dependencies
