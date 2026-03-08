@@ -1,0 +1,1 @@
+option('gen_docs', type: 'boolean', value: false, description: 'Generate API documentation (doxygen)')
