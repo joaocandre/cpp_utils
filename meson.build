@@ -48,7 +48,10 @@ headers = [
     'include/type/check.hpp',
     'include/type/details.hpp'
 ]
-install_subdir('include', install_dir: get_option('includedir'), exclude_files: '_plotting.hpp.old')
+install_subdir('include/extra', install_dir: get_option('includedir'), exclude_files: '_plotting.hpp.old')
+install_subdir('include/storage', install_dir: get_option('includedir'))
+install_subdir('include/thread', install_dir: get_option('includedir'))
+install_subdir('include/type', install_dir: get_option('includedir'))
 
 # declare as dependency for consumer projects
 dependencies = [boost_dep, tinyxml2_dep]
