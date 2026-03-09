@@ -11,15 +11,14 @@ project('cpp_utils', 'cpp',
 )
 
 # dependencies
-boost = dependency('Boost', required: false)
-if not boost.found()
+boost_dep = dependency('Boost', required: false)
+if not boost_dep.found()
     warning('Boost not found: installation is required to use thread utilities')
 endif
-tinyxml2 = dependency('tinyxml2', required: false)
-if not boost.found()
+tinyxml2_dep = dependency('tinyxml2', required: false)
+if not tinyxml2_dep.found()
     warning('tinyxml2 not found: installation is required for XML utilities')
 endif
-doxygen_dep = dependency('doxygen', required: get_option('gen_docs'))
 
 # declare header files
 headers = [
@@ -52,15 +51,15 @@ headers = [
 install_subdir('include', install_dir: get_option('includedir'), exclude_files: '_plotting.hpp.old')
 
 # declare as dependency for consumer projects
-dependencies = [boost_asio_dep, tinyxml2_dep]
+dependencies = [boost_dep, tinyxml2_dep]
 include_dirs = include_directories('include')
 cpp_utils_dep = declare_dependency(include_directories: include_dirs, dependencies: dependencies)
 meson.override_dependency('cpp_utils', cpp_utils_dep)
 
 # build API documentation
 # @todo move to nested meson.build (?)
-if has_deps and get_option('gen_docs')
-    dependency('Doxygen')
+if get_option('gen_docs')
+    doxygen_dep = dependency('Doxygen')
     conf_data = configuration_data()
     conf_data.set('CMAKE_PROJECT_NAME', meson.project_name())
     conf_data.set('CMAKE_PROJECT_VERSION', meson.project_version())
