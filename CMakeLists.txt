@@ -47,7 +47,7 @@ set(ConfigPackageLocation ${CMAKE_INSTALL_LIBDIR}/${CMAKE_PROJECT_NAME}/cmake)
 if (CMAKE_VERSION VERSION_GREATER_EQUAL 3.9)
     set(CMAKE_PROJECT_BRIEF "C++ header-only library providing generic extensions to STL containers.")
 else()
-    set(CMAKE_PROJECT_DESCRIPTION "C++ library implementing generic motion representation dynamics.")  # for CMake<3.9
+    set(CMAKE_PROJECT_DESCRIPTION "C++ header-only library providing generic extensions to STL containers.")  # for CMake<3.9
 endif()
 
 # use C++17 standard
